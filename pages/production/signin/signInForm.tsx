@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import style from "@/styles/scss/app.module.scss"
 import Link from "next/link"
 import axios from "axios"
@@ -16,6 +16,7 @@ const SignInForm = () => {
 		email: "",
 		password: "",
 	})
+	const [errorMessage, setErrorMessage] = useState("")
 
 	const handleChange = (e: any) => {
 		setFormData({...formData, [e.target.name]: e.target.value})
@@ -27,21 +28,28 @@ const SignInForm = () => {
 			email: formData.email,
 			password: formData.password,
 		}
+		// console.log(data);
+		// return;
 		try {
 			const res = await axios.post(process.env.API_URL + "/login", data)
-			if (res.data.status === 200) {
-				Cookies.set("email", res.data.data.email)
-				Cookies.set("role", res.data.data.role)
-				Cookies.set("token", res.data.data.token)
-				router.push("/production/dashboard")
+			
+			if (res.status === 200) {
+		
+				Cookies.set("email", res.data.user.email)
+				Cookies.set("role", res.data.user.role)
+				Cookies.set("token", res.data.user.token)
+				if(res.data.user.role == 'organizer'){
+					router.push("/organizer")
+				}
+			
 			}
 		}
 		catch (err) {
 			if(axios.isAxiosError(err)) {
 				if(err.response?.status === 422) {
-					setError(err.response?.data.errors)
+					setError(err.response.data.error)
 				} else if(err.response?.status === 401) {
-					setError(err.response?.data.errors)
+					setErrorMessage(err.response.data.message)
 				}
 			}
 		}
@@ -55,6 +63,7 @@ const SignInForm = () => {
 						<div className={style.txt}>
 							<h2>Sign in</h2>
 							<p>Please login to see this page.</p>
+							<p className="text-danger">{errorMessage}</p>
 						</div>
 						<div className={style.form_row + " row"}>
 							<div className="col-sm-12">
@@ -69,7 +78,7 @@ const SignInForm = () => {
 										value={formData.email}
 										onChange={handleChange} 
 									/>
-									<p className={style.error}>{error.email}</p>
+									<p className="text-danger">{error?.email}</p>
 								</div>
 							</div>
 							<div className="col-sm-12">
@@ -85,7 +94,7 @@ const SignInForm = () => {
 										onChange={handleChange} 
 									/>
 									<i className={style.icon_eye}></i>
-									<p className={style.error}>{error.password}</p>
+									<p className="text-danger">{error?.password}</p>
 								</div>
 							</div>
 						</div>
