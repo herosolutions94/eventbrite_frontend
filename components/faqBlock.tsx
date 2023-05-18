@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import style from "@/styles/scss/app.module.scss"
 
 const FaqBlock = (props: any) => {
-	const { title, text } = props
+	const { question, answer } = props
 	const [faqView, setFaqView] = useState(false)
 	const faqHandle = () => {
 		setFaqView(!faqView)
@@ -10,9 +10,9 @@ const FaqBlock = (props: any) => {
 	return (
 		<>
 			<div className={`${style.faq_blk} ${faqView ? `${style.active}` : ""} `} onClick={faqHandle}>
-				<h5>{title}</h5>
+				<h5>{question}</h5>
 				<div className={style.txt}>
-					<p>{text}</p>
+					<p>{answer}</p>
 				</div>
 			</div>
 		</>
