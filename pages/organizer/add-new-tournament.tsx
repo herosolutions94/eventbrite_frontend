@@ -7,29 +7,6 @@ import Link from "next/link"
 import axios from "axios";
 
 const AddNewTournament = () => {
-	const [tournamentData, setTournamentData] = useState<any>({})
-	useEffect(() => {
-		fetchTournamentData()
-	}, [])
-	
-	const fetchTournamentData = async () => {
-		try {
-			const res = await axios.get(
-				`${process.env.API_URL}/tournament-details`
-			)
-			if (res.status === 200) {
-				setTournamentData(res.data.data)
-			}
-		} catch (err) {
-			console.log(err)
-		}
-	}
-
-	console.log(tournamentData)
-
-	if (!tournamentData) {
-		return <div>Loading...</div>
-	}
 
 	return (
 		<>

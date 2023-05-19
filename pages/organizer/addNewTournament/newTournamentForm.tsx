@@ -1,7 +1,29 @@
-import React, { useState } from "react"
+import React, {useState, useEffect} from "react"
 import style from "@/styles/scss/app.module.scss"
+import axios from "axios";
 
 const NewTournamentForm = () => {
+	const [tournamentData, setTournamentData] = useState<any>({})
+	useEffect(() => {
+		fetchTournamentData()
+	}, [])
+	useEffect(() => {
+		console.log(tournamentData.tournamentTypes);
+	}, [tournamentData])
+	
+	const fetchTournamentData = async () => {
+		try {
+			const res = await axios.get(
+				`${process.env.API_URL}/tournament-details`
+			)
+			if (res.status === 200) {
+				console.log(res.data)
+				setTournamentData(res.data)
+			}
+		} catch (err) {
+			console.log(err)
+		}
+	}
 	const [fieldset, setFieldset] = useState("tournament_details")
 	const [tournamentDetails, setTournamentDetails] = useState({
 		tournamentName: "",
@@ -20,6 +42,29 @@ const NewTournamentForm = () => {
 		entryFee: "",
 		prizeDistribution: "",
 		tournamentLevel: "",
+		rules:"",
+		code_of_conduct:"",
+		age: "",
+		equipment_requirements: "",
+		schedule_date: "",
+		schedule_time: "",
+		schedule_breaks: "",
+		venue_availability: "",
+		second_match_date: "",
+		second_match_time: "",
+		second_match_breaks: "",
+		second_venue_availability: "",
+		third_match_date: "",
+		third_match_time: "",
+		third_match_breaks: "",
+		third_venue_availability: "",
+		fourth_match_date: "",
+		fourth_match_time: "",
+		fourth_match_breaks: "",
+		fourth_venue_availability: "",
+		contact_information: "",
+		roles_and_responsibilities: "",
+		sponsor_information: "",
 	})
 
 	const handleChange = (e: any) => {
@@ -34,7 +79,7 @@ const NewTournamentForm = () => {
 
 	return (
 		<>
-			<form action="" method="post">
+			<form action="" method="post" onSubmit={handleSubmit}>
 				{fieldset === "tournament_details" ? (
 					<>
 						<fieldset className={style.blk}>
@@ -56,124 +101,146 @@ const NewTournamentForm = () => {
 								<div className="col-sm-6">
 									<h6>Tournament Category</h6>
 									<div className={style.form_blk}>
-										<select name="tournamentCategory" id="" className={style.input} onChange={handleChange}>
-											<option value="">Select</option>
-											<option value="sport">Sport</option>
-											<option value="game">Game</option>
-										</select>
+										{tournamentData.categories &&
+											<select name="tournamentCategory" id="" className={style.input} onChange={handleChange}>
+												{tournamentData.categories.map((category : any) => {
+													return (
+															<option value={category.id}>{category.name}</option>
+													)
+												})}
+											</select>
+										}
 									</div>
 								</div>
 								<div className="col-sm-6">
 									<h6>Tournament Type</h6>
 									<div className={style.form_blk}>
-										<select name="tournamentType" id="" className={style.input} onChange={handleChange}>
-											<option value="">Select</option>
-											<option value="">Single</option>
-											<option value="">Double Elimination</option>
-											<option value="">Round Robin</option>
-											<option value="">Swiss</option>
-										</select>
+										{tournamentData.tournamentTypes &&
+											<select name="tournamentType" id="" className={style.input} onChange={handleChange}>
+											
+												{tournamentData.tournamentTypes.map((type : any) => {
+													return (
+														<option value={type.id}>{type.name}</option>
+													)
+												})}
+											</select>
+										}
 									</div>
 								</div>
 								<div className="col-sm-6">
 									<h6>Tournament Start Date</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 04-12-2020" />
+										<input type="text" name="tournamentStartDate" id="" className={style.input} placeholder="eg: 04-12-2020" onChange={handleChange} />
 									</div>
 								</div>
 								<div className="col-sm-6">
 									<h6>Tournament End Date</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 04-12-2020" />
+										<input type="text" name="tournamentEndDate" id="" className={style.input} placeholder="eg: 04-12-2020" onChange={handleChange} />
 									</div>
 								</div>
 								<div className="col-sm-6">
 									<h6>Registration Deadline</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 04-12-2020" />
+										<input type="text" name="registrationDeadline" id="" className={style.input} placeholder="eg: 04-12-2020" onChange={handleChange} />
 									</div>
 								</div>
 								<div className="col-sm-6">
 									<h6>Event Type</h6>
 									<div className={style.form_blk}>
-										<select name="" id="" className={style.input}>
+										<select name="eventType" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select</option>
-											<option value="">Physical</option>
-											<option value="">Online</option>
+										
+											{tournamentData.eventTyeps && tournamentData.eventTyeps.map((eventType : any) => {
+												return (
+													<option value={eventType.id}>{eventType.name}</option>
+												)
+											})}
+										
 										</select>
 									</div>
 								</div>
 								<div className="col-sm-5">
 									<h6>Country</h6>
 									<div className={style.form_blk}>
-										<select name="" id="" className={style.input}>
+										<select name="country" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select</option>
-											<option value="232">United Kingdom</option>
-											<option value="232">United Kingdom</option>
-											<option value="232">United Kingdom</option>
-											<option value="232">United Kingdom</option>
-											<option value="232">United Kingdom</option>
-											<option value="232">United Kingdom</option>
+											{tournamentData.countries && tournamentData.countries.map((country : any) => {
+												return (
+													<option value={country.id}>{country.name}</option>
+												)
+											})}
+									
 										</select>
 									</div>
 								</div>
 								<div className="col-sm-4">
 									<h6>City</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="city" id="city" className={style.input} placeholder="eg: California" />
+										<input type="text" name="city" id="city" className={style.input} placeholder="eg: California" onChange={handleChange}/>
 									</div>
 								</div>
 								<div className="col-sm-3">
 									<h6>Postal code</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="zip_code" id="zip_code" className={style.input} placeholder="eg: BL0 0WY" />
+										<input type="text" name="postalCode" id="zip_code" className={style.input} placeholder="eg: BL0 0WY" onChange={handleChange}/>
 									</div>
 								</div>
 								<div className="col-sm-12">
 									<h6>Address</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="address" id="address" className={style.input} placeholder="eg: 123 Main Street, California" />
+										<input type="text" name="address" id="address" className={style.input} placeholder="eg: 123 Main Street, California" onChange={handleChange} />
 									</div>
 								</div>
 								<div className="col-sm-6">
 									<h6>Number of Teams</h6>
 									<div className={style.form_blk}>
-										<select name="" id="" className={style.input}>
+										<select name="numberOfTeams" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select</option>
-											<option value="">2</option>
-											<option value="">3</option>
+											{tournamentData.numberOfTeams && tournamentData.numberOfTeams.map((numberOfTeam : any) => {
+												return (
+													<option value={numberOfTeam.id}>{numberOfTeam.number_of_teams}</option>
+												)
+											})}
+									
 										</select>
 									</div>
 								</div>
 								<div className="col-sm-6">
 									<h6>Tournament Format</h6>
 									<div className={style.form_blk}>
-										<select name="" id="" className={style.input}>
+										<select name="tournamentFormat" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select</option>
-											<option value="">Number of Groups</option>
-											<option value="">Knockout Stages</option>
+											{tournamentData.tournamentFormats && tournamentData.tournamentFormats.map((tournamentFormat : any) => {
+												return (
+													<option value={tournamentFormat.id}>{tournamentFormat.name}</option>
+												)
+											})}
 										</select>
 									</div>
 								</div>
 								<div className="col-sm-4">
 									<h6>Entry Fee</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 100" />
+										<input type="text" name="entryFee" id="" className={style.input} placeholder="eg: 100" onChange={handleChange} />
 									</div>
 								</div>
 								<div className="col-sm-4">
 									<h6>Prize Distribution</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 100" />
+										<input type="text" name="prizeDistribution" id="" className={style.input} placeholder="eg: 100" onChange={handleChange}/>
 									</div>
 								</div>
 								<div className="col-sm-4">
 									<h6>Tournament Level</h6>
 									<div className={style.form_blk}>
-										<select name="" id="" className={style.input}>
+										<select name="tournamentLevel" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select</option>
-											<option value="">Dutch Eredivisie</option>
-											<option value="">Spanish División de Honor Juvenil de Fútbol</option>
+											{tournamentData.tournamentLevels && tournamentData.tournamentLevels.map((tournamentLevel : any) => {
+												return (
+													<option value={tournamentLevel.id}>{tournamentLevel.name}</option>
+												)
+											})}
 										</select>
 									</div>
 								</div>
@@ -193,25 +260,25 @@ const NewTournamentForm = () => {
 								<div className="col-sm-12">
 									<h6>Specific rules for the tournament</h6>
 									<div className={style.form_blk}>
-										<textarea name="" id="" rows={5} className={style.input} placeholder="Type something here"></textarea>
+										<textarea name="rules" id="" rows={5} className={style.input} placeholder="Type something here" onChange={handleChange}></textarea>
 									</div>
 								</div>
 								<div className="col-sm-12">
 									<h6>Code of Conduct</h6>
 									<div className={style.form_blk}>
-										<textarea name="" id="" rows={5} className={style.input} placeholder="Type something here"></textarea>
+										<textarea name="code_of_conduct" id="" rows={5} className={style.input} placeholder="Type something here" onChange={handleChange}></textarea>
 									</div>
 								</div>
 								<div className="col-sm-6">
 									<h6>Age or Skill Level Restrictions</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 18" />
+										<input type="text" name="age" id="" className={style.input} placeholder="eg: 18" onChange={handleChange}/>
 									</div>
 								</div>
 								<div className="col-sm-6">
 									<h6>Equipment Requirements</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: Lorem, Ipsum, Smit" />
+										<input type="text" name="equipment_requirements" id="" className={style.input} placeholder="eg: Lorem, Ipsum, Smit" onChange={handleChange}/>
 									</div>
 								</div>
 							</div>
@@ -234,29 +301,31 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Date</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 04-12-2020" />
+										<input type="text" name="schedule_date" id="" className={style.input} placeholder="eg: 04-12-2020"  onChange={handleChange} />
 									</div>
 								</div>
 								<div className="col-sm-4">
 									<h6>Time</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 16:00" />
+										<input type="text" name="schedule_time" id="" className={style.input} placeholder="eg: 16:00" onChange={handleChange} />
 									</div>
 								</div>
 								<div className="col-sm-4">
 									<h6>Breaks</h6>
 									<div className={style.form_blk}>
-										<select name="" id="" className={style.input}>
+										<select name="schedule_breaks" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select</option>
-											<option value="">1</option>
-											<option value="">2</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											
 										</select>
 									</div>
 								</div>
 								<div className="col-sm-12">
 									<h6>Venue Availability</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 123 Main Street, California" />
+										<input type="text" name="venue_availability" id="" className={style.input} placeholder="eg: 123 Main Street, California" onChange={handleChange} />
 									</div>
 								</div>
 							</div>
@@ -266,19 +335,19 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Date</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 04-12-2020" />
+										<input type="text" name="second_match_date" id="" className={style.input} placeholder="eg: 04-12-2020" onChange={handleChange} />
 									</div>
 								</div>
 								<div className="col-sm-4">
 									<h6>Time</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 16:00" />
+										<input type="text" name="second_match_time" id="" className={style.input} placeholder="eg: 16:00" onChange={handleChange}/>
 									</div>
 								</div>
 								<div className="col-sm-4">
 									<h6>Breaks</h6>
 									<div className={style.form_blk}>
-										<select name="" id="" className={style.input}>
+										<select name="second_match_breaks" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select</option>
 											<option value="">1</option>
 											<option value="">2</option>
@@ -288,7 +357,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-12">
 									<h6>Venue Availability</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 123 Main Street, California" />
+										<input type="text" name="second_match_venue_availability"  id="" className={style.input} placeholder="eg: 123 Main Street, California" onChange={handleChange}/>
 									</div>
 								</div>
 							</div>
@@ -298,19 +367,19 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Date</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 04-12-2020" />
+										<input type="text" name="third_match_date" id="" className={style.input} placeholder="eg: 04-12-2020" onChange={handleChange}/>
 									</div>
 								</div>
 								<div className="col-sm-4">
 									<h6>Time</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 16:00" />
+										<input type="text" name="third_match_time" id="" className={style.input} placeholder="eg: 16:00" onChange={handleChange}/>
 									</div>
 								</div>
 								<div className="col-sm-4">
 									<h6>Breaks</h6>
 									<div className={style.form_blk}>
-										<select name="" id="" className={style.input}>
+										<select name="third_match_breaks" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select</option>
 											<option value="">1</option>
 											<option value="">2</option>
@@ -320,7 +389,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-12">
 									<h6>Venue Availability</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 123 Main Street, California" />
+										<input type="text" name="third_venue_availability" id="" className={style.input} placeholder="eg: 123 Main Street, California" onChange={handleChange}/>
 									</div>
 								</div>
 							</div>
@@ -330,19 +399,19 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Date</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 04-12-2020" />
+										<input type="text" name="fourth_match_date" id="" className={style.input} placeholder="eg: 04-12-2020"  onChange={handleChange}/>
 									</div>
 								</div>
 								<div className="col-sm-4">
 									<h6>Time</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 16:00" />
+										<input type="text" name="fourth_match_time" id="" className={style.input} placeholder="eg: 16:00"  onChange={handleChange}/>
 									</div>
 								</div>
 								<div className="col-sm-4">
 									<h6>Breaks</h6>
 									<div className={style.form_blk}>
-										<select name="" id="" className={style.input}>
+										<select name="fourth_match_breaks" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select</option>
 											<option value="">1</option>
 											<option value="">2</option>
@@ -351,8 +420,8 @@ const NewTournamentForm = () => {
 								</div>
 								<div className="col-sm-12">
 									<h6>Venue Availability</h6>
-									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 123 Main Street, California" />
+									<div className={style.form_blk} >
+										<input type="text" name="fourth_venue_availability" id="" className={style.input} placeholder="eg: 123 Main Street, California"  onChange={handleChange} />
 									</div>
 								</div>
 							</div>
@@ -374,13 +443,13 @@ const NewTournamentForm = () => {
 								<div className="col-sm-6">
 									<h6>Contact Information</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: 194349034234" />
+										<input type="text" name="contact_information" id="" className={style.input} placeholder="eg: 194349034234" onChange={handleChange}/>
 									</div>
 								</div>
 								<div className="col-sm-6">
 									<h6>Roles and Responsibilities</h6>
 									<div className={style.form_blk}>
-										<select name="" id="" className={style.input}>
+										<select name="roles_and_responsibilities" id="" className={style.input} onChange={handleChange}>
 											<option value="Select">Select</option>
 											<option value="Referees">Referees</option>
 											<option value="Scorekeepers">Scorekeepers</option>
@@ -407,7 +476,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-12">
 									<h6>Sponsor Information</h6>
 									<div className={style.form_blk}>
-										<textarea name="" id="" rows={5} className={style.input} placeholder="Type something here"></textarea>
+										<textarea name="sponsor_information" id="" rows={5} className={style.input} placeholder="Type something here" onChange={handleChange}></textarea>
 									</div>
 								</div>
 								<div className="col-sm-12">
