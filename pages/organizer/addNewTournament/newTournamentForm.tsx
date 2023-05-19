@@ -3,6 +3,35 @@ import style from "@/styles/scss/app.module.scss"
 
 const NewTournamentForm = () => {
 	const [fieldset, setFieldset] = useState("tournament_details")
+	const [tournamentDetails, setTournamentDetails] = useState({
+		tournamentName: "",
+		tournamentCategory: "",
+		tournamentType: "",
+		tournamentStartDate: "",
+		tournamentEndDate: "",
+		registrationDeadline: "",
+		eventType: "",
+		country: "",
+		city: "",
+		postalCode: "",
+		address: "",
+		numberOfTeams: "",
+		tournamentFormat: "",
+		entryFee: "",
+		prizeDistribution: "",
+		tournamentLevel: "",
+	})
+
+	const handleChange = (e: any) => {
+		const { name, value } = e.target
+		setTournamentDetails({ ...tournamentDetails, [name]: value })
+	}
+
+	const handleSubmit = (e: any) => {
+		e.preventDefault()
+		console.log(tournamentDetails)
+	}
+
 	return (
 		<>
 			<form action="" method="post">
@@ -14,13 +43,20 @@ const NewTournamentForm = () => {
 								<div className="col-sm-12">
 									<h6>Tournament Name</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="" id="" className={style.input} placeholder="eg: Lorem ipsum dollar" />
+										<input 
+											type="text" 
+											name="tournamentName"
+											id="" 
+											className={style.input} 
+											placeholder="eg: Lorem ipsum dollar"
+											onChange={handleChange} 
+										/>
 									</div>
 								</div>
 								<div className="col-sm-6">
 									<h6>Tournament Category</h6>
 									<div className={style.form_blk}>
-										<select name="" id="" className={style.input}>
+										<select name="tournamentCategory" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select</option>
 											<option value="sport">Sport</option>
 											<option value="game">Game</option>
@@ -30,7 +66,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-6">
 									<h6>Tournament Type</h6>
 									<div className={style.form_blk}>
-										<select name="" id="" className={style.input}>
+										<select name="tournamentType" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select</option>
 											<option value="">Single</option>
 											<option value="">Double Elimination</option>

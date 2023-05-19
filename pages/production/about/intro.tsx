@@ -5,8 +5,7 @@ import Image from "next/image"
 import { PhotoAboutMe } from "@/components/images"
 
 const Intro = (props: any) => {
-	const { content } = props;
-	console.log(content);
+	const { content } = props; 
 	const firstTwoWords = content?.heading.split(' ').slice(0,2).join(' ');
 	const restOfTheWords = content?.heading.split(' ').slice(2).join(' ');
 	return (

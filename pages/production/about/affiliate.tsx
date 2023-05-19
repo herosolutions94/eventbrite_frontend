@@ -2,22 +2,23 @@ import React from "react"
 import style from "@/styles/scss/app.module.scss"
 import Link from "next/link"
 
-const Affiliate = () => {
+const Affiliate = (props: any) => {
+	const { content } = props;
 	return (
 		<>
 			<section id={style.affiliate}>
 				<div className={style.contain}>
 					<div className={`${style.content} text-center`}>
-						<h2>How we support you</h2>
+						<h2>{content?.heading}</h2>
 					</div>
 					<div className={`${style.flex_row} row`}>
 						<div className="col-lg-4">
 							<div className={style.inner}>
 								<div className={style.txt}>
-									<h4>Host protection programs</h4>
-									<p>To support you in the rare event of an incident, most Airbnb bookings include property damage protection and liability insurance of up to $1M USD.</p>
-									<Link href="/blog">
-										<u>How you&lsquo;re protected while hosting</u>
+									<h4>{content?.support_section_one_title}</h4>
+									<p>{content?.support_section_one_description}</p>
+									<Link href={content?.support_section_one_link ? content.support_section_one_link : ''}>
+										<u>{content?.support_section_one_link_text}</u>
 									</Link>
 								</div>
 							</div>
@@ -25,10 +26,10 @@ const Affiliate = () => {
 						<div className="col-lg-4">
 							<div className={style.inner}>
 								<div className={style.txt}>
-									<h4>Covid-19 safety guidelines</h4>
-									<p>To help protect the health of our community, we&lsquo;ve partnered with experts to create safety practices for everyone, plus a cleaning process for hosts.</p>
-									<Link href="/blog">
-										<u>Get to know the enhanced cleaning process</u>
+									<h4>{content?.support_section_two_title}</h4>
+									<p>{content?.support_section_two_description}</p>
+									<Link href={content?.support_section_two_link ? content.support_section_two_link : ''}>
+										<u>{content?.support_section_two_link_text}</u>
 									</Link>
 								</div>
 							</div>
@@ -36,10 +37,10 @@ const Affiliate = () => {
 						<div className="col-lg-4">
 							<div className={style.inner}>
 								<div className={style.txt}>
-									<h4>High guest standards</h4>
-									<p>To give Hosts peace of mind, we offer guest identification and let you check out reviews of guests before they book. Our new Guest Standards Policy sets higher expectations for behavior.</p>
-									<Link href="/blog">
-										<u>Steps we take to help Hosts feel confident</u>
+									<h4>{content?.support_section_three_title}</h4>
+									<p>{content?.support_section_three_description}</p>
+									<Link href={content?.support_section_three_link ? content.support_section_three_link : ''}>
+										<u>{content?.support_section_three_link_text}</u>
 									</Link>
 								</div>
 							</div>

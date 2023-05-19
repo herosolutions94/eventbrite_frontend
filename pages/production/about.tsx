@@ -32,6 +32,11 @@ const About: React.FC = () => {
 		  console.log(err);
 		}
 	  };
+
+	  if (!aboutPageData) {
+		return <div>Loading...</div>;
+	  }
+
 	return (
 		
 		<>
@@ -42,8 +47,8 @@ const About: React.FC = () => {
 				background={aboutPageData?.image ? process.env.ASSET_URL + aboutPageData.image : ''}
 			/>
 			<Intro content={aboutPageData}/>
-			<Affiliate />
-			<Contact />
+			<Affiliate content={aboutPageData}/>
+			<Contact content={aboutPageData}/>
 			<Footer />
 	
 		</>
