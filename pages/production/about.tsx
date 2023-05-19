@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react";
 import SubBanner from "@/components/subBanner"
 import Header from "@/components/header/header"
 import Footer from "@/components/footer"
@@ -6,16 +6,46 @@ import { PhotoAbout } from "@/components/images"
 import Intro from "./about/intro"
 import Affiliate from "./about/affiliate"
 import Contact from "./home/contact"
+import axios from "axios"
+type IAbout = {
+	title: string;
+	content: string;
+	image: string;
+}
+const About: React.FC = () => {
 
-const About = () => {
+	const [aboutPageData, setAboutPageData] = useState<IAbout | null>(
+		null
+	  );
+	useEffect(() => {
+		fetchAboutContent();
+	}, []);
+	const fetchAboutContent = async () => {
+		try {
+		  const res = await axios.get(
+			`${process.env.API_URL}/about-us`
+		  );
+		  if (res.status === 200) {
+			setAboutPageData(res.data.data);
+		  }
+		} catch (err) {
+		  console.log(err);
+		}
+	  };
 	return (
+		
 		<>
-			<Header pageTitle="About us" />
-			<SubBanner title="About us" background={PhotoAbout} />
-			<Intro />
+		
+			<Header pageTitle={aboutPageData?.title} />
+			<SubBanner 
+				title={aboutPageData?.title} 
+				background={aboutPageData?.image ? process.env.ASSET_URL + aboutPageData.image : ''}
+			/>
+			<Intro content={aboutPageData}/>
 			<Affiliate />
 			<Contact />
 			<Footer />
+	
 		</>
 	)
 }

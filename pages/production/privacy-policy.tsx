@@ -13,6 +13,7 @@ type PrivacyPolicyData = {
 };
 
 const PrivacyPolicy: React.FC = () => {
+
   const [privacyPolicy, setPrivacyPolicy] = useState<PrivacyPolicyData | null>(
     null
   );

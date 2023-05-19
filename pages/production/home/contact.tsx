@@ -1,10 +1,11 @@
-import React from "react"
+import React, { useEffect, useState } from "react";
 import style from "@/styles/scss/app.module.scss"
 import Image from "next/image"
 import ContactForm from "@/components/contactForm"
 import { PhotoStreamBox } from "@/components/images"
 
 const Contact = () => {
+
 	return (
 		<>
 			<section id={style.in_touch}>

@@ -4,7 +4,11 @@ import Link from "next/link"
 import Image from "next/image"
 import { PhotoAboutMe } from "@/components/images"
 
-const Intro = () => {
+const Intro = (props: any) => {
+	const { content } = props;
+	console.log(content);
+	const firstTwoWords = content?.heading.split(' ').slice(0,2).join(' ');
+	const restOfTheWords = content?.heading.split(' ').slice(2).join(' ');
 	return (
 		<>
 			<section id={style.intro}>
@@ -13,21 +17,27 @@ const Intro = () => {
 						<div className="col-lg-5">
 							<div className={style.content}>
 								<h2>
-									We Are Shaping <strong>The Future</strong>
+								{firstTwoWords} <strong>{restOfTheWords}</strong>
 								</h2>
-								<p className="h4">Dolorem repellat, reiciendis sequi rerum quo aliquam consequuntur vitae et architecto aliquid? Ratione autem eligendi vel sint repudiandae!</p>
-								<p>Odit sint debitis soluta perferendis totam aperiam hic eum numquam dolore laboriosam eius id odio commodi, expedita accusamus amet obcaecati ipsum dicta, fuga maxime reiciendis.</p>
+								{content?.description &&
+									<p className="h4">{content.description}</p>
+								}
 								<div className={`${style.btn_blk} mt-5`}>
-									<Link href="/contact" className={style.site_btn}>
-										Get a Call Back
+									<Link 
+										href={content?.btn_link ? content.btn_link : ''} 
+										className={style.site_btn}>
+										{content?.btn_text}
 									</Link>
 								</div>
 							</div>
 						</div>
 						<div className="col-lg-7">
-							<div className={style.image}>
-								<Image width={1000} height={1000} src={PhotoAboutMe} alt="" />
-							</div>
+							{content?.des_image  &&
+								<div className={style.image}>
+									<Image width={1000} height={1000} src={content?.des_image} alt="" />
+								</div>
+							}
+
 						</div>
 					</div>
 				</div>
