@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import style from "@/styles/scss/app.module.scss"
 import axios from "axios";
+import Cookies from "js-cookie"
 
 const NewTournamentForm = () => {
 	const [tournamentData, setTournamentData] = useState<any>([])
@@ -138,12 +139,56 @@ const NewTournamentForm = () => {
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault()
-		console.log(tournamentDetails)
+
+		const formData = new FormData();
+		formData.append('title', tournamentDetails.title);
+		formData.append('category_id', tournamentDetails.category_id);
+		formData.append('type', tournamentDetails.type);
+		formData.append('start_date', tournamentDetails.start_date);
+		formData.append('end_date', tournamentDetails.end_date);
+		formData.append('registration_dead_line', tournamentDetails.registration_dead_line);
+		formData.append('event_type', tournamentDetails.event_type);
+		formData.append('country_id', tournamentDetails.country_id);
+		formData.append('city', tournamentDetails.city);
+		formData.append('postal_code', tournamentDetails.postal_code);
+		formData.append('address', tournamentDetails.address);
+		formData.append('number_of_teams', tournamentDetails.number_of_teams);
+		formData.append('format', tournamentDetails.format);
+		formData.append('entry_fee', tournamentDetails.entry_fee);
+		formData.append('prize_distribution', tournamentDetails.prize_distribution);
+		formData.append('level', tournamentDetails.level);
+		formData.append('rules', tournamentDetails.rules);
+		formData.append('code_of_conduct', tournamentDetails.code_of_conduct);
+		formData.append('age', tournamentDetails.age);
+		formData.append('equipment_requirements', tournamentDetails.equipment_requirements);
+		formData.append('schedule_date', tournamentDetails.schedule_date);
+		formData.append('schedule_time', tournamentDetails.schedule_time);
+		formData.append('schedule_breaks', tournamentDetails.schedule_breaks);
+		formData.append('venue_availability', tournamentDetails.venue_availability);
+		formData.append('second_match_date', tournamentDetails.second_match_date);
+		formData.append('second_match_time', tournamentDetails.second_match_time);
+		formData.append('second_match_breaks', tournamentDetails.second_match_breaks);
+		formData.append('second_venue_availability', tournamentDetails.second_venue_availability);
+		formData.append('third_match_date', tournamentDetails.third_match_date);
+		formData.append('third_match_time', tournamentDetails.third_match_time);
+		formData.append('third_match_breaks', tournamentDetails.third_match_breaks);
+		formData.append('third_venue_availability', tournamentDetails.third_venue_availability);
+		formData.append('fourth_match_date', tournamentDetails.fourth_match_date);
+		formData.append('fourth_match_time', tournamentDetails.fourth_match_time);
+		formData.append('fourth_match_breaks', tournamentDetails.fourth_match_breaks);
+		formData.append('fourth_venue_availability', tournamentDetails.fourth_venue_availability);
+		formData.append('contact_information', tournamentDetails.contact_information);
+		formData.append('roles_and_responsibilities', tournamentDetails.roles_and_responsibilities);
+		formData.append('sponsor_information', tournamentDetails.sponsor_information);
+		formData.append('logos', tournamentDetails.logos.length > 0 ? tournamentDetails.logos[0] : '');
+		formData.append('banners', tournamentDetails.banners.length > 0 ? tournamentDetails.banners[0] : '');
+
 		try {
-			const res = await axios.put(process.env.API_URL + "/tournaments-create", tournamentDetails, {
+			const res = await axios.post(process.env.API_URL + "/tournaments-create", formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
-				}
+					'Authorization': `Bearer ${Cookies.get('token')}`
+				},
 			})
 			if (res.status === 200) {
 				alert('Record has been inserted successfully.')
