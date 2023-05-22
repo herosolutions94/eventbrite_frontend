@@ -2,12 +2,15 @@ import React, {useState, useEffect} from "react"
 import style from "@/styles/scss/app.module.scss"
 import axios from "axios";
 import Cookies from "js-cookie"
+import {useRouter} from "next/router"
 
 const NewTournamentForm = () => {
+	const router = useRouter()
 	const [tournamentData, setTournamentData] = useState<any>([])
 	const [errors, setErrors] = useState<any>({})
 	const [errorMessage, setErrorMessage] = useState("")
 	const [fieldset, setFieldset] = useState("tournament_details")
+	const formData = new FormData();
 	// const [tournamentDetails, setTournamentDetails] = useState({
 	// 	title: "",
 	// 	category_id: "",
@@ -119,28 +122,19 @@ const NewTournamentForm = () => {
 		setTournamentDetails({ ...tournamentDetails, [name]: value })
 	}
 
-	const handleLogoFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		// get and save the selected files
-		const selectedFiles = event.target.files;
-		if (selectedFiles) {
-		  const fileList = Array.from(selectedFiles);
-		  setTournamentDetails({ ...tournamentDetails, logos: fileList });
+	const handleUploadMultipleLogo = async (e: any) => {
+		for (let i = 0; i < e.target.files.length; i++) {
+			formData.append("logos", e.target.files[i]);
 		}
-
-	};
-	  
-	const handleBannerFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const selectedFiles = event.target.files;
-		if (selectedFiles) {
-		  const fileList = Array.from(selectedFiles);
-		  setTournamentDetails({ ...tournamentDetails, banners: fileList });
+	}
+	const handleUploadMultipleBanners = async (e: any) => {
+		for (let i = 0; i < e.target.files.length; i++) {
+			formData.append("banners", e.target.files[i]);
 		}
-	};
+	}
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault()
-
-		const formData = new FormData();
 		formData.append('title', tournamentDetails.title);
 		formData.append('category_id', tournamentDetails.category_id);
 		formData.append('type', tournamentDetails.type);
@@ -180,8 +174,6 @@ const NewTournamentForm = () => {
 		formData.append('contact_information', tournamentDetails.contact_information);
 		formData.append('roles_and_responsibilities', tournamentDetails.roles_and_responsibilities);
 		formData.append('sponsor_information', tournamentDetails.sponsor_information);
-		formData.append('logos', tournamentDetails.logos.length > 0 ? tournamentDetails.logos[0] : '');
-		formData.append('banners', tournamentDetails.banners.length > 0 ? tournamentDetails.banners[0] : '');
 
 		try {
 			const res = await axios.post(process.env.API_URL + "/tournaments-create", formData, {
@@ -192,6 +184,7 @@ const NewTournamentForm = () => {
 			})
 			if (res.status === 200) {
 				alert('Record has been inserted successfully.')
+				router.push("/organizer/tournaments")
 			}	
 		}
 		catch (err) {
@@ -775,7 +768,7 @@ const NewTournamentForm = () => {
 											id="" 
 											className={style.input} 
 											multiple 
-											onChange={handleLogoFileChange}
+											onChange={handleUploadMultipleLogo}
 										/>
 										<p className="text-danger">{errors?.logos}</p>
 									</div>
@@ -786,7 +779,7 @@ const NewTournamentForm = () => {
 										{/* <button type="button" name="" id="" className={style.input}>
 											Upload Banners
 										</button> */}
-										<input type="file" name="banners[]" id="" className={style.input} multiple onChange={handleBannerFileChange}/>
+										<input type="file" name="banners[]" id="" className={style.input} multiple onChange={handleUploadMultipleBanners}/>
 										<p className="text-danger">{errors?.banners}</p>
 									</div>
 								</div>
