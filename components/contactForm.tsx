@@ -86,7 +86,7 @@ const ContactForm = () => {
 								value={formData.phone}
 								onChange={handleChange}
 							/>
-							<p className="text-danger">{error?.mobile_no}</p>
+							<p className="text-danger">{error?.phone}</p>
 						</div>
 					</div>
 					<div className="col-md-6 col-sm-12">
