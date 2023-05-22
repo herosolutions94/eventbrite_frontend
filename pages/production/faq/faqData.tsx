@@ -22,16 +22,16 @@ const FaqData: React.FC<FaqDataProps> = ({ faqlist01, faqlist02 }) => {
 		<>
 			<h4 className="mb-4">General questions</h4>
 			<div className={style.faq_lst}>
-				{faqlist01.map((data) => {
+				{/* {faqlist01.map((data) => {
 					return <FaqBlock {...data} key={data.id} />
-				})}
+				})} */}
 			</div>
 			<hr className="my-5" />
 			<h4 className="mb-4">Most asked questions</h4>
 			<div className={style.faq_lst}>
-				{faqlist02.map((data) => {
+				{/* {faqlist02.map((data) => {
 					return <FaqBlock {...data} key={data.id} />
-				})}
+				})} */}
 			</div>
 		</>
 	)

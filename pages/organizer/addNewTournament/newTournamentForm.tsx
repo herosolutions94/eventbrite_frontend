@@ -248,6 +248,7 @@ const NewTournamentForm = () => {
 														<option 
 															value={category.id}
 															selected={tournamentDetails.category_id == category.id}
+															key={category.id}
 														>{category.name}</option>
 													)
 												})}
@@ -267,6 +268,7 @@ const NewTournamentForm = () => {
 														<option 
 															value={type.id}
 															selected={tournamentDetails.type == type.id}
+															key={type.id}
 														>{type.name}</option>
 													)
 												})}
@@ -321,6 +323,7 @@ const NewTournamentForm = () => {
 													<option 
 														value={eventType.id}
 														selected={tournamentDetails.event_type == eventType.id}
+														key={eventType.id}
 													>{eventType.name}</option>
 												)
 											})}
@@ -339,6 +342,7 @@ const NewTournamentForm = () => {
 													<option 
 														value={country.id}
 														selected={tournamentDetails.country_id == country.id}
+														key={country.id}
 													>{country.name}</option>
 												)
 											})}
@@ -387,6 +391,7 @@ const NewTournamentForm = () => {
 													<option 
 														value={numberOfTeam.id}
 														selected={tournamentDetails.number_of_teams == numberOfTeam.id}
+														key={numberOfTeam.id}
 													>{numberOfTeam.number_of_teams}</option>
 												)
 											})}
@@ -405,6 +410,7 @@ const NewTournamentForm = () => {
 													<option 
 														value={tournamentFormat.id}
 														selected={tournamentDetails.format == tournamentFormat.id}
+														key={tournamentFormat.id}
 													>{tournamentFormat.name}</option>
 												)
 											})}
@@ -443,6 +449,7 @@ const NewTournamentForm = () => {
 													<option 
 														value={tournamentLevel.id}
 														selected={tournamentDetails.level === tournamentLevel.id}
+														key={tournamentLevel.id}
 													>{tournamentLevel.level}</option>
 												)
 											})}
