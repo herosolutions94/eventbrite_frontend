@@ -140,7 +140,11 @@ const NewTournamentForm = () => {
 		e.preventDefault()
 		console.log(tournamentDetails)
 		try {
-			const res = await axios.put(process.env.API_URL + "/tournaments-create", tournamentDetails)
+			const res = await axios.put(process.env.API_URL + "/tournaments-create", tournamentDetails, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				}
+			})
 			if (res.status === 200) {
 				alert('Record has been inserted successfully.')
 			}	
