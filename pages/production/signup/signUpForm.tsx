@@ -5,13 +5,18 @@ import countries from '../../api/countries'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
+import { toast } from 'react-toastify';
+
 
 const SignUpForm = () => {
+
 	const router = useRouter();
 	const [countriesData, setCountriesData] = useState<any[]>([]);
 	const [signup, setSignup] = useState("organizer");
 	const [error, setError] = useState<{ name?: string,email?:string,phone_number?:string,password?:string,confirmPassword?:string,org_name?:string,org_website?:string,org_mailing_address?:string,org_communication_method?:string,org_timezone?:string,postal_code?:string,confirm_password?:string,country?:string,city?:string,address?:string }>({})
-	
+	useEffect(() => {
+		console.log('signup', signup)
+	}, [signup])
 	const [formData, setFormData] = useState({
 		name: "",
 		email: "",
@@ -19,7 +24,7 @@ const SignUpForm = () => {
 		password: "",
 		confirm_password: "",
 		terms_and_conditions: false,
-		role: signup === "organizer" ? "organizer" : "player",
+		role: signup,
 	});
 	const [organizerData, setOrganizerData] = useState({
 		org_name: "",
@@ -43,18 +48,24 @@ const SignUpForm = () => {
 			...organizerData,
 			...playerData,
 		};
+		data.role = signup;
 
 		try {
 			const response = await axios.post(process.env.API_URL + '/register', data);
-			alert(response.data.message);
+			toast.success(response.data.message);
 			if (response) {
 				Cookies.set('email', response.data.user.email);
 				Cookies.set('role', response.data.user.role);
 				Cookies.set('token', response.data.token);
 			}
-			router.push('/');
+			if(response.data.user.role === "organizer"){
+				router.push('/organizer');
+			}else{
+				router.push('/');
+			}
 		} catch (error) {
 			if (axios.isAxiosError(error) && error.response?.status === 422) {
+				toast.error(error.response.data.message);
 			  const validationErrors = error.response.data.error;
 			  setError(validationErrors);
 			} else {
@@ -149,10 +160,10 @@ const SignUpForm = () => {
 									<div className="col-sm-12">
 										<h6>Country</h6>
 										<div className={style.form_blk}>
-											<select name="" id="" className={style.input}>
+											<select name="country" id="" className={style.input} value={playerData.country} onChange={(e) => setPlayerData({...playerData, country: e.target.value})}>
 												<option value="">Select</option>
 												{ countriesData.map((country ,index) => (
-													<option value={country.name} key={index} >{country.name}</option>
+													<option value={country.id} key={index} >{country.name}</option>
 												))}
 											</select>
 											<p className="text-danger">

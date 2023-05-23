@@ -3,6 +3,7 @@ import style from "@/styles/scss/app.module.scss"
 import axios from "axios"
 import {useRouter} from "next/router"
 import Cookies from "js-cookie"
+import { toast } from 'react-toastify';
 
 const ContactForm = () => {
 	const [formData, setFormData] = useState({
@@ -36,7 +37,7 @@ const ContactForm = () => {
 		try {
 			const res = await axios.post(process.env.API_URL + "/contact-us", data)
 			if (res.status === 200) {
-				alert('Your message has been sent successfully.')
+				toast.success('Your message has been sent successfully.')
 				setFormData({
 					name: '',
 					email: '',

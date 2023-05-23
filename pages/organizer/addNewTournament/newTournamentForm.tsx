@@ -3,8 +3,10 @@ import style from "@/styles/scss/app.module.scss"
 import axios from "axios";
 import Cookies from "js-cookie"
 import {useRouter} from "next/router"
+import { toast } from 'react-toastify';
 
 const NewTournamentForm = () => {
+	
 	const router = useRouter()
 	const [tournamentData, setTournamentData] = useState<any>([])
 	const [errors, setErrors] = useState<any>({})
@@ -183,18 +185,19 @@ const NewTournamentForm = () => {
 				},
 			})
 			if (res.status === 200) {
-				alert('Record has been inserted successfully.')
+				toast.success('Record has been inserted successfully.')
 				router.push("/organizer/tournaments")
 			}	
 		}
 		catch (err) {
 			if(axios.isAxiosError(err)) {
 				if(err.response?.status === 422) {
+					toast.error('Please fill out all the fields')
 					setErrorMessage('Please fill out all the fields');
 					setErrors(err.response?.data.errors)
 
 				} else if(err.response?.status === 401) {
-					alert('You are not authorized to perform this action.')
+					toast.error('You are not authorized to perform this action.')
 				}
 			}
 		}
