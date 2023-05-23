@@ -12,6 +12,8 @@ const NewTournamentForm = () => {
 	const [errors, setErrors] = useState<any>({})
 	const [errorMessage, setErrorMessage] = useState("")
 	const [fieldset, setFieldset] = useState("tournament_details")
+	const logos = useState<any>([])
+	const banners = useState<any>([])
 	const formData = new FormData();
 	// const [tournamentDetails, setTournamentDetails] = useState({
 	// 	title: "",
@@ -126,14 +128,15 @@ const NewTournamentForm = () => {
 
 	const handleUploadMultipleLogo = async (e: any) => {
 		for (let i = 0; i < e.target.files.length; i++) {
-			formData.append("logos", e.target.files[i]);
+			formData.append('logos[]', e.target.files[i])
 		}
 	}
 	const handleUploadMultipleBanners = async (e: any) => {
 		for (let i = 0; i < e.target.files.length; i++) {
-			formData.append("banners", e.target.files[i]);
+			formData.append('banners[]', e.target.files[i])
 		}
 	}
+
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault()
@@ -176,6 +179,7 @@ const NewTournamentForm = () => {
 		formData.append('contact_information', tournamentDetails.contact_information);
 		formData.append('roles_and_responsibilities', tournamentDetails.roles_and_responsibilities);
 		formData.append('sponsor_information', tournamentDetails.sponsor_information);
+
 
 		try {
 			const res = await axios.post(process.env.API_URL + "/tournaments-create", formData, {

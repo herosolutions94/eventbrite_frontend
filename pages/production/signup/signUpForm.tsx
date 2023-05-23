@@ -18,20 +18,20 @@ const SignUpForm = () => {
 		console.log('signup', signup)
 	}, [signup])
 	const [formData, setFormData] = useState({
-		name: "Muzammil",
-		email: "muzammilshahzad894@gmail.com",
-		phone_number: "8079798798",
-		password: "test1234",
-		confirm_password: "test1234",
+		name: "",
+		email: "",
+		phone_number: "",
+		password: "",
+		confirm_password: "",
 		terms_and_conditions: false,
 		role: signup,
 	});
 	const [organizerData, setOrganizerData] = useState({
-		org_name: "test_org",
-		org_website: "test_org.com",
-		org_mailing_address: "test_mail_address",
-		org_communication_method: "test_communication_method",
-		org_timezone: "test_timezone",
+		org_name: "",
+		org_website: "",
+		org_mailing_address: "",
+		org_communication_method: "",
+		org_timezone: "",
 	});
 
 	const [playerData, setPlayerData] = useState({
@@ -56,16 +56,15 @@ const SignUpForm = () => {
 			if (response) {
 				// got to verify page
 				router.push('/production/verify');
-
-				// Cookies.set('email', response.data.user.email);
+				Cookies.set('email', response.data.user.email);
 				// Cookies.set('role', response.data.user.role);
 				// Cookies.set('token', response.data.token);
 			}
-			if(response.data.user.role === "organizer"){
-				router.push('/organizer');
-			}else{
-				router.push('/');
-			}
+			// if(response.data.user.role === "organizer"){
+			// 	router.push('/organizer');
+			// }else{
+			// 	router.push('/');
+			// }
 		} catch (error) {
 			if (axios.isAxiosError(error) && error.response?.status === 422) {
 				toast.error(error.response.data.message);

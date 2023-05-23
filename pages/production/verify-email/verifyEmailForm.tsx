@@ -4,20 +4,54 @@ import Link from "next/link"
 import axios from "axios"
 import {useRouter} from "next/router"
 import Cookies from "js-cookie"
+import { toast } from 'react-toastify';
 
 const VerifyEmailForm = () => {
 	const router = useRouter()
 	const [code, setCode] = useState("");
-    const [codeError, setCodeError] = useState("");
+    const [error, setError]  = useState("");
+	const [errorMessage, setErrorMessage] = useState("")
 
 	const handleChange = (e: any) => {
         setCode(e.target.value)
+	}
+	const handleSubmit = async (e: any) => {
+		e.preventDefault()
+		const data = {
+			verify_token: code,
+			email: Cookies.get('email')
+		}
+		try {
+			const response = await axios.post(process.env.API_URL + "/verify-code", data)
+			if (response.status === 200) {
+				toast.success('Email verified successfully.');
+				Cookies.set('role', response.data.user.role);
+				Cookies.set('token', response.data.token);
+				if(response.data.user.role === "organizer"){
+					router.push('/organizer');
+				}else{
+					router.push('/');
+				}
+			}	
+		}
+		catch (err) {
+			if(axios.isAxiosError(err)) {
+				if(err.response?.status === 422) {
+					setError(err.response.data.message)
+					toast.error(err.response.data.message)
+				} else if(err.response?.status === 401) {
+					toast.error(err.response.data.message)
+				}else{
+					toast.error('Something went wrong.');
+				}
+			}
+		}
 	}
 
 	return (
 		<>
 			<div className={style.logon_form}>
-				<form action="" method="POST">
+				<form action="" method="POST" onSubmit={handleSubmit}>
 					<div className={style.log_blk}>
 						<div className={style.txt}>
 							<h2>Verify Email</h2>
@@ -36,7 +70,7 @@ const VerifyEmailForm = () => {
 										value={code}
 										onChange={handleChange} 
 									/>
-									<p className="text-danger">{codeError}</p>
+									<p className="text-danger">{error}</p>
 								</div>
 							</div>
 						</div>
