@@ -1,0 +1,6 @@
+{
+    "routes": [
+      { "src": "/api/(.*)", "dest": "http://your-api-domain.com/api/$1" }
+    ]
+  }
+  
