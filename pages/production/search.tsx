@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 import style from "@/styles/scss/app.module.scss"
 import Header from "@/components/header/header"
 import Footer from "@/components/footer"
@@ -8,6 +8,7 @@ import { PhotoMainSlide } from "@/components/images"
 import Pagination from "@/components/pagination"
 import TopFilters from "./search/topFilters"
 import MapBlock from "./search/mapBlock"
+import axios from "axios"
 
 const SEARCH_RESULTS = [
 	{
@@ -162,8 +163,32 @@ const SEARCH_RESULTS = [
 	},
 ]
 
+
 const Search = () => {
 	const [showMap, setShowMap] = useState(false)
+	const [activeTab, setActiveTab] = useState('list');
+
+	const [tournaments, setTournaments] = useState<any | null>([]);
+
+	useEffect(() => {
+		fetchTournaments();
+	}, []);
+	
+	const fetchTournaments = async () => {
+		try {
+			const response = await axios.get(`${process.env.API_URL}/tournaments`);
+			if (response.status === 200) {
+				setTournaments(response.data.data);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	if (!tournaments) {
+		return <div>Loading...</div>;
+	}
+
 	const showMapHandle = () => {
 		setShowMap(!showMap)
 	}
@@ -172,23 +197,34 @@ const Search = () => {
 			<Header pageTitle="Search" />
 			<section id={style.search}>
 				<div className={style.contain}>
-					<TopFilters />
+					<TopFilters  setActiveTab={setActiveTab} activeTab={activeTab} />
 					<div className={style.outer}>
-						<div className={style.items_blk}>
+						{activeTab === "list" && (
+						<div className="w-100">
 							<div className="row">
-								{SEARCH_RESULTS.map((data) => {
+								{tournaments.map((data:any) => {
 									return (
-										<div className="col-lg-6 col-md-12 col-sm-6" key={data.id}>
-											<CategoryCard {...data} />
+										<div className="col-lg-4 col-md-6 col-sm-4" key={data.id}>
+											<CategoryCard 
+												title={data.title}
+												link="/production/tournament-detail"
+												tag={data?.category?.name}
+												date={data.start_date}
+												text={'lorem ipsum'}
+												img={data?.images[0]?.image}
+											/>
 										</div>
 									)
 								})}
 							</div>
 							<Pagination />
 						</div>
-						<div className={`${style.map_blk} ${showMap ? style.active : ""}`}>
-							<MapBlock />
-						</div>
+						)}
+						{activeTab === "map" && (
+							<div className={`${style.map_blk} ${showMap ? style.active : ""} w-100`}>
+								<MapBlock tournaments={tournaments}/>
+							</div> 
+						)}
 					</div>
 				</div>
 				<div className={style.map_btn_blk}>

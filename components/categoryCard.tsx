@@ -17,7 +17,7 @@ const CategoryCard = (props: any) => {
 				<div className={style.txt}>
 					<span className={style.tag}>{tag}</span>
 					<h4>
-						<Link href={link}>{title}</Link>
+						<Link href='#'>{title}</Link>
 					</h4>
 					<div className={style.date}>
 						<Image width={100} height={100} src={IconCalendar} alt="" /> {date}
