@@ -51,3 +51,6 @@ export { default as IconSend } from "/public/images/send_icon.svg"
 export { default as VectorPaypal } from "/public/images/paypal.svg"
 export { default as VectorVisa } from "/public/images/visa.svg"
 export { default as VectorBank } from "/public/images/bank.svg"
+
+export { default as IconMap } from "/public/images/icon-map.svg"
+export { default as IconList } from "/public/images/icon-list.svg"

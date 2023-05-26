@@ -6,7 +6,7 @@ const nextConfig = {
     ASSET_URL: process.env.ASSET_URL
   },
   images: {
-    domains: ['via.placeholder.com'],
+    domains: ['via.placeholder.com','eventbrite.test'],
   },
 }
 

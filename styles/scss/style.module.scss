@@ -1127,6 +1127,41 @@
 |       Search
 |----------------------------------------------------------------------
 */
+#search {
+	.top_head {
+		.btn_blk {
+			-ms-flex-flow: nowrap;
+			flex-flow: nowrap;
+		}
+		.sort_list_btn {
+			@include flex;
+			@include gap(0.6rem);
+			margin-top: 1rem;
+			> button {
+				@include flex;
+				width: 3rem;
+				min-width: 3rem;
+				height: 3rem;
+				background: rgba(var(--light_rgb), 0.3);
+				padding: 0.7rem;
+				border: 0;
+				border-radius: 0.5rem;
+				-webkit-transition: var(--transition);
+				transition: var(--transition);
+				&:hover {
+					background: rgba(var(--light_rgb), 0.4);
+				}
+				&.active {
+					background: var(--prime_color);
+				}
+				> img {
+					@include object(contain);
+					@include filter(1);
+				}
+			}
+		}
+	}
+}
 
 #search {
 	padding: 4rem 0 8rem;

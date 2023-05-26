@@ -9,176 +9,39 @@ import Pagination from "@/components/pagination"
 import TopFilters from "./search/topFilters"
 import MapBlock from "./search/mapBlock"
 import axios from "axios"
+import { useRouter } from "next/router"
 
-const SEARCH_RESULTS = [
-	{
-		id: 1,
-		title: "White Keep Assault",
-		link: "/production/tournament-detail",
-		wishlist: true,
-		tag: "esports",
-		date: "September 14, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoBlog01,
-	},
-	{
-		id: 2,
-		title: "Dota 2 Tournament",
-		link: "/production/tournament-detail",
-		wishlist: true,
-		tag: "esports",
-		date: "July 07, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoBlog02,
-	},
-	{
-		id: 3,
-		title: "Winners on ESL Pro",
-		link: "/production/tournament-detail",
-		wishlist: false,
-		tag: "esports",
-		date: "January 31, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoBlog03,
-	},
-	{
-		id: 4,
-		title: "Keep Winner DOTA",
-		link: "/production/tournament-detail",
-		wishlist: false,
-		tag: "esports",
-		date: "September 14, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoMainSlide,
-	},
-	{
-		id: 5,
-		title: "White Keep Assault",
-		link: "/production/tournament-detail",
-		wishlist: true,
-		tag: "esports",
-		date: "September 14, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoBlog01,
-	},
-	{
-		id: 6,
-		title: "Dota 2 Tournament",
-		link: "/production/tournament-detail",
-		wishlist: true,
-		tag: "esports",
-		date: "July 07, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoBlog02,
-	},
-	{
-		id: 7,
-		title: "Winners on ESL Pro",
-		link: "/production/tournament-detail",
-		wishlist: false,
-		tag: "esports",
-		date: "January 31, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoBlog03,
-	},
-	{
-		id: 8,
-		title: "Keep Winner DOTA",
-		link: "/production/tournament-detail",
-		wishlist: false,
-		tag: "esports",
-		date: "September 14, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoMainSlide,
-	},
-	{
-		id: 9,
-		title: "White Keep Assault",
-		link: "/production/tournament-detail",
-		wishlist: true,
-		tag: "esports",
-		date: "September 14, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoBlog01,
-	},
-	{
-		id: 10,
-		title: "Dota 2 Tournament",
-		link: "/production/tournament-detail",
-		wishlist: true,
-		tag: "esports",
-		date: "July 07, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoBlog02,
-	},
-	{
-		id: 11,
-		title: "Winners on ESL Pro",
-		link: "/production/tournament-detail",
-		wishlist: false,
-		tag: "esports",
-		date: "January 31, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoBlog03,
-	},
-	{
-		id: 12,
-		title: "Keep Winner DOTA",
-		link: "/production/tournament-detail",
-		wishlist: false,
-		tag: "esports",
-		date: "September 14, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoMainSlide,
-	},
-	{
-		id: 13,
-		title: "Winners on ESL Pro",
-		link: "/production/tournament-detail",
-		wishlist: false,
-		tag: "esports",
-		date: "January 31, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoBlog03,
-	},
-	{
-		id: 14,
-		title: "Keep Winner DOTA",
-		link: "/production/tournament-detail",
-		wishlist: false,
-		tag: "esports",
-		date: "September 14, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoMainSlide,
-	},
-	{
-		id: 15,
-		title: "White Keep Assault",
-		link: "/production/tournament-detail",
-		wishlist: true,
-		tag: "esports",
-		date: "September 14, 2021",
-		text: "Maecenas tempus, tellus eget rhoncus, sem quam tempus, tellus eget rhoncus vel velit auctor aliquet",
-		img: PhotoBlog01,
-	},
-]
 
 
 const Search = () => {
 	const [showMap, setShowMap] = useState(false)
 	const [activeTab, setActiveTab] = useState('list');
-
 	const [tournaments, setTournaments] = useState<any | null>([]);
+	const [response, setResponse] = useState<any | null>(null);
+	const [currentPage, setCurrentPage] = useState(1);
+	const params = useRouter().query;
 
 	useEffect(() => {
 		fetchTournaments();
 	}, []);
+	// get params from url
 	
 	const fetchTournaments = async () => {
+	
 		try {
-			const response = await axios.get(`${process.env.API_URL}/tournaments`);
+			if(!params.categories && !params.postCode){
+				const response = await axios.get(`${process.env.API_URL}/tournaments`);
+				if (response.status === 200) {
+					setTournaments(response.data.data.data);
+					setResponse(response.data.data);
+				}
+				return;
+			}
+			const response = await axios.get(`${process.env.API_URL}/tournaments?category=${params.categories}&postal_code=${params.postCode}`);
 			if (response.status === 200) {
+				// console.log(response.data.data);
 				setTournaments(response.data.data);
+				setResponse(response.data.data);
 			}
 		} catch (error) {
 			console.log(error);
@@ -197,7 +60,15 @@ const Search = () => {
 			<Header pageTitle="Search" />
 			<section id={style.search}>
 				<div className={style.contain}>
-					<TopFilters  setActiveTab={setActiveTab} activeTab={activeTab} />
+					<TopFilters  
+						setActiveTab={setActiveTab} 
+						activeTab={activeTab} 
+						setTournaments={setTournaments as any}
+						response={response}
+						setResponse={setResponse as any}
+						category={params.categories as string}
+						postal_code={params.postCode as string}
+					/>
 					<div className={style.outer}>
 						{activeTab === "list" && (
 						<div className="w-100">
@@ -211,13 +82,21 @@ const Search = () => {
 												tag={data?.category?.name}
 												date={data.start_date}
 												text={'lorem ipsum'}
-												img={data?.images[0]?.image}
+											
+												img={process.env.ASSET_URL + data?.images[0]?.image}
 											/>
 										</div>
 									)
 								})}
 							</div>
-							<Pagination />
+							<Pagination 
+								response={response}
+								setTournaments={setTournaments as any}
+								setResponse={setResponse as any}
+								category={params.categories as string}
+								postal_code={params.postCode as string}
+								setCurrentPage={setCurrentPage as any}
+							/>
 						</div>
 						)}
 						{activeTab === "map" && (
