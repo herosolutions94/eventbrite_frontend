@@ -60,8 +60,21 @@ const CATEGORIES = [
 		img: PhotoBlog03,
 	},
 ]
+type Tournament = {
+	id: number
+	title: string
+	link: string
+	tag: string
+	date: string
+	text: string
+	img: string
+}
 
-const CategorySlider = () => {
+type CategorySliderProps = {
+	tournaments: Tournament[]
+}
+const CategorySlider = (props: CategorySliderProps) => {
+	const { tournaments } = props
 	var settings = {
 		dots: false,
 		infinite: true,
@@ -89,8 +102,16 @@ const CategorySlider = () => {
 	}
 	return (
 		<Slider {...settings} className={`${style.slick_category} slick-carousel`}>
-			{CATEGORIES.map((data) => {
-				return <CategoryCard {...data} key={data.id} />
+			{tournaments?.length > 0 && tournaments.map((data: any) => {
+			
+				return <CategoryCard 
+					title={data.title}
+					link="/production/tournament-detail"
+					tag={data?.category?.name}
+					date={data.start_date}
+					text={'lorem ipsum'}
+					img={process.env.ASSET_URL + data?.images[0]?.image}
+				/>
 			})}
 		</Slider>
 	)

@@ -45,7 +45,12 @@ const MATCH_CARD = [
 		tags: "all matches, latest results, upcoming",
 	},
 ]
-const Matches = () => {
+
+type MatchesProps = {
+	trandingMatches : any;
+}
+const Matches = (props: MatchesProps) => {
+	const { trandingMatches } = props;
 	return (
 		<>
 			<section id={style.matches}>

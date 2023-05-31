@@ -1,19 +1,27 @@
 import React from "react"
 import style from "@/styles/scss/app.module.scss"
 import CategorySlider from "@/components/categorySlider"
-
-const Categories = () => {
+type CategoriesProps = {
+	title: string;
+	subheading: string;
+	content: string;
+	tournaments: [] | any;
+}
+const Categories = (props: CategoriesProps) => {
+	const { title, subheading, content,tournaments } = props;
 	return (
 		<>
 			<section id={style.op_categories}>
 				<div className={style.contain}>
 					<div className={`${style.content} text-center`}>
-						<h5 className={style.subheading}>OP Gamers</h5>
-						<h2>OP Categories just for Gamers</h2>
-						<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae vitae architecto ex perspiciatis maxime nam ducimus tenetur dignissimos reprehenderit obcaecati minus commodi, corrupti nesciunt debitis earum omnis harum pariatur et.</p>
+						<h5 className={style.subheading}>{title}</h5>
+						<h2>{subheading}</h2>
+						<p>{content}</p>
 					</div>
 				</div>
-				<CategorySlider />
+				<CategorySlider 
+					tournaments={tournaments}
+				/>
 			</section>
 		</>
 	)
