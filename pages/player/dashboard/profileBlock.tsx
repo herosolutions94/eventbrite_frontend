@@ -3,7 +3,10 @@ import style from "@/styles/scss/app.module.scss"
 import Image from "next/image"
 import { PhotoAboutMe } from "@/components/images"
 
-const ProfileBlock = () => {
+type ProfileBlockProps = {
+	profileData : any
+}
+const ProfileBlock = ({profileData}:ProfileBlockProps) => {
 	return (
 		<>
 			<div className={style.pro_blk}>
@@ -12,7 +15,7 @@ const ProfileBlock = () => {
 				</div>
 				<div className={style.txt}>
 					<h2>
-						<span>Welcome,</span> Jennifer Kem!
+						<span>Welcome,</span> {profileData?.name}
 					</h2>
 					<p>Nice to see you again.</p>
 				</div>
