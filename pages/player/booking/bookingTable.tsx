@@ -2,7 +2,18 @@ import React from "react"
 import style from "@/styles/scss/app.module.scss"
 import TablePagination from "@/components/tablePagination"
 
-const BookingTable = () => {
+type BookingData = {
+	otp: string;
+	fullName: string;
+	email: string;
+	phoneNumber: string;
+	intrests: string;
+}
+
+type BookingTableProps = {
+	bookingData: BookingData[];
+}
+const BookingTable = ({ bookingData }: BookingTableProps) => {
 	return (
 		<>
 			<div className={style.table_blk_wrap}>
@@ -18,100 +29,25 @@ const BookingTable = () => {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>456789</td>
-								<td>Dave Chen</td>
-								<td>davechen@gmail.com</td>
-								<td>+123 456 789</td>
-								<td className={style.interest}>
-									<span>Nature</span>
-									<span>Road Trip</span>
-									<span>Travel</span>
-								</td>
-							</tr>
-							<tr>
-								<td>534657</td>
-								<td>Nicola Adler</td>
-								<td>nicolaadler@gmail.com</td>
-								<td>+123 534 657</td>
-								<td className={style.interest}>
-									<span>Socializing</span>
-									<span>Sports</span>
-								</td>
-							</tr>
-							<tr>
-								<td>645095</td>
-								<td>Jordyn Madsen</td>
-								<td>jorfynmadsen@gmail.com</td>
-								<td>+123 645 095</td>
-								<td className={style.interest}>
-									<span>Collecting</span>
-									<span>Gaming</span>
-								</td>
-							</tr>
-							<tr>
-								<td>736185</td>
-								<td>Erin Donin</td>
-								<td>erindonin@gmail.com</td>
-								<td>+123 736 185</td>
-								<td className={style.interest}>
-									<span>Collecting</span>
-									<span>Gaming</span>
-									<span>Collecting</span>
-								</td>
-							</tr>
-							<tr>
-								<td>645095</td>
-								<td>Jordyn Madsen</td>
-								<td>jorfynmadsen@gmail.com</td>
-								<td>+123 645 095</td>
-								<td className={style.interest}>
-									<span>Collecting</span>
-								</td>
-							</tr>
-							<tr>
-								<td>645095</td>
-								<td>Jordyn Madsen</td>
-								<td>jorfynmadsen@gmail.com</td>
-								<td>+123 645 095</td>
-								<td className={style.interest}>
-									<span>Collecting</span>
-									<span>Gaming</span>
-								</td>
-							</tr>
-							<tr>
-								<td>645095</td>
-								<td>Jordyn Madsen</td>
-								<td>jorfynmadsen@gmail.com</td>
-								<td>+123 645 095</td>
-								<td className={style.interest}>
-									<span>Collecting</span>
-									<span>Gaming</span>
-									<span>Collecting</span>
-								</td>
-							</tr>
-							<tr>
-								<td>645095</td>
-								<td>Jordyn Madsen</td>
-								<td>jorfynmadsen@gmail.com</td>
-								<td>+123 645 095</td>
-								<td className={style.interest}>
-									<span>Collecting</span>
-									<span>Gaming</span>
-									<span>Collecting</span>
-								</td>
-							</tr>
-							<tr>
-								<td>645095</td>
-								<td>Jordyn Madsen</td>
-								<td>jorfynmadsen@gmail.com</td>
-								<td>+123 645 095</td>
-								<td className={style.interest}>
-									<span>Collecting</span>
-									<span>Gaming</span>
-									<span>Collecting</span>
-								</td>
-							</tr>
+							{bookingData.map((data:any) => {
+								return (
+									<tr key={data.otp}>
+										<td>{data.otp}</td>
+										<td>{data.full_name}</td>
+										<td>{data.email}</td>
+										<td>{data.phone}</td>
+										<td className={style.interest}>
+											{data.intrests.map((interest:any) => {
+												return (
+													<span key={interest.id}>{interest.full_name}</span>
+												)
+											}
+											)}
+										</td>
+									</tr>
+								)
+							})}
+							
 						</tbody>
 					</table>
 				</div>
