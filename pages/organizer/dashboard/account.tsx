@@ -8,15 +8,20 @@ type AccountProps = {
 }
 const Account = (props:AccountProps) => {
 	const {content} = props;
+	const user_id = content?.id;
 	return (
 		<>
 			<section className={style.dashboard} id={style.account}>
 				<div className={style.contain}>
 					<ProfileBlock profileData = {content} />
 					<div className="pt-5"></div>
-					<ProfileForm />
+					{content?.name != '' &&	
+						<ProfileForm profileData = {content} />
+					}
 					<div className="pt-5"></div>
-					<ChangePassword />
+					{user_id != '' &&
+					<ChangePassword user_id={user_id} />
+					}
 				</div>
 			</section>
 		</>

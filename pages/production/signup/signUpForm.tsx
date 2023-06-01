@@ -49,6 +49,7 @@ const SignUpForm = () => {
 			...playerData,
 		};
 		data.role = signup;
+		// console.log('data is',data);
 
 		try {
 			const response = await axios.post(process.env.API_URL + '/register', data);

@@ -25,6 +25,7 @@ type ProfileProps = {
 
 const Dashboard = () => {
 	const [profileData, setProfileData] = React.useState<ProfileProps | null>(null);
+	// console.log('data is',profileData);
 	useEffect(() => {
 		fetchProfileData()
 	}, []);

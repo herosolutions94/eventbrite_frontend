@@ -34,7 +34,7 @@ const SignInForm = () => {
 			const res = await axios.post(process.env.API_URL + "/login", data)
 			
 			if (res.status === 200) {
-		
+				Cookies.set("user_id", res.data.user.id)
 				Cookies.set("email", res.data.user.email)
 				Cookies.set("role", res.data.user.role)
 				Cookies.set("token", res.data.user.token)

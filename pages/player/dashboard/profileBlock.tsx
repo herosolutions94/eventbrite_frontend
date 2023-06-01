@@ -7,6 +7,7 @@ type ProfileBlockProps = {
 	profileData : any
 }
 const ProfileBlock = ({profileData}:ProfileBlockProps) => {
+	console.log('profile  ',profileData)
 	return (
 		<>
 			<div className={style.pro_blk}>
