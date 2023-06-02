@@ -4,11 +4,12 @@ import { IconHeart, PhotoAbout, PhotoBlog02, PhotoMainSlide, PhotoTeam01 } from 
 import Image from "next/image"
 import AddTeamPopup from "./addTeamPopup"
 
-const TournamentBanner = () => {
+const TournamentBanner =(details:any) => {
 	const [addTeamPopup, setAddTeamPopup] = useState(false)
 	const addTeamPopupHandle = () => {
 		setAddTeamPopup(!addTeamPopup)
 	}
+	console.log(details?.details.title)
 	return (
 		<>
 			<div className={style.banner}>
@@ -33,7 +34,7 @@ const TournamentBanner = () => {
 								<strong className={style.text_prime}>Double Elimination</strong>
 								<span className={style.tag}>Sport</span>
 							</div>
-							<h2>Dota 2 Tournament Keep Assault</h2>
+							<h2>{details?.details.title}</h2>
 							<div className={`${style.btn_blk} align-items-center`}>
 								<button type="button" className={style.site_btn} onClick={addTeamPopupHandle}>
 									Add your Team
@@ -43,11 +44,20 @@ const TournamentBanner = () => {
 								</button>
 							</div>
 							<ul className={style.date_time_list}>
-								<li>Start Date: 03 May, 2023</li>
+								<li>Start Date: <span>
+									{new Date(details?.details?.start_date).toLocaleDateString('en-US', {
+									day: 'numeric',
+									month: 'long',
+									year: 'numeric',
+								})}</span></li>
 								<li>●</li>
-								<li>End Date: 03 May, 2023</li>
+								<li> {new Date(details?.details?.schedule_date).toLocaleDateString('en-US', {
+									day: 'numeric',
+									month: 'long',
+									year: 'numeric',
+								})}</li>
 								<li>●</li>
-								<li>Time: 04:00 PM</li>
+								<li>Time: <span>{details?.details?.schedule_time}</span></li>
 							</ul>
 						</div>
 					</div>
