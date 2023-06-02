@@ -27,7 +27,7 @@ const Contact: React.FC = () => {
 	}
 
 	if (!contactPageData) {
-		return <div>Loading...</div>;
+		return <div id={style.loader}></div>;
 	  }
 
 	return (

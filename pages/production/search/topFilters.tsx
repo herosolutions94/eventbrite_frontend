@@ -70,42 +70,34 @@ const TopFilters = ({
 					<h3>Search Tournaments</h3>
 					<p className="opacity-50">{paginationData}</p>
 				</div>
-				<div className="flex items-center justify-between">
-					<div>
-						<div>
-							<select name="" id="" className={style.input} onChange={handleSorting}>
-								<option value="">Sort by</option>
-								<option value="asc">Newest Listings</option>
-								<option value="desc">Oldest Listings</option>
-								{/* <option value="">Closest</option> */}
-							</select>
-						</div>
-						<div className={style.sort_list_btn}>
-							<button type="button" className={activeTab === "list" ? style.active : ""}>
-								<Image 
-									width={100}
-									height={100} 
-									src={IconList} 
-									alt="" 
-									onClick={() => setActiveTab("list")}
-								/>
-							</button>
-							<button type="button" className={activeTab === "map" ? style.active : ""}>
-								<Image 
-									width={100} 
-									height={100} 
-									src={IconMap} 
-									alt="" 
-									onClick={() => setActiveTab("map")}
-								/>
-							</button>
-						</div>
-						
+				<div className={style.btn_blk}>
+					<div className={style.sort_list_btn}>
+						<button type="button" className={activeTab === "list" ? style.active : ""}>
+							<Image 
+								width={100}
+								height={100} 
+								src={IconList} 
+								alt="" 
+								onClick={() => setActiveTab("list")}
+							/>
+						</button>
+						<button type="button" className={activeTab === "map" ? style.active : ""}>
+							<Image 
+								width={100} 
+								height={100} 
+								src={IconMap} 
+								alt="" 
+								onClick={() => setActiveTab("map")}
+							/>
+						</button>
 					</div>
+					<select name="" id="" className={style.input} onChange={handleSorting}>
+						<option value="">Sort by</option>
+						<option value="asc">Newest Listings</option>
+						<option value="desc">Oldest Listings</option>
+						{/* <option value="">Closest</option> */}
+					</select>
 				</div>
-				
-				
-
 			</div>
 		</>
 	)

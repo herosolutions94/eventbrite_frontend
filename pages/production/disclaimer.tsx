@@ -31,7 +31,7 @@ const Disclaimer = () => {
 	};
 
 	if (!termsContent) {
-		return <div>Loading...</div>;
+		return <div id={style.loader}></div>;
 	}
 
 	return (

@@ -49,7 +49,7 @@ const Search = () => {
 	};
 
 	if (!tournaments) {
-		return <div>Loading...</div>;
+		return <div id={style.loader}></div>;
 	}
 
 	const showMapHandle = () => {

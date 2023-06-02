@@ -37,7 +37,7 @@ const Faq = () => {
 	
 
 	if (FAQ_LIST_01.length === 0 || FAQ_LIST_02.length === 0) {
-		return <div>Loading...</div>;
+		return <div id={style.loader}></div>;
 	}
 
 	return (
