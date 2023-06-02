@@ -14,6 +14,7 @@ const AddTeamPopup = (props: any) => {
 	const [fieldset, setFieldset] = useState("team_info")
 	const [errors, setErrors] = useState<{ team_name?: string, affiliation?: string, team_color?: string, skill?: string, logo?: string, full_name?: string, email?: string, phone?: string, payment_method?: string, payment_prof?: string, waivers_email?: string, waivers_file?: string }>();
 	const [teamMembers, setTeamMembers] = useState<any[]>([]); 
+	const formData = new FormData();
 	const [teams, setTeams] = useState({
 		mem_name: "",
 		mem_email: "",
@@ -77,8 +78,27 @@ const AddTeamPopup = (props: any) => {
 	}
 	const handleTeamSubmit = async (e: any) => {
 		e.preventDefault();
-		try {
-			const res = await axios.post(process.env.API_URL + '/create-team', teamDetails)
+		formData.append('team_name', teamDetails.team_name)
+		formData.append('affiliation', teamDetails.affiliation)
+		formData.append('team_color', teamDetails.team_color)
+		formData.append('skill', teamDetails.skill)
+		formData.append('logo', teamDetails.logo)
+		formData.append('full_name', teamDetails.full_name)
+		formData.append('email', teamDetails.email)
+		formData.append('phone', teamDetails.phone)
+		formData.append('payment_method', teamDetails.payment_method)
+		formData.append('payment_prof', teamDetails.payment_prof)
+		formData.append('waivers_email', teamDetails.waivers_email)
+		formData.append('waivers_file', teamDetails.waivers_file)
+		formData.append('teams', JSON.stringify(teamMembers))
+		
+		try {const res = await axios.post(process.env.API_URL + "/", formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+		})
+		console.log(formData);
+
 			if (res.status === 200) {
 				toast.success('Record has been inserted successfully.')
 				router.push("/production/tournament-detail")
