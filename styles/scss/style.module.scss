@@ -279,6 +279,7 @@
 		min-height: 50rem;
 		padding: 8rem 0;
 		.content {
+			width: 100%;
 			max-width: 76rem;
 			text-align: center;
 			margin: auto;
@@ -2243,6 +2244,56 @@
 			&:not(:nth-last-child(1)) {
 				margin-bottom: 2rem;
 			}
+		}
+	}
+}
+
+/*
+|----------------------------------------------------------------------
+|       Loader
+|----------------------------------------------------------------------
+*/
+
+#loader {
+	@include pos($pos: fixed, $z: 9999999);
+	@include flex(center, center);
+	background: var(--black);
+	overflow: hidden;
+	&::before,
+	&::after {
+		content: "";
+		@include pos;
+		width: 8rem;
+		height: 8rem;
+		margin: auto;
+		opacity: 1;
+		border: 0.4rem solid var(--light);
+		border-radius: 75%;
+		animation: ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+	}
+	&::after {
+		animation-delay: -0.5s;
+	}
+	@keyframes ripple {
+		0% {
+			width: 0;
+			height: 0;
+			opacity: 0;
+		}
+		5% {
+			width: 0;
+			height: 0;
+			opacity: 0;
+		}
+		6% {
+			width: 0;
+			height: 0;
+			opacity: 1;
+		}
+		100% {
+			width: 7.2rem;
+			height: 7.2rem;
+			opacity: 0;
 		}
 	}
 }

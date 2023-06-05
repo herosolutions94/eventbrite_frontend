@@ -35,7 +35,7 @@ const TermsConditions: React.FC = () => {
   };
 
   if (!termsAndConditions) {
-    return <div>Loading...</div>;
+    return <div id={style.loader}></div>;
   }
 
   return (

@@ -283,10 +283,10 @@ const AddTeamPopup = (props: any) => {
 															/>
 														</div>
 													</div>
-													<div className="col-sm-12">
+													<div className="col-sm-12 pt-0">
 														<div className="d-flex justify-content-end">
-															<button type="button" className={style.site_btn} onClick={addMoreTeams}>
-																Add
+															<button type="button" className={`${style.site_btn} ${style.sm}`} onClick={addMoreTeams}>
+																Add Member
 															</button>
 														</div>
 													</div>
@@ -303,6 +303,7 @@ const AddTeamPopup = (props: any) => {
 																	<th>Role/Position</th>
 																	<th>Emergency Contact Name</th>
 																	<th>Emergency Contact Phone</th>
+																	<th>Action</th>
 																</tr>
 															</thead>
 															<tbody>
@@ -314,6 +315,7 @@ const AddTeamPopup = (props: any) => {
 																		<td>{team.role}</td>
 																		<td>{team.emergency_name}</td>
 																		<td>{team.emergency_phone}</td>
+																		<td><button type="button" className={style.text_prime}>Delete</button></td>
 																	</tr>
 																))}
 																{/* <tr>
@@ -341,9 +343,66 @@ const AddTeamPopup = (props: any) => {
 									) : fieldset === "fee_info" ? (
 										<>
 											<fieldset>
-												<h5 className="mb-5">Registration Fee</h5>
+												<h5 className="mb-5">Payment Method</h5>
 												<div className="row">
 													<div className="col-sm-6">
+														<h6 className="require">Card Number</h6>
+														<div className={style.form_blk}>
+															<input type="text" name="" id="" className={style.input} placeholder="eg: 1234567890"/>
+														</div>
+													</div>
+													<div className="col-sm-6">
+														<h6 className="require">Card Holder</h6>
+														<div className={style.form_blk}>
+															<input type="text" name="" id="" className={style.input} placeholder="eg: John Wick"/>
+														</div>
+													</div>
+													<div className="col-sm-4">
+														<h6 className="require">Month</h6>
+														<div className={style.form_blk}>
+															<select name="" id="" className={style.input}>
+																<option>Select</option>
+																<option value="01">01</option>
+																<option value="02">02</option>
+																<option value="03">03</option>
+																<option value="04">04</option>
+																<option value="05">05</option>
+																<option value="06">06</option>
+																<option value="07">07</option>
+																<option value="08">08</option>
+																<option value="09">09</option>
+																<option value="10">10</option>
+																<option value="11">11</option>
+																<option value="12">12</option>
+															</select>
+														</div>
+													</div>
+													<div className="col-sm-4">
+														<h6 className="require">Year</h6>
+														<div className={style.form_blk}>
+															<select name="" id="" className={style.input}>
+																<option>Select</option>
+																<option value="2021">2021</option>
+																<option value="2022">2022</option>
+																<option value="2023">2023</option>
+																<option value="2024">2024</option>
+																<option value="2025">2025</option>
+																<option value="2026">2026</option>
+																<option value="2027">2027</option>
+																<option value="2028">2028</option>
+																<option value="2029">2029</option>
+																<option value="2030">2030</option>
+																<option value="2031">2031</option>
+															</select>
+														</div>
+													</div>
+													<div className="col-sm-4">
+														<h6 className="require">CVC?</h6>
+														<div className={style.form_blk}>
+															<input type="text" name="" id="" className={style.input} placeholder="eg: 1234"/>
+														</div>
+													</div>
+													{/* <div className="col-sm-6">
 														<h6>Payment Method</h6>
 														<div className={style.form_blk}>
 															<select name="payment_method" id="" className={style.input} onChange={handleChange} value={teamDetails.payment_method}>
@@ -360,7 +419,7 @@ const AddTeamPopup = (props: any) => {
 															<input type="file" name="payment_prof" id="" className={style.input} onChange={handleChange} value={teamDetails.payment_prof} />
 																
 														</div>
-													</div>
+													</div> */}
 												</div>
 												<div className={`${style.btn_blk} justify-content-center mt-5`}>
 													<button type="button" className={`${style.site_btn} ${style.simple}`} onClick={() => setFieldset("members_info")}>

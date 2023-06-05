@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import style from "@/styles/scss/app.module.scss"
 import Header from "@/components/header/header"
 import Banner from "./home/banner"
 import Footer from "@/components/footer"
@@ -49,7 +50,7 @@ const Home = () => {
 	};
 
 	if (!homePageData) {
-		return <div>Loading...</div>;
+		return <div id={style.loader}></div>;
 	}
 	return (
 		<>

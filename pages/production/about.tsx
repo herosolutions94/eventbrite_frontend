@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import style from "@/styles/scss/app.module.scss"
 import SubBanner from "@/components/subBanner"
 import Header from "@/components/header/header"
 import Footer from "@/components/footer"
@@ -34,7 +35,7 @@ const About: React.FC = () => {
 	  };
 
 	  if (!aboutPageData) {
-		return <div>Loading...</div>;
+		return <div id={style.loader}></div>;
 	  }
 
 	return (

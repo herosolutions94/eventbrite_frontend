@@ -36,7 +36,7 @@ const PrivacyPolicy: React.FC = () => {
   };
 
   if (!privacyPolicy) {
-    return <div>Loading...</div>;
+    return <div id={style.loader}></div>;
   }
 
   return (
