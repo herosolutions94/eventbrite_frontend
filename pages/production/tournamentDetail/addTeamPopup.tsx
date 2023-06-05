@@ -6,35 +6,42 @@ import Cookies from "js-cookie"
 import {useRouter} from "next/router"
 import { toast } from 'react-toastify';
 
-
+type teamMembers = {
+	mem_name: string,
+	mem_email: string,
+	mem_phone: string,
+	role: string,
+	emergency_name: string,
+	emergency_phone: string,
+}
 const AddTeamPopup = (props: any) => {
-	const { popupClose } = props
+	const { popupClose,tournamentId,fetchData } = props
 	
 	const router = useRouter();
 	const [fieldset, setFieldset] = useState("team_info")
-	const [errors, setErrors] = useState<{ team_name?: string, affiliation?: string, team_color?: string, skill?: string, logo?: string, full_name?: string, email?: string, phone?: string, payment_method?: string, payment_prof?: string, waivers_email?: string, waivers_file?: string }>();
-	const [teamMembers, setTeamMembers] = useState<any[]>([]); 
+	const [errors, setErrors] = useState<any>({})
+	const [teamMembers, setTeamMembers] = useState<teamMembers[]>([])
 	const formData = new FormData();
 	const [teams, setTeams] = useState({
-		mem_name: "",
-		mem_email: "",
-		mem_phone: "",
-		role: "",
-		emergency_name: "",
-		emergency_phone: "",
+		mem_name: "Member Name",
+		mem_email: "member01@gmail.com",
+		mem_phone: "1234567890",
+		role: "captain",
+		emergency_name: "Emergency Name",
+		emergency_phone: "1234567890",
 	})
 	const [teamDetails, setTeamDetails] = useState({
-		team_name: "",
-		affiliation: "",
-		team_color: "",
-		skill: "",
+		team_name: "Team Abc",
+		affiliation: "1",
+		team_color: "Red",
+		skill: "php,laravel,react",
 		logo : "",
-		full_name: "",
-		email: "",
-		phone: "",
-		payment_method: "",
+		full_name: "Ammar",
+		email: "ammar@gmail.com",
+		phone: "1234567890",
+		payment_method: "1",
 		payment_prof: "",
-		waivers_email: "",
+		waivers_email: "ammarwavier@gmail.com",
 		waivers_file: "",
 		teams: [
 			{
@@ -49,12 +56,7 @@ const AddTeamPopup = (props: any) => {
 	})
 
 	const addMoreTeams =(e: any) => {
-		const { name, value } = e.target
-		setTeams({
-			...teams, 
-			[name]: value
-		})
-		// empty the form
+		setTeamMembers([...teamMembers, teams])
 		setTeams({
 			mem_name: "",
 			mem_email: "",
@@ -63,7 +65,6 @@ const AddTeamPopup = (props: any) => {
 			emergency_name: "",
 			emergency_phone: "",
 		})
-		setTeamMembers([...teamMembers, teams])
 	}
 
 	const handleChange = (e: any) => {
@@ -76,31 +77,40 @@ const AddTeamPopup = (props: any) => {
 		setFieldset(fieldset)
 		setTeamDetails({...teamDetails, teams: teamMembers})
 	}
+	const [logo, setLogo] = useState<any>(null)
+	const [waiver, setWaiver] = useState<any>(null)
+	const handleUploadLogo = async (e: any) => {
+		setLogo(e.target.files[0])
+	}
+	const handleUploadWaiver = async (e: any) => {
+		setWaiver(e.target.files[0])
+	} 
 	const handleTeamSubmit = async (e: any) => {
 		e.preventDefault();
+		formData.append('user_id', Cookies.get("user_id") as string)
+		formData.append('tournament_id', tournamentId)
 		formData.append('team_name', teamDetails.team_name)
 		formData.append('affiliation', teamDetails.affiliation)
 		formData.append('team_color', teamDetails.team_color)
 		formData.append('skill', teamDetails.skill)
-		formData.append('logo', teamDetails.logo)
 		formData.append('full_name', teamDetails.full_name)
 		formData.append('email', teamDetails.email)
 		formData.append('phone', teamDetails.phone)
 		formData.append('payment_method', teamDetails.payment_method)
 		formData.append('payment_prof', teamDetails.payment_prof)
 		formData.append('waivers_email', teamDetails.waivers_email)
-		formData.append('waivers_file', teamDetails.waivers_file)
-		formData.append('teams', JSON.stringify(teamMembers))
+		formData.append('teams', JSON.stringify(teamDetails.teams))
+		formData.append('waivers_file', waiver)
+		formData.append('logo', logo)
 		
-		try {const res = await axios.post(process.env.API_URL + "/", formData, {
+		try {const res = await axios.post(process.env.API_URL + "/create-team", formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 			},
 		})
-		console.log(formData);
-
 			if (res.status === 200) {
 				toast.success('Record has been inserted successfully.')
+				popupClose()
 				router.push("/production/tournament-detail")
 			}	
 		}
@@ -116,6 +126,8 @@ const AddTeamPopup = (props: any) => {
 			}
 		}
 	}
+
+	
 	return (
 		<>
 			<div id={style.add_team_popup} className={style.popup}>
@@ -142,6 +154,7 @@ const AddTeamPopup = (props: any) => {
 																onChange={handleChange} 
 																value={teamDetails.team_name}
 															/>
+															<p className="text-danger">{errors?.team_name}</p>
 														</div>
 													</div>
 													<div className="col-sm-6">
@@ -149,17 +162,23 @@ const AddTeamPopup = (props: any) => {
 														<div className={style.form_blk}>
 															<select name="affiliation" id="" className={style.input} onChange={handleChange} value={teamDetails.affiliation}>
 																<option value="">Select</option>
-																<option value="school">School</option>
-																<option value="sports club">Sports Club</option>
-																<option value="companies">Companies</option>
-																<option value="comunity sports team">Community Sports Team</option>
+																<option value="1">School</option>
+																<option value="2">Sports Club</option>
+																<option value="3">Companies</option>
+																<option value="4">Community Sports Team</option>
 															</select>
 														</div>
 													</div>
 													<div className="col-sm-6">
 														<h6>Team Logo</h6>
 														<div className={style.form_blk}>
-															<input type="file" name="logo" id="" className={style.input} onChange={handleChange} value={teamDetails.logo} />
+															<input 
+																type="file" 
+																name="logo" 
+																id="" 
+																className={style.input} 
+																onChange={handleUploadLogo} 
+															/>
 															
 														</div>
 													</div>
@@ -173,6 +192,7 @@ const AddTeamPopup = (props: any) => {
 														<h6 className="require">Skill Level/Category</h6>
 														<div className={style.form_blk}>
 															<input type="text" name="skill" id="" className={style.input} placeholder="eg: Dutch Eredivisie" onChange={handleChange} value={teamDetails.skill} />
+															<p className="text-danger">{errors?.skill}</p>
 														</div>
 													</div>
 												</div>
@@ -192,18 +212,21 @@ const AddTeamPopup = (props: any) => {
 														<h6 className="require">Full Name</h6>
 														<div className={style.form_blk}>
 															<input type="text" name="full_name" id="email" className={style.input} placeholder="eg: John Wick" value={teamDetails.full_name} onChange={handleChange} />
+															<p className="text-danger">{errors?.full_name}</p>
 														</div>
 													</div>
 													<div className="col-sm-4">
 														<h6 className="require">Email Address</h6>
 														<div className={style.form_blk}>
 															<input type="text" name="email" id="email" className={style.input} placeholder="eg: sample@gmail.com" value={teamDetails.email} onChange={handleChange} />
+															<p className="text-danger">{errors?.email}</p>
 														</div>
 													</div>
 													<div className="col-sm-4">
 														<h6 className="require">Phone Number</h6>
 														<div className={style.form_blk}>
 															<input type="text" name="phone" id="phone" className={style.input} placeholder="eg: 194349034234" value={teamDetails.phone} onChange={handleChange} />
+															<p className="text-danger">{errors?.phone}</p>
 														</div>
 													</div>
 												</div>
@@ -231,6 +254,7 @@ const AddTeamPopup = (props: any) => {
 																value={teams.mem_name}
 																onChange={(e) => setTeams({...teams, mem_name: e.target.value})}
 															/>
+														
 														</div>
 													</div>
 													<div className="col-sm-6">
@@ -441,13 +465,21 @@ const AddTeamPopup = (props: any) => {
 														<h6 className="require">Email Address</h6>
 														<div className={style.form_blk}>
 															<input type="text" name="waivers_email" id="email" className={style.input} placeholder="eg: sample@gmail.com" value={teamDetails.waivers_email} onChange={handleChange} />
+															<p className="text-danger">{errors?.waivers_email}</p>
 														</div>
 													</div>
 													<div className="col-sm-6">
 														<h6>File Upload</h6>
-														<div className={style.form_blk} >
-															<input type="file" name="waivers_file" id="" className={style.input} onChange={handleChange} value={teamDetails.waivers_file} />
-																
+													
+														<div className={style.form_blk}>
+															<input 
+																type="file" 
+																name="waivers_file" 
+																id="" 
+																className={style.input} 
+																onChange={handleUploadWaiver} 
+															/>
+															
 														</div>
 													</div>
 													<div className="col-sm-12">

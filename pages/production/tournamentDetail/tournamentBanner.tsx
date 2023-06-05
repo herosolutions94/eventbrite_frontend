@@ -4,7 +4,7 @@ import { IconHeart, PhotoAbout, PhotoBlog02, PhotoMainSlide, PhotoTeam01 } from 
 import Image from "next/image"
 import AddTeamPopup from "./addTeamPopup"
 
-const TournamentBanner =(details:any) => {
+const TournamentBanner =(details:any,fetchData:any) => {
 	const [addTeamPopup, setAddTeamPopup] = useState(false)
 	const addTeamPopupHandle = () => {
 		setAddTeamPopup(!addTeamPopup)
@@ -15,24 +15,41 @@ const TournamentBanner =(details:any) => {
 			<div className={style.banner}>
 				<div className={style.contain}>
 					<div className={style.image_blk}>
-						<div className={style.image}>
-							<Image width={1000} height={1000} src={PhotoBlog02} alt="" />
-						</div>
-						<div className={style.image}>
-							<Image width={1000} height={1000} src={PhotoAbout} alt="" />
-						</div>
-						<div className={style.image}>
-							<Image width={1000} height={1000} src={PhotoMainSlide} alt="" />
-						</div>
+						{details?.details?.images?.length > 0 ? (
+							details?.details?.images.map((image:any, index:any) => {
+							if(image.caption === "banner"){
+								return <div className={style.image} key={index}>
+									<Image
+										width={1000}
+										height={1000}
+										src={process.env.ASSET_URL + image.image}
+										alt=""
+									/>
+								</div>
+							}
+						})
+						) :null}
+					
 					</div>
 					<div className={style.data}>
 						<div className={style.data_logo}>
-							<Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
+						{details?.details?.images?.length > 0 ? (
+							<Image width={200} height={200} src={process.env.ASSET_URL +  details?.details?.images[0].image} alt="Team Logo" />
+						) :
+							// <Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
+							null
+						}
 						</div>
 						<div className={style.data_text}>
 							<div className={style.tags_blk}>
-								<strong className={style.text_prime}>Double Elimination</strong>
-								<span className={style.tag}>Sport</span>
+
+								{details?.details?.tournament_type?.name ? (
+									<strong className={style.text_prime}>{details?.details?.tournament_type?.name}</strong>
+								) : null}
+									
+								{details?.details?.category?.name ? (
+									<span className={style.tag}>{details?.details?.category?.name}</span>
+								) : null}
 							</div>
 							<h2>{details?.details.title}</h2>
 							<div className={`${style.btn_blk} align-items-center`}>
@@ -63,7 +80,13 @@ const TournamentBanner =(details:any) => {
 					</div>
 				</div>
 			</div>
-			{addTeamPopup ? <AddTeamPopup popupClose={addTeamPopupHandle} /> : null}
+			{addTeamPopup ? 
+				<AddTeamPopup 
+					popupClose={addTeamPopupHandle}
+					tournamentId = {details?.details?.id} 
+					fetchData={fetchData}
+
+				/> : null}
 		</>
 	)
 }

@@ -14,35 +14,36 @@ const TournamentDetail = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
 
 	useEffect(() => {
-		const fetchData = async () => {
-		  try {
-			const response = await axios.get(process.env.API_URL + "/tournament-details/1", {});
-			setTournamentDetails(response.data.data);
-			
-		  } catch (error) {
-			console.error("Error fetching tournament details:", error);
-			setTournamentDetails({});
-		  }
-		};
-	  
 		fetchData();
-		// const reviews= tournamentDetails?.reviews;
-		
-	  }, []);
-	  console.log(tournamentDetails);
-	
-
-
+	}, []);
+	const fetchData = async () => {
+		try {
+			const response = await axios.get(process.env.API_URL + "/tournament-details/31", {});
+			if (response.status === 200) {
+				setTournamentDetails(response.data.data);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	return (
 		<>
 			<Header pageTitle="Tournament Detail" />
 			<section id={style.tournament_detail}>
-				<TournamentBanner details={tournamentDetails} />
+				<TournamentBanner 
+					details={tournamentDetails} 
+					fetchData={fetchData as any}
+				/>
 				<div id={style.overview}>
 					<div className={style.contain}>
+						
 						<OverviewBlock details={tournamentDetails} />
-						<TournamentTeams teams={tournamentDetails?.teams} />
-						<ReviewsBlock reviews={tournamentDetails?.reviews} />
+						{tournamentDetails?.teams?.length > 0 &&
+							<TournamentTeams teams={tournamentDetails?.teams} />
+						}
+						{tournamentDetails?.reviews?.length > 0 &&
+							<ReviewsBlock reviews={tournamentDetails?.reviews} />
+						}
 						<MapBlock />
 					</div>
 				</div>
