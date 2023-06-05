@@ -4,6 +4,7 @@ import style from "@/styles/scss/app.module.scss"
 import Footer from "@/components/footer"
 import TransactionsTable from "./transactions/transactionsTable"
 import PaymentCards from "./transactions/paymentCards"
+import WithdrawBlock from "./transactions/withdrawBlock"
 
 const Transactions = () => {
 	return (
@@ -14,6 +15,8 @@ const Transactions = () => {
 					<h5 className="mb-4">Transactions</h5>
 					<PaymentCards />
 					<div className="pt-5"></div>
+					<WithdrawBlock />
+					<div className="pt-4"></div>
 					<TransactionsTable />
 				</div>
 			</section>
