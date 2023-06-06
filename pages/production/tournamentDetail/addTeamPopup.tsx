@@ -43,6 +43,11 @@ const AddTeamPopup = (props: any) => {
 		payment_prof: "",
 		waivers_email: "ammarwavier@gmail.com",
 		waivers_file: "",
+		card_number: "",
+		card_holder: "",
+		card_month: "",
+		card_year: "",
+		cvc: "",
 		teams: [
 			{
 				mem_name: "",
@@ -53,6 +58,8 @@ const AddTeamPopup = (props: any) => {
 				emergency_phone: "",
 			},
 		],
+	
+		
 	})
 
 	const addMoreTeams =(e: any) => {
@@ -100,8 +107,14 @@ const AddTeamPopup = (props: any) => {
 		formData.append('payment_prof', teamDetails.payment_prof)
 		formData.append('waivers_email', teamDetails.waivers_email)
 		formData.append('teams', JSON.stringify(teamDetails.teams))
-		formData.append('waivers_file', waiver)
+		formData.append('card_number', teamDetails.card_number)
+		formData.append('card_holder', teamDetails.card_holder)
+		formData.append('card_month', teamDetails.card_month)
+		formData.append('card_year', teamDetails.card_year)
+		formData.append('cvc', teamDetails.cvc)
 		formData.append('logo', logo)
+		formData.append('waivers_file', waiver)	
+		
 		
 		try {const res = await axios.post(process.env.API_URL + "/create-team", formData, {
 			headers: {
@@ -372,19 +385,21 @@ const AddTeamPopup = (props: any) => {
 													<div className="col-sm-6">
 														<h6 className="require">Card Number</h6>
 														<div className={style.form_blk}>
-															<input type="text" name="" id="" className={style.input} placeholder="eg: 1234567890"/>
+															<input type="text" name="card_number" value={teamDetails.card_number} onChange={(e) => setTeamDetails({...teamDetails, card_number: e.target.value})}
+															id="" className={style.input} placeholder="eg: 1234567890"/>
 														</div>
 													</div>
 													<div className="col-sm-6">
 														<h6 className="require">Card Holder</h6>
 														<div className={style.form_blk}>
-															<input type="text" name="" id="" className={style.input} placeholder="eg: John Wick"/>
+															<input type="text" name="card_holder" value={teamDetails.card_holder} onChange={(e) => setTeamDetails({...teamDetails, card_holder: e.target.value})}
+															 id="" className={style.input} placeholder="eg: John Wick"/>
 														</div>
 													</div>
 													<div className="col-sm-4">
 														<h6 className="require">Month</h6>
 														<div className={style.form_blk}>
-															<select name="" id="" className={style.input}>
+															<select name="card_month" id="" className={style.input} value={teamDetails.card_month} onChange={(e) => setTeamDetails({...teamDetails, card_month: e.target.value})}>
 																<option>Select</option>
 																<option value="01">01</option>
 																<option value="02">02</option>
@@ -404,7 +419,8 @@ const AddTeamPopup = (props: any) => {
 													<div className="col-sm-4">
 														<h6 className="require">Year</h6>
 														<div className={style.form_blk}>
-															<select name="" id="" className={style.input}>
+															<select name="card_year" id="" className={style.input} onChange={(e) => setTeamDetails({...teamDetails,card_year: e.target.value})} value={teamDetails.card_year}>
+														
 																<option>Select</option>
 																<option value="2021">2021</option>
 																<option value="2022">2022</option>
@@ -423,7 +439,8 @@ const AddTeamPopup = (props: any) => {
 													<div className="col-sm-4">
 														<h6 className="require">CVC?</h6>
 														<div className={style.form_blk}>
-															<input type="text" name="" id="" className={style.input} placeholder="eg: 1234"/>
+															<input type="text" name="cvc" value={teamDetails.cvc} onChange={(e) => setTeamDetails({...teamDetails, cvc: e.target.value})}
+															 id="" className={style.input} placeholder="eg: 1234"/>
 														</div>
 													</div>
 													{/* <div className="col-sm-6">

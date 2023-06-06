@@ -9,7 +9,6 @@ const TournamentBanner =(details:any,fetchData:any) => {
 	const addTeamPopupHandle = () => {
 		setAddTeamPopup(!addTeamPopup)
 	}
-	console.log(details?.details.title)
 	return (
 		<>
 			<div className={style.banner}>
@@ -51,7 +50,7 @@ const TournamentBanner =(details:any,fetchData:any) => {
 									<span className={style.tag}>{details?.details?.category?.name}</span>
 								) : null}
 							</div>
-							<h2>{details?.details.title}</h2>
+							<h2>{details?.details?.title}</h2>
 							<div className={`${style.btn_blk} align-items-center`}>
 								<button type="button" className={style.site_btn} onClick={addTeamPopupHandle}>
 									Add your Team
