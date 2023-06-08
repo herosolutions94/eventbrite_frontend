@@ -39,8 +39,8 @@ const Search = () => {
 			}
 			const response = await axios.get(`${process.env.API_URL}/tournaments?category=${params.categories}&postal_code=${params.postCode}`);
 			if (response.status === 200) {
-				// console.log(response.data.data);
-				setTournaments(response.data.data);
+				console.log(response.data.data);
+				setTournaments(response.data.data.data);
 				setResponse(response.data.data);
 			}
 		} catch (error) {
@@ -73,21 +73,22 @@ const Search = () => {
 						{activeTab === "list" && (
 						<div className="w-100">
 							<div className="row">
-								{tournaments.map((data:any) => {
-									return (
-										<div className="col-lg-4 col-md-6 col-sm-4" key={data.id}>
-											<CategoryCard 
-												title={data.title}
-												link="/production/tournament-detail"
-												tag={data?.category?.name}
-												date={data.start_date}
-												text={'lorem ipsum'}
-											
-												img={process.env.ASSET_URL + data?.images[0]?.image}
-											/>
-										</div>
+								{tournaments.length > 0 && (
+									tournaments.map((tournament: any, index: number) => (
+										<div className="col-lg-4 col-md-6 col-sm-4" key={tournament.id}>
+												<CategoryCard 
+													title={tournament.title}
+													link={`/production/tournament-detail?id=${tournament.id}`}
+													tag={tournament?.category?.name}
+													date={tournament.start_date}
+													text={'lorem ipsum'}
+												
+													img={process.env.ASSET_URL + tournament?.images[0]?.image}
+												/>
+											</div>
+										))
 									)
-								})}
+								}
 							</div>
 							<Pagination 
 								response={response}
@@ -95,11 +96,11 @@ const Search = () => {
 								setResponse={setResponse as any}
 								category={params.categories as string}
 								postal_code={params.postCode as string}
-								setCurrentPage={setCurrentPage as any}
+								// setCurrentPage={setCurrentPage as any}
 							/>
 						</div>
 						)}
-						{activeTab === "map" && (
+						{activeTab === "map" && tournaments.length > 0 && (
 							<div className={`${style.map_blk} ${showMap ? style.active : ""} w-100`}>
 								<MapBlock tournaments={tournaments}/>
 							</div> 

@@ -9,16 +9,19 @@ import TournamentTeams from "./tournamentDetail/tournamentTeams"
 import ReviewsBlock from "./tournamentDetail/reviewsBlock"
 import axios from "axios"
 import Cookies from "js-cookie"
+import { useRouter } from 'next/router';	
 
 const TournamentDetail = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
+	const router = useRouter();
+	const { id } = router.query;
 
 	useEffect(() => {
 		fetchData();
 	}, []);
 	const fetchData = async () => {
 		try {
-			const response = await axios.get(process.env.API_URL + "/tournament-details/31", {});
+			const response = await axios.get(process.env.API_URL + "/tournament-details/" + id, {});
 			if (response.status === 200) {
 				setTournamentDetails(response.data.data);
 			}

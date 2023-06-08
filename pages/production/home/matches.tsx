@@ -60,8 +60,21 @@ const Matches = (props: MatchesProps) => {
 						<h2>Trending Tournaments</h2>
 					</div>
 					<div className={style.match_cards}>
-						{MATCH_CARD.map((data) => {
-							return <MatchCard {...data} key={data.id} />
+						{trandingMatches.map((data: any) => {
+							return <MatchCard 
+									title={data.title}
+									team={data.teams?.[0]?.team_name}
+									team_logo={data.teams?.[0]?.logo ? process.env.ASSET_URL + data.teams?.[0]?.logo : PhotoTeam01}
+									date={data.start_date}
+									time={data.schedule_time}
+									stream_link={`/production/tournament-detail?id=${data.id}`}
+									tags={data?.category?.name}
+									
+									text={'lorem ipsum'}
+								
+									img={process.env.ASSET_URL + data?.images[0]?.image}
+									key={data.id} 
+								/>
 						})}
 					</div>
 				</div>

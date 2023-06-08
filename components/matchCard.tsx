@@ -20,27 +20,9 @@ const MatchCard = (props: any) => {
 				<div className={style.txt}>
 					<ul className={style.tags}>
 						<li>
-							<span>all matches</span>
-						</li>
-						<li>
-							<span>latest results </span>
-						</li>
-						<li>
-							<span> upcoming</span>
+							<span>{tags}</span>
 						</li>
 					</ul>
-					{/* {tags.map((txt: any) => {
-						return <p>{txt}</p>
-					})} */}
-					{/* <ul className={style.tags}>
-						{tags.map((data: any) => {
-							return (
-								<li>
-									<span>{data.split(",")}</span>
-								</li>
-							)
-						})}
-					</ul> */}
 					<h4>{title}</h4>
 					<div className={style.date}>
 						<Image width={100} height={100} src={IconCalendar} alt="" /> {date}

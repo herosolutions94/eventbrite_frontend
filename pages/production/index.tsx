@@ -74,9 +74,12 @@ const Home = () => {
 				buttonLink={homePageData.resource_btn_link}
 				image={homePageData.resource_img}
 			/>
-			<Matches 
-				trandingMatches={trandingMatches}
-			/>
+			{trandingMatches.length > 0 &&
+				<Matches 
+					trandingMatches={trandingMatches}
+				/>
+			}
+
 			<Contact />
 			<Footer />
 		</>

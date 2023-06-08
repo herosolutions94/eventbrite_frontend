@@ -4,8 +4,13 @@ import style from "@/styles/scss/app.module.scss"
 import Footer from "@/components/footer"
 import TournamentsItems from "./tournaments/tournamentsItems"
 import Link from "next/link"
+import Cookies from "js-cookie"
+import { useRouter } from "next/router"
+
 
 const Tournaments = () => {
+
+	
 	return (
 		<>
 			<Header pageTitle="Tournaments" />
@@ -14,9 +19,13 @@ const Tournaments = () => {
 					<div className={style.table_top_block}>
 						<h5 className="me-auto">My Tournaments</h5>
 						<div className={style.btn_blk}>
-							<Link href="/organizer/add-new-tournament" className={style.site_btn}>
-								Add new Tournament
-							</Link>
+							{Cookies.get("role") == "organizer" ? (
+								<Link href="/organizer/add-new-tournament" className={style.site_btn}>
+									Add new Tournament
+								</Link>
+							) : (
+								""
+							)}
 						</div>
 					</div>
 					<TournamentsItems />

@@ -33,51 +33,27 @@ const TournamentTeams = (teams: ReviewsProps ) => {
 							<li>
 								<span>Team Members:</span>
 								<ul className={style.team_list_member}>
-									<li>
-										<div className={`${style.ico} ${style.fill} ${style.round}`}>
-											<Image width={200} height={200} src={PhotoUser_01} alt="" />
-										</div>
-									</li>
-									<li>
-										<div className={`${style.ico} ${style.fill} ${style.round}`}>
-											<Image width={200} height={200} src={PhotoUser_02} alt="" />
-										</div>
-									</li>
-									<li>
-										<div className={`${style.ico} ${style.fill} ${style.round}`}>
-											<Image width={200} height={200} src={PhotoUser_03} alt="" />
-										</div>
-									</li>
-									<li>
-										<div className={`${style.ico} ${style.fill} ${style.round}`}>
-											<Image width={200} height={200} src={PhotoUser_04} alt="" />
-										</div>
-									</li>
-									<li>
-										<div className={`${style.ico} ${style.fill} ${style.round}`}>
-											<Image width={200} height={200} src={PhotoUser_05} alt="" />
-										</div>
-									</li>
-									<li>
-										<div className={`${style.ico} ${style.fill} ${style.round}`}>
-											<Image width={200} height={200} src={PhotoUser_06} alt="" />
-										</div>
-									</li>
-									<li>
-										<div className={`${style.ico} ${style.fill} ${style.round}`}>
-											<Image width={200} height={200} src={PhotoUser_07} alt="" />
-										</div>
-									</li>
-									<li>
-										<div className={`${style.ico} ${style.fill} ${style.round}`}>
-											<Image width={200} height={200} src={PhotoUser_08} alt="" />
-										</div>
-									</li>
-									<li>
-										<div className={`${style.ico} ${style.fill} ${style.round}`}>
-											<Image width={200} height={200} src={PhotoUser_09} alt="" />
-										</div>
-									</li>
+									
+									{team?.team_members?.length > 0 &&
+										team.team_members.map((member:any) => (	
+											member.logo === null ?
+											<>
+												<li>
+													<div className={`${style.ico} ${style.fill} ${style.round}`}>
+														<Image width={200} height={200} src={process.env.ASSET_URL + member.logo} alt="" />
+													</div>
+												</li>
+											</>
+											:
+											<>
+												<li>
+													<div className={`${style.ico} ${style.fill} ${style.round}`}>
+														<Image width={200} height={200} src={PhotoUser_01} alt="" />
+													</div>
+												</li>
+											</>
+										))
+									}
 								</ul>
 							</li>
 						</ul>
