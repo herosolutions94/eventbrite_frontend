@@ -2164,8 +2164,11 @@
 			.icon {
 				width: 8rem;
 				min-width: 8rem;
-				height: 8rem;
+				height: 10rem;
 				margin-right: 2rem;
+				> img {
+					@include object(contain);
+				}
 			}
 		}
 		.team_list {
@@ -2269,10 +2272,34 @@
 		opacity: 1;
 		border: 0.4rem solid var(--light);
 		border-radius: 75%;
+		-webkit-animation: ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 		animation: ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 	}
 	&::after {
+		-webkit-animation-delay: -0.5s;
 		animation-delay: -0.5s;
+	}
+	@-webkit-keyframes ripple {
+		0% {
+			width: 0;
+			height: 0;
+			opacity: 0;
+		}
+		5% {
+			width: 0;
+			height: 0;
+			opacity: 0;
+		}
+		6% {
+			width: 0;
+			height: 0;
+			opacity: 1;
+		}
+		100% {
+			width: 7.2rem;
+			height: 7.2rem;
+			opacity: 0;
+		}
 	}
 	@keyframes ripple {
 		0% {
@@ -2294,6 +2321,57 @@
 			width: 7.2rem;
 			height: 7.2rem;
 			opacity: 0;
+		}
+	}
+}
+
+.balance_blk {
+	@include flex(center, $flow: wrap);
+	@include gap(1rem 2rem);
+	background: var(--dark);
+	padding: 2rem;
+	border-radius: 0.8rem;
+	.price {
+		-webkit-box-flex: 24rem;
+		-ms-flex: 24rem 1 1;
+		flex: 24rem 1 1;
+		color: rgba(var(--light_rgb), 0.7);
+		font-size: 1.6rem;
+		> span {
+			color: var(--light);
+			font-weight: 600;
+		}
+	}
+	button {
+		-webkit-box-flex: 1;
+		-ms-flex: 1;
+		flex: 1;
+	}
+}
+
+#tournament_detail {
+	&.organizer_detail {
+		.data {
+			max-width: none;
+			margin-bottom: 3rem;
+		}
+		.content {
+			padding-bottom: 2rem;
+			margin-bottom: 2rem;
+			border-bottom: 0.1rem solid rgba(var(--light_rgb), 0.2);
+		}
+		.team_block {
+			@include flex(center);
+			.btn_blk {
+				margin-left: auto;
+			}
+		}
+		.table_blk {
+			.ico {
+				width: 4rem;
+				min-width: 4rem;
+				height: 4rem;
+			}
 		}
 	}
 }
