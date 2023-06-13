@@ -7,6 +7,7 @@ import TournamentContent from "./tournamentDetail/tournamentContent"
 import { useRouter } from 'next/router';	
 import axios from "axios"
 import { PhotoTeam01 } from "@/components/images"
+import ReviewPopup from "./tournamentDetail/reviewPopup"
 
 const TournamentDetail = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
@@ -60,6 +61,7 @@ const TournamentDetail = () => {
 						</div>
 					</div>
 				</section>
+				{/* <ReviewPopup/> */}
 			<Footer />
 		</>
 	)

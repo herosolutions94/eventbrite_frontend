@@ -338,7 +338,7 @@
 					-ms-flex: none;
 					flex: none;
 				}
-				&:nth-child(1) {
+				&:not(:nth-last-child(2)) {
 					border-right: 0.1rem solid rgba(var(--light_rgb), 0.2);
 					border-top-right-radius: 0;
 					border-bottom-right-radius: 0;
@@ -2388,5 +2388,11 @@
 				height: 4rem;
 			}
 		}
+	}
+}
+
+#review_popup {
+	._inner {
+		max-width: 60rem;
 	}
 }
