@@ -106,7 +106,7 @@ const CategorySlider = (props: CategorySliderProps) => {
 			
 				return <CategoryCard 
 					title={data.title}
-					link="/production/tournament-detail"
+					link={`/production/tournament-detail?id=` + data.id}
 					tag={data?.category?.name}
 					date={data.start_date}
 					text={'lorem ipsum'}

@@ -5,8 +5,32 @@ import Footer from "@/components/footer"
 import TransactionsTable from "./transactions/transactionsTable"
 import PaymentCards from "./transactions/paymentCards"
 import WithdrawBlock from "./transactions/withdrawBlock"
+import { useState,useEffect } from "react"
+import axios from "axios"
+import Cookies from "js-cookie"
 
 const Transactions = () => {
+	const [wallet, setWallet] = useState<any[]>([]);
+	const [response, setResponse] = useState<any[]>([]);
+	useEffect(() => {
+		fetchData();
+	}, []);
+	// useEffect(() => {
+	// 	console.log(wallet)
+
+	// }, [wallet]);
+	const fetchData = async () => {
+		try {
+			// const response = await axios.get(`${process.env.API_URL}/transactions/` + Cookies.get("user_id"));
+			const response = await axios.get(`${process.env.API_URL}/transactions/10`);
+			if (response.status === 200) {
+				setWallet(response.data.data);
+				setResponse(response.data.data);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	return (
 		<>
 			<Header pageTitle="Transactions" />
@@ -17,7 +41,9 @@ const Transactions = () => {
 					<div className="pt-5"></div>
 					<WithdrawBlock />
 					<div className="pt-4"></div>
-					<TransactionsTable />
+					<TransactionsTable
+						wallet={wallet as any}
+					/>
 				</div>
 			</section>
 			<Footer />

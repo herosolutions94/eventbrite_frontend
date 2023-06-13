@@ -4,7 +4,7 @@ import Image from "next/image"
 import { PhotoUser_01, PhotoUser_02, PhotoUser_03, PhotoUser_04, PhotoUser_05, PhotoUser_06, PhotoUser_07, PhotoUser_08, PhotoUser_09, PhotoUser_10 } from "@/components/images"
 
 const MembersPopup = (props: any) => {
-	const { popupClose } = props
+	const { popupClose,members } = props
 	return (
 		<>
 			<div id={style.add_team_popup} className={style.popup}>
@@ -29,136 +29,22 @@ const MembersPopup = (props: any) => {
 												</tr>
 											</thead>
 											<tbody>
+												{members.map((member: any) => (
 												<tr>
 													<td>
 														<div className={`${style.ico} ${style.fill} ${style.round}`}>
 															<Image width={200} height={200} src={PhotoUser_01} alt="" />
 														</div>
 													</td>
-													<td>John Wick</td>
-													<td>sample@gmail.com</td>
-													<td>194349034234</td>
-													<td>Captain</td>
-													<td>Monica Cajarval</td>
-													<td>194349034234</td>
+													<td>{member.mem_name}</td>
+													<td>{member.mem_email}</td>
+													<td>{member.mem_phone}</td>
+													<td>{member.role}</td>
+													<td>{member.emergency_name}</td>
+													<td>{member.emergency_phone}</td>
 												</tr>
-												<tr>
-													<td>
-														<div className={`${style.ico} ${style.fill} ${style.round}`}>
-															<Image width={200} height={200} src={PhotoUser_02} alt="" />
-														</div>
-													</td>
-													<td>John Wick</td>
-													<td>sample@gmail.com</td>
-													<td>194349034234</td>
-													<td>Captain</td>
-													<td>Monica Cajarval</td>
-													<td>194349034234</td>
-												</tr>
-												<tr>
-													<td>
-														<div className={`${style.ico} ${style.fill} ${style.round}`}>
-															<Image width={200} height={200} src={PhotoUser_03} alt="" />
-														</div>
-													</td>
-													<td>John Wick</td>
-													<td>sample@gmail.com</td>
-													<td>194349034234</td>
-													<td>Captain</td>
-													<td>Monica Cajarval</td>
-													<td>194349034234</td>
-												</tr>
-												<tr>
-													<td>
-														<div className={`${style.ico} ${style.fill} ${style.round}`}>
-															<Image width={200} height={200} src={PhotoUser_04} alt="" />
-														</div>
-													</td>
-													<td>John Wick</td>
-													<td>sample@gmail.com</td>
-													<td>194349034234</td>
-													<td>Captain</td>
-													<td>Monica Cajarval</td>
-													<td>194349034234</td>
-												</tr>
-												<tr>
-													<td>
-														<div className={`${style.ico} ${style.fill} ${style.round}`}>
-															<Image width={200} height={200} src={PhotoUser_05} alt="" />
-														</div>
-													</td>
-													<td>John Wick</td>
-													<td>sample@gmail.com</td>
-													<td>194349034234</td>
-													<td>Captain</td>
-													<td>Monica Cajarval</td>
-													<td>194349034234</td>
-												</tr>
-												<tr>
-													<td>
-														<div className={`${style.ico} ${style.fill} ${style.round}`}>
-															<Image width={200} height={200} src={PhotoUser_06} alt="" />
-														</div>
-													</td>
-													<td>John Wick</td>
-													<td>sample@gmail.com</td>
-													<td>194349034234</td>
-													<td>Captain</td>
-													<td>Monica Cajarval</td>
-													<td>194349034234</td>
-												</tr>
-												<tr>
-													<td>
-														<div className={`${style.ico} ${style.fill} ${style.round}`}>
-															<Image width={200} height={200} src={PhotoUser_07} alt="" />
-														</div>
-													</td>
-													<td>John Wick</td>
-													<td>sample@gmail.com</td>
-													<td>194349034234</td>
-													<td>Captain</td>
-													<td>Monica Cajarval</td>
-													<td>194349034234</td>
-												</tr>
-												<tr>
-													<td>
-														<div className={`${style.ico} ${style.fill} ${style.round}`}>
-															<Image width={200} height={200} src={PhotoUser_08} alt="" />
-														</div>
-													</td>
-													<td>John Wick</td>
-													<td>sample@gmail.com</td>
-													<td>194349034234</td>
-													<td>Captain</td>
-													<td>Monica Cajarval</td>
-													<td>194349034234</td>
-												</tr>
-												<tr>
-													<td>
-														<div className={`${style.ico} ${style.fill} ${style.round}`}>
-															<Image width={200} height={200} src={PhotoUser_09} alt="" />
-														</div>
-													</td>
-													<td>John Wick</td>
-													<td>sample@gmail.com</td>
-													<td>194349034234</td>
-													<td>Captain</td>
-													<td>Monica Cajarval</td>
-													<td>194349034234</td>
-												</tr>
-												<tr>
-													<td>
-														<div className={`${style.ico} ${style.fill} ${style.round}`}>
-															<Image width={200} height={200} src={PhotoUser_10} alt="" />
-														</div>
-													</td>
-													<td>John Wick</td>
-													<td>sample@gmail.com</td>
-													<td>194349034234</td>
-													<td>Captain</td>
-													<td>Monica Cajarval</td>
-													<td>194349034234</td>
-												</tr>
+												))}
+
 											</tbody>
 										</table>
 									</div>

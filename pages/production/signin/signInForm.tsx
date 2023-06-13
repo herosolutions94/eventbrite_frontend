@@ -41,6 +41,9 @@ const SignInForm = () => {
 				if(res.data.user.role == 'organizer'){
 					router.push("/organizer")
 				}
+				if(res.data.user.role == 'player'){
+					router.push("/player")
+				}
 			
 			}
 		}

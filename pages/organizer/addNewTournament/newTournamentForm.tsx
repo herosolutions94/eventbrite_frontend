@@ -140,6 +140,7 @@ const NewTournamentForm = () => {
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault()
+		formData.append('user_id', Cookies.get("user_id") as string)
 		formData.append('title', tournamentDetails.title);
 		formData.append('category_id', tournamentDetails.category_id);
 		formData.append('type', tournamentDetails.type);
