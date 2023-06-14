@@ -47,7 +47,17 @@ const MainSearch = ({ setTournaments }: MapSearchProps) => {
 					name="" 
 					id="" 
 					className={style.input} 
-					placeholder="Search by Categories" 
+					placeholder="Search by Name"
+					onChange={(e) => setCategories(e.target.value)}
+					value={categories}
+					
+				/>
+				<input 
+					type="text" 
+					name="" 
+					id="" 
+					className={style.input} 
+					placeholder="Categories"
 					onChange={(e) => setCategories(e.target.value)}
 					value={categories}
 					

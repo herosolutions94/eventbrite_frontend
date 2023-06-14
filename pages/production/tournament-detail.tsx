@@ -10,11 +10,17 @@ import ReviewsBlock from "./tournamentDetail/reviewsBlock"
 import axios from "axios"
 import Cookies from "js-cookie"
 import { useRouter } from 'next/router';	
+import ReviewPopup from "./tournamentDetail/reviewPopup"
 
 const TournamentDetail = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
 	const router = useRouter();
 	const { id } = router.query;
+	const [addReview, setAddReview] = useState<boolean>(false);
+	const addReviewHandle = () => {
+		setAddReview(!addReview);
+	}
+
 
 	useEffect(() => {
 		fetchData();
@@ -45,7 +51,15 @@ const TournamentDetail = () => {
 							<TournamentTeams teams={tournamentDetails?.teams} />
 						}
 						{tournamentDetails?.reviews?.length > 0 &&
-							<ReviewsBlock reviews={tournamentDetails?.reviews} />
+							<>
+								<ReviewsBlock reviews={tournamentDetails?.reviews} />
+								<div className={`${style.btn_blk} justify-content-center mb-5`}>
+									<button type="button" className={style.site_btn} onClick={addReviewHandle}>Add Review</button>
+								</div>
+								{
+									addReview ? <ReviewPopup popupClose={addReviewHandle} /> : null
+								}
+							</>
 						}
 						<MapBlock />
 					</div>
