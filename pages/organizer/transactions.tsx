@@ -39,7 +39,9 @@ const Transactions = () => {
 					<h5 className="mb-4">Transactions</h5>
 					<PaymentCards />
 					<div className="pt-5"></div>
-					<WithdrawBlock wallet={wallet as any}/>
+					{wallet.length > 0 && 
+						<WithdrawBlock wallet={wallet as any}/>
+					}
 					<div className="pt-4"></div>
 					<TransactionsTable
 						wallet={wallet as any}

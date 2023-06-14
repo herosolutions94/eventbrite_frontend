@@ -22,17 +22,20 @@ const VerifyEmailForm = () => {
 			email: Cookies.get('email')
 		}
 		try {
-			const response = await axios.post(process.env.API_URL + "/verify-code", data)
-			if (response.status === 200) {
-				toast.success('Email verified successfully.');
-				Cookies.set('role', response.data.user.role);
-				Cookies.set('token', response.data.token);
-				if(response.data.user.role === "organizer"){
-					router.push('/organizer');
-				}else{
-					router.push('/');
+			const res = await axios.post(process.env.API_URL + "/verify-code", data)
+			if (res.status === 200) {
+				Cookies.set("user_id", res.data.user.id)
+				Cookies.set("email", res.data.user.email)
+				Cookies.set("role", res.data.user.role)
+				Cookies.set("token", res.data.user.token)
+				if(res.data.user.role == 'organizer'){
+					router.push("/organizer")
 				}
-			}	
+				if(res.data.user.role == 'player'){
+					router.push("/player")
+				}
+			
+			}
 		}
 		catch (err) {
 			if(axios.isAxiosError(err)) {
