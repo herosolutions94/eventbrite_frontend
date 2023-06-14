@@ -26,9 +26,12 @@ const CategoryCard = (props: any) => {
 				const wishList = JSON.parse(localStorage.getItem("wishlist") || "[]");
 				wishList.push(tournamentId);
 				localStorage.setItem("wishlist", JSON.stringify(wishList));
+			}else{
+				toast.error("Something went wrong");
 			}
-		} catch (error) {
-			console.log(error);
+
+		} catch (error : any) {
+			toast.error(error.response.data.message);
 		}
 	}
 	return (
