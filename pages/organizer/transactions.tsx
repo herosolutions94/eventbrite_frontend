@@ -39,7 +39,7 @@ const Transactions = () => {
 					<h5 className="mb-4">Transactions</h5>
 					<PaymentCards />
 					<div className="pt-5"></div>
-					<WithdrawBlock />
+					<WithdrawBlock wallet={wallet as any}/>
 					<div className="pt-4"></div>
 					<TransactionsTable
 						wallet={wallet as any}

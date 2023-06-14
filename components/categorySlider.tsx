@@ -105,6 +105,7 @@ const CategorySlider = (props: CategorySliderProps) => {
 			{tournaments?.length > 0 && tournaments.map((data: any) => {
 			
 				return <CategoryCard 
+					tournamentId={data.id}
 					title={data.title}
 					link={`/production/tournament-detail?id=` + data.id}
 					tag={data?.category?.name}

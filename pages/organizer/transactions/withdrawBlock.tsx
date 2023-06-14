@@ -1,7 +1,10 @@
 import React, { useState } from "react"
 import style from "@/styles/scss/app.module.scss"
 
-const WithdrawBlock = () => {
+type Props = {
+	wallet: any
+}
+const WithdrawBlock = ({ wallet }: Props) => {
 	const [withdraw, setWithdraw] = useState(false)
 	const withdrawHandle = () => {
 		setWithdraw(!withdraw)
@@ -10,10 +13,10 @@ const WithdrawBlock = () => {
 		<>
 			<div className={style.balance_blk}>
 				<div className={style.price}>
-					Payouts: <span className="price">£1,258.5</span>
+					Payouts: <span className="price">£{wallet.wallet.payouts}</span>
 				</div>
 				<div className={style.price}>
-					Current Balance: <span className="price">£40.0</span>
+					Current Balance: <span className="price">£{wallet.wallet.current_balance}</span>
 				</div>
 				<button type="button" className={`${style.site_btn} ${style.sm}`} onClick={withdrawHandle}>
 					Withdraw Funds

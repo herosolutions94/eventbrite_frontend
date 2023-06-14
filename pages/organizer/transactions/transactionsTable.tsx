@@ -16,7 +16,6 @@ const TransactionsTable = ({ wallet }: Props) => {
 						<thead>
 							<tr>
 								<th>Order No.</th>
-								<th>Owner Name</th>
 								<th>Tournament</th>
 								<th style={{ width: "14rem" }}>Amount</th>
 								<th>Date</th>
@@ -27,15 +26,20 @@ const TransactionsTable = ({ wallet }: Props) => {
 							{wallet?.wallet?.transaction?.length > 0 ? (
 								wallet.wallet.transaction.map((item: any, index: number) => (
 									<tr key={index}>
-										<td>{item.order_id}</td>
-										<td>{item.owner_name}</td>
+										<td>{index=index+1}</td>
 										<td>
 											<Link href="production/tournament-detail">{item.tournament.title}</Link>
 										</td>
 										<td className={style.price}>${item.amount}</td>
 										<td>{item.created_at}</td>
 										<td>
-											<span className={`${style.badge} ${style.green}`}>{item.status}</span>
+											{item.status === "Pending" ? (
+												<span className={`${style.badge} ${style.yellow}`}>{item.status}</span>
+											) : item.status === "Failed" ? (
+												<span className={`${style.badge} ${style.red}`}>{item.status}</span>
+											) : (
+												<span className={`${style.badge} ${style.green}`}>{item.status}</span>
+											)}
 										</td>
 									</tr>
 								))
