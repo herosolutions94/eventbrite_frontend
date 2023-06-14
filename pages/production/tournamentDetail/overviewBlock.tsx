@@ -12,13 +12,13 @@ const OverviewBlock = (details : any) => {
 		{details?.details?.overview &&
 			<div className={style.blk}>
 				<h5>Tournament Overview</h5>
-				<p>{details?.details?.overview}</p>
+					<div dangerouslySetInnerHTML={{ __html: details?.details?.overview }}  />
 				</div>
 		}
 		{details?.details?.rules &&
 			<div className={style.blk}>
 				<h5>Rules and Regulations</h5>
-				<p>{details?.details?.rules}</p>
+				<div dangerouslySetInnerHTML={{ __html: details?.details?.rules }}  />
 			</div>
 		}
 		</>

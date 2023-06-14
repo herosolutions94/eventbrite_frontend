@@ -16,6 +16,10 @@ const NewTournamentForm = () => {
 	const logos = useState<any>([])
 	const banners = useState<any>([])
 	const formData = new FormData();
+	const [overview, setOverview] = useState<string>("");
+	const [rules, setRules] = useState<string>("");
+	const [codeOfConduct, setCodeOfConduct] = useState<string>("");
+	const [sponsorInformation, setSponsorInformation] = useState<string>("");
 	// const [tournamentDetails, setTournamentDetails] = useState({
 	// 	title: "",
 	// 	category_id: "",
@@ -76,6 +80,7 @@ const NewTournamentForm = () => {
 		entry_fee: "1",
 		prize_distribution: "1",
 		level: "1",
+		overview:"overview",
 		rules:"rules",
 		code_of_conduct:"code of conduct",
 		age: "1",
@@ -158,8 +163,9 @@ const NewTournamentForm = () => {
 		formData.append('entry_fee', tournamentDetails.entry_fee);
 		formData.append('prize_distribution', tournamentDetails.prize_distribution);
 		formData.append('level', tournamentDetails.level);
-		formData.append('rules', tournamentDetails.rules);
-		formData.append('code_of_conduct', tournamentDetails.code_of_conduct);
+		formData.append('overview', overview);
+		formData.append('rules', rules);
+		formData.append('code_of_conduct', codeOfConduct);
 		formData.append('age', tournamentDetails.age);
 		formData.append('equipment_requirements', tournamentDetails.equipment_requirements);
 		formData.append('schedule_date', tournamentDetails.schedule_date);
@@ -180,7 +186,7 @@ const NewTournamentForm = () => {
 		formData.append('fourth_venue_availability', tournamentDetails.fourth_venue_availability);
 		formData.append('contact_information', tournamentDetails.contact_information);
 		formData.append('roles_and_responsibilities', tournamentDetails.roles_and_responsibilities);
-		formData.append('sponsor_information', tournamentDetails.sponsor_information);
+		formData.append('sponsor_information',sponsorInformation);
 
 
 		try {
@@ -209,7 +215,7 @@ const NewTournamentForm = () => {
 		}
 	}
 	const [editorLoaded, setEditorLoaded] = useState<boolean>(false);
-	const [editorData, setEditorData] = useState<string>("");
+
 	useEffect(() => {
 		setEditorLoaded(true);
 	}, []);
@@ -485,39 +491,40 @@ const NewTournamentForm = () => {
 							<h5 className="mb-5">Rules and Regulations</h5>
 							<div className="row">
 								<div className="col-sm-12">
+									<h6>Tournament Overview</h6>
+									<div className={style.form_blk}>
+										<CKeditor
+											name="overview"
+											onChange={(editorData: string) => {
+												setOverview(editorData);
+											}}
+											value={tournamentDetails.overview}
+											editorLoaded={editorLoaded}
+										/>
+										<p className="text-danger">{errors?.overview}</p>
+									</div>
+								</div>
+								<div className="col-sm-12">
 									<h6>Specific rules for the tournament</h6>
-									{/* <div className={style.form_blk}>
-										<textarea name="rules" id="" rows={5} className={style.input} placeholder="Type something here" onChange={handleChange}>
-											{tournamentDetails.rules}
-										</textarea>
-										<p className="text-danger">{errors?.rules}</p>
-									</div> */}
 									<div className={style.form_blk}>
 										<CKeditor
 											name="rules"
 											onChange={(editorData: string) => {
-												setEditorData(editorData);
+												setRules(editorData);
 											}}
 											value={tournamentDetails.rules}
 											editorLoaded={editorLoaded}
 										/>
-										{/* {JSON.stringify(editorData)} */}
 										<p className="text-danger">{errors?.rules}</p>
 									</div>
 								</div>
 								<div className="col-sm-12">
 									<h6>Code of Conduct</h6>
-									{/* <div className={style.form_blk}>
-										<textarea name="code_of_conduct" id="" rows={5} className={style.input} placeholder="Type something here" onChange={handleChange}>
-											{tournamentDetails.code_of_conduct}
-										</textarea>
-										<p className="text-danger">{errors?.code_of_conduct}</p>
-									</div> */}
 									<div className={style.form_blk}>
 										<CKeditor
 											name="code_of_conduct"
 											onChange={(editorData: string) => {
-												setEditorData(editorData);
+												setCodeOfConduct(editorData);
 											}}
 											value={tournamentDetails.code_of_conduct}
 											editorLoaded={editorLoaded}
@@ -804,7 +811,7 @@ const NewTournamentForm = () => {
 										<CKeditor
 											name="sponsor_information"
 											onChange={(editorData: string) => {
-												setEditorData(editorData);
+												setSponsorInformation(editorData);
 											}}
 											value={tournamentDetails.sponsor_information}
 											editorLoaded={editorLoaded}

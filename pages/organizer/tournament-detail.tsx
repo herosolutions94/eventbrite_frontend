@@ -49,7 +49,7 @@ const TournamentDetail = () => {
 								start_date={tournamentDetails?.start_date}
 								end_date={tournamentDetails?.end_date}
 								schedule_time={tournamentDetails?.schedule_time}
-								overview={tournamentDetails?.code_of_conduct}
+								overview={tournamentDetails?.overview}
 							/>
 							{tournamentDetails?.teams?.length > 0 ? 
 								<TournamentContent 

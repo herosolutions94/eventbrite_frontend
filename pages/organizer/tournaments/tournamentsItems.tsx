@@ -104,9 +104,10 @@ const TournamentsItems = () => {
 								key={data.id} 
 							/>
 					})
-					: <div className={style.no_data}>No Data Found</div>
+					: <div className={style.no_data}>No Tournament Found</div>
 				}
 			</div>
+			{tournaments?.length > 0 ?
 			<div className={style.pagination}>
 				<ul>
 				<li>
@@ -124,6 +125,7 @@ const TournamentsItems = () => {
 				</li>
 				</ul>
 			</div>
+			: null}
 		</>
 	)
 }

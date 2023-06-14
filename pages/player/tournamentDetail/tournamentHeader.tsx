@@ -49,7 +49,8 @@ const TournamentHeader = ({
 			</div>
 			<div className={style.content}>
 				<h5>Tournament Overview</h5>
-				<p>{overview}</p>
+				<div dangerouslySetInnerHTML={{ __html: overview }} />
+
 			</div>
 		</>
 	)
