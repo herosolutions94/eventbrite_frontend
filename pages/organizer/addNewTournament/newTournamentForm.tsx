@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie"
 import {useRouter} from "next/router"
 import { toast } from 'react-toastify';
+import CKeditor from "@/components/ckEditor";
 
 const NewTournamentForm = () => {
 	
@@ -207,6 +208,11 @@ const NewTournamentForm = () => {
 			}
 		}
 	}
+	const [editorLoaded, setEditorLoaded] = useState<boolean>(false);
+	const [editorData, setEditorData] = useState<string>("");
+	useEffect(() => {
+		setEditorLoaded(true);
+	}, []);
 
 	return (
 		<>
@@ -480,19 +486,43 @@ const NewTournamentForm = () => {
 							<div className="row">
 								<div className="col-sm-12">
 									<h6>Specific rules for the tournament</h6>
-									<div className={style.form_blk}>
+									{/* <div className={style.form_blk}>
 										<textarea name="rules" id="" rows={5} className={style.input} placeholder="Type something here" onChange={handleChange}>
 											{tournamentDetails.rules}
 										</textarea>
+										<p className="text-danger">{errors?.rules}</p>
+									</div> */}
+									<div className={style.form_blk}>
+										<CKeditor
+											name="rules"
+											onChange={(editorData: string) => {
+												setEditorData(editorData);
+											}}
+											value={tournamentDetails.rules}
+											editorLoaded={editorLoaded}
+										/>
+										{/* {JSON.stringify(editorData)} */}
 										<p className="text-danger">{errors?.rules}</p>
 									</div>
 								</div>
 								<div className="col-sm-12">
 									<h6>Code of Conduct</h6>
-									<div className={style.form_blk}>
+									{/* <div className={style.form_blk}>
 										<textarea name="code_of_conduct" id="" rows={5} className={style.input} placeholder="Type something here" onChange={handleChange}>
 											{tournamentDetails.code_of_conduct}
 										</textarea>
+										<p className="text-danger">{errors?.code_of_conduct}</p>
+									</div> */}
+									<div className={style.form_blk}>
+										<CKeditor
+											name="code_of_conduct"
+											onChange={(editorData: string) => {
+												setEditorData(editorData);
+											}}
+											value={tournamentDetails.code_of_conduct}
+											editorLoaded={editorLoaded}
+										/>
+										{/* {JSON.stringify(editorData)} */}
 										<p className="text-danger">{errors?.code_of_conduct}</p>
 									</div>
 								</div>
@@ -764,11 +794,22 @@ const NewTournamentForm = () => {
 							<div className="row">
 								<div className="col-sm-12">
 									<h6>Sponsor Information</h6>
-									<div className={style.form_blk}>
+									{/* <div className={style.form_blk}>
 										<textarea name="sponsor_information" id="" rows={5} className={style.input} placeholder="Type something here" 
 											onChange={handleChange}
 											value={tournamentDetails.sponsor_information}
 										></textarea>
+									</div> */}
+									<div className={style.form_blk}>
+										<CKeditor
+											name="sponsor_information"
+											onChange={(editorData: string) => {
+												setEditorData(editorData);
+											}}
+											value={tournamentDetails.sponsor_information}
+											editorLoaded={editorLoaded}
+										/>
+										{/* {JSON.stringify(editorData)} */}
 									</div>
 								</div>
 								<div className="col-sm-12">

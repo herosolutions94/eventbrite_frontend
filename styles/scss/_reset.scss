@@ -528,3 +528,69 @@ input {
 		}
 	}
 }
+
+/*
+|----------------------------------------------------------------------
+|       CK Editor 5
+|----------------------------------------------------------------------
+*/
+
+.ck-editor {
+	.ck.ck {
+		&-icon {
+			font-size: 1rem;
+		}
+		&-toolbar,
+		&-editor__editable {
+			background: var(--black) !important;
+			color: var(--light) !important;
+			border-color: rgba(var(--light_rgb), 0.1) !important;
+		}
+		&-toolbar {
+			font-weight: 400;
+			border-radius: 0.6rem 0.6rem 0 0 !important;
+			* {
+				font-weight: inherit;
+			}
+			&__separator {
+				background: rgba(var(--light_rgb), 0.1) !important;
+			}
+			.ck-tooltip__text {
+				font-size: 1rem;
+			}
+		}
+		&-editor__editable {
+			min-height: 14rem;
+			max-height: 30rem;
+			padding: 0 1.4rem;
+			border-top: 0 !important;
+			border-radius: 0 0 0.6rem 0.6rem !important;
+			-webkit-box-shadow: none !important;
+			box-shadow: none !important;
+		}
+		&-sticky-panel .ck-sticky-panel__content_sticky {
+			z-index: 1 !important;
+		}
+		&-button {
+			color: var(--light);
+			padding: 0;
+			margin: 0;
+			border: 0 !important;
+			&:not(.ck-disabled):not(.ck-color-grid__tile):active,
+			&:not(.ck-disabled):not(.ck-color-grid__tile):hover {
+				background: rgba(var(--light_rgb), 0.1) !important;
+			}
+			&:not(.ck-color-grid__tile):active,
+			&:not(.ck-color-grid__tile):hover {
+				-webkit-box-shadow: none !important;
+				box-shadow: none !important;
+			}
+		}
+		&-font-family-dropdown {
+			display: none !important;
+		}
+	}
+	p {
+		color: inherit;
+	}
+}

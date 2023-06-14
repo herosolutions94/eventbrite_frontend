@@ -52,7 +52,7 @@ const MainSearch = ({ setTournaments }: MapSearchProps) => {
 					value={categories}
 					
 				/>
-				<input 
+				{/* <input 
 					type="text" 
 					name="" 
 					id="" 
@@ -61,7 +61,7 @@ const MainSearch = ({ setTournaments }: MapSearchProps) => {
 					onChange={(e) => setPostCode(e.target.value)}
 					value={postCode}
 					
-				/>
+				/> */}
 				<button 
 					type="submit" 
 					className={style.site_btn}
