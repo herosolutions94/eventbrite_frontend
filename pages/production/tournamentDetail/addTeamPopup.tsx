@@ -5,6 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie"
 import {useRouter} from "next/router"
 import { toast } from 'react-toastify';
+import PaymentPage from '../paymentPage';
 
 type teamMembers = {
 	mem_name: string,
@@ -382,7 +383,10 @@ const AddTeamPopup = (props: any) => {
 											<fieldset>
 												<h5 className="mb-5">Payment Method</h5>
 												<div className="row">
-													<div className="col-sm-6">
+													<div className="col-sm-12">
+														<PaymentPage />
+													</div>
+													{/* <div className="col-sm-6">
 														<h6 className="require">Card Number</h6>
 														<div className={style.form_blk}>
 															<input type="text" name="card_number" value={teamDetails.card_number} onChange={(e) => setTeamDetails({...teamDetails, card_number: e.target.value})}
@@ -442,7 +446,8 @@ const AddTeamPopup = (props: any) => {
 															<input type="text" name="cvc" value={teamDetails.cvc} onChange={(e) => setTeamDetails({...teamDetails, cvc: e.target.value})}
 															 id="" className={style.input} placeholder="eg: 1234"/>
 														</div>
-													</div>
+													</div> */}
+													
 													{/* <div className="col-sm-6">
 														<h6>Payment Method</h6>
 														<div className={style.form_blk}>
