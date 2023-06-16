@@ -37,11 +37,13 @@ const CategoryCard = (props: any) => {
 	return (
 		<>
 			<div className={style.category_card}>
-				<button 
-					type="button" 
-					className={`${style.heart} ${wishlist ? `${style.fill}` : ""}`}
-					onClick={AddToWishlist}
-				></button>
+				{Cookies.get("user_id") && Cookies.get("role") == "player" && (
+					<button 
+						type="button" 
+						className={`${style.heart} ${wishlist ? `${style.fill}` : ""}`}
+						onClick={AddToWishlist}
+					></button>
+				)}
 				<div className={style.fig}>
 					<Image width={1000} height={1000} src={img} alt="" />
 				</div>

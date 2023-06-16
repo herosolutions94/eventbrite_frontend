@@ -262,6 +262,7 @@
 
 #banner {
 	@include bg(cover);
+	overflow: unset;
 	&::before {
 		content: "";
 		@include pos;
@@ -306,12 +307,14 @@
 	}
 	.main_search_form {
 		background: var(--light);
-		> .input {
+		.input {
 			color: var(--black);
-			&:nth-child(1) {
-				border-right-color: rgba(var(--black_rgb), 0.2);
-				@include mobile_md {
-					border-bottom-color: rgba(var(--black_rgb), 0.2);
+			&_wrap {
+				&:nth-child(1) {
+					border-right-color: rgba(var(--black_rgb), 0.2);
+					@include mobile_md {
+						border-bottom-color: rgba(var(--black_rgb), 0.2);
+					}
 				}
 			}
 			@include placeholder(rgba(var(--black_rgb), 0.5));
@@ -328,24 +331,26 @@
 			@include mobile_md {
 				@include flex(center, center, column);
 			}
-			> .input {
-				-webkit-box-flex: 1;
-				-ms-flex: 1;
-				flex: 1;
+			.input {
 				background-color: transparent;
-				@include mobile_md {
-					-webkit-box-flex: 0;
-					-ms-flex: none;
-					flex: none;
-				}
-				&:not(:nth-last-child(2)) {
-					border-right: 0.1rem solid rgba(var(--light_rgb), 0.2);
-					border-top-right-radius: 0;
-					border-bottom-right-radius: 0;
+				&_wrap {
+					-webkit-box-flex: 1;
+					-ms-flex: 1;
+					flex: 1;
 					@include mobile_md {
-						border: 0;
-						border-bottom: 0.1rem solid rgba(var(--light_rgb), 0.2);
-						border-radius: 0;
+						-webkit-box-flex: 0;
+						-ms-flex: none;
+						flex: none;
+					}
+					&:not(:nth-last-child(2)) {
+						border-right: 0.1rem solid rgba(var(--light_rgb), 0.2);
+						border-top-right-radius: 0;
+						border-bottom-right-radius: 0;
+						@include mobile_md {
+							border: 0;
+							border-bottom: 0.1rem solid rgba(var(--light_rgb), 0.2);
+							border-radius: 0;
+						}
 					}
 				}
 			}
@@ -2124,14 +2129,14 @@
 		@include flex;
 		max-width: 80rem;
 		margin: auto;
-		> &_logo {
+		.data_logo {
 			@include object(contain);
 			width: 10rem;
 			min-width: 10rem;
 			height: 10rem;
 			margin-right: 2rem;
 		}
-		> &_text {
+		.data_text {
 			h2 {
 				margin-bottom: 2rem;
 			}
@@ -2154,7 +2159,7 @@
 					}
 				}
 			}
-			.date_time_list {
+			.date_time_list_update {
 				@include list;
 				@include flex(center, $flow: wrap);
 				@include gap(2rem);
@@ -2394,5 +2399,26 @@
 #review_popup {
 	._inner {
 		max-width: 60rem;
+	}
+}
+
+
+.suggest_block {
+	position: absolute;
+	max-height: 20rem;
+	background: var(--black);
+	margin-top: 0.2rem;
+	border-radius: 0.8rem;
+	overflow: hidden;
+	> ul {
+		@include list;
+		max-height: inherit;
+		overflow: hidden;
+		overflow-y: auto;
+		> li {
+			text-align: left;
+			padding: 1rem 1.6rem;
+			border-bottom: 0.1rem solid rgba(var(--light_rgb), 0.05);
+		}
 	}
 }
