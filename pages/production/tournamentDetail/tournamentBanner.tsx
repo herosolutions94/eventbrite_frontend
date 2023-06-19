@@ -59,7 +59,7 @@ const TournamentBanner =(details:any,fetchData:any) => {
 									<Image width={40} height={40} src={IconHeart} alt="Heart" /> Add to wishlist
 								</button>
 							</div>
-							<ul className={style.date_time_list}>
+							<ul className={style.date_time_list_update}>
 								<li>Start Date: <span>
 									{new Date(details?.details?.start_date).toLocaleDateString('en-US', {
 									day: 'numeric',
