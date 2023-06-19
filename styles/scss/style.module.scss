@@ -2129,14 +2129,14 @@
 		@include flex;
 		max-width: 80rem;
 		margin: auto;
-		> &_logo {
+		.data_logo {
 			@include object(contain);
 			width: 10rem;
 			min-width: 10rem;
 			height: 10rem;
 			margin-right: 2rem;
 		}
-		> &_text {
+		.data_text {
 			h2 {
 				margin-bottom: 2rem;
 			}
