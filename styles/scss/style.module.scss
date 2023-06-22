@@ -1569,7 +1569,7 @@
 				@include gap(0 1rem);
 				font-weight: 500;
 				color: var(--light);
-				&:hover  {
+				&:hover {
 					color: var(--prime_color);
 				}
 				> img {
@@ -2402,7 +2402,6 @@
 	}
 }
 
-
 .suggest_block {
 	position: absolute;
 	max-height: 20rem;
@@ -2419,6 +2418,32 @@
 			text-align: left;
 			padding: 1rem 1.6rem;
 			border-bottom: 0.1rem solid rgba(var(--light_rgb), 0.05);
+		}
+	}
+}
+
+.stripe_payment_form {
+	.input_blk {
+		@include flex(center);
+		width: 100%;
+		@include input_height;
+		background: rgba(var(--light_rgb), 0.2);
+		color: rgba(var(--light_rgb), 0.8);
+		font-size: inherit;
+		// font-weight: inherit;
+		font-weight: 400;
+		text-align: left;
+		line-height: inherit;
+		padding: 0.6rem 1.6rem;
+		border: 0;
+		border-radius: 0.8rem;
+		outline: none !important;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		-webkit-transition: var(--transition);
+		transition: var(--transition);
+		> * {
+			width: 100%;
 		}
 	}
 }

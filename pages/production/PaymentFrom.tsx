@@ -1,54 +1,46 @@
-
-import React, { useMemo,useState } from "react";
+import React, { useMemo, useState } from "react"
 import style from "@/styles/scss/app.module.scss"
-import {
-    CardElement,
-    useStripe,
-    useElements,
-    CardNumberElement,
-    CardExpiryElement,
-    CardCvcElement
-  } from "@stripe/react-stripe-js";
+import { CardElement, useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js"
 import axios from "axios"
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 import Cookies from "js-cookie"
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify"
 
+const useOptions = () => {
+	const options = useMemo(
+		() => ({
+			style: {
+				base: {
+					display: "block",
+					width: "100%",
+					height: "2rem",
+					fontSize: "0.875",
+					fontFamily: "'Poppins', sans-serif",
+					fontWeight: "400",
+					color: "rgba(255, 255, 255, 0.8)",
+					background: "#fff",
+					textAlign: "left",
+					padding: "0.6rem 1.4rem",
+					"::placeholder": {
+						color: "rgba(255, 255, 255, 0.4)",
+						fontSize: "0.875",
+					},
+				},
+				invalid: {
+					color: "#e71939",
+				},
+			},
+		}),
+		[]
+	)
 
-  const useOptions = () => {
-    const options = useMemo(
-      () => ({
-        style: {
-          base: {
-            display: "block",
-            width: "100%",
-            height: "5.3rem",
-            fontFamily: "'Red Hat Display', sans-serif",
-            fontWeight: "500",
-            color: "#061237",
-            background: "#fff",
-            "text-align": "left",
-            padding: "0.6rem 1.4rem",
-            "::placeholder": {
-              color: "#130a2952",
-              fontSize: "15px"
-            }
-          },
-          invalid: {
-            color: "#9e2146"
-          }
-        }
-      }),
-      []
-    );
-  
-    return options;
-  };
+	return options
+}
 const PaymentForm = () => {
-  const options = useOptions();
-  const stripe = useStripe();
-  const elements = useElements();
-  const [cardError, setCardError] = useState("");
+	const options = useOptions()
+	const stripe = useStripe()
+	const elements = useElements()
+	const [cardError, setCardError] = useState("")
 
   
   const chargePayment = async (clientSecret: any, paymentMethodReq: any, setup_id: any, paymentMethodSetup: any, customer_id: any) => {
@@ -187,47 +179,56 @@ const handleSubmit = async (e: any) => {
     // }
   };
 
-  return (
-    <div style={{background: "white"}}>
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label>Name on Card*</label>
-                <input
-                type="text"
-                className="input"
-                placeholder="Name on card"
-                />
-                <span className="validation-error"></span>
-            </div>
-            <div>
-                <label>Card Number*</label>
-                <div>
-                <CardNumberElement options={options} />
-                <span>
-                    <img src="/images/card.svg" alt="" />
-                </span>
-                </div>
-            </div>
-            <div>
-                <div >
-                <label>Expiry date*</label>
-                <CardExpiryElement options={options} />
-                </div>
-                <div >
-                <label>CVC*</label>
-                <CardCvcElement options={options} />
-                </div>
-            </div>
-            <span className="validation-error" style={{color: "red"}}>{cardError}</span>
-          
-            <div>
-                <button type="submit">
-                    Pay Now
-                </button>
-            </div>
-            </form>
-    </div>
-  );
-};
+	return (
+		<div className={style.stripe_payment_form}>
+			<form onSubmit={handleSubmit}>
+				<div className="row">
+					<div className="col-12">
+						<h6 className="require">Name on Card</h6>
+						<div className={style.form_blk}>
+							<input type="text" className={style.input} placeholder="Name on card" />
+							<span className="validation-error"></span>
+						</div>
+					</div>
+					<div className="col-12">
+						<h6 className="require">Card Number</h6>
+						<div className={style.form_blk}>
+							<div className={style.input_blk}>
+								<CardNumberElement options={options} />
+								<span>
+									<img src="/images/card.svg" alt="" />
+								</span>
+							</div>
+						</div>
+					</div>
+					<div className="col-6">
+						<h6 className="require">Expiry Date</h6>
+						<div className={style.form_blk}>
+							<div className={style.input_blk}>
+								<CardExpiryElement options={options} />
+							</div>
+						</div>
+					</div>
+					<div className="col-6">
+						<h6 className="require">CVC</h6>
+						<div className={style.form_blk}>
+							<div className={style.input_blk}>
+								<CardCvcElement options={options} />
+							</div>
+						</div>
+					</div>
+				</div>
+				<span className="validation-error" style={{ color: "red" }}>
+					{cardError}
+				</span>
+				<div className={`${style.btn_blk} justify-content-center mt-5`}>
+					<button type="submit" className={`${style.site_btn} ${style.sm}`}>
+						Pay Now
+					</button>
+				</div>
+			</form>
+		</div>
+	)
+}
 
-export default PaymentForm;
+export default PaymentForm
