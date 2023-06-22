@@ -5,6 +5,7 @@ import Cookies from "js-cookie"
 import {useRouter} from "next/router"
 import { toast } from 'react-toastify';
 import CKeditor from "@/components/ckEditor";
+import PaymentPage from '../../production/paymentPage';
 
 const NewTournamentForm = () => {
 	
@@ -846,6 +847,10 @@ const NewTournamentForm = () => {
 										<p className="text-danger">{errors?.banners}</p>
 									</div>
 								</div>
+							</div>
+							<h5 className="mb-5 mt-4">Payment</h5>
+							<div className="row">
+								<PaymentPage />
 							</div>
 							<div className={`${style.btn_blk} justify-content-center mt-5`}>
 								<button type="button" className={`${style.site_btn} ${style.simple}`} onClick={() => setFieldset("tournament_staff")}>
