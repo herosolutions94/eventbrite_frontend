@@ -5,9 +5,13 @@ import Header from "@/components/header/header"
 import NewTournamentForm from "./addNewTournament/newTournamentForm"
 import Link from "next/link"
 import axios from "axios";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+const stripePromise = loadStripe('pk_test_51Moz1CFV8hMVqQzQH96smahOCpKUnMix9OMtfhQe3YjnaL4kpLa6An91ycTRcs26A7hZwgr0HelG4ElEdYBAEwbb00MpdTNJhb');
+import { useElements } from "@stripe/react-stripe-js"
+
 
 const AddNewTournament = () => {
-
 	return (
 		<>
 			<Header pageTitle="Add New Tournament" />
@@ -21,7 +25,9 @@ const AddNewTournament = () => {
 							</Link>
 						</div>
 					</div>
-					<NewTournamentForm />
+					<Elements stripe={stripePromise}>
+						<NewTournamentForm />
+					</Elements>
 				</div>
 			</section>
 			<Footer />

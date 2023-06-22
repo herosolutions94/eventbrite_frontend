@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect,useMemo} from "react"
 import style from "@/styles/scss/app.module.scss"
 import axios from "axios";
 import Cookies from "js-cookie"
@@ -6,9 +6,47 @@ import {useRouter} from "next/router"
 import { toast } from 'react-toastify';
 import CKeditor from "@/components/ckEditor";
 import PaymentPage from '../../production/paymentPage';
+import { CardElement, useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js"
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+const stripePromise = loadStripe('pk_test_51Moz1CFV8hMVqQzQH96smahOCpKUnMix9OMtfhQe3YjnaL4kpLa6An91ycTRcs26A7hZwgr0HelG4ElEdYBAEwbb00MpdTNJhb');
 
+
+const useOptions = () => {
+	const options = useMemo(
+		() => ({
+			style: {
+				base: {
+					display: "block",
+					width: "100%",
+					height: "2rem",
+					fontSize: "0.875",
+					fontFamily: "'Poppins', sans-serif",
+					fontWeight: "400",
+					color: "rgba(255, 255, 255, 0.8)",
+					background: "#fff",
+					textAlign: "left",
+					padding: "0.6rem 1.4rem",
+					"::placeholder": {
+						color: "rgba(255, 255, 255, 0.4)",
+						fontSize: "0.875",
+					},
+				},
+				invalid: {
+					color: "#e71939",
+				},
+			},
+		}),
+		[]
+	)
+
+	return options
+}
 const NewTournamentForm = () => {
-	
+	const options = useOptions()
+	const stripe = useStripe()
+	const elements = useElements()
+
 	const router = useRouter()
 	const [tournamentData, setTournamentData] = useState<any>([])
 	const [errors, setErrors] = useState<any>({})
@@ -21,6 +59,7 @@ const NewTournamentForm = () => {
 	const [rules, setRules] = useState<string>("");
 	const [codeOfConduct, setCodeOfConduct] = useState<string>("");
 	const [sponsorInformation, setSponsorInformation] = useState<string>("");
+	const [cardError, setCardError] = useState("")
 	// const [tournamentDetails, setTournamentDetails] = useState({
 	// 	title: "",
 	// 	category_id: "",
@@ -144,9 +183,70 @@ const NewTournamentForm = () => {
 		}
 	}
 
+	const chargePayment = async (clientSecret: any, paymentMethodReq: any, setup_id: any, paymentMethodSetup: any, customer_id: any) => {
+		const result = await stripe.confirmCardPayment(clientSecret, {
+			payment_method: paymentMethodSetup,
+			setup_future_usage: 'off_session'
+		});
+		// console.log(result);
+		if (result.error) {
+		  toast.error(result.error.message)
+		  return;
+		} else if (result.paymentIntent?.status === "succeeded") {
+		  toast.success("Payment Successful")
+		}
+	  }
+	
+
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault()
+		console.log("i am here");
+		// process payment 
+		if (!stripe || !elements) {
+			return;
+		}
+		const cardElement = elements.getElement(CardNumberElement);
+		if (!cardElement) {
+			alert("Something Went Wrong! Please Try Again Later");
+			return;
+		}
+		const paymentMethodReq = await stripe.createPaymentMethod({
+			type: "card",
+			card: cardElement,
+			});
+			if (paymentMethodReq.error) {
+			
+			  toast.error(paymentMethodReq.error.message)
+			} else {
+			  var payment_form_data = new FormData();
+			  payment_form_data.append('payment_token', paymentMethodReq.paymentMethod?.id as string);
+			  payment_form_data.append('user_id', Cookies.get('user_id') as string);
+			  payment_form_data.append('amount', 100 as any);
+			  await axios.post(process.env.API_URL + "/create-indent-payment", payment_form_data).then((data : any) => {
+	  
+				let client_secret = data.data.data.arr.client_secret;
+				let client_secret_setup = data.data.data.arr.setup_client_secret;
+				if (data.data.data.status === 1) {
+					let card_result = stripe.confirmCardSetup(client_secret_setup, {
+						payment_method: {
+							card: cardElement,
+						},
+					});
+					card_result.then(response => {
+					  if(response.error) {
+						toast.error(response.error.message)
+					  }
+					  else {
+						let paymentMethod = response.setupIntent.payment_method;
+						let setup_intent_id = response.setupIntent.id;
+						chargePayment(client_secret, paymentMethodReq, setup_intent_id, paymentMethod, data.data.data.arr.customer);
+					  }
+					})
+				}
+			  })
+			}
+		return;
 		formData.append('user_id', Cookies.get("user_id") as string)
 		formData.append('title', tournamentDetails.title);
 		formData.append('category_id', tournamentDetails.category_id);
@@ -850,7 +950,50 @@ const NewTournamentForm = () => {
 							</div>
 							<h5 className="mb-5 mt-4">Payment</h5>
 							<div className="row">
-								<PaymentPage />
+								{/* <PaymentPage /> */}
+								<div className={style.stripe_payment_form}>
+								
+									<div className="row">
+										<div className="col-12">
+											<h6 className="require">Name on Card</h6>
+											<div className={style.form_blk}>
+												<input type="text" className={style.input} placeholder="Name on card" />
+												<span className="validation-error"></span>
+											</div>
+										</div>
+										<div className="col-12">
+											<h6 className="require">Card Number</h6>
+											<div className={style.form_blk}>
+												<div className={style.input_blk}>
+													<CardNumberElement options={options} />
+													<span>
+														<img src="/images/card.svg" alt="" />
+													</span>
+												</div>
+											</div>
+										</div>
+										<div className="col-6">
+											<h6 className="require">Expiry Date</h6>
+											<div className={style.form_blk}>
+												<div className={style.input_blk}>
+													<CardExpiryElement options={options} />
+												</div>
+											</div>
+										</div>
+										<div className="col-6">
+											<h6 className="require">CVC</h6>
+											<div className={style.form_blk}>
+												<div className={style.input_blk}>
+													<CardCvcElement options={options} />
+												</div>
+											</div>
+										</div>
+									</div>
+									<span className="validation-error" style={{ color: "red" }}>
+										{cardError}
+									</span>
+									
+							</div>
 							</div>
 							<div className={`${style.btn_blk} justify-content-center mt-5`}>
 								<button type="button" className={`${style.site_btn} ${style.simple}`} onClick={() => setFieldset("tournament_staff")}>
