@@ -6,6 +6,7 @@ import Cookies from "js-cookie"
 import {useRouter} from "next/router"
 import { toast } from 'react-toastify';
 import PaymentPage from '../paymentPage';
+import ConfirmDeletionPopup from "./confirmDeletionPopup";
 
 type teamMembers = {
 	mem_name: string,
@@ -140,6 +141,10 @@ const AddTeamPopup = (props: any) => {
 			}
 		}
 	}
+	const deleteMemberHandle = () => {
+		setDeleteMember(!deleteMember);
+	}
+	const [deleteMember, setDeleteMember]=useState(false);
 
 	
 	return (
@@ -353,7 +358,7 @@ const AddTeamPopup = (props: any) => {
 																		<td>{team.role}</td>
 																		<td>{team.emergency_name}</td>
 																		<td>{team.emergency_phone}</td>
-																		<td><button type="button" className={style.text_prime}>Delete</button></td>
+																		<td><button type="button" className={style.text_prime} onClick={deleteMemberHandle}>Delete</button></td>
 																	</tr>
 																))}
 																{/* <tr>
@@ -536,6 +541,9 @@ const AddTeamPopup = (props: any) => {
 					</div>
 				</div>
 			</div>
+			{
+				deleteMember? <ConfirmDeletionPopup popupClose={deleteMemberHandle}/>:null
+			}
 		</>
 	)
 }
