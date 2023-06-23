@@ -384,88 +384,21 @@ const AddTeamPopup = (props: any) => {
 												<h5 className="mb-5">Payment Method</h5>
 												<div className="row">
 													<div className="col-sm-12">
-														<PaymentPage />
-													</div>
-													{/* <div className="col-sm-6">
-														<h6 className="require">Card Number</h6>
-														<div className={style.form_blk}>
-															<input type="text" name="card_number" value={teamDetails.card_number} onChange={(e) => setTeamDetails({...teamDetails, card_number: e.target.value})}
-															id="" className={style.input} placeholder="eg: 1234567890"/>
-														</div>
-													</div>
-													<div className="col-sm-6">
-														<h6 className="require">Card Holder</h6>
-														<div className={style.form_blk}>
-															<input type="text" name="card_holder" value={teamDetails.card_holder} onChange={(e) => setTeamDetails({...teamDetails, card_holder: e.target.value})}
-															 id="" className={style.input} placeholder="eg: John Wick"/>
-														</div>
-													</div>
-													<div className="col-sm-4">
-														<h6 className="require">Month</h6>
-														<div className={style.form_blk}>
-															<select name="card_month" id="" className={style.input} value={teamDetails.card_month} onChange={(e) => setTeamDetails({...teamDetails, card_month: e.target.value})}>
-																<option>Select</option>
-																<option value="01">01</option>
-																<option value="02">02</option>
-																<option value="03">03</option>
-																<option value="04">04</option>
-																<option value="05">05</option>
-																<option value="06">06</option>
-																<option value="07">07</option>
-																<option value="08">08</option>
-																<option value="09">09</option>
-																<option value="10">10</option>
-																<option value="11">11</option>
-																<option value="12">12</option>
-															</select>
-														</div>
-													</div>
-													<div className="col-sm-4">
-														<h6 className="require">Year</h6>
-														<div className={style.form_blk}>
-															<select name="card_year" id="" className={style.input} onChange={(e) => setTeamDetails({...teamDetails,card_year: e.target.value})} value={teamDetails.card_year}>
-														
-																<option>Select</option>
-																<option value="2021">2021</option>
-																<option value="2022">2022</option>
-																<option value="2023">2023</option>
-																<option value="2024">2024</option>
-																<option value="2025">2025</option>
-																<option value="2026">2026</option>
-																<option value="2027">2027</option>
-																<option value="2028">2028</option>
-																<option value="2029">2029</option>
-																<option value="2030">2030</option>
-																<option value="2031">2031</option>
-															</select>
-														</div>
-													</div>
-													<div className="col-sm-4">
-														<h6 className="require">CVC?</h6>
-														<div className={style.form_blk}>
-															<input type="text" name="cvc" value={teamDetails.cvc} onChange={(e) => setTeamDetails({...teamDetails, cvc: e.target.value})}
-															 id="" className={style.input} placeholder="eg: 1234"/>
-														</div>
-													</div> */}
-													
-													{/* <div className="col-sm-6">
-														<h6>Payment Method</h6>
-														<div className={style.form_blk}>
-															<select name="payment_method" id="" className={style.input} onChange={handleChange} value={teamDetails.payment_method}>
-																<option value="">Select</option>
-																<option value="bank account">Bank Account</option>
-																<option value="paypal">Paypal</option>
-																<option value="credit card">Credit Card</option>
-															</select>
-														</div>
-													</div>
-													<div className="col-sm-6">
-														<h6>Payment Confirmation</h6>
-														<div className={style.form_blk}>
-															<input type="file" name="payment_prof" id="" className={style.input} onChange={handleChange} value={teamDetails.payment_prof} />
+														<div className="col-sm-6">
+															<h6>Upload Payment Proof</h6>
+															<div className={style.form_blk}>
+																<input 
+																	type="file" 
+																	name="logo" 
+																	id="" 
+																	className={style.input} 
+																	onChange={handleUploadLogo} 
+																/>
 																
+															</div>
 														</div>
-													</div> */}
+													</div>
+													
 												</div>
 												<div className={`${style.btn_blk} justify-content-center mt-5`}>
 													<button type="button" className={`${style.site_btn} ${style.simple}`} onClick={() => setFieldset("members_info")}>

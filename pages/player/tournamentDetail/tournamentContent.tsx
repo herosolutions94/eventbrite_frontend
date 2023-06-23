@@ -3,6 +3,7 @@ import style from "@/styles/scss/app.module.scss"
 import Image from "next/image"
 import { PhotoTeam01, PhotoTeam02, PhotoTeam03 } from "@/components/images"
 import MembersPopup from "./membersPopup"
+import ConfirmationPopup from "./ConfirmationPopup"
 
 const TournamentContent = (props: any) => {
 	const {teams} = props
@@ -11,6 +12,13 @@ const TournamentContent = (props: any) => {
 	const membersPopupHandle = () => {
 		setMembersPopup(!membersPopup)
 	}
+
+	const deletePopupHandle = () => {
+		setDeletePopup(!deletePopup)
+	}
+
+	const [deletePopup , setDeletePopup] = useState(false)
+	const [deleteId , setDeleteId] = useState('')
 	return (
 		<>
 			<div id={style.overview}>
@@ -53,6 +61,18 @@ const TournamentContent = (props: any) => {
 							>
 								Show Members
 							</button>
+							<button 
+								type="button" 
+								className={`${style.site_btn} ${style.sm}`} 
+								onClick={
+									() => {
+										setDeletePopup(true)
+										setDeleteId(team.id)
+									}
+								}
+							>
+								Delete
+							</button>
 						</div>
 					) : null}
 				</div>
@@ -62,6 +82,11 @@ const TournamentContent = (props: any) => {
 								popupClose={membersPopupHandle} 
 								members={members}
 							/> : null}
+
+			{deletePopup ? <ConfirmationPopup 
+						popupClose={deletePopupHandle} 
+						deleteId={deleteId}
+					/> : null}
 		</>
 	)
 }

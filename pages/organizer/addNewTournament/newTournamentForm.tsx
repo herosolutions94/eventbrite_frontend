@@ -60,49 +60,7 @@ const NewTournamentForm = () => {
 	const [codeOfConduct, setCodeOfConduct] = useState<string>("");
 	const [sponsorInformation, setSponsorInformation] = useState<string>("");
 	const [cardError, setCardError] = useState("")
-	// const [tournamentDetails, setTournamentDetails] = useState({
-	// 	title: "",
-	// 	category_id: "",
-	// 	type: "",
-	// 	start_date: "",
-	// 	end_date: "",
-	// 	registration_dead_line: "",
-	// 	event_type: "",
-	// 	country_id: "",
-	// 	city: "",
-	// 	postal_code: "",
-	// 	address: "",
-	// 	number_of_teams: "",
-	// 	format: "",
-	// 	entry_fee: "",
-	// 	prize_distribution: "",
-	// 	level: "",
-	// 	rules:"",
-	// 	code_of_conduct:"",
-	// 	age: "",
-	// 	equipment_requirements: "",
-	// 	schedule_date: "",
-	// 	schedule_time: "",
-	// 	schedule_breaks: "",
-	// 	venue_availability: "",
-	// 	second_match_date: "",
-	// 	second_match_time: "",
-	// 	second_match_breaks: "",
-	// 	second_venue_availability: "",
-	// 	third_match_date: "",
-	// 	third_match_time: "",
-	// 	third_match_breaks: "",
-	// 	third_venue_availability: "",
-	// 	fourth_match_date: "",
-	// 	fourth_match_time: "",
-	// 	fourth_match_breaks: "",
-	// 	fourth_venue_availability: "",
-	// 	contact_information: "",
-	// 	roles_and_responsibilities: "",
-	// 	sponsor_information: "",
-	// 	logos: [] as any,
-	// 	banners: [] as any,
-	// })
+	const [tournamentId, setTournamentId] = useState("")
 	const [tournamentDetails, setTournamentDetails] = useState({
 		title: "tournament title",
 		category_id: "1",
@@ -151,8 +109,8 @@ const NewTournamentForm = () => {
 		fetchTournamentData()
 	}, [])
 	useEffect(() => {
-		console.log(tournamentDetails)
-	}, [tournamentDetails])
+		console.log(tournamentId)
+	}, [tournamentId])
 	
 	const fetchTournamentData = async () => {
 		try {
@@ -183,7 +141,7 @@ const NewTournamentForm = () => {
 		}
 	}
 
-	const chargePayment = async (clientSecret: any, paymentMethodReq: any, setup_id: any, paymentMethodSetup: any, customer_id: any) => {
+	const chargePayment = async (clientSecret: any, paymentMethodReq: any, setup_id: any, paymentMethodSetup: any, customer_id: any,tournamentId:any) => {
 		const result = await stripe.confirmCardPayment(clientSecret, {
 			payment_method: paymentMethodSetup,
 			setup_future_usage: 'off_session'
@@ -191,18 +149,42 @@ const NewTournamentForm = () => {
 		// console.log(result);
 		if (result.error) {
 		  toast.error(result.error.message)
+		  deleteTouranment(tournamentId)
 		  return;
 		} else if (result.paymentIntent?.status === "succeeded") {
-		  toast.success("Payment Successful")
+		  toast.success('Record has been inserted successfully.')
+		  updatePaymentStatus(tournamentId)
+		  router.push("/organizer/tournaments")
 		}
 	  }
-	
+	const updatePaymentStatus = async (tournamentId : any) => {
+		try {
+			if(tournamentId){
+				const res = await axios.put(
+					`${process.env.API_URL}/update-tournament-payment-status/${tournamentId}`,
+					{
+						payment_status: "1",
+					}
+				)
+			}
+		} catch (err) {
+			console.log(err)
+		}
+	}
+	const deleteTouranment = async (tournamentId : any) => {
+		try {
+			if(tournamentId){
+				const res = await axios.delete(
+					`${process.env.API_URL}/tournaments/${tournamentId}`
+				)
+			}
+			
+		} catch (err) {
+			console.log(err)
+		}
+	}
 
-
-	const handleSubmit = async (e: any) => {
-		e.preventDefault()
-		console.log("i am here");
-		// process payment 
+	const submitTournament = async (tournamentId : any) => {
 		if (!stripe || !elements) {
 			return;
 		}
@@ -211,13 +193,15 @@ const NewTournamentForm = () => {
 			alert("Something Went Wrong! Please Try Again Later");
 			return;
 		}
-		const paymentMethodReq = await stripe.createPaymentMethod({
+		try{
+			const paymentMethodReq = await stripe.createPaymentMethod({
 			type: "card",
 			card: cardElement,
 			});
 			if (paymentMethodReq.error) {
 			
 			  toast.error(paymentMethodReq.error.message)
+			  deleteTouranment(tournamentId)
 			} else {
 			  var payment_form_data = new FormData();
 			  payment_form_data.append('payment_token', paymentMethodReq.paymentMethod?.id as string);
@@ -236,17 +220,25 @@ const NewTournamentForm = () => {
 					card_result.then(response => {
 					  if(response.error) {
 						toast.error(response.error.message)
+						deleteTouranment(tournamentId)
 					  }
 					  else {
 						let paymentMethod = response.setupIntent.payment_method;
 						let setup_intent_id = response.setupIntent.id;
-						chargePayment(client_secret, paymentMethodReq, setup_intent_id, paymentMethod, data.data.data.arr.customer);
+						chargePayment(client_secret, paymentMethodReq, setup_intent_id, paymentMethod, data.data.data.arr.customer,tournamentId);
 					  }
 					})
 				}
 			  })
 			}
-		return;
+		}catch(err){
+			toast.error("Something Went Wrong! Please Try Again Later")
+		}
+		
+	}
+
+	const handleSubmit = async (e: any) => {
+		e.preventDefault()
 		formData.append('user_id', Cookies.get("user_id") as string)
 		formData.append('title', tournamentDetails.title);
 		formData.append('category_id', tournamentDetails.category_id);
@@ -298,8 +290,8 @@ const NewTournamentForm = () => {
 				},
 			})
 			if (res.status === 200) {
-				toast.success('Record has been inserted successfully.')
-				router.push("/organizer/tournaments")
+				setTournamentId(res.data.tournament_id)
+				submitTournament(res.data.tournament_id);
 			}	
 		}
 		catch (err) {
