@@ -8,7 +8,7 @@ type PaginationProps = {
   setTournaments: React.Dispatch<React.SetStateAction<any>>;
   setResponse: React.Dispatch<React.SetStateAction<any>>;
   category: string
-  postal_code: string
+  name: string
 };
 
 const Pagination = ({ 
@@ -16,7 +16,7 @@ const Pagination = ({
 	setTournaments,
 	setResponse,
 	category,
-	postal_code
+	name
  }: PaginationProps) => {
   const currentPage = response?.current_page;
   const lastPage = response?.last_page;
@@ -25,7 +25,7 @@ const Pagination = ({
 
 const handlePageChange = async (page: number) => {
 	try {
-		const response = await axios.get(`${process.env.API_URL}/tournaments?page=${page}&category=${category}&postal_code=${postal_code}`);
+		const response = await axios.get(`${process.env.API_URL}/tournaments?page=${page}&category=${category}&name=${name}`);
 		if (response.status === 200) {
 			setTournaments(response.data.data.data);
 			setResponse(response.data.data);
@@ -34,7 +34,7 @@ const handlePageChange = async (page: number) => {
 				query: {
 					page: page,
 					categories: category,
-					postCode: postal_code,
+					name: name,
 				},
 			})
 		}

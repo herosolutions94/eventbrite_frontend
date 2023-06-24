@@ -18,7 +18,6 @@ const Search = () => {
 	const [activeTab, setActiveTab] = useState('list');
 	const [tournaments, setTournaments] = useState<any | null>([]);
 	const [response, setResponse] = useState<any | null>(null);
-	const [currentPage, setCurrentPage] = useState(1);
 	const params = useRouter().query;
 
 	useEffect(() => {
@@ -29,7 +28,7 @@ const Search = () => {
 	const fetchTournaments = async () => {
 	
 		try {
-			if(!params.categories && !params.postCode){
+			if(!params.category && !params.name){
 				const response = await axios.get(`${process.env.API_URL}/tournaments`);
 				if (response.status === 200) {
 					setTournaments(response.data.data.data);
@@ -37,7 +36,7 @@ const Search = () => {
 				}
 				return;
 			}
-			const response = await axios.get(`${process.env.API_URL}/tournaments?category=${params.categories}&postal_code=${params.postCode}`);
+			const response = await axios.get(`${process.env.API_URL}/tournaments?category=${params.category}&name=${params.name}`);
 			if (response.status === 200) {
 				console.log(response.data.data);
 				setTournaments(response.data.data.data);
@@ -66,8 +65,8 @@ const Search = () => {
 						setTournaments={setTournaments as any}
 						response={response}
 						setResponse={setResponse as any}
-						category={params.categories as string}
-						postal_code={params.postCode as string}
+						category={params.category as string}
+						name={params.name as string}
 					/>
 					<div className={style.outer}>
 						{activeTab === "list" && (
@@ -95,7 +94,7 @@ const Search = () => {
 								setTournaments={setTournaments as any}
 								setResponse={setResponse as any}
 								category={params.categories as string}
-								postal_code={params.postCode as string}
+								name={params.name as string}
 								// setCurrentPage={setCurrentPage as any}
 							/>
 						</div>

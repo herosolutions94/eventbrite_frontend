@@ -4,9 +4,10 @@ import Image from "next/image"
 import { PhotoTeam01, PhotoTeam02, PhotoTeam03 } from "@/components/images"
 import MembersPopup from "./membersPopup"
 import ConfirmationPopup from "./ConfirmationPopup"
+import ConfirmDeletionPopup from "../../production/tournamentDetail/confirmDeletionPopup"
 
 const TournamentContent = (props: any) => {
-	const {teams} = props
+	const {teams,handleTeams} = props
 	const [membersPopup, setMembersPopup] = useState(false)
 	const [members, setMembers] = useState([])
 	const membersPopupHandle = () => {
@@ -61,18 +62,7 @@ const TournamentContent = (props: any) => {
 							>
 								Show Members
 							</button>
-							<button 
-								type="button" 
-								className={`${style.site_btn} ${style.sm}`} 
-								onClick={
-									() => {
-										setDeletePopup(true)
-										setDeleteId(team.id)
-									}
-								}
-							>
-								Delete
-							</button>
+							
 						</div>
 					) : null}
 				</div>
@@ -82,11 +72,13 @@ const TournamentContent = (props: any) => {
 								popupClose={membersPopupHandle} 
 								members={members}
 							/> : null}
-
-			{deletePopup ? <ConfirmationPopup 
-						popupClose={deletePopupHandle} 
-						deleteId={deleteId}
-					/> : null}
+			{deletePopup ? 
+				<ConfirmDeletionPopup 
+					popupClose={deletePopupHandle}
+					deleteId={deleteId}
+					teams={teams}
+					handleTeams={handleTeams}
+				/>:null}
 		</>
 	)
 }

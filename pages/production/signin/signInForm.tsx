@@ -37,7 +37,7 @@ const SignInForm = () => {
 				Cookies.set("user_id", res.data.user.id)
 				Cookies.set("email", res.data.user.email)
 				Cookies.set("role", res.data.user.role)
-				Cookies.set("token", res.data.user.token)
+				Cookies.set("token", res.data.token)
 				if(res.data.user.role == 'organizer'){
 					router.push("/organizer")
 				}

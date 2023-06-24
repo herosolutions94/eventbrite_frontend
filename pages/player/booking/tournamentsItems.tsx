@@ -21,9 +21,6 @@ const TournamentsItems = () => {
 	const currentPage = response?.current_page || 1;
 	const lastPage = response?.last_page;
 	const params = router.query;
-
-
-
 	useEffect(() => {
 		fetchHomePageData();
 	}, []);
@@ -34,9 +31,16 @@ const TournamentsItems = () => {
 	
 	const fetchHomePageData = async () => {
 		try {
+
 			const response = await axios.post(`${process.env.API_URL}/teamsByUser`, {
 				user_id: Cookies.get("user_id"),
+			}, {
+				headers: {
+					Authorization: `Bearer ${Cookies.get("token")}`,
+				},
 			});
+
+
 			if (response.status === 200) {
 				setTournaments(response.data.data.data);
 				setResponse(response.data.data);
@@ -75,7 +79,7 @@ const TournamentsItems = () => {
 
 	const handlePageChange = async (page: number) => {
 		try {
-			const response = await axios.post(`${process.env.API_URL}/tournamentsByUser`, {
+			const response = await axios.post(`${process.env.API_URL}/teamsByUser`, {
 				user_id: Cookies.get("user_id"),
 				page: page,
 			});
@@ -99,7 +103,7 @@ const TournamentsItems = () => {
 								team_logo={data.teams?.[0]?.logo ? process.env.ASSET_URL + data.teams?.[0]?.logo : PhotoTeam01}
 								date={data.start_date}
 								time={data.schedule_time}
-								stream_link={`/player/tournament-detail?id=${data.id}`}
+								stream_link={`/player/tournament-detail/${data.id}`}
 								tags={data?.category?.name}
 								
 								text={'lorem ipsum'}

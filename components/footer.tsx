@@ -21,18 +21,18 @@ const Footer = () => {
 								<li>
 									<Link href="/production/search">Catalogue</Link>
 								</li>
-								<li>
+								{/* <li>
 									<Link href="/production/tournaments">Tournaments</Link>
 								</li>
 								<li>
 									<Link href="/production/reviews">Reviews</Link>
-								</li>
+								</li> */}
 								<li>
 									<Link href="/production/contact">Contact us</Link>
 								</li>
-								<li>
+								{/* <li>
 									<Link href="/production/booking">Booking</Link>
-								</li>
+								</li> */}
 							</ul>
 						</div>
 						<div className={style.column3}>

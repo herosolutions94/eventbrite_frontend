@@ -121,6 +121,7 @@ const AddTeamPopup = (props: any) => {
 		try {const res = await axios.post(process.env.API_URL + "/create-team", formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
+				'Authorization': 'Bearer ' + Cookies.get("token")
 			},
 		})
 			if (res.status === 200) {

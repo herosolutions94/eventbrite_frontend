@@ -1,8 +1,28 @@
 import React, { useState, useEffect } from "react"
 import style from "@/styles/scss/app.module.scss"
+import axios from "axios"
+import { toast } from "react-toastify"
 
 const ConfirmDeletionPopup = (props: any) => {
-	const { popupClose } = props
+	const { popupClose,deleteId,teams,handleTeams } = props
+	const handleDelete = async (id : any) => {
+		try {
+			if(id){
+				const res = await axios.delete(
+					`${process.env.API_URL}/teams/${id}`
+				)
+				if(res.status === 200){
+                    toast.success("Team deleted successfully")
+                    popupClose()
+                    teams.splice(teams.findIndex((team : any) => team.id === id), 1)
+					// handleTeams(teams)
+					// window.location.reload()
+                }
+			}
+		} catch (err) {
+			console.log(err)
+		}
+	}
 	return (
 		<>
 			<div id={style.add_team_popup} className={style.popup}>
@@ -13,12 +33,20 @@ const ConfirmDeletionPopup = (props: any) => {
 								<div className="col-md-6">
 									<div className={style._inner}>
 										<button type="button" className={style.x_btn} onClick={popupClose}></button>
-										<h4 className="mb-5">Confirm Deletion Team Member</h4>
+										<h4 className="mb-5">Confirm Deletion Team</h4>
 										<div className={`${style.btn_blk} justify-content-center`}>
-											<button type="button" className={`${style.site_btn} ${style.green}`}>
+											<button type="button" className={`${style.site_btn} ${style.green}`} onClick={popupClose}>
 												No
 											</button>
-											<button type="button" className={`${style.site_btn} ${style.red}`}>
+											<button 
+												type="button" 
+												className={`${style.site_btn} ${style.red}`}
+												onClick={
+													() => {
+														handleDelete(deleteId)
+													}
+												}
+											>
 												Yes
 											</button>
 										</div>

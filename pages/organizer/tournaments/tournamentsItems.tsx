@@ -32,7 +32,12 @@ const TournamentsItems = () => {
 		try {
 			const response = await axios.post(`${process.env.API_URL}/tournamentsByUser`, {
 				user_id: Cookies.get("user_id"),
+			},{
+				headers: {
+					Authorization: `Bearer ${Cookies.get("token")}`,
+				},
 			});
+			
 			if (response.status === 200) {
 				setTournaments(response.data.data.data);
 				setResponse(response.data.data);
@@ -74,6 +79,10 @@ const TournamentsItems = () => {
 			const response = await axios.post(`${process.env.API_URL}/tournamentsByUser`, {
 				user_id: Cookies.get("user_id"),
 				page: page,
+			},{
+				headers: {
+					Authorization: `Bearer ${Cookies.get("token")}`,
+				},
 			});
 			if (response.status === 200) {
 				setTournaments(response.data.data.data);
@@ -95,7 +104,7 @@ const TournamentsItems = () => {
 								team_logo={data.teams?.[0]?.logo ? process.env.ASSET_URL + data.teams?.[0]?.logo : PhotoTeam01}
 								date={data.start_date}
 								time={data.schedule_time}
-								stream_link={`/organizer/tournament-detail?id=${data.id}`}
+								stream_link={`/organizer/tournament-detail/${data.id}`}
 								tags={data?.category?.name}
 								
 								text={'lorem ipsum'}

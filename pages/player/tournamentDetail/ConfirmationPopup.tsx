@@ -1,9 +1,12 @@
 import React from "react"
 import style from "@/styles/scss/app.module.scss"
 import axios from "axios"
+import { toast } from "react-toastify"
+import {useRouter} from "next/router"
 
 const ConfirmationPopup = (props: any) => {
-	const { popupClose,deleteId } = props
+	const { popupClose,deleteId,teams } = props
+    const router = useRouter()
 
     const handleDelete = async (id : any) => {
 		try {
@@ -11,6 +14,11 @@ const ConfirmationPopup = (props: any) => {
 				const res = await axios.delete(
 					`${process.env.API_URL}/teams/${id}`
 				)
+                if(res.status === 200){
+                    toast.success("Team deleted successfully")
+                    popupClose()
+                    teams.splice(teams.findIndex((team : any) => team.id === id), 1)
+                }
 			}
 			
 		} catch (err) {

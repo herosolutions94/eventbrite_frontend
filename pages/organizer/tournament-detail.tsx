@@ -10,6 +10,7 @@ import { PhotoTeam01 } from "@/components/images"
 
 const TournamentDetail = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
+	const [teams, setTeams] = useState<any>([]);
 	const router = useRouter();
 	const { id } = router.query;
 
@@ -26,6 +27,7 @@ const TournamentDetail = () => {
 			const response = await axios.get(process.env.API_URL + "/tournament-details/" + id, {});
 			if (response.status === 200) {
 				setTournamentDetails(response.data.data);
+				setTeams(response.data.data.teams);
 			}
 		} catch (error) {
 			console.log(error);
@@ -52,7 +54,7 @@ const TournamentDetail = () => {
 							/>
 							{tournamentDetails?.teams?.length > 0 ? 
 								<TournamentContent 
-									teams={tournamentDetails?.teams}
+									teams={teams}
 								/>
 								: ''
 							}

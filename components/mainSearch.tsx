@@ -1,7 +1,8 @@
-import React from "react"
+import React,{useState} from "react"
 import style from "@/styles/scss/app.module.scss"
 import { useRouter } from "next/router"
 import axios from "axios"
+import Search from "@/pages/production/search"
 
 type MapSearchProps = {
 	setTournaments: React.Dispatch<React.SetStateAction<any>>
@@ -11,32 +12,35 @@ const MainSearch = ({ setTournaments }: MapSearchProps) => {
 	
 	const router = useRouter()
 	const params = useRouter().query;
-	const [categories, setCategories] = React.useState(params?.categories || "")
+	const [categories, setCategories] = useState([]);
+	const [category, setCategory] = React.useState(params?.category || "")
 	const [postCode, setPostCode] = React.useState(params?.postCode || "")
+	const [eventName , setEventName] = React.useState(params?.name || "")
 
 	const handleRedirect = (e: any) => {
 		e.preventDefault()
 		const formData = {
-			categories: categories ? categories : params.categories,
-			postCode: postCode ? postCode : params.postCode,
+			category: category ? category : params.category,
+			name: eventName ? eventName : params.name,
 		}
-		fetchTournaments();
 		router.push({
 			pathname: "/production/search",
 			query: formData,
 		})
 	}
-	const fetchTournaments = async () => {
-	
+	const handleCategorySearch = async (e: any) => {
+		const search = e.target.value;
+		setCategory(search);
 		try {
-			const response = await axios.get(`${process.env.API_URL}/tournaments?category=${categories}&postal_code=${postCode}`);
+			const response = await axios.post(`${process.env.API_URL}/get-categories`, { search });
 			if (response.status === 200) {
-				setTournaments(response.data.data.data);
+				setCategories(response.data.data);
 			}
 		} catch (error) {
 			console.log(error);
 		}
-	};
+
+	}
 
 
 	return (
@@ -49,24 +53,25 @@ const MainSearch = ({ setTournaments }: MapSearchProps) => {
 						id="" 
 						className={style.input} 
 						placeholder="Categories"
-						onChange={(e) => setCategories(e.target.value)}
-						value={categories}
+						onChange={(e) => handleCategorySearch(e)}
+						value={category}
 						
 					/>
 					<div className={style.suggest_block}>
 						<ul className={style.scrollbar}>
-							<li>39 Lawrence St. Dyersburg, TN 38024</li>
-							<li>99 N. Windfall St. Southfield, MI 48076</li>
-							<li>564 River Street Kalamazoo, MI 49009</li>
-							<li>61 Dogwood Lane Biloxi, MS 39532</li>
-							<li>17 Blackburn Drive Muskegon, MI 49441</li>
-							<li>8678 Silver Spear Dr. Avon Lake, OH 44012</li>
-							<li>297 Lake Dr. New York, NY 10025</li>
-							<li>93 South Lincoln Court Bronx, NY 10468</li>
-							<li>71 Parker Drive Fresh Meadows, NY 11365</li>
-							<li>49 East Alderwood Drive Buffalo, NY 14215</li>
-							<li>429 Homewood Drive New York, NY 10009</li>
-							<li>44 Shirley Ave. Jamaica, NY 11434</li>
+							{categories && categories.map((category: any) => (
+								<li 
+									key={category.id} 
+									onClick={
+										() => {
+											setCategory(category.name)
+											setCategories([])
+										}
+									}
+								>
+									{category.name}
+								</li>
+							))}
 						</ul>
 					</div>
 				</div>
@@ -77,8 +82,8 @@ const MainSearch = ({ setTournaments }: MapSearchProps) => {
 						id="" 
 						className={style.input} 
 						placeholder="Search by Name"
-						// onChange={(e) => setCategories(e.target.value)}
-						value={categories}
+						onChange={(e) => setEventName(e.target.value)}
+						value={eventName}
 					/>
 				</div>
 				{/* <input 

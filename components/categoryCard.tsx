@@ -20,7 +20,12 @@ const CategoryCard = (props: any) => {
 			const response = await axios.post(`${process.env.API_URL}/add-to-wishlist`, {
 				tournament_id: tournamentId,
 				user_id: Cookies.get("user_id"),
+			}, {
+				headers: {
+					Authorization: `Bearer ${Cookies.get("token")}`,
+				},
 			});
+
 			if (response.status === 200) {
 				toast.success("Added to wishlist");
 				const wishList = JSON.parse(localStorage.getItem("wishlist") || "[]");

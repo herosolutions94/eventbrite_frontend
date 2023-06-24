@@ -29,6 +29,10 @@ const Wishlists = () => {
 				page: page || 1,
 				sort_order: sort_order,
 				search: search
+			},{
+				headers: {
+					Authorization: `Bearer ${Cookies.get("token")}`,
+				}
 			});
 			if (response.status === 200) {
 				setWishlistsItems(response.data.data.data);

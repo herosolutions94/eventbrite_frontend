@@ -16,7 +16,7 @@ type TopFiltersProps = {
 	response: any
 	setResponse: React.Dispatch<React.SetStateAction<any>>,
 	category: string,
-	postal_code: string
+	name: string
 }
 
 const TopFilters = ({ 
@@ -26,7 +26,7 @@ const TopFilters = ({
 		setResponse,
 		response ,
 		category,
-		postal_code
+		name
 	}: TopFiltersProps) => {
 	const paginationData = useMemo(() => {
 
@@ -41,7 +41,7 @@ const TopFilters = ({
 	const handleSorting = async (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const sorting = e.target.value;
 		try {
-			const res = await axios.get(`${process.env.API_URL}/tournaments?page=${response.current_page}&category=${category}&postal_code=${postal_code}&sort=${sorting}`);
+			const res = await axios.get(`${process.env.API_URL}/tournaments?page=${response.current_page}&category=${category}&name=${name}&sort=${sorting}`);
 			if (res.status === 200) {
 				setTournaments(res.data.data.data);
 				setResponse(res.data.data);
@@ -49,8 +49,8 @@ const TopFilters = ({
 					pathname: "/production/search",
 					query: {
 						page: response.current_page,
-						categories: category,
-						postCode: postal_code,
+						category: category,
+						name: name,
 						sort: sorting
 					},
 				})

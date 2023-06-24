@@ -2,8 +2,8 @@ import React, { useEffect , useState} from "react"
 import style from "@/styles/scss/app.module.scss"
 import Footer from "@/components/footer"
 import Header from "@/components/header/header"
-import TournamentHeader from "./tournamentDetail/tournamentHeader"
-import TournamentContent from "./tournamentDetail/tournamentContent"
+import TournamentHeader from "../../tournamentDetail/tournamentHeader"
+import TournamentContent from "../../tournamentDetail/tournamentContent"
 import { useRouter } from 'next/router';	
 import axios from "axios"
 import { PhotoTeam01 } from "@/components/images"
@@ -22,9 +22,6 @@ const TournamentDetail = () => {
 	useEffect(() => {
 		console.log(tournamentDetails);
 	}, [tournamentDetails]);
-	const handleTeams = (teams: any) => {
-		console.log(teams);
-	}
 	const fetchData = async () => {
 		try {
 			const response = await axios.get(process.env.API_URL + "/tournament-details/" + id, {});
@@ -58,7 +55,6 @@ const TournamentDetail = () => {
 							{tournamentDetails?.teams?.length > 0 ? 
 								<TournamentContent 
 									teams={teams}
-									handleTeams={handleTeams}
 								/>
 								: ''
 							}

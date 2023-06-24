@@ -34,7 +34,7 @@ const TournamentTeams = (teams: ReviewsProps ) => {
 								<span>Team Members:</span>
 								<ul className={style.team_list_member}>
 									
-									{team?.team_members?.length > 0 &&
+									{/* {team?.team_members?.length > 0 &&
 										team.team_members.map((member:any) => (	
 											member.logo === null ?
 											<>
@@ -53,7 +53,12 @@ const TournamentTeams = (teams: ReviewsProps ) => {
 												</li>
 											</>
 										))
-									}
+									} */}
+									<li>
+										<div className={`${style.ico} ${style.fill} ${style.round}`}>
+											<Image width={200} height={200} src={PhotoUser_01} alt="" />
+										</div>
+									</li>
 								</ul>
 							</li>
 						</ul>
