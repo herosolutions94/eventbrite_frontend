@@ -15,8 +15,8 @@ const TournamentTeams = (teams: ReviewsProps ) => {
 			<div className={style.blk}>
 				<h5 className="mb-4">Tournament Teams</h5>
 				
-				{teamsData?.map((team:any) => (
-				<div className={style.team_block}>
+				{teamsData?.map((team:any, index:number) => (
+				<div className={style.team_block} key={index}>
 					<div className={style.icon}>
 						<Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
 					</div>

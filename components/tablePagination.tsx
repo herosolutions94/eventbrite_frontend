@@ -7,7 +7,7 @@ const TablePagination = () => {
 		<>
 			<div className={style.table_pagination}>
 				<p>Showing 1 to 9 of 200 entries</p>
-				<Pagination />
+				{/* <Pagination /> */}
 			</div>
 		</>
 	)

@@ -10,7 +10,7 @@ import Matches from "./home/matches"
 import axios from "axios"
 
 type HomePageData = {
-	banner_image: string;
+	banner_img: string;
 	banner_title: string;
 	banner_des: string;
 	gamers_title: string;
@@ -30,6 +30,7 @@ const Home = () => {
 	const [homePageData, setHomePageData] = useState<HomePageData | null>(null);
 	const [tournaments, setTournaments] = useState<any[]>([]);
 	const [trandingMatches, setTrandingMatches] = useState<any[]>([]);
+	const [contactUs, setContactUs] = useState<any[]>([]);
 
 	useEffect(() => {
 		fetchHomePageData();
@@ -39,10 +40,10 @@ const Home = () => {
 		try {
 			const response = await axios.get(`${process.env.API_URL}/home`);
 			if (response.status === 200) {
-				console.log(response.data.tournaments);
 				setHomePageData(response.data.data);
 				setTournaments(response.data.tournaments);
 				setTrandingMatches(response.data.trending_tournaments);
+				setContactUs(response.data.contact_us);
 			}
 		} catch (error) {
 			console.log(error);
@@ -58,7 +59,7 @@ const Home = () => {
 			<Banner 
 				title={homePageData.banner_title}
 				content={homePageData.banner_des}
-				image={process.env.ASSET_URL + homePageData.banner_image}
+				image={process.env.ASSET_URL + homePageData.banner_img}
 			/>
 			<Categories 
 				title={homePageData.gamers_title}
@@ -80,7 +81,9 @@ const Home = () => {
 				/>
 			}
 
-			<Contact />
+			<Contact 
+				content={contactUs}
+			/>
 			<Footer />
 		</>
 	)

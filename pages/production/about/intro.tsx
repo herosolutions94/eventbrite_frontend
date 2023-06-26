@@ -33,7 +33,7 @@ const Intro = (props: any) => {
 						<div className="col-lg-7">
 							{content?.des_image  &&
 								<div className={style.image}>
-									<Image width={1000} height={1000} src={content?.des_image} alt="" />
+									<Image width={1000} height={1000} src={process.env.ASSET_URL + content?.des_image} alt="" />
 								</div>
 							}
 

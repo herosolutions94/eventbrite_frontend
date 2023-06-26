@@ -46,7 +46,7 @@ const CategorySlider = (props: CategorySliderProps) => {
 	}
 	return (
 		<Slider {...settings} className={`${style.slick_category} slick-carousel`}>
-			{tournaments?.length > 0 && tournaments.map((data: any) => {
+			{tournaments?.length > 0 && tournaments.map((data: any, index: number) => {
 			
 				return <CategoryCard 
 					tournamentId={data.id}
@@ -56,6 +56,7 @@ const CategorySlider = (props: CategorySliderProps) => {
 					date={data.start_date}
 					text={'lorem ipsum'}
 					img={process.env.ASSET_URL + data?.images[0]?.image}
+					key={index}
 				/>
 			})}
 		</Slider>

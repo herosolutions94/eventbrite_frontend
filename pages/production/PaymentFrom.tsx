@@ -44,7 +44,7 @@ const PaymentForm = () => {
 
   
   const chargePayment = async (clientSecret: any, paymentMethodReq: any, setup_id: any, paymentMethodSetup: any, customer_id: any) => {
-    const result = await stripe.confirmCardPayment(clientSecret, {
+    const result = await stripe!.confirmCardPayment(clientSecret, {
         payment_method: paymentMethodSetup,
         setup_future_usage: 'off_session'
     });

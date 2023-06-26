@@ -37,6 +37,7 @@ const About: React.FC = () => {
 	  if (!aboutPageData) {
 		return <div id={style.loader}></div>;
 	  }
+	  console.log(aboutPageData);
 
 	return (
 		
@@ -45,7 +46,7 @@ const About: React.FC = () => {
 			<Header pageTitle={aboutPageData?.title} />
 			<SubBanner 
 				title={aboutPageData?.title} 
-				background={aboutPageData?.image ? process.env.ASSET_URL + aboutPageData.image : ''}
+				background={process.env.ASSET_URL + aboutPageData.image}
 			/>
 			<Intro content={aboutPageData}/>
 			<Affiliate content={aboutPageData}/>

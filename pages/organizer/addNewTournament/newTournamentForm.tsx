@@ -61,56 +61,55 @@ const NewTournamentForm = () => {
 	const [sponsorInformation, setSponsorInformation] = useState<string>("");
 	const [cardError, setCardError] = useState("")
 	const [tournamentId, setTournamentId] = useState("")
+	const [numberOfTeams, setNumberOfTeams] = useState(0);
 	const [tournamentDetails, setTournamentDetails] = useState({
-		title: "tournament title",
-		category_id: "1",
-		type: "1",
-		start_date: "2021-09-01",
-		end_date: "2021-09-01",
-		registration_dead_line: "2021-09-01",
-		event_type: "1",
-		country_id: "1",
-		city: "city",
-		postal_code: "12345",
-		address: "address",
-		number_of_teams: "1",
-		format: "1",
-		entry_fee: "1",
-		prize_distribution: "1",
-		level: "1",
-		overview:"overview",
-		rules:"rules",
-		code_of_conduct:"code of conduct",
-		age: "1",
-		equipment_requirements: "equipment requirements",
-		schedule_date: "2021-09-01",
-		schedule_time: "2021-09-01",
-		schedule_breaks: "1",
-		venue_availability: "1",
-		second_match_date: "2021-09-01",
-		second_match_time: "2021-09-01",
-		second_match_breaks: "1",
-		second_venue_availability: "1",
-		third_match_date: "2021-09-01",
-		third_match_time: "2021-09-01",
-		third_match_breaks: "1",
-		third_venue_availability: "1",
-		fourth_match_date: "2021-09-01",
-		fourth_match_time: "2021-09-01",
-		fourth_match_breaks: "1",
-		fourth_venue_availability: "1",
-		contact_information: "this is contact information",
-		roles_and_responsibilities: "Referees",
-		sponsor_information: "this is sponsor information",
+		title: "",
+		category_id: "",
+		type: "",
+		start_date: "",
+		end_date: "",
+		registration_dead_line: "",
+		event_type: "",
+		country_id: "",
+		city: "",
+		postal_code: "",
+		address: "",
+		number_of_teams: "",
+		format: "",
+		entry_fee: "",
+		prize_distribution: "",
+		level: "",
+		overview:"",
+		rules:"",
+		code_of_conduct:"",
+		age: "",
+		equipment_requirements: "",
+		schedule_date: "",
+		schedule_time: "",
+		schedule_breaks: "",
+		venue_availability: "",
+		second_match_date: "",
+		second_match_time: "",
+		second_match_breaks: "",
+		second_venue_availability: "",
+		third_match_date: "",
+		third_match_time: "",
+		third_match_breaks: "",
+		third_venue_availability: "",
+		fourth_match_date: "",
+		fourth_match_time: "",
+		fourth_match_breaks: "",
+		fourth_venue_availability: "",
+		contact_information: "",
+		roles_and_responsibilities: "",
+		sponsor_information: "",
 		logos: [] as any,
 		banners: [] as any,
 	})
 	useEffect(() => {
 		fetchTournamentData()
 	}, [])
-	useEffect(() => {
-		console.log(tournamentId)
-	}, [tournamentId])
+
 	
 	const fetchTournamentData = async () => {
 		try {
@@ -124,6 +123,13 @@ const NewTournamentForm = () => {
 			console.log(err)
 		}
 	}
+	const handleNumberOfTeamsChange = (e: any) => {
+		const Number = tournamentData.numberOfTeams.find(
+			(item: any) => item.id == e.target.value
+		)
+		setNumberOfTeams(Number.number_of_teams)
+	}
+
 
 	const handleChange = (e: any) => {
 		const { name, value } = e.target
@@ -142,7 +148,7 @@ const NewTournamentForm = () => {
 	}
 
 	const chargePayment = async (clientSecret: any, paymentMethodReq: any, setup_id: any, paymentMethodSetup: any, customer_id: any,tournamentId:any) => {
-		const result = await stripe.confirmCardPayment(clientSecret, {
+		const result = await stripe!.confirmCardPayment(clientSecret, {
 			payment_method: paymentMethodSetup,
 			setup_future_usage: 'off_session'
 		});
@@ -203,10 +209,11 @@ const NewTournamentForm = () => {
 			  toast.error(paymentMethodReq.error.message)
 			  deleteTouranment(tournamentId)
 			} else {
+			  const amount = tournamentData.tournament_fee * numberOfTeams;
 			  var payment_form_data = new FormData();
 			  payment_form_data.append('payment_token', paymentMethodReq.paymentMethod?.id as string);
 			  payment_form_data.append('user_id', Cookies.get('user_id') as string);
-			  payment_form_data.append('amount', 100 as any);
+			  payment_form_data.append('amount', amount as any);
 			  await axios.post(process.env.API_URL + "/create-indent-payment", payment_form_data).then((data : any) => {
 	  
 				let client_secret = data.data.data.arr.client_secret;
@@ -497,7 +504,17 @@ const NewTournamentForm = () => {
 								<div className="col-sm-6">
 									<h6>Number of Teams</h6>
 									<div className={style.form_blk}>
-										<select name="number_of_teams" id="" className={style.input} onChange={handleChange}>
+										<select 
+											name="number_of_teams" 
+											id="" 
+											className={style.input} 
+											onChange={
+												(e) => {
+													handleChange(e)
+													handleNumberOfTeamsChange(e)
+												}
+											}
+										>
 											<option value="">Select Number</option>
 											{tournamentData.numberOfTeams && tournamentData.numberOfTeams.map((numberOfTeam : any) => {
 												return (
@@ -940,7 +957,7 @@ const NewTournamentForm = () => {
 									</div>
 								</div>
 							</div>
-							<h5 className="mb-5 mt-4">Payment</h5>
+							<h5 className="mb-5 mt-4">Payment | Total: {tournamentData.tournament_fee * numberOfTeams}</h5>
 							<div className="row">
 								{/* <PaymentPage /> */}
 								<div className={style.stripe_payment_form}>

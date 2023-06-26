@@ -14,8 +14,8 @@ const ReviewsBlock = (reviews: ReviewsProps ) => {
 	return (
 		<>
 			<div className={`${style.review_block_wrapper} ${style.blk}`}>
-		{reviewsData?.map((review: any) => (
-			<div className={style.review_block}>
+		{reviewsData?.map((review: any, index: number) => (
+			<div className={style.review_block} key={index}>
 				<div className={style.top_blk}>
 						<div className={`${style.ico} ${style.fill} ${style.round}`}>
 							<Image src={PhotoUser_01} alt="" />

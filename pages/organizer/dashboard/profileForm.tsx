@@ -267,13 +267,13 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 							<div className={style.form_blk}>
 								<select name="state" id="" className={style.input} value={formData.state} onChange={(e) => setFormData({ ...formData, state: e.target.value })}>
 									<option value="">Select</option>
-									<option value="2289">Isle of Wight</option>
-									<option value="2290">St Helens</option>
-									<option value="2291">London Borough of Brent</option>
-									<option value="2292">Walsall</option>
-									<option value="2293">Trafford</option>
-									<option value="2294">City of Southampton</option>
-									<option value="2295">Sheffield</option>
+									<option value="Isle of Wight">Isle of Wight</option>
+									<option value="St Helens">St Helens</option>
+									<option value="London Borough of Brent">London Borough of Brent</option>
+									<option value="Walsall">Walsall</option>
+									<option value="Trafford">Trafford</option>
+									<option value="City of Southampton">City of Southampton</option>
+									<option value="Sheffield">Sheffield</option>
 								</select>
 								<p className="text-danger">{error?.state}</p>
 							</div>

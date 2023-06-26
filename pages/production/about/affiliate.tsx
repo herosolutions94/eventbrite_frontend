@@ -9,7 +9,7 @@ const Affiliate = (props: any) => {
 			<section id={style.affiliate}>
 				<div className={style.contain}>
 					<div className={`${style.content} text-center`}>
-						<h2>{content?.heading}</h2>
+						<h2>{content?.support_title}</h2>
 					</div>
 					<div className={`${style.flex_row} row`}>
 						<div className="col-lg-4">

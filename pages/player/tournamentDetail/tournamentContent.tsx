@@ -23,8 +23,8 @@ const TournamentContent = (props: any) => {
 	return (
 		<>
 			<div id={style.overview}>
-				{teams.map((team: any) => (
-				<div className={style.team_block}>
+				{teams.map((team: any, index: number) => (
+				<div className={style.team_block} key={index}>
 					<div className={style.icon}>
 						{team.logo ? (
 							<Image width={200} height={200} src={process.env.ASSET_URL + team.logo} alt="" />

@@ -13,7 +13,8 @@ type BannerProps = {
 const Banner = (props: BannerProps) => {
 	const { title, content, image } = props;
 	return (
-		<section id={style.banner} style={{ backgroundImage: `url("${process.env.ASSET_URL + image}")` }}>
+		<section id={style.banner} style={{ backgroundImage: `url("${image}")` }}>
+	
 			<div className={style.contain}>
 				<div className={style.outer}>
 					<div className={style.content}>
