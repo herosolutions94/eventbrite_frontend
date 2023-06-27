@@ -417,7 +417,7 @@ const NewTournamentForm = () => {
 									<div className={style.form_blk}>
 										<input type="text" name="end_date" id="" className={style.input} placeholder="eg: 04-12-2020" 
 											onChange={handleChange}
-											value={tournamentDetails.start_date}
+											value={tournamentDetails.end_date}
 										/>
 										<p className="text-danger">{errors?.end_date}</p>
 									</div>
