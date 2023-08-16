@@ -15,7 +15,7 @@ const Map = ({tournaments}: MapProps) => {
   //   { latitude: 34.0522, longitude: -118.2437 },
   //   // Add more marker objects with latitude and longitude values as needed
   // ];
-  const markers: Marker[] = tournaments.map((item: any) => {
+  const markers: Marker[] = tournaments && tournaments.map((item: any) => {
     return {
       latitude: parseInt(item?.latitude),
       longitude: parseInt(item?.longitude),

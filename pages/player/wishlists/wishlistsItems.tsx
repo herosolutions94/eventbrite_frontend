@@ -10,7 +10,7 @@ const WishlistsItems = (props: any) => {
 	return (
 		<>
 			<div className="row">
-				{wishlistsItems.length > 0 && 
+				{wishlistsItems && 
 					wishlistsItems.map((data : any) => {
 					return (
 						<div className="col-lg-4" key={data.id}>

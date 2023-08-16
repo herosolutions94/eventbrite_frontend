@@ -17,7 +17,7 @@ const Matches = (props: MatchesProps) => {
 						<h2>Trending Tournaments</h2>
 					</div>
 					<div className={style.match_cards}>
-						{trandingMatches.map((data: any) => {
+						{trandingMatches && trandingMatches.map((data: any) => {
 							return <MatchCard 
 									title={data.title}
 									team={data.teams?.[0]?.team_name}

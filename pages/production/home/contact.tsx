@@ -29,7 +29,7 @@ const Contact = (props: any) => {
 									{content?.image ?
 										<Image width={1000} height={1000} src={process.env.ASSET_URL + content.image} alt="" />
 										:
-										<Image width={1000} height={1000} src={process.env.ASSET_URL + content.contact_image} alt="" />
+										<Image width={1000} height={1000} src={process.env.ASSET_URL + content?.contact_image} alt="" />
 									}
 
 								</div>

@@ -4,7 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie"
 import {useRouter} from "next/router"
 import { toast } from 'react-toastify';
-import CKeditor from "@/components/ckEditor";
+// import CKeditor from "@/components/ckEditor";
 import PaymentPage from '../../production/paymentPage';
 import { CardElement, useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js";
@@ -603,42 +603,46 @@ const NewTournamentForm = () => {
 								<div className="col-sm-12">
 									<h6>Tournament Overview</h6>
 									<div className={style.form_blk}>
-										<CKeditor
+										{/* <CKeditor
 											name="overview"
 											onChange={(editorData: string) => {
 												setOverview(editorData);
 											}}
 											value={tournamentDetails.overview}
 											editorLoaded={editorLoaded}
-										/>
+										/> */}
+										<textarea name="overview" id="" cols={30} rows={10} className={style.input} placeholder="eg: Lorem ipsum dollar" onChange={handleChange}>{tournamentDetails.overview}</textarea>
 										<p className="text-danger">{errors?.overview}</p>
 									</div>
 								</div>
 								<div className="col-sm-12">
 									<h6>Specific rules for the tournament</h6>
 									<div className={style.form_blk}>
-										<CKeditor
+										{/* <CKeditor
 											name="rules"
 											onChange={(editorData: string) => {
 												setRules(editorData);
 											}}
 											value={tournamentDetails.rules}
 											editorLoaded={editorLoaded}
-										/>
+										/> */}
+										<textarea name="rules" id="" cols={30} rows={10} className={style.input} placeholder="eg: Lorem ipsum dollar" onChange={handleChange}></textarea>
 										<p className="text-danger">{errors?.rules}</p>
 									</div>
 								</div>
 								<div className="col-sm-12">
 									<h6>Code of Conduct</h6>
 									<div className={style.form_blk}>
-										<CKeditor
+										{/* <CKeditor
 											name="code_of_conduct"
 											onChange={(editorData: string) => {
 												setCodeOfConduct(editorData);
 											}}
 											value={tournamentDetails.code_of_conduct}
 											editorLoaded={editorLoaded}
-										/>
+										/> */}
+										<textarea name="code_of_conduct" id="" cols={30} rows={10} className={style.input} placeholder="eg: Lorem ipsum dollar" onChange={handleChange}>{tournamentDetails.code_of_conduct}</textarea>
+										
 										{/* {JSON.stringify(editorData)} */}
 										<p className="text-danger">{errors?.code_of_conduct}</p>
 									</div>
@@ -911,21 +915,21 @@ const NewTournamentForm = () => {
 							<div className="row">
 								<div className="col-sm-12">
 									<h6>Sponsor Information</h6>
-									{/* <div className={style.form_blk}>
+									<div className={style.form_blk}>
 										<textarea name="sponsor_information" id="" rows={5} className={style.input} placeholder="Type something here" 
 											onChange={handleChange}
 											value={tournamentDetails.sponsor_information}
 										></textarea>
-									</div> */}
+									</div>
 									<div className={style.form_blk}>
-										<CKeditor
+										{/* <CKeditor
 											name="sponsor_information"
 											onChange={(editorData: string) => {
 												setSponsorInformation(editorData);
 											}}
 											value={tournamentDetails.sponsor_information}
 											editorLoaded={editorLoaded}
-										/>
+										/> */}
 										{/* {JSON.stringify(editorData)} */}
 									</div>
 								</div>

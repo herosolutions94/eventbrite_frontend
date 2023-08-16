@@ -2,8 +2,8 @@ import Header from "@/components/header/header"
 import React,{useEffect,useState} from "react"
 import style from "@/styles/scss/app.module.scss"
 import Footer from "@/components/footer"
-import BookingTable from "./booking_old/bookingTable"
-import BookingTopBlock from "./booking_old/bookingTopBlock"
+// import BookingTable from "./booking_old/bookingTable"
+// import BookingTopBlock from "./booking_old/bookingTopBlock"
 import axios from "axios"
 
 type BookingData = {
@@ -36,10 +36,10 @@ const Booking = () => {
 			<section className={style.dashboard} id={style.booking}>
 				<div className={style.contain}>
 					<h5 className="mb-4">My Bookings</h5>
-					<BookingTopBlock />
-					<BookingTable 
+					{/* <BookingTopBlock /> */}
+					{/* <BookingTable 
 						bookingData={bookingData as BookingData[]}
-					/>
+					/> */}
 				</div>
 			</section>
 			<Footer />

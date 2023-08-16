@@ -23,7 +23,7 @@ const TournamentContent = (props: any) => {
 	return (
 		<>
 			<div id={style.overview}>
-				{teams.map((team: any, index: number) => (
+				{teams && teams.map((team: any, index: number) => (
 				<div className={style.team_block} key={index}>
 					<div className={style.icon}>
 						{team.logo ? (

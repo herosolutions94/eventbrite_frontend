@@ -29,7 +29,7 @@ const MembersPopup = (props: any) => {
 												</tr>
 											</thead>
 											<tbody>
-												{members.map((member: any, index: number) => (
+												{members && members.map((member: any, index: number) => (
 												<tr key={index}>
 													<td>
 														<div className={`${style.ico} ${style.fill} ${style.round}`}>

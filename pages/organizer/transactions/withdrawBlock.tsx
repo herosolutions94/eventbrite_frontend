@@ -11,7 +11,8 @@ const WithdrawBlock = ({ wallet }: Props) => {
 	}
 	return (
 		<>
-			<div className={style.balance_blk}>
+			<h1>Test</h1>
+			{/* <div className={style.balance_blk}>
 				<div className={style.price}>
 					Payouts: <span className="price">£{wallet.wallet.payouts}</span>
 				</div>
@@ -73,7 +74,7 @@ const WithdrawBlock = ({ wallet }: Props) => {
 						</div>
 					</div>
 				</div>
-			) : null}
+			) : null} */}
 		</>
 	)
 }
