@@ -5,7 +5,6 @@ import Cookies from "js-cookie"
 import {useRouter} from "next/router"
 import { toast } from 'react-toastify';
 // import CKeditor from "@/components/ckEditor";
-import PaymentPage from '../../production/paymentPage';
 import { CardElement, useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";

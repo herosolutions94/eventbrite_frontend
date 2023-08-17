@@ -2,7 +2,7 @@ import React from "react"
 import style from "@/styles/scss/app.module.scss"
 import Footer from "@/components/footer"
 import Header from "@/components/header/header"
-import NewTournamentForm from "./addNewTournament/newTournamentForm"
+import NewTournamentForm from "../../components/tournament/newTournamentForm"
 import Link from "next/link"
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
