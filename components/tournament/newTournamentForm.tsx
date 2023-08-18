@@ -262,9 +262,14 @@ const NewTournamentForm = () => {
 		formData.append('entry_fee', tournamentDetails.entry_fee);
 		formData.append('prize_distribution', tournamentDetails.prize_distribution);
 		formData.append('level', tournamentDetails.level);
-		formData.append('overview', overview);
-		formData.append('rules', rules);
-		formData.append('code_of_conduct', codeOfConduct);
+		formData.append('overview', tournamentDetails.overview);
+		formData.append('rules', tournamentDetails.rules);
+		formData.append('code_of_conduct', tournamentDetails.code_of_conduct);
+		formData.append('sponsor_information', tournamentDetails.sponsor_information);
+		// formData.append('overview', overview);
+		// formData.append('rules', rules);
+		// formData.append('code_of_conduct', codeOfConduct);
+		// formData.append('sponsor_information',sponsorInformation);
 		formData.append('age', tournamentDetails.age);
 		formData.append('equipment_requirements', tournamentDetails.equipment_requirements);
 		formData.append('schedule_date', tournamentDetails.schedule_date);
@@ -285,7 +290,7 @@ const NewTournamentForm = () => {
 		formData.append('fourth_venue_availability', tournamentDetails.fourth_venue_availability);
 		formData.append('contact_information', tournamentDetails.contact_information);
 		formData.append('roles_and_responsibilities', tournamentDetails.roles_and_responsibilities);
-		formData.append('sponsor_information',sponsorInformation);
+
 
 
 		try {
