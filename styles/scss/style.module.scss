@@ -2159,6 +2159,7 @@
 					}
 				}
 			}
+			.date_time_list,
 			.date_time_list_update {
 				@include list;
 				@include flex(center, $flow: wrap);
@@ -2446,4 +2447,9 @@
 			width: 100%;
 		}
 	}
+}
+
+#tournament_bracket {
+	display: block;
+	width: 100%;
 }

@@ -2,26 +2,18 @@ import React from "react"
 import style from "@/styles/scss/app.module.scss"
 import Image from "next/image"
 import { PhotoTeam01 } from "@/components/images"
+import { SingleElimination } from "./eliminationBracket"
 
-type TournamentHeaderProps ={
-	category: string,
-	type: string,
-	title: string,
-	start_date: string,
-	end_date: string,
-	schedule_time: string,
+type TournamentHeaderProps = {
+	category: string
+	type: string
+	title: string
+	start_date: string
+	end_date: string
+	schedule_time: string
 	overview: string
 }
-const TournamentHeader = ({ 
-		category, 
-		type, 
-		title, 
-		start_date, 
-		end_date, 
-		schedule_time,
-		overview
-	}: TournamentHeaderProps) => {
-
+const TournamentHeader = ({ category, type, title, start_date, end_date, schedule_time, overview }: TournamentHeaderProps) => {
 	return (
 		<>
 			<div className={style.data}>
@@ -46,13 +38,19 @@ const TournamentHeader = ({
 						</li>
 					</ul>
 				</div>
+				<div className={`${style.btn_blk} ps-4 ms-auto`}>
+					<button type="button" className={`${style.site_btn} ${style.sm}`}>
+						Generate Bracket
+					</button>
+				</div>
 			</div>
 			<div className={style.content}>
 				<h5>Tournament Overview</h5>
 				<div dangerouslySetInnerHTML={{ __html: overview }} />
-
 			</div>
-
+			<div id={style.tournament_bracket}>
+				<SingleElimination />
+			</div>
 		</>
 	)
 }
