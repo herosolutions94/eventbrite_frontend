@@ -7,7 +7,7 @@ import TournamentContent from "./tournamentDetail/tournamentContent"
 import { useRouter } from "next/router"
 import axios from "axios"
 import { PhotoTeam01 } from "@/components/images"
-import { SingleElimination } from "./tournamentDetail/eliminationBracket"
+// import { SingleElimination } from "./tournamentDetail/eliminationBracket"
 // import EliminationBracket from "./tournamentDetail/eliminationBracket"
 
 const TournamentDetail = () => {
