@@ -6,6 +6,7 @@ import Logo from "../logo"
 import HeaderStrip from "./headerStrip"
 import Router from "next/router"
 import Cookies from "js-cookie"
+import Script from "next/script"
 
 const Header = (props: any) => {
 	const { pageTitle } = props
@@ -14,7 +15,7 @@ const Header = (props: any) => {
 	const navToggleHandle = () => {
 		setNavActive(!navActive)
 	}
-	const role = Cookies.get("role");
+	const role = Cookies.get("role")
 
 	useEffect(() => {
 		const { pathname } = Router
@@ -34,6 +35,11 @@ const Header = (props: any) => {
 				<meta name="description" content="Eventplus" />
 				<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=yes" />
 				<link rel="icon" href="/images/favicon.ico" />
+				<link rel="stylesheet" href="https://jquery.app/jqueryscripttop.css" />
+				<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js" async></script>
+				<script type="text/javascript" src="https://www.jqueryscript.net/demo/Single-Elimation-Tournament-Bracket-Generator-Gracket/jquery.gracket.min.js" async></script>
+				<script type="text/javascript" src="https://www.jqueryscript.net/demo/Single-Elimation-Tournament-Bracket-Generator-Gracket/test.js" async></script>
+				<script type="text/javascript" src="/js/bracket.js" async></script>
 			</Head>
 			<header id={style.header} className={`${header !== "production" ? style.logged : ""}`}>
 				<div className={style.contain}>

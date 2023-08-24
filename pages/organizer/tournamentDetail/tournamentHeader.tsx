@@ -2,7 +2,7 @@ import React from "react"
 import style from "@/styles/scss/app.module.scss"
 import Image from "next/image"
 import { PhotoTeam01 } from "@/components/images"
-import { SingleElimination } from "./eliminationBracket"
+// import { SingleElimination } from "./eliminationBracket"
 
 type TournamentHeaderProps = {
 	category: string
@@ -49,7 +49,8 @@ const TournamentHeader = ({ category, type, title, start_date, end_date, schedul
 				<div dangerouslySetInnerHTML={{ __html: overview }} />
 			</div>
 			<div id={style.tournament_bracket}>
-				<SingleElimination />
+				{/* <SingleElimination /> */}
+				<div className="my_gracket"></div>
 			</div>
 		</>
 	)
