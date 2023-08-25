@@ -46,7 +46,7 @@ const TournamentHeader = ({ category, type, title, start_date, end_date, schedul
 			</div>
 			<div className={style.content}>
 				<h5>Tournament Overview</h5>
-				<div dangerouslySetInnerHTML={{ __html: overview }} />
+				<div dangerouslySetInnerHTML={{ __html: overview }}></div>
 			</div>
 			<div id={style.tournament_bracket}>
 				{/* <SingleElimination /> */}

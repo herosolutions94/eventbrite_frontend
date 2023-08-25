@@ -2455,3 +2455,40 @@
 	overflow: hidden;
 	overflow-x: auto;
 }
+
+#select_teams {
+	overflow: hidden;
+	.round_blk {
+		width: 50rem;
+		min-width: 50rem;
+		& + .round_blk {
+			margin-left: 3rem;
+		}
+		&_wrapper {
+			@include flex($justify: center);
+			margin: -2.5rem;
+			padding: 2.5rem;
+			overflow: hidden;
+			overflow-x: hidden;
+		}
+	}
+	.match_team_blk {
+		@include flex(center);
+		.inner_blk {
+			-webkit-box-flex: 1;
+			-ms-flex: 1;
+			flex: 1;
+			> *:not(:nth-last-child(1)) {
+				margin-bottom: 1rem;
+			}
+			& + * {
+				width: 20rem;
+				min-width: 20rem;
+				-webkit-box-flex: 0;
+				-ms-flex: none;
+				flex: none;
+				margin-left: 2rem;
+			}
+		}
+	}
+}
