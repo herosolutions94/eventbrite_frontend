@@ -4,6 +4,45 @@ import Footer from "@/components/footer"
 import Header from "@/components/header/header"
 
 const SelectTeam = () => {
+	const matches =[
+		[
+			{ name: "Erik Zettersten", id: "erik-zettersten", seed: 1, displaySeed: "D1", score: 47 },
+			{ name: "Andrew Miller", id: "andrew-miller", seed: 2 },
+		],
+		[
+			{ name: "James Coutry", id: "james-coutry", seed: 3 },
+			{ name: "Sam Merrill", id: "sam-merrill", seed: 4 },
+		],
+		[
+			{ name: "Anothy Hopkins", id: "anthony-hopkins", seed: 5 },
+			{ name: "Everett Zettersten", id: "everett-zettersten", seed: 6 },
+		],
+		[
+			{ name: "John Scott", id: "john-scott", seed: 7 },
+			{ name: "Teddy Koufus", id: "teddy-koufus", seed: 8 },
+		],
+		[
+			{ name: "Arnold Palmer", id: "arnold-palmer", seed: 9 },
+			{ name: "Ryan Anderson", id: "ryan-anderson", seed: 10 },
+		],
+		[
+			{ name: "Jesse James", id: "jesse-james", seed: 1 },
+			{ name: "Scott Anderson", id: "scott-anderson", seed: 12 },
+		],
+		[
+			{ name: "Josh Groben", id: "josh-groben", seed: 13 },
+			{ name: "Sammy Zettersten", id: "sammy-zettersten", seed: 14 },
+		],
+		[
+			{ name: "Jake Coutry", id: "jake-coutry", seed: 15 },
+			{ name: "Spencer Zettersten", id: "spencer-zettersten", seed: 16 },
+		],
+	];
+	
+	// save in local storage
+	// localStorage.setItem("matches", JSON.stringify(matches));
+	// const matches2 = JSON.parse("matches2"+localStorage.getItem("matches") || "[]");
+	// console.log(matches2)
 	return (
 		<>
 			<Header pageTitle="Select Team" />

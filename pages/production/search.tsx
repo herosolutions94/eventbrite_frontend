@@ -77,7 +77,7 @@ const Search = () => {
 										<div className="col-lg-4 col-md-6 col-sm-4" key={tournament.id}>
 												<CategoryCard 
 													title={tournament.title}
-													link={`/production/tournament-detail?id=${tournament.id}`}
+													link={`/production/tournament-detail/${tournament.id}`}
 													tag={tournament?.category?.name}
 													date={tournament.start_date}
 													text={'lorem ipsum'}

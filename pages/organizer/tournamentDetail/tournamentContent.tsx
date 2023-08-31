@@ -20,6 +20,9 @@ const TournamentContent = (props: any) => {
 	const deletePopupHandle = () => {
 		setDeletePopup(!deletePopup)
 	}
+	const handleCloseMembersPopup = () => {
+		setMembersPopup(false)
+	}
 	return (
 		<>
 			<div id={style.overview}>
@@ -84,7 +87,7 @@ const TournamentContent = (props: any) => {
 				))}
 			</div>
 			{membersPopup ? <MembersPopup 
-								popupClose={membersPopupHandle} 
+								popupClose={handleCloseMembersPopup} 
 								members={members}
 							/> : null}
 			{deletePopup ? 

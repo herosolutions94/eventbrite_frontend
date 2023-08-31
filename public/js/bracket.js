@@ -71,7 +71,8 @@
 				{ name: "Ryan Anderson", id: "ryan-anderson", seed: 10 },
 			],
 		],
-		[[{ name: "Erik Zettersten", id: "erik-zettersten", seed: 1 }]],
+		[[{ name: "TBD", id: "erik-zettersten", seed: 1 }]],
+		
 	]
 
 	// initializer
