@@ -33,7 +33,7 @@ const Dashboard = () => {
 			router.push("/player")
 		}
 		fetchProfileData()
-	}, []);
+	}, [role]);
 	
 	const fetchProfileData = async () => {
 		try {
