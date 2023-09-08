@@ -324,6 +324,216 @@ const NewTournamentForm = () => {
 		setEditorLoaded(true);
 	}, []);
 
+
+
+	const handleFieldSet = (fieldSet: string) => {
+		if(fieldSet == 'tournament_rules'){
+			const runTimeErrors = {
+				title: '',
+				category_id: '',
+				type: '',
+				start_date: '',
+				end_date: '',
+				registration_dead_line: '',
+				event_type: '',
+				country_id: '',
+				city: '',
+				postal_code: '',
+				address: '',
+				number_of_teams: '',
+				format: '',
+				entry_fee: '',
+				prize_distribution: '',
+				level: '',
+			}
+			if(tournamentDetails.title == ''){
+				runTimeErrors.title = 'title is required'
+			}
+			if(tournamentDetails.category_id == ''){
+				runTimeErrors.category_id = 'category is required'
+			}
+			if(tournamentDetails.type == ''){
+				runTimeErrors.type = 'type is required'
+			}
+			if(tournamentDetails.start_date == ''){
+				runTimeErrors.start_date = 'start date is required'
+			}
+			if(tournamentDetails.end_date == ''){
+				runTimeErrors.end_date = 'end date is required'
+			}
+			if(tournamentDetails.registration_dead_line == ''){
+				runTimeErrors.registration_dead_line = 'registration deadline is required'
+			}
+			if(tournamentDetails.event_type == ''){
+				runTimeErrors.event_type = 'event type is required'
+			}
+			if(tournamentDetails.country_id == ''){
+				runTimeErrors.country_id = 'country is required'
+			}
+			if(tournamentDetails.city == ''){
+				runTimeErrors.city = 'city is required'
+			}
+			if(tournamentDetails.postal_code == ''){
+				runTimeErrors.postal_code = 'postal code is required'
+			}
+			if(tournamentDetails.address == ''){
+				runTimeErrors.address = 'address is required'
+			}
+			if(tournamentDetails.number_of_teams == ''){
+				runTimeErrors.number_of_teams = 'number of teams is required'
+			}
+			if(tournamentDetails.format == ''){
+				runTimeErrors.format = 'format is required'
+			}
+			if(tournamentDetails.entry_fee == ''){
+				runTimeErrors.entry_fee = 'entry fee is required'
+			}
+			if(tournamentDetails.prize_distribution == ''){
+				runTimeErrors.prize_distribution = 'prize distribution is required'
+			}
+			if(tournamentDetails.level == ''){
+				runTimeErrors.level = 'level is required'
+			}
+			if(runTimeErrors.title != '' || runTimeErrors.category_id != '' || runTimeErrors.type != '' || runTimeErrors.start_date != '' || runTimeErrors.end_date != '' || runTimeErrors.registration_dead_line != '' || runTimeErrors.event_type != '' || runTimeErrors.country_id != '' || runTimeErrors.city != '' || runTimeErrors.postal_code != '' || runTimeErrors.address != '' || runTimeErrors.number_of_teams != '' || runTimeErrors.format != '' || runTimeErrors.entry_fee != '' || runTimeErrors.prize_distribution != '' || runTimeErrors.level != ''){
+				setErrorMessage('Please fill out all the fields');
+				setErrors(runTimeErrors)
+			}else{
+				setFieldset(fieldSet)
+				setErrorMessage('')
+			}
+		}else if(fieldSet == 'tournament_schedule'){
+			const runTimeErrors = {
+				overview: '',
+				rules: '',
+				code_of_conduct: '',
+				sponsor_information: '',
+			}
+			if(tournamentDetails.overview == ''){
+				runTimeErrors.overview = 'overview is required'
+			}
+			if(tournamentDetails.rules == ''){
+				runTimeErrors.rules = 'rules is required'
+			}
+			if(tournamentDetails.code_of_conduct == ''){
+				runTimeErrors.code_of_conduct = 'code of conduct is required'
+			}
+			if(tournamentDetails.sponsor_information == ''){
+				runTimeErrors.sponsor_information = 'sponsor information is required'
+			}
+			if(runTimeErrors.overview != '' || runTimeErrors.rules != '' || runTimeErrors.code_of_conduct != '' || runTimeErrors.sponsor_information != ''){
+				setErrorMessage('Please fill out all the fields');
+				setErrors(runTimeErrors)
+			}else{
+				setFieldset(fieldSet)
+				setErrorMessage('')
+			}
+		}else if(fieldSet == 'tournament_staff'){
+			const runTimeErrors = {
+				age: '',
+				equipment_requirements: '',
+				schedule_date: '',
+				schedule_time: '',
+				schedule_breaks: '',
+				venue_availability: '',
+				second_match_date: '',
+				second_match_time: '',
+				second_match_breaks: '',
+				second_venue_availability: '',
+				third_match_date: '',
+				third_match_time: '',
+				third_match_breaks: '',
+				third_venue_availability: '',
+				fourth_match_date: '',
+				fourth_match_time: '',
+				fourth_match_breaks: '',
+				fourth_venue_availability: '',
+			}
+			if(tournamentDetails.age == ''){
+				runTimeErrors.age = 'age is required'
+			}
+			if(tournamentDetails.equipment_requirements == ''){
+				runTimeErrors.equipment_requirements = 'equipment requirements is required'
+			}
+			if(tournamentDetails.schedule_date == ''){
+				runTimeErrors.schedule_date = 'schedule date is required'
+			}
+			if(tournamentDetails.schedule_time == ''){
+				runTimeErrors.schedule_time = 'schedule time is required'
+			}
+			if(tournamentDetails.schedule_breaks == ''){
+				runTimeErrors.schedule_breaks = 'schedule breaks is required'
+			}
+			if(tournamentDetails.venue_availability == ''){
+				runTimeErrors.venue_availability = 'venue availability is required'
+			}
+			if(tournamentDetails.second_match_date == ''){
+				runTimeErrors.second_match_date = 'second match date is required'
+			}
+			if(tournamentDetails.second_match_time == ''){
+				runTimeErrors.second_match_time = 'second match time is required'
+			}
+			if(tournamentDetails.second_match_breaks == ''){
+				runTimeErrors.second_match_breaks = 'second match breaks is required'
+			}
+			if(tournamentDetails.second_venue_availability == ''){
+				runTimeErrors.second_venue_availability = 'second venue availability is required'
+			}
+			if(tournamentDetails.third_match_date == ''){
+				runTimeErrors.third_match_date = 'third match date is required'
+			}
+			if(tournamentDetails.third_match_time == ''){
+				runTimeErrors.third_match_time = 'third match time is required'
+			}
+			if(tournamentDetails.third_match_breaks == ''){
+				runTimeErrors.third_match_breaks = 'third match breaks is required'
+			}
+			if(tournamentDetails.third_venue_availability == ''){
+				runTimeErrors.third_venue_availability = 'third venue availability is required'
+			}
+			if(tournamentDetails.fourth_match_date == ''){
+				runTimeErrors.fourth_match_date = 'fourth match date is required'
+			}
+			if(tournamentDetails.fourth_match_time == ''){
+				runTimeErrors.fourth_match_time = 'fourth match time is required'
+			}
+			if(tournamentDetails.fourth_match_breaks == ''){
+				runTimeErrors.fourth_match_breaks = 'fourth match breaks is required'
+			}
+			if(tournamentDetails.fourth_venue_availability == ''){
+				runTimeErrors.fourth_venue_availability = 'fourth venue availability is required'
+			}
+			if(runTimeErrors.age != '' || runTimeErrors.equipment_requirements != '' || runTimeErrors.schedule_date != '' || runTimeErrors.schedule_time != '' || runTimeErrors.schedule_breaks != '' || runTimeErrors.venue_availability != '' || runTimeErrors.second_match_date != '' || runTimeErrors.second_match_time != '' || runTimeErrors.second_match_breaks != '' || runTimeErrors.second_venue_availability != '' || runTimeErrors.third_match_date != '' || runTimeErrors.third_match_time != '' || runTimeErrors.third_match_breaks != '' || runTimeErrors.third_venue_availability != '' || runTimeErrors.fourth_match_date != '' || runTimeErrors.fourth_match_time != '' || runTimeErrors.fourth_match_breaks != '' || runTimeErrors.fourth_venue_availability != ''){
+				setErrorMessage('Please fill out all the fields');
+				setErrors(runTimeErrors)
+			}else{
+				setFieldset(fieldSet)
+				setErrorMessage('')
+			}
+		}else if(fieldSet == 'tournament_sponsorship'){
+			const runTimeErrors = {
+				contact_information: '',
+				roles_and_responsibilities: '',
+			}
+			if(tournamentDetails.contact_information == ''){
+				runTimeErrors.contact_information = 'contact information is required'
+			}
+			if(tournamentDetails.roles_and_responsibilities == ''){
+				runTimeErrors.roles_and_responsibilities = 'roles and responsibilities is required'
+			}
+			if(runTimeErrors.contact_information != '' || runTimeErrors.roles_and_responsibilities != ''){
+				setErrorMessage('Please fill out all the fields');
+				setErrors(runTimeErrors)
+			}else{
+				setFieldset(fieldSet)
+				setErrorMessage('')
+			}
+		}else{
+			setFieldset(fieldSet)
+			setErrorMessage('')
+		}
+		// setFieldset(fieldSet)
+	}
+
 	return (
 		<>
 			<form action="" method="post" onSubmit={handleSubmit} encType="multipart/form-data">
@@ -357,7 +567,9 @@ const NewTournamentForm = () => {
 											placeholder="eg: Lorem ipsum dollar"
 											onChange={handleChange} 
 											value={tournamentDetails.title}
+
 										/>
+
 									</div>
 									<p className="text-danger">{errors?.title}</p>
 								</div>
@@ -593,7 +805,7 @@ const NewTournamentForm = () => {
 								</div>
 							</div>
 							<div className={`${style.btn_blk} justify-content-center mt-5`}>
-								<button type="button" className={style.site_btn} onClick={() => setFieldset("tournament_rules")}>
+								<button type="button" className={style.site_btn} onClick={() => handleFieldSet('tournament_rules')}>
 									Continue
 								</button>
 							</div>
@@ -676,7 +888,7 @@ const NewTournamentForm = () => {
 								<button type="button" className={`${style.site_btn} ${style.simple}`} onClick={() => setFieldset("tournament_details")}>
 									Back
 								</button>
-								<button type="button" className={style.site_btn} onClick={() => setFieldset("tournament_schedule")}>
+								<button type="button" className={style.site_btn} onClick={() => handleFieldSet("tournament_schedule")}>
 									Continue
 								</button>
 							</div>
@@ -869,7 +1081,7 @@ const NewTournamentForm = () => {
 								<button type="button" className={`${style.site_btn} ${style.simple}`} onClick={() => setFieldset("tournament_rules")}>
 									Back
 								</button>
-								<button type="button" className={style.site_btn} onClick={() => setFieldset("tournament_staff")}>
+								<button type="button" className={style.site_btn} onClick={() => handleFieldSet("tournament_staff")}>
 									Continue
 								</button>
 							</div>
@@ -906,7 +1118,7 @@ const NewTournamentForm = () => {
 								<button type="button" className={`${style.site_btn} ${style.simple}`} onClick={() => setFieldset("tournament_schedule")}>
 									Back
 								</button>
-								<button type="button" className={style.site_btn} onClick={() => setFieldset("tournament_sponsorship")}>
+								<button type="button" className={style.site_btn} onClick={() => handleFieldSet("tournament_sponsorship")}>
 									Continue
 								</button>
 							</div>
