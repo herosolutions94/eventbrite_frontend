@@ -28,8 +28,6 @@ const SignInForm = () => {
 			email: formData.email,
 			password: formData.password,
 		}
-		// console.log(data);
-		// return;
 		try {
 			const res = await axios.post(process.env.API_URL + "/login", data)
 			
@@ -107,10 +105,10 @@ const SignInForm = () => {
 							</button>
 						</div>
 						<div className={style.forgot}>
-							Forget password? <Link href="/production/forgot">Reset now</Link>
+							Forget password? <Link href="/forgot">Reset now</Link>
 						</div>
 						<div className={style.account + " mt-2"}>
-							Don’t have an account? <Link href="/production/signup">Create an account</Link>
+							Don’t have an account? <Link href="/signup">Create an account</Link>
 						</div>
 					</div>
 				</form>

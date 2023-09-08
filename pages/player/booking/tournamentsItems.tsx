@@ -25,9 +25,6 @@ const TournamentsItems = () => {
 		fetchHomePageData();
 	}, []);
 
-	useEffect(() => {
-		console.log(tournaments);
-	}, [tournaments]);
 	
 	const fetchHomePageData = async () => {
 		try {

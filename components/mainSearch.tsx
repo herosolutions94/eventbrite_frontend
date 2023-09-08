@@ -2,7 +2,7 @@ import React,{useState} from "react"
 import style from "@/styles/scss/app.module.scss"
 import { useRouter } from "next/router"
 import axios from "axios"
-import Search from "@/pages/production/search"
+import Search from "@/pages/search"
 
 type MapSearchProps = {
 	setTournaments: React.Dispatch<React.SetStateAction<any>>
@@ -24,7 +24,7 @@ const MainSearch = ({ setTournaments }: MapSearchProps) => {
 			name: eventName ? eventName : params.name,
 		}
 		router.push({
-			pathname: "/production/search",
+			pathname: "/search",
 			query: formData,
 		})
 	}

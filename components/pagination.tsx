@@ -30,7 +30,7 @@ const handlePageChange = async (page: number) => {
 			setTournaments(response.data.data.data);
 			setResponse(response.data.data);
 			router.push({
-				pathname: "/production/search",
+				pathname: "/search",
 				query: {
 					page: page,
 					categories: category,

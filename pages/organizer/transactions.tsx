@@ -15,10 +15,6 @@ const Transactions = () => {
 	useEffect(() => {
 		fetchData();
 	}, []);
-	// useEffect(() => {
-	// 	console.log(wallet)
-
-	// }, [wallet]);
 	const fetchData = async () => {
 		try {
 			// const response = await axios.get(`${process.env.API_URL}/transactions/` + Cookies.get("user_id"));

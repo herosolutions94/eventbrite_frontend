@@ -10,13 +10,13 @@ const HeaderStrip = () => {
 			<div className={style.header_strip}>
 				<ul className={style.sm_list}>
 					<li>
-						<Link href="/production/about">About us</Link>
+						<Link href="/about">About us</Link>
 					</li>
 					<li>
-						<Link href="/production/contact">Contact us</Link>
+						<Link href="/contact">Contact us</Link>
 					</li>
 					<li>
-						<Link href="/production/privacy-policy">Privacy policy</Link>
+						<Link href="/privacy-policy">Privacy policy</Link>
 					</li>
 				</ul>
 				<ul className={style.social_links}>

@@ -24,7 +24,7 @@ const Matches = (props: MatchesProps) => {
 									team_logo={data.teams?.[0]?.logo ? process.env.ASSET_URL + data.teams?.[0]?.logo : PhotoTeam01}
 									date={data.start_date}
 									time={data.schedule_time}
-									stream_link={`/production/tournament-detail/${data.id}`}
+									stream_link={`/tournament-detail/${data.id}`}
 									tags={data?.category?.name}
 									
 									text={'lorem ipsum'}

@@ -17,7 +17,7 @@ const WishlistsItems = (props: any) => {
 							<CategoryCard 
 								tournamentId={data.id}
 								title={data.title}
-								link={`/production/tournament-detail/` + data.id}
+								link={`/tournament-detail/` + data.id}
 								tag={data?.category?.name}
 								date={data.start_date}
 								text={'lorem ipsum'}

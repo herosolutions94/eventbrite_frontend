@@ -38,7 +38,6 @@ const Search = () => {
 			}
 			const response = await axios.get(`${process.env.API_URL}/tournaments?category=${params.category}&name=${params.name}`);
 			if (response.status === 200) {
-				console.log(response.data.data);
 				setTournaments(response.data.data.data);
 				setResponse(response.data.data);
 			}
@@ -77,7 +76,7 @@ const Search = () => {
 										<div className="col-lg-4 col-md-6 col-sm-4" key={tournament.id}>
 												<CategoryCard 
 													title={tournament.title}
-													link={`/production/tournament-detail/${tournament.id}`}
+													link={`/tournament-detail/${tournament.id}`}
 													tag={tournament?.category?.name}
 													date={tournament.start_date}
 													text={'lorem ipsum'}

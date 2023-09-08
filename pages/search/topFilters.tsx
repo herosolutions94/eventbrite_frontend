@@ -46,7 +46,7 @@ const TopFilters = ({
 				setTournaments(res.data.data.data);
 				setResponse(res.data.data);
 				router.push({
-					pathname: "/production/search",
+					pathname: "/search",
 					query: {
 						page: response.current_page,
 						category: category,

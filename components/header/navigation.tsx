@@ -19,7 +19,7 @@ const Navigation = (props: any) => {
 		Cookies.remove("email");
 		Cookies.remove("role");
 		Cookies.remove("token");
-		router.push("/production/signin");
+		router.push("/signin");
 	}
 
 	return (
@@ -129,27 +129,27 @@ const Navigation = (props: any) => {
 				) : (
 					<ul id={style.nav_list}>
 						<li>
-							<Link href="/production" className={router.pathname === "/production" ? style.active : ""}>
+							<Link href="" className={router.pathname === "" ? style.active : ""}>
 								Home
 							</Link>
 						</li>
 						<li>
-							<Link href="/production/search" className={router.pathname === "/production/search" ? style.active : ""}>
+							<Link href="/search" className={router.pathname === "/search" ? style.active : ""}>
 								Search
 							</Link>
 						</li>
 						<li>
-							<Link href="/production/works" className={router.pathname === "/production/works" ? style.active : ""}>
+							<Link href="/works" className={router.pathname === "/works" ? style.active : ""}>
 								How it works
 							</Link>
 						</li>
 						<li>
-							<Link href="/production/signin" className={router.pathname === "/production/signin" ? style.active : ""}>
+							<Link href="/signin" className={router.pathname === "/signin" ? style.active : ""}>
 								Sign in
 							</Link>
 						</li>
 						<li>
-							<Link href="/production/signup" className={router.pathname === "/production/signup" ? style.active : ""}>
+							<Link href="/signup" className={router.pathname === "/signup" ? style.active : ""}>
 								Sign up
 							</Link>
 						</li>

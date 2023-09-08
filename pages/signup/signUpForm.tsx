@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import style from "@/styles/scss/app.module.scss"
 import Link from "next/link"
-import countries from '../../api/countries'
+import countries from '../api/countries'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
@@ -14,9 +14,6 @@ const SignUpForm = () => {
 	const [countriesData, setCountriesData] = useState<any[]>([]);
 	const [signup, setSignup] = useState("organizer");
 	const [error, setError] = useState<{ name?: string,email?:string,phone_number?:string,password?:string,confirmPassword?:string,org_name?:string,org_website?:string,org_mailing_address?:string,org_communication_method?:string,org_timezone?:string,postal_code?:string,confirm_password?:string,country?:string,city?:string,address?:string }>({})
-	useEffect(() => {
-		console.log('signup', signup)
-	}, [signup])
 	const [formData, setFormData] = useState({
 		name: "",
 		email: "",
@@ -49,23 +46,14 @@ const SignUpForm = () => {
 			...playerData,
 		};
 		data.role = signup;
-		// console.log('data is',data);
 
 		try {
 			const response = await axios.post(process.env.API_URL + '/register', data);
 			toast.success(response.data.message);
 			if (response) {
-				// got to verify page
-				router.push('/production/verify');
+				router.push('/verify');
 				Cookies.set('email', response.data.user.email);
-				// Cookies.set('role', response.data.user.role);
-				// Cookies.set('token', response.data.token);
 			}
-			// if(response.data.user.role === "organizer"){
-			// 	router.push('/organizer');
-			// }else{
-			// 	router.push('/');
-			// }
 		} catch (error) {
 			if (axios.isAxiosError(error) && error.response?.status === 422) {
 				toast.error(error.response.data.message);
@@ -370,7 +358,7 @@ const SignUpForm = () => {
 							</button>
 						</div>
 						<div className={style.account + " mt-2"}>
-							Already have an account? <Link href="/production/signin">Sign in</Link>
+							Already have an account? <Link href="/signin">Sign in</Link>
 						</div>
 					</div>
 				</form>

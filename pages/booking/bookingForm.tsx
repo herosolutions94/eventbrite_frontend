@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import style from "@/styles/scss/app.module.scss"
-import countries from '../../api/countries'
+import countries from '../api/countries'
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie'
@@ -26,7 +26,6 @@ const BookingForm = () => {
 	
 	const handleSubmitForm = async (e: any) => {
 		e.preventDefault();
-		console.log('form data is ',formData);
 		try {
 			const response = await axios.post(process.env.API_URL + '/create-booking', formData)
 			if (response.status === 200) {
@@ -57,7 +56,7 @@ const BookingForm = () => {
 					description: '',
 				});
 				
-				router.push('/production/booking');
+				router.push('/booking');
 			}
 		} catch (error) {
 			if (axios.isAxiosError(error) && error.response?.status === 422) {

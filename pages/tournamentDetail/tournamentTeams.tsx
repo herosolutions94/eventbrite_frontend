@@ -8,7 +8,6 @@ type ReviewsProps = {
 	teams : any
 }
 const TournamentTeams = (teams: ReviewsProps ) => {
-	console.log(teams?.teams);
 	const teamsData = teams?.teams;
 	return (
 		<>

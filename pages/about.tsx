@@ -37,7 +37,6 @@ const About: React.FC = () => {
 	  if (!aboutPageData) {
 		return <div id={style.loader}></div>;
 	  }
-	  console.log(aboutPageData);
 
 	return (
 		

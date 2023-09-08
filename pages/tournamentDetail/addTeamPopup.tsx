@@ -127,7 +127,7 @@ const AddTeamPopup = (props: any) => {
 			if (res.status === 200) {
 				toast.success('Record has been inserted successfully.')
 				popupClose()
-				router.push("/production/tournament-detail/" + tournamentId)
+				router.push("/tournament-detail/" + tournamentId)
 			}	
 		}
 		catch (err) {

@@ -4,7 +4,7 @@ import Image from "next/image"
 import { PhotoTeam01, PhotoTeam02, PhotoTeam03 } from "@/components/images"
 import MembersPopup from "./membersPopup"
 import ConfirmationPopup from "./ConfirmationPopup"
-import ConfirmDeletionPopup from "../../production/tournamentDetail/confirmDeletionPopup"
+import ConfirmDeletionPopup from "../../tournamentDetail/confirmDeletionPopup"
 
 const TournamentContent = (props: any) => {
 	const {teams,handleTeams} = props

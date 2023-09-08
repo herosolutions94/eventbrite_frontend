@@ -38,11 +38,6 @@ const SelectTeam = () => {
 			{ name: "Spencer Zettersten", id: "spencer-zettersten", seed: 16 },
 		],
 	];
-	
-	// save in local storage
-	// localStorage.setItem("matches", JSON.stringify(matches));
-	// const matches2 = JSON.parse("matches2"+localStorage.getItem("matches") || "[]");
-	// console.log(matches2)
 	return (
 		<>
 			<Header pageTitle="Select Team" />

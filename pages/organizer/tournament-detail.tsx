@@ -21,9 +21,6 @@ const TournamentDetail = () => {
 			fetchData()
 		}
 	}, [id])
-	useEffect(() => {
-		console.log(tournamentDetails)
-	}, [tournamentDetails])
 	const fetchData = async () => {
 		try {
 			const response = await axios.get(process.env.API_URL + "/tournament-details/" + id, {})

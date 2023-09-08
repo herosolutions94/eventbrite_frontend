@@ -19,11 +19,8 @@ const TournamentDetail = () => {
 			fetchData();
 		}
 	}, [id]);
-	useEffect(() => {
-		console.log(tournamentDetails);
-	}, [tournamentDetails]);
 	const handleTeams = (teams: any) => {
-		console.log(teams);
+
 	}
 	const fetchData = async () => {
 		try {
