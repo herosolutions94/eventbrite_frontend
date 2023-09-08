@@ -25,25 +25,25 @@ const AddTeamPopup = (props: any) => {
 	const [teamMembers, setTeamMembers] = useState<teamMembers[]>([])
 	const formData = new FormData();
 	const [teams, setTeams] = useState({
-		mem_name: "Member Name",
-		mem_email: "member01@gmail.com",
-		mem_phone: "1234567890",
-		role: "captain",
-		emergency_name: "Emergency Name",
-		emergency_phone: "1234567890",
+		mem_name: "",
+		mem_email: "",
+		mem_phone: "",
+		role: "",
+		emergency_name: "",
+		emergency_phone: "",
 	})
 	const [teamDetails, setTeamDetails] = useState({
-		team_name: "Team Abc",
-		affiliation: "1",
-		team_color: "Red",
-		skill: "php,laravel,react",
+		team_name: "",
+		affiliation: "",
+		team_color: "",
+		skill: "",
 		logo : "",
-		full_name: "Ammar",
-		email: "ammar@gmail.com",
-		phone: "1234567890",
-		payment_method: "1",
+		full_name: "",
+		email: "",
+		phone: "",
+		payment_method: "",
 		payment_prof: "",
-		waivers_email: "ammarwavier@gmail.com",
+		waivers_email: "",
 		waivers_file: "",
 		card_number: "",
 		card_holder: "",
@@ -60,9 +60,44 @@ const AddTeamPopup = (props: any) => {
 				emergency_phone: "",
 			},
 		],
-	
-		
 	})
+	// const [teams, setTeams] = useState({
+	// 	mem_name: "Member Name",
+	// 	mem_email: "member01@gmail.com",
+	// 	mem_phone: "1234567890",
+	// 	role: "captain",
+	// 	emergency_name: "Emergency Name",
+	// 	emergency_phone: "1234567890",
+	// })
+	// const [teamDetails, setTeamDetails] = useState({
+	// 	team_name: "Team Abc",
+	// 	affiliation: "1",
+	// 	team_color: "Red",
+	// 	skill: "php,laravel,react",
+	// 	logo : "",
+	// 	full_name: "Ammar",
+	// 	email: "ammar@gmail.com",
+	// 	phone: "1234567890",
+	// 	payment_method: "1",
+	// 	payment_prof: "",
+	// 	waivers_email: "ammarwavier@gmail.com",
+	// 	waivers_file: "",
+	// 	card_number: "",
+	// 	card_holder: "",
+	// 	card_month: "",
+	// 	card_year: "",
+	// 	cvc: "",
+	// 	teams: [
+	// 		{
+	// 			mem_name: "",
+	// 			mem_email: "",
+	// 			mem_phone: "",
+	// 			role: "",
+	// 			emergency_name: "",
+	// 			emergency_phone: "",
+	// 		},
+	// 	],
+	// })
 
 	const addMoreTeams =(e: any) => {
 		setTeamMembers([...teamMembers, teams])
@@ -147,8 +182,62 @@ const AddTeamPopup = (props: any) => {
 	}
 	const [deleteMember, setDeleteMember]=useState(false);
 
+	const handleFieldSet = (fieldSet: string) => {
+		if(fieldSet == 'captain_info'){
+			const runTimeErrors = {
+				team_name: "",
+				affiliation: "",
+				team_color: "",
+				skill: "",
+			}
+			if(teamDetails.team_name == ""){
+				runTimeErrors.team_name = "Please enter team name"
+			}
+			if(teamDetails.affiliation == ""){
+				runTimeErrors.affiliation = "Please select affiliation"
+			}
+			if(teamDetails.team_color == ""){
+				runTimeErrors.team_color = "Please enter team color"
+			}
+			if(teamDetails.skill == ""){
+				runTimeErrors.skill = "Please enter skill"
+			}
+			if(runTimeErrors.team_name != "" || runTimeErrors.affiliation != "" || runTimeErrors.team_color != "" || runTimeErrors.skill != ""){
+				setErrors(runTimeErrors)
+				
+				return false;
+			}
+			setFieldset(fieldSet)
+		}else if(fieldSet == 'members_info'){
+			const runTimeErrors = {
+				full_name: "",
+				email: "",
+				phone: "",
+			}
+			if(teamDetails.full_name == ""){
+				runTimeErrors.full_name = "Please enter full name"
+			}
+			if(teamDetails.email == ""){
+				runTimeErrors.email = "Please enter email"
+			}
+			if(teamDetails.phone == ""){
+				runTimeErrors.phone = "Please enter phone"
+			}
+			if(runTimeErrors.full_name != "" || runTimeErrors.email != "" || runTimeErrors.phone != ""){
+				setErrors(runTimeErrors)
+				
+				return false;
+			}
+			setFieldset(fieldSet)
+		}else if(fieldSet == 'fee_info'){
+			// do nothing
+		}else{
+			// do nothing
+		}
+	}
+
 	
-	return (
+	return (	
 		<>
 			<div id={style.add_team_popup} className={style.popup}>
 				<div className={style.table_dv}>
@@ -187,6 +276,7 @@ const AddTeamPopup = (props: any) => {
 																<option value="3">Companies</option>
 																<option value="4">Community Sports Team</option>
 															</select>
+															<p className="text-danger">{errors?.affiliation}</p>
 														</div>
 													</div>
 													<div className="col-sm-6">
@@ -206,6 +296,7 @@ const AddTeamPopup = (props: any) => {
 														<h6>Team Colors</h6>
 														<div className={style.form_blk}>
 															<input type="text" name="team_color" id="" className={style.input} placeholder="eg: Yellow & Black"  onChange={handleChange} value={teamDetails.team_color} />
+															<p className="text-danger">{errors?.team_color}</p>
 														</div>
 													</div>
 													<div className="col-sm-6">
@@ -217,7 +308,7 @@ const AddTeamPopup = (props: any) => {
 													</div>
 												</div>
 												<div className={`${style.btn_blk} justify-content-center mt-5`}>
-													<button type="button" className={style.site_btn} onClick={() => setFieldset("captain_info")}>
+													<button type="button" className={style.site_btn} onClick={() => handleFieldSet('captain_info')}>
 														Continue
 													</button>
 												</div>
@@ -254,7 +345,7 @@ const AddTeamPopup = (props: any) => {
 													<button type="button" className={`${style.site_btn} ${style.simple}`} onClick={() => setFieldset("team_info")}>
 														Back
 													</button>
-													<button type="button" className={style.site_btn} onClick={() => setFieldset("members_info")}>
+													<button type="button" className={style.site_btn} onClick={() => handleFieldSet("members_info")}>
 														Continue
 													</button>
 												</div>
