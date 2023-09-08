@@ -30,14 +30,14 @@ type ProfileFormState = {
 	facebook: string;
 	twitter: string;
 	instagram: string;
-	linkedin: string;
+	linkedIn: string;
 }
 
 
 const ProfileForm = ({profileData}:ProfileFormProps) => {
 	const [countriesData, setCountriesData] = useState<any[]>([]);
 	const [profileDataState, setProfileData] = useState<any>();
-	const [error, setError] = useState<{ name?: string,email?:string,phone_number?:string,password?:string,confirmPassword?:string,org_name?:string,org_website?:string,org_mailing_address?:string,org_communication_method?:string,org_timezone?:string,postal_code?:string,confirm_password?:string,country?:string,city?:string,address?:string,firstname?:string,lastname?:string,secondary_phone?:string,secondary_email?:string,facebook?:string,twitter?:string,instagram?:string,linkedin?:string,state?:string }>({}); 
+	const [error, setError] = useState<{ name?: string,email?:string,phone_number?:string,password?:string,confirmPassword?:string,org_name?:string,org_website?:string,org_mailing_address?:string,org_communication_method?:string,org_timezone?:string,postal_code?:string,confirm_password?:string,country?:string,city?:string,address?:string,firstname?:string,lastname?:string,secondary_phone?:string,secondary_email?:string,facebook?:string,twitter?:string,instagram?:string,linkedIn?:string,state?:string }>({}); 
 
 	useEffect(() => {
 		if (profileData) {
@@ -62,7 +62,7 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 			facebook: profileData.facebook || '',
 			twitter: profileData.twitter || '',
 			instagram: profileData.instagram || '',
-			linkedin: profileData.linkedin || '',
+			linkedIn: profileData.linkedIn || '',
 		  });
 		}
 	  }, [profileData]);
@@ -87,7 +87,7 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 		facebook: '',
 		twitter: '',
 		instagram: '',
-		linkedin: '',
+		linkedIn: '',
 	});
 
 	const handleSubmitForm = async (e: any) => {
@@ -97,6 +97,29 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 				toast.success(response.data.message);
 			if (response.status === 200) {
 				toast.success(response.data.message);
+				setError({
+					firstname: '',
+					lastname: '',
+					phone_number: '',
+					email: '',
+					org_name: '',
+					org_website: '',
+					org_mailing_address: '',
+					org_communication_method: '',
+					org_timezone: '',
+					country: '',
+					city: '',
+					state: '',
+					postal_code: '',
+					address: '',
+					secondary_phone: '',
+					secondary_email: '',
+					facebook: '',
+					twitter: '',
+					instagram: '',
+					linkedIn: '',
+				});
+
 			}
 		} catch (error) {
 			if (axios.isAxiosError(error) && error.response?.status === 422) {
@@ -327,8 +350,8 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 						<div className="col-lg-6 col-6">
 							<h6>linkedin</h6>
 							<div className={style.form_blk}>
-								<input type="text" id="" name="linkedin" value={formData.linkedin} className={style.input} placeholder="eg: www.linkedin.com" onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })} />
-								<p className="text-danger">{error?.linkedin}</p>
+								<input type="text" id="" name="linkedIn" value={formData.linkedIn} className={style.input} placeholder="eg: www.linkedin.com" onChange={(e) => setFormData({ ...formData, linkedIn: e.target.value })} />
+								<p className="text-danger">{error?.linkedIn}</p>
 							</div>
 						</div>
 					</div>
