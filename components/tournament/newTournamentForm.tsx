@@ -417,10 +417,7 @@ const NewTournamentForm = () => {
 			if(tournamentDetails.code_of_conduct == ''){
 				runTimeErrors.code_of_conduct = 'code of conduct is required'
 			}
-			if(tournamentDetails.sponsor_information == ''){
-				runTimeErrors.sponsor_information = 'sponsor information is required'
-			}
-			if(runTimeErrors.overview != '' || runTimeErrors.rules != '' || runTimeErrors.code_of_conduct != '' || runTimeErrors.sponsor_information != ''){
+			if(runTimeErrors.overview != '' || runTimeErrors.rules != '' || runTimeErrors.code_of_conduct != ''){
 				setErrorMessage('Please fill out all the fields');
 				setErrors(runTimeErrors)
 			}else{
@@ -496,13 +493,13 @@ const NewTournamentForm = () => {
 			if(tournamentDetails.fourth_match_time == ''){
 				runTimeErrors.fourth_match_time = 'fourth match time is required'
 			}
-			if(tournamentDetails.fourth_match_breaks == ''){
-				runTimeErrors.fourth_match_breaks = 'fourth match breaks is required'
-			}
+			// if(tournamentDetails.fourth_match_breaks == ''){
+			// 	runTimeErrors.fourth_match_breaks = 'fourth match breaks is required'
+			// }
 			if(tournamentDetails.fourth_venue_availability == ''){
 				runTimeErrors.fourth_venue_availability = 'fourth venue availability is required'
 			}
-			if(runTimeErrors.age != '' || runTimeErrors.equipment_requirements != '' || runTimeErrors.schedule_date != '' || runTimeErrors.schedule_time != '' || runTimeErrors.schedule_breaks != '' || runTimeErrors.venue_availability != '' || runTimeErrors.second_match_date != '' || runTimeErrors.second_match_time != '' || runTimeErrors.second_match_breaks != '' || runTimeErrors.second_venue_availability != '' || runTimeErrors.third_match_date != '' || runTimeErrors.third_match_time != '' || runTimeErrors.third_match_breaks != '' || runTimeErrors.third_venue_availability != '' || runTimeErrors.fourth_match_date != '' || runTimeErrors.fourth_match_time != '' || runTimeErrors.fourth_match_breaks != '' || runTimeErrors.fourth_venue_availability != ''){
+			if(runTimeErrors.age != '' || runTimeErrors.equipment_requirements != '' || runTimeErrors.schedule_date != '' || runTimeErrors.schedule_time != '' || runTimeErrors.schedule_breaks != '' || runTimeErrors.venue_availability != '' || runTimeErrors.second_match_date != '' || runTimeErrors.second_match_time != '' || runTimeErrors.second_match_breaks != '' || runTimeErrors.second_venue_availability != '' || runTimeErrors.third_match_date != '' || runTimeErrors.third_match_time != '' || runTimeErrors.third_match_breaks != '' || runTimeErrors.third_venue_availability != '' || runTimeErrors.fourth_match_date != '' || runTimeErrors.fourth_match_time != ''  || runTimeErrors.fourth_venue_availability != ''){
 				setErrorMessage('Please fill out all the fields');
 				setErrors(runTimeErrors)
 			}else{
