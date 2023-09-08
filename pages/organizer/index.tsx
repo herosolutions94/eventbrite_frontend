@@ -26,14 +26,15 @@ type ProfileProps = {
 const Dashboard = () => {
 	const [profileData, setProfileData] = React.useState<ProfileProps | null>(null);
 	const role = Cookies.get("role");
+	const router = useRouter()
 	useEffect(() => {
 		
 		if(role == 'player'){
-			const router = useRouter()
+		
 			router.push("/player")
 		}
 		fetchProfileData()
-	}, [role]);
+	}, [role,router]);
 	
 	const fetchProfileData = async () => {
 		try {
