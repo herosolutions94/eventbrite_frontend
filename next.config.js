@@ -8,7 +8,7 @@ const nextConfig = {
     STRIPE_API_VERSION: process.env.STRIPE_API_VERSION,
   },
   images: {
-    domains: ['via.placeholder.com','eventbrite.test','playoffz.com'],
+    domains: ['via.placeholder.com','eventbrite.test','playoffz.com','api.playoffz.com'],
   },
 }
 
