@@ -16,10 +16,10 @@ const Navigation = (props: any) => {
 	}
 
 	const handleLogout = () => {
-		Cookies.remove("email");
-		Cookies.remove("role");
-		Cookies.remove("token");
-		router.push("/signin");
+		Cookies.remove("email")
+		Cookies.remove("role")
+		Cookies.remove("token")
+		router.push("/signin")
 	}
 
 	return (
@@ -68,10 +68,7 @@ const Navigation = (props: any) => {
 									<Link href="/player/booking">Bookings</Link>
 								</li>
 								<li>
-									<a 
-										onClick={handleLogout}>
-											Sign out
-									</a>
+									<a onClick={handleLogout}>Sign out</a>
 								</li>
 							</ul>
 						</div>
@@ -84,7 +81,7 @@ const Navigation = (props: any) => {
 									Dashboard
 								</Link>
 							</li>
-								{/* <li>
+							{/* <li>
 									<Link href="/organizer/transactions" className={router.pathname === "/organizer/transactions" ? style.active : ""}>
 										Transactions
 									</Link>
@@ -119,9 +116,7 @@ const Navigation = (props: any) => {
 									<Link href="/organizer/transactions">Transactions</Link>
 								</li> */}
 								<li>
-									<a onClick={handleLogout}>
-											Sign out
-									</a>
+									<a onClick={handleLogout}>Sign out</a>
 								</li>
 							</ul>
 						</div>
@@ -129,7 +124,7 @@ const Navigation = (props: any) => {
 				) : (
 					<ul id={style.nav_list}>
 						<li>
-							<Link href="" className={router.pathname === "" ? style.active : ""}>
+							<Link href="/" className={router.pathname === "" ? style.active : ""}>
 								Home
 							</Link>
 						</li>
@@ -139,7 +134,7 @@ const Navigation = (props: any) => {
 							</Link>
 						</li>
 						<li>
-							<Link href="/works" className={router.pathname === "/works" ? style.active : ""}>
+							<Link href="/about" className={router.pathname === "/about" ? style.active : ""}>
 								How it works
 							</Link>
 						</li>

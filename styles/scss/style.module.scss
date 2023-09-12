@@ -758,6 +758,7 @@
 		position: absolute;
 		left: 0;
 		bottom: 0;
+		width: 100%;
 		max-width: 32rem;
 		background: rgba(var(--dark_rgb), 0.8);
 		padding: 2rem;
@@ -969,6 +970,9 @@
 
 #logon {
 	@include flex;
+	-webkit-box-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
 	background-size: 0;
 	padding: 0;
 	padding-left: 50%;
