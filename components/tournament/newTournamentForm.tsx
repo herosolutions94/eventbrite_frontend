@@ -524,7 +524,42 @@ const NewTournamentForm = () => {
 				setFieldset(fieldSet)
 				setErrorMessage('')
 			}
-		}else{
+		}
+		// else if(fieldSet == 'tournament_staff'){
+		// 	const runTimeErrors = {
+		// 		schedule_date : '',
+		// 		schedule_time : '',
+		// 		schedule_breaks : '',
+		// 		venue_availability : '',
+		// 	}
+		// 	if(tournamentDetails.schedule_date == ''){
+		// 		runTimeErrors.schedule_date = 'schedule date is required'
+		// 	}
+		// 	if(tournamentDetails.schedule_time == ''){
+		// 		runTimeErrors.schedule_time = 'schedule time is required'
+		// 	}else{
+		// 		// time should be like 16:00 
+		// 		const time = tournamentDetails.schedule_time.split(':') as any;
+		// 		if(time[0] > 24 || time[1] > 60){
+		// 			runTimeErrors.schedule_time = 'schedule time is invalid'
+		// 		}
+		// 	}
+		// 	if(tournamentDetails.schedule_breaks == ''){
+		// 		runTimeErrors.schedule_breaks = 'schedule breaks is required'
+		// 	}
+		// 	if(tournamentDetails.venue_availability == ''){
+		// 		runTimeErrors.venue_availability = 'venue availability is required'
+		// 	}
+		// 	if(runTimeErrors.schedule_date != '' || runTimeErrors.schedule_time != '' || runTimeErrors.schedule_breaks != '' || runTimeErrors.venue_availability != ''){
+		// 		setErrorMessage('Please fill out all the fields');
+		// 		setErrors(runTimeErrors)
+		// 	}else{
+		// 		setFieldset(fieldSet)
+		// 		setErrorMessage('')
+		// 	}
+			
+		// }
+		else{
 			setFieldset(fieldSet)
 			setErrorMessage('')
 		}
@@ -900,7 +935,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Date</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="schedule_date" id="" className={style.input} placeholder="eg: 04-12-2020"  
+										<input type="date" name="schedule_date" id="" className={style.input} placeholder="eg: 04-12-2020"  
 											onChange={handleChange}
 											value={tournamentDetails.schedule_date}
 										/>
@@ -910,7 +945,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Time</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="schedule_time" id="" className={style.input} placeholder="eg: 16:00" 
+										<input type="time" name="schedule_time" id="" className={style.input} placeholder="eg: 16:00" 
 											onChange={handleChange} 
 											value={tournamentDetails.schedule_time}
 										/>
@@ -945,7 +980,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Date</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="second_match_date" id="" className={style.input} placeholder="eg: 04-12-2020" 
+										<input type="date" name="second_match_date" id="" className={style.input} placeholder="eg: 04-12-2020" 
 											onChange={handleChange}
 											value={tournamentDetails.second_match_date}
 											/>
@@ -955,7 +990,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Time</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="second_match_time" id="" className={style.input} placeholder="eg: 16:00" 
+										<input type="time" name="second_match_time" id="" className={style.input} placeholder="eg: 16:00" 
 											onChange={handleChange}
 											value={tournamentDetails.second_match_time}
 										/>
@@ -991,7 +1026,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Date</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="third_match_date" id="" className={style.input} placeholder="eg: 04-12-2020" 
+										<input type="date" name="third_match_date" id="" className={style.input} placeholder="eg: 04-12-2020" 
 										onChange={handleChange}
 										value={tournamentDetails.third_match_date}
 										/>
@@ -1001,7 +1036,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Time</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="third_match_time" id="" className={style.input} placeholder="eg: 16:00"
+										<input type="time" name="third_match_time" id="" className={style.input} placeholder="eg: 16:00"
 										 onChange={handleChange}
 										 value={tournamentDetails.third_match_time}
 										 />
@@ -1036,7 +1071,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Date</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="fourth_match_date" id="" className={style.input} placeholder="eg: 04-12-2020"  
+										<input type="date" name="fourth_match_date" id="" className={style.input} placeholder="eg: 04-12-2020"  
 										onChange={handleChange}
 										value={tournamentDetails.fourth_match_date}
 										/>
@@ -1046,7 +1081,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Time</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="fourth_match_time" id="" className={style.input} placeholder="eg: 16:00"  
+										<input type="time" name="fourth_match_time" id="" className={style.input} placeholder="eg: 16:00"  
 										onChange={handleChange}
 										value={tournamentDetails.fourth_match_time}
 										/>
