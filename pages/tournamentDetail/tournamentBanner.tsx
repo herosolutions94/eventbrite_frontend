@@ -4,12 +4,43 @@ import { IconHeart, PhotoAbout, PhotoBlog02, PhotoMainSlide, PhotoTeam01 } from 
 import Image from "next/image"
 import AddTeamPopup from "./addTeamPopup"
 import Cookies from "js-cookie"
+import axios from "axios"
+import { toast } from 'react-toastify';
 
 const TournamentBanner =(props : any) => {
 	const {details,fetchData,teamsCount} = props;
 	const [addTeamPopup, setAddTeamPopup] = useState(false)
 	const addTeamPopupHandle = () => {
 		setAddTeamPopup(!addTeamPopup)
+	}
+	const AddToWishlist = async () => {
+		try {
+			const user_id = Cookies.get("user_id");
+			if(!user_id) {
+				toast.error("Please login first");
+				return;
+			}
+			const response = await axios.post(`${process.env.API_URL}/add-to-wishlist`, {
+				tournament_id: details.id,
+				user_id: Cookies.get("user_id"),
+			}, {
+				headers: {
+					Authorization: `Bearer ${Cookies.get("token")}`,
+				},
+			});
+
+			if (response.status === 200) {
+				toast.success("Added to wishlist");
+				const wishList = JSON.parse(localStorage.getItem("wishlist") || "[]");
+				wishList.push(details.id);
+				localStorage.setItem("wishlist", JSON.stringify(wishList));
+			}else{
+				toast.error("Something went wrong");
+			}
+
+		} catch (error : any) {
+			toast.error(error.response.data.message);
+		}
 	}
 	return (
 		<>
@@ -62,7 +93,10 @@ const TournamentBanner =(props : any) => {
 										</button>
 									) : null}
 									
-									<button className={style.heart_btn}>
+									<button 
+										className={style.heart_btn} 
+										onClick={AddToWishlist}
+									>
 										<Image width={40} height={40} src={IconHeart} alt="Heart" /> Add to wishlist
 									</button>
 								</>
