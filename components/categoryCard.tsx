@@ -62,7 +62,7 @@ const CategoryCard = (props: any) => {
 					<div className={style.date}>
 						<Image width={100} height={100} src={IconCalendar} alt="" /> {date}
 					</div>
-					<RatingStars value={rating} />
+					{/* <RatingStars value={rating} /> */}
 					<p>{text}</p>
 				</div>
 			</div>

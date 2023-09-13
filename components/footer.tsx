@@ -26,7 +26,6 @@ const Footer = () => {
 			`${process.env.API_URL}/get-site-settings`
 		  );
 		  if (res.status === 200) {
-			console.log(res.data.data.social_facebook.value);
 			setPageContent(res.data.data);
 		  }
 		} catch (err) {
