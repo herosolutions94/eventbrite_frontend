@@ -1,9 +1,38 @@
-import React from "react"
+import React, { useEffect, useState } from "react";
 import style from "@/styles/scss/app.module.scss"
 import Link from "next/link"
 import Logo from "./logo"
+import axios from "axios";
 
+type pageContentProps = {
+	social_facebook: any;
+	social_google_store: any;
+	social_instagram: any;
+	social_linkedin: any;
+	social_yelp: any;
+  };
 const Footer = () => {
+	const [pageContent, setPageContent] = useState<pageContentProps | null>(
+		null
+	  );
+	
+	  useEffect(() => {
+		getContent();
+	  }, []);
+	
+	  const getContent = async () => {
+		try {
+		  const res = await axios.get(
+			`${process.env.API_URL}/get-site-settings`
+		  );
+		  if (res.status === 200) {
+			console.log(res.data.data.social_facebook.value);
+			setPageContent(res.data.data);
+		  }
+		} catch (err) {
+		  console.log(err);
+		}
+	  };
 	return (
 		<>
 			<footer id={style.footer}>
@@ -39,27 +68,27 @@ const Footer = () => {
 							<div className={style.title}>Follow</div>
 							<ul className={style.list}>
 								<li>
-									<a href="?" target="_blank">
+									<a href={pageContent?.social_yelp.value} target="_blank">
 										Yelp
 									</a>
 								</li>
 								<li>
-									<a href="?" target="_blank">
+									<a href={pageContent?.social_google_store.value} target="_blank">
 										Google Business
 									</a>
 								</li>
 								<li>
-									<a href="?" target="_blank">
+									<a href={pageContent?.social_linkedin.value} target="_blank">
 										LinkedIn
 									</a>
 								</li>
 								<li>
-									<a href="?" target="_blank">
+									<a href={pageContent?.social_instagram.value} target="_blank">
 										Instagram
 									</a>
 								</li>
 								<li>
-									<a href="?" target="_blank">
+									<a href={pageContent?.social_facebook.value} target="_blank">
 										Facebook
 									</a>
 								</li>
@@ -73,7 +102,7 @@ const Footer = () => {
 									<button type="submit" className={style.link_btn}></button>
 								</div>
 								<p>
-									This site is protected by reCAPTHCHA and the <Link href="?">Google</Link>, <Link href="?">Privacy Policy</Link> and <Link href="?">Terms of Service</Link> apply.
+									This site is protected by reCAPTHCHA and the <Link href="/privacy-policy">Google</Link>, <Link href="/privacy-policy">Privacy Policy</Link> and <Link href="/privacy-policy">Terms of Service</Link> apply.
 								</p>
 							</form>
 						</div>
