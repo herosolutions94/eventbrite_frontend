@@ -51,7 +51,7 @@ const HeaderStrip = () => {
 				<ul className={style.social_links}>
 					<li>
 						<a 
-							href={pageContent?.social_yelp.value}
+							href={pageContent?.social_yelp?.value}
 							target="_blank"
 						>
 							<Image width={60} height={60} src={SocialYelp} alt="" />
@@ -59,7 +59,7 @@ const HeaderStrip = () => {
 					</li>
 					<li>
 						<a 
-							href={pageContent?.social_google_store.value}
+							href={pageContent?.social_google_store?.value}
 							target="_blank"
 						>
 							<Image width={60} height={60} src={SocialGoogleStore} alt="" />
@@ -67,21 +67,21 @@ const HeaderStrip = () => {
 					</li>
 					<li>
 						<a 
-							href={pageContent?.social_linkedin.value}
+							href={pageContent?.social_linkedin?.value}
 							target="_blank">
 							<Image width={60} height={60} src={SocialLinkedin} alt="" />
 						</a>
 					</li>
 					<li>
 						<a 
-							href={pageContent?.social_instagram.value}
+							href={pageContent?.social_instagram?.value}
 							target="_blank">
 							<Image width={60} height={60} src={SocialInstagram} alt="" />
 						</a>
 					</li>
 					<li>
 						<a 
-							href={pageContent?.social_facebook.value}
+							href={pageContent?.social_facebook?.value}
 							target="_blank">
 							<Image width={60} height={60} src={SocialFacebook} alt="" />
 						</a>

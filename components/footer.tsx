@@ -67,27 +67,27 @@ const Footer = () => {
 							<div className={style.title}>Follow</div>
 							<ul className={style.list}>
 								<li>
-									<a href={pageContent?.social_yelp.value} target="_blank">
+									<a href={pageContent?.social_yelp?.value} target="_blank">
 										Yelp
 									</a>
 								</li>
 								<li>
-									<a href={pageContent?.social_google_store.value} target="_blank">
+									<a href={pageContent?.social_google_store?.value} target="_blank">
 										Google Business
 									</a>
 								</li>
 								<li>
-									<a href={pageContent?.social_linkedin.value} target="_blank">
+									<a href={pageContent?.social_linkedin?.value} target="_blank">
 										LinkedIn
 									</a>
 								</li>
 								<li>
-									<a href={pageContent?.social_instagram.value} target="_blank">
+									<a href={pageContent?.social_instagram?.value} target="_blank">
 										Instagram
 									</a>
 								</li>
 								<li>
-									<a href={pageContent?.social_facebook.value} target="_blank">
+									<a href={pageContent?.social_facebook?.value} target="_blank">
 										Facebook
 									</a>
 								</li>
