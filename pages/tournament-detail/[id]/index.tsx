@@ -1,4 +1,4 @@
-import React, { useEffect , useState} from "react"
+import React, { useEffect, useState } from "react"
 import style from "@/styles/scss/app.module.scss"
 import Header from "@/components/header/header"
 import Footer from "@/components/footer"
@@ -9,7 +9,7 @@ import TournamentTeams from "../../tournamentDetail/tournamentTeams"
 import ReviewsBlock from "../../tournamentDetail/reviewsBlock"
 import axios from "axios"
 import Cookies from "js-cookie"
-import { useRouter } from 'next/router';	
+import { useRouter } from 'next/router';
 import ReviewPopup from "../../tournamentDetail/reviewPopup"
 
 const TournamentDetail = () => {
@@ -37,18 +37,19 @@ const TournamentDetail = () => {
 			console.log(error);
 		}
 	};
+
 	return (
 		<>
 			<Header pageTitle="Tournament Detail" />
 			<section id={style.tournament_detail}>
-				<TournamentBanner 
-					details={tournamentDetails} 
+				<TournamentBanner
+					details={tournamentDetails}
 					fetchData={fetchData as any}
 					teamsCount={teamsCount}
 				/>
 				<div id={style.overview}>
 					<div className={style.contain}>
-						
+
 						<OverviewBlock details={tournamentDetails} />
 						{tournamentDetails?.teams?.length > 0 &&
 							<TournamentTeams teams={tournamentDetails?.teams} />
