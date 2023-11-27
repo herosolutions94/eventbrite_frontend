@@ -8,9 +8,10 @@ import Router from "next/router"
 import Cookies from "js-cookie"
 import Script from "next/script"
 import { useSelector } from "react-redux"
+import { RootState } from '../../states/reducers/rootReducer'; // Replace with the actual path
 
 const Header = (props: any) => {
-	const profileData = useSelector((state) => state.dashboard.content);
+	const profileData = useSelector((state: RootState) => state.dashboard.content);
 	const { pageTitle } = props
 	const [header, setHeader] = useState("production")
 	const [navActive, setNavActive] = useState(false)
