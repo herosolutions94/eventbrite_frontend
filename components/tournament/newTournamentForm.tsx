@@ -9,8 +9,6 @@ import { CardElement, useStripe, useElements, CardNumberElement, CardExpiryEleme
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 const stripePromise = loadStripe('pk_test_51Moz1CFV8hMVqQzQH96smahOCpKUnMix9OMtfhQe3YjnaL4kpLa6An91ycTRcs26A7hZwgr0HelG4ElEdYBAEwbb00MpdTNJhb');
-
-
 const useOptions = () => {
 	const options = useMemo(
 		() => ({
