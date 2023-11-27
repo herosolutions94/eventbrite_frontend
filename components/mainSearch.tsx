@@ -64,7 +64,7 @@ const MainSearch = ({ setTournaments, categoriesArr }: MapSearchProps) => {
 							categoriesArr?.length > 0 ?
 								categoriesArr?.map((category_row, index) => {
 									return (
-										<option value={category_row?.name} selected={category_row?.name === category ? true : false}>{category_row?.name}</option>
+										<option value={category_row?.name} selected={category_row?.name === category ? true : false} key={index}>{category_row?.name}</option>
 									)
 								})
 								:
