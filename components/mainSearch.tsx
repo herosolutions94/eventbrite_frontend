@@ -1,4 +1,4 @@
-import React,{useState} from "react"
+import React, { useState } from "react"
 import style from "@/styles/scss/app.module.scss"
 import { useRouter } from "next/router"
 import axios from "axios"
@@ -7,15 +7,15 @@ import Search from "@/pages/search"
 type MapSearchProps = {
 	setTournaments: React.Dispatch<React.SetStateAction<any>>
 	setResponse?: React.Dispatch<React.SetStateAction<any>>
+	categoriesArr: any[]
 }
-const MainSearch = ({ setTournaments }: MapSearchProps) => {
-	
+const MainSearch = ({ setTournaments, categoriesArr }: MapSearchProps) => {
 	const router = useRouter()
 	const params = useRouter().query;
 	const [categories, setCategories] = useState([]);
 	const [category, setCategory] = React.useState(params?.category || "")
 	const [postCode, setPostCode] = React.useState(params?.postCode || "")
-	const [eventName , setEventName] = React.useState(params?.name || "")
+	const [eventName, setEventName] = React.useState(params?.name || "")
 
 	const handleRedirect = (e: any) => {
 		e.preventDefault()
@@ -47,21 +47,35 @@ const MainSearch = ({ setTournaments }: MapSearchProps) => {
 		<>
 			<form action="" method="post" className={style.main_search_form} onSubmit={handleRedirect}>
 				<div className={style.input_wrap}>
-					<input 
-						type="text" 
-						name="" 
-						id="" 
-						className={style.input} 
+					{/* <input
+						type="text"
+						name=""
+						id=""
+						className={style.input}
 						placeholder="Categories"
 						onChange={(e) => handleCategorySearch(e)}
 						value={category}
-						
-					/>
-					<div className={style.suggest_block}>
+
+					/> */}
+					<select name="looking_for" id="" onChange={(e) => handleCategorySearch(e)} className={style.input}
+					>
+						<option value="">Select Category</option>
+						{
+							categoriesArr?.length > 0 ?
+								categoriesArr?.map((category_row, index) => {
+									return (
+										<option value={category_row?.name} selected={category_row?.name === category ? true : false}>{category_row?.name}</option>
+									)
+								})
+								:
+								""
+						}
+					</select>
+					{/* <div className={style.suggest_block}>
 						<ul className={style.scrollbar}>
 							{categories && categories.map((category: any) => (
-								<li 
-									key={category.id} 
+								<li
+									key={category.id}
 									onClick={
 										() => {
 											setCategory(category.name)
@@ -73,14 +87,14 @@ const MainSearch = ({ setTournaments }: MapSearchProps) => {
 								</li>
 							))}
 						</ul>
-					</div>
+					</div> */}
 				</div>
 				<div className={style.input_wrap}>
-					<input 
-						type="text" 
-						name="" 
-						id="" 
-						className={style.input} 
+					<input
+						type="text"
+						name=""
+						id=""
+						className={style.input}
 						placeholder="Search by Name"
 						onChange={(e) => setEventName(e.target.value)}
 						value={eventName}
@@ -96,8 +110,8 @@ const MainSearch = ({ setTournaments }: MapSearchProps) => {
 					value={postCode}
 					
 				/> */}
-				<button 
-					type="submit" 
+				<button
+					type="submit"
 					className={style.site_btn}
 				>
 					Search

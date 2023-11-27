@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import style from "@/styles/scss/app.module.scss"
 import Header from "@/components/header/header"
 import Footer from "@/components/footer"
@@ -17,6 +17,7 @@ const Search = () => {
 	const [showMap, setShowMap] = useState(false)
 	const [activeTab, setActiveTab] = useState('list');
 	const [tournaments, setTournaments] = useState<any | null>([]);
+	const [categories, setCategories] = useState<any | null>([]);
 	const [response, setResponse] = useState<any | null>(null);
 	const params = useRouter().query;
 
@@ -24,28 +25,30 @@ const Search = () => {
 		fetchTournaments();
 	}, []);
 	// get params from url
-	
+
 	const fetchTournaments = async () => {
-	
+
 		try {
-			if(!params.category && !params.name){
+			if (!params.category && !params.name) {
 				const response = await axios.get(`${process.env.API_URL}/tournaments`);
 				if (response.status === 200) {
 					setTournaments(response.data.data.data);
 					setResponse(response.data.data);
+					setCategories(response.data.categories);
 				}
 				return;
 			}
 			const response = await axios.get(`${process.env.API_URL}/tournaments?category=${params.category}&name=${params.name}`);
 			if (response.status === 200) {
+				console.log(response.data)
 				setTournaments(response.data.data.data);
+
 				setResponse(response.data.data);
 			}
 		} catch (error) {
 			console.log(error);
 		}
 	};
-
 	if (!tournaments) {
 		return <div id={style.loader}></div>;
 	}
@@ -58,50 +61,51 @@ const Search = () => {
 			<Header pageTitle="Search" />
 			<section id={style.search}>
 				<div className={style.contain}>
-					<TopFilters  
-						setActiveTab={setActiveTab} 
-						activeTab={activeTab} 
+					<TopFilters
+						setActiveTab={setActiveTab}
+						activeTab={activeTab}
 						setTournaments={setTournaments as any}
 						response={response}
 						setResponse={setResponse as any}
 						category={params.category as string}
 						name={params.name as string}
+						categories={categories as any}
 					/>
 					<div className={style.outer}>
 						{activeTab === "list" && (
-						<div className="w-100">
-							<div className="row">
-								{tournaments.length > 0 && (
-									tournaments.map((tournament: any, index: number) => (
-										<div className="col-lg-4 col-md-6 col-sm-4" key={tournament.id}>
-												<CategoryCard 
+							<div className="w-100">
+								<div className="row">
+									{tournaments.length > 0 && (
+										tournaments.map((tournament: any, index: number) => (
+											<div className="col-lg-4 col-md-6 col-sm-4" key={tournament.id}>
+												<CategoryCard
 													title={tournament.title}
 													link={`/tournament-detail/${tournament.id}`}
 													tag={tournament?.category?.name}
 													date={tournament.start_date}
 													text={'lorem ipsum'}
-												
+
 													img={process.env.ASSET_URL + tournament?.images[0]?.image}
 												/>
 											</div>
 										))
 									)
-								}
-							</div>
-							<Pagination 
-								response={response}
-								setTournaments={setTournaments as any}
-								setResponse={setResponse as any}
-								category={params.categories as string}
-								name={params.name as string}
+									}
+								</div>
+								<Pagination
+									response={response}
+									setTournaments={setTournaments as any}
+									setResponse={setResponse as any}
+									category={params.categories as string}
+									name={params.name as string}
 								// setCurrentPage={setCurrentPage as any}
-							/>
-						</div>
+								/>
+							</div>
 						)}
 						{activeTab === "map" && tournaments.length > 0 && (
 							<div className={`${style.map_blk} ${showMap ? style.active : ""} w-100`}>
-								<MapBlock tournaments={tournaments}/>
-							</div> 
+								<MapBlock tournaments={tournaments} />
+							</div>
 						)}
 					</div>
 				</div>

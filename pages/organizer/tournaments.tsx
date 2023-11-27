@@ -1,16 +1,30 @@
 import Header from "@/components/header/header"
-import React from "react"
+import React, { useEffect } from "react"
 import style from "@/styles/scss/app.module.scss"
 import Footer from "@/components/footer"
 import TournamentsItems from "./tournaments/tournamentsItems"
 import Link from "next/link"
 import Cookies from "js-cookie"
 import { useRouter } from "next/router"
-
+import { useSelector, useDispatch } from "react-redux";
+import { fetchMemberData } from '../../states/actions/dashboard';
 
 const Tournaments = () => {
 
-	
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(fetchMemberData());
+	}, []);
+	const profileData = useSelector((state) => state.dashboard.content);
+	const isLoading = useSelector((state) => state.dashboard.isLoading);
+	// const [profileData, setProfileData] = React.useState<ProfileProps | null>(null);
+	const role = Cookies.get("role");
+	const router = useRouter()
+	useEffect(() => {
+		if (profileData?.role === 'player') {
+			router.push("/player")
+		}
+	}, [profileData]);
 	return (
 		<>
 			<Header pageTitle="Tournaments" />

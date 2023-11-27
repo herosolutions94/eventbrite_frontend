@@ -9,11 +9,27 @@ import axios from "axios"
 import { PhotoTeam01 } from "@/components/images"
 // import { SingleElimination } from "./tournamentDetail/eliminationBracket"
 // import EliminationBracket from "./tournamentDetail/eliminationBracket"
+import { useSelector, useDispatch } from "react-redux";
+import { fetchMemberData } from '../../states/actions/dashboard';
+import Cookies from "js-cookie"
 
 const TournamentDetail = () => {
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(fetchMemberData());
+	}, []);
+	const profileData = useSelector((state) => state.dashboard.content);
+	const isLoading = useSelector((state) => state.dashboard.isLoading);
+	// const [profileData, setProfileData] = React.useState<ProfileProps | null>(null);
+	const role = Cookies.get("role");
+	const router = useRouter()
+	useEffect(() => {
+		if (profileData?.role === 'player') {
+			router.push("/player")
+		}
+	}, [profileData]);
 	const [tournamentDetails, setTournamentDetails] = useState<any>([])
 	const [teams, setTeams] = useState<any>([])
-	const router = useRouter()
 	const { id } = router.query
 
 	useEffect(() => {

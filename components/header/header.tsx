@@ -7,8 +7,10 @@ import HeaderStrip from "./headerStrip"
 import Router from "next/router"
 import Cookies from "js-cookie"
 import Script from "next/script"
+import { useSelector } from "react-redux"
 
 const Header = (props: any) => {
+	const profileData = useSelector((state) => state.dashboard.content);
 	const { pageTitle } = props
 	const [header, setHeader] = useState("production")
 	const [navActive, setNavActive] = useState(false)
@@ -34,7 +36,7 @@ const Header = (props: any) => {
 				<title>{pageTitle} — Eventplus</title>
 				<meta name="description" content="Eventplus" />
 				<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=yes" />
-				<link rel="icon" href="/images/favicon.ico" />
+				<link rel="icon" href="/images/logo.png" />
 				<script
 					src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmqmsf3pVEVUoGAmwerePWzjUClvYUtwM&libraries=places"
 					async
@@ -44,7 +46,7 @@ const Header = (props: any) => {
 				{/* <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js" async></script> */}
 				{/* <script type="text/javascript" src="https://www.jqueryscript.net/demo/Single-Elimation-Tournament-Bracket-Generator-Gracket/jquery.gracket.min.js" async></script>
 				<script type="text/javascript" src="https://www.jqueryscript.net/demo/Single-Elimation-Tournament-Bracket-Generator-Gracket/test.js" async></script> */}
-			
+
 			</Head>
 			<header id={style.header} className={`${header !== "production" ? style.logged : ""}`}>
 				<div className={style.contain}>
@@ -53,7 +55,7 @@ const Header = (props: any) => {
 						<span></span>
 					</button>
 					{header === "production" ? <HeaderStrip /> : null}
-					<Navigation headerType={role} navActive={navActive} />
+					<Navigation headerType={role} navActive={navActive} profileData={profileData} />
 				</div>
 			</header>
 		</>

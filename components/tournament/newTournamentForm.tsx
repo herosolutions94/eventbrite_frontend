@@ -1,8 +1,8 @@
-import React, {useState, useEffect,useMemo} from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import style from "@/styles/scss/app.module.scss"
 import axios from "axios";
 import Cookies from "js-cookie"
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 import { toast } from 'react-toastify';
 // import CKeditor from "@/components/ckEditor";
 import { CardElement, useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js"
@@ -78,9 +78,9 @@ const NewTournamentForm = () => {
 		entry_fee: "",
 		prize_distribution: "",
 		level: "",
-		overview:"",
-		rules:"",
-		code_of_conduct:"",
+		overview: "",
+		rules: "",
+		code_of_conduct: "",
 		age: "",
 		equipment_requirements: "",
 		schedule_date: "",
@@ -109,7 +109,7 @@ const NewTournamentForm = () => {
 		fetchTournamentData()
 	}, [])
 
-	
+
 	const fetchTournamentData = async () => {
 		try {
 			const res = await axios.get(
@@ -146,25 +146,25 @@ const NewTournamentForm = () => {
 		}
 	}
 
-	const chargePayment = async (clientSecret: any, paymentMethodReq: any, setup_id: any, paymentMethodSetup: any, customer_id: any,tournamentId:any) => {
+	const chargePayment = async (clientSecret: any, paymentMethodReq: any, setup_id: any, paymentMethodSetup: any, customer_id: any, tournamentId: any) => {
 		const result = await stripe!.confirmCardPayment(clientSecret, {
 			payment_method: paymentMethodSetup,
 			setup_future_usage: 'off_session'
 		});
 		// console.log(result);
 		if (result.error) {
-		  toast.error(result.error.message)
-		  deleteTouranment(tournamentId)
-		  return;
+			toast.error(result.error.message)
+			deleteTouranment(tournamentId)
+			return;
 		} else if (result.paymentIntent?.status === "succeeded") {
-		  toast.success('Record has been inserted successfully.')
-		  updatePaymentStatus(tournamentId)
-		  router.push("/organizer/tournaments")
+			toast.success('Record has been inserted successfully.')
+			updatePaymentStatus(tournamentId)
+			router.push("/organizer/tournaments")
 		}
-	  }
-	const updatePaymentStatus = async (tournamentId : any) => {
+	}
+	const updatePaymentStatus = async (tournamentId: any) => {
 		try {
-			if(tournamentId){
+			if (tournamentId) {
 				const res = await axios.put(
 					`${process.env.API_URL}/update-tournament-payment-status/${tournamentId}`,
 					{
@@ -176,20 +176,20 @@ const NewTournamentForm = () => {
 			console.log(err)
 		}
 	}
-	const deleteTouranment = async (tournamentId : any) => {
+	const deleteTouranment = async (tournamentId: any) => {
 		try {
-			if(tournamentId){
+			if (tournamentId) {
 				const res = await axios.delete(
 					`${process.env.API_URL}/tournaments/${tournamentId}`
 				)
 			}
-			
+
 		} catch (err) {
 			console.log(err)
 		}
 	}
 
-	const submitTournament = async (tournamentId : any) => {
+	const submitTournament = async (tournamentId: any) => {
 		if (!stripe || !elements) {
 			return;
 		}
@@ -198,49 +198,49 @@ const NewTournamentForm = () => {
 			alert("Something Went Wrong! Please Try Again Later");
 			return;
 		}
-		try{
+		try {
 			const paymentMethodReq = await stripe.createPaymentMethod({
-			type: "card",
-			card: cardElement,
+				type: "card",
+				card: cardElement,
 			});
 			if (paymentMethodReq.error) {
-			
-			  toast.error(paymentMethodReq.error.message)
-			  deleteTouranment(tournamentId)
+
+				toast.error(paymentMethodReq.error.message)
+				deleteTouranment(tournamentId)
 			} else {
-			  const amount = tournamentData.tournament_fee * numberOfTeams;
-			  var payment_form_data = new FormData();
-			  payment_form_data.append('payment_token', paymentMethodReq.paymentMethod?.id as string);
-			  payment_form_data.append('user_id', Cookies.get('user_id') as string);
-			  payment_form_data.append('amount', amount as any);
-			  await axios.post(process.env.API_URL + "/create-indent-payment", payment_form_data).then((data : any) => {
-	  
-				let client_secret = data.data.data.arr.client_secret;
-				let client_secret_setup = data.data.data.arr.setup_client_secret;
-				if (data.data.data.status === 1) {
-					let card_result = stripe.confirmCardSetup(client_secret_setup, {
-						payment_method: {
-							card: cardElement,
-						},
-					});
-					card_result.then(response => {
-					  if(response.error) {
-						toast.error(response.error.message)
-						deleteTouranment(tournamentId)
-					  }
-					  else {
-						let paymentMethod = response.setupIntent.payment_method;
-						let setup_intent_id = response.setupIntent.id;
-						chargePayment(client_secret, paymentMethodReq, setup_intent_id, paymentMethod, data.data.data.arr.customer,tournamentId);
-					  }
-					})
-				}
-			  })
+				const amount = tournamentData.tournament_fee * numberOfTeams;
+				var payment_form_data = new FormData();
+				payment_form_data.append('payment_token', paymentMethodReq.paymentMethod?.id as string);
+				payment_form_data.append('user_id', Cookies.get('user_id') as string);
+				payment_form_data.append('amount', amount as any);
+				await axios.post(process.env.API_URL + "/create-indent-payment", payment_form_data).then((data: any) => {
+
+					let client_secret = data.data.data.arr.client_secret;
+					let client_secret_setup = data.data.data.arr.setup_client_secret;
+					if (data.data.data.status === 1) {
+						let card_result = stripe.confirmCardSetup(client_secret_setup, {
+							payment_method: {
+								card: cardElement,
+							},
+						});
+						card_result.then(response => {
+							if (response.error) {
+								toast.error(response.error.message)
+								deleteTouranment(tournamentId)
+							}
+							else {
+								let paymentMethod = response.setupIntent.payment_method;
+								let setup_intent_id = response.setupIntent.id;
+								chargePayment(client_secret, paymentMethodReq, setup_intent_id, paymentMethod, data.data.data.arr.customer, tournamentId);
+							}
+						})
+					}
+				})
 			}
-		}catch(err){
+		} catch (err) {
 			toast.error("Something Went Wrong! Please Try Again Later")
 		}
-		
+
 	}
 
 	const handleSubmit = async (e: any) => {
@@ -303,16 +303,16 @@ const NewTournamentForm = () => {
 			if (res.status === 200) {
 				setTournamentId(res.data.tournament_id)
 				submitTournament(res.data.tournament_id);
-			}	
+			}
 		}
 		catch (err) {
-			if(axios.isAxiosError(err)) {
-				if(err.response?.status === 422) {
+			if (axios.isAxiosError(err)) {
+				if (err.response?.status === 422) {
 					toast.error('Please fill out all the fields')
 					setErrorMessage('Please fill out all the fields');
 					setErrors(err.response?.data.errors)
 
-				} else if(err.response?.status === 401) {
+				} else if (err.response?.status === 401) {
 					toast.error('You are not authorized to perform this action.')
 				}
 			}
@@ -327,7 +327,7 @@ const NewTournamentForm = () => {
 
 
 	const handleFieldSet = (fieldSet: string) => {
-		if(fieldSet == 'tournament_rules'){
+		if (fieldSet == 'tournament_rules') {
 			const runTimeErrors = {
 				title: '',
 				category_id: '',
@@ -346,85 +346,85 @@ const NewTournamentForm = () => {
 				prize_distribution: '',
 				level: '',
 			}
-			if(tournamentDetails.title == ''){
+			if (tournamentDetails.title == '') {
 				runTimeErrors.title = 'title is required'
 			}
-			if(tournamentDetails.category_id == ''){
+			if (tournamentDetails.category_id == '') {
 				runTimeErrors.category_id = 'category is required'
 			}
-			if(tournamentDetails.type == ''){
+			if (tournamentDetails.type == '') {
 				runTimeErrors.type = 'type is required'
 			}
-			if(tournamentDetails.start_date == ''){
+			if (tournamentDetails.start_date == '') {
 				runTimeErrors.start_date = 'start date is required'
 			}
-			if(tournamentDetails.end_date == ''){
+			if (tournamentDetails.end_date == '') {
 				runTimeErrors.end_date = 'end date is required'
 			}
-			if(tournamentDetails.registration_dead_line == ''){
+			if (tournamentDetails.registration_dead_line == '') {
 				runTimeErrors.registration_dead_line = 'registration deadline is required'
 			}
-			if(tournamentDetails.event_type == ''){
+			if (tournamentDetails.event_type == '') {
 				runTimeErrors.event_type = 'event type is required'
 			}
-			if(tournamentDetails.country_id == ''){
+			if (tournamentDetails.country_id == '') {
 				runTimeErrors.country_id = 'country is required'
 			}
-			if(tournamentDetails.city == ''){
+			if (tournamentDetails.city == '') {
 				runTimeErrors.city = 'city is required'
 			}
-			if(tournamentDetails.postal_code == ''){
+			if (tournamentDetails.postal_code == '') {
 				runTimeErrors.postal_code = 'postal code is required'
 			}
-			if(tournamentDetails.address == ''){
+			if (tournamentDetails.address == '') {
 				runTimeErrors.address = 'address is required'
 			}
-			if(tournamentDetails.number_of_teams == ''){
+			if (tournamentDetails.number_of_teams == '') {
 				runTimeErrors.number_of_teams = 'number of teams is required'
 			}
-			if(tournamentDetails.format == ''){
+			if (tournamentDetails.format == '') {
 				runTimeErrors.format = 'format is required'
 			}
-			if(tournamentDetails.entry_fee == ''){
+			if (tournamentDetails.entry_fee == '') {
 				runTimeErrors.entry_fee = 'entry fee is required'
 			}
-			if(tournamentDetails.prize_distribution == ''){
+			if (tournamentDetails.prize_distribution == '') {
 				runTimeErrors.prize_distribution = 'prize distribution is required'
 			}
-			if(tournamentDetails.level == ''){
+			if (tournamentDetails.level == '') {
 				runTimeErrors.level = 'level is required'
 			}
-			if(runTimeErrors.title != '' || runTimeErrors.category_id != '' || runTimeErrors.type != '' || runTimeErrors.start_date != '' || runTimeErrors.end_date != '' || runTimeErrors.registration_dead_line != '' || runTimeErrors.event_type != '' || runTimeErrors.country_id != '' || runTimeErrors.city != '' || runTimeErrors.postal_code != '' || runTimeErrors.address != '' || runTimeErrors.number_of_teams != '' || runTimeErrors.format != '' || runTimeErrors.entry_fee != '' || runTimeErrors.prize_distribution != '' || runTimeErrors.level != ''){
+			if (runTimeErrors.title != '' || runTimeErrors.category_id != '' || runTimeErrors.type != '' || runTimeErrors.start_date != '' || runTimeErrors.end_date != '' || runTimeErrors.registration_dead_line != '' || runTimeErrors.event_type != '' || runTimeErrors.country_id != '' || runTimeErrors.city != '' || runTimeErrors.postal_code != '' || runTimeErrors.address != '' || runTimeErrors.number_of_teams != '' || runTimeErrors.format != '' || runTimeErrors.entry_fee != '' || runTimeErrors.prize_distribution != '' || runTimeErrors.level != '') {
 				setErrorMessage('Please fill out all the fields');
 				setErrors(runTimeErrors)
-			}else{
+			} else {
 				setFieldset(fieldSet)
 				setErrorMessage('')
 			}
-		}else if(fieldSet == 'tournament_schedule'){
+		} else if (fieldSet == 'tournament_schedule') {
 			const runTimeErrors = {
 				overview: '',
 				rules: '',
 				code_of_conduct: '',
 				sponsor_information: '',
 			}
-			if(tournamentDetails.overview == ''){
+			if (tournamentDetails.overview == '') {
 				runTimeErrors.overview = 'overview is required'
 			}
-			if(tournamentDetails.rules == ''){
+			if (tournamentDetails.rules == '') {
 				runTimeErrors.rules = 'rules is required'
 			}
-			if(tournamentDetails.code_of_conduct == ''){
+			if (tournamentDetails.code_of_conduct == '') {
 				runTimeErrors.code_of_conduct = 'code of conduct is required'
 			}
-			if(runTimeErrors.overview != '' || runTimeErrors.rules != '' || runTimeErrors.code_of_conduct != ''){
+			if (runTimeErrors.overview != '' || runTimeErrors.rules != '' || runTimeErrors.code_of_conduct != '') {
 				setErrorMessage('Please fill out all the fields');
 				setErrors(runTimeErrors)
-			}else{
+			} else {
 				setFieldset(fieldSet)
 				setErrorMessage('')
 			}
-		}else if(fieldSet == 'tournament_staff'){
+		} else if (fieldSet == 'tournament_staff') {
 			const runTimeErrors = {
 				age: '',
 				equipment_requirements: '',
@@ -445,82 +445,82 @@ const NewTournamentForm = () => {
 				fourth_match_breaks: '',
 				fourth_venue_availability: '',
 			}
-			if(tournamentDetails.age == ''){
+			if (tournamentDetails.age == '') {
 				runTimeErrors.age = 'age is required'
 			}
-			if(tournamentDetails.equipment_requirements == ''){
+			if (tournamentDetails.equipment_requirements == '') {
 				runTimeErrors.equipment_requirements = 'equipment requirements is required'
 			}
-			if(tournamentDetails.schedule_date == ''){
+			if (tournamentDetails.schedule_date == '') {
 				runTimeErrors.schedule_date = 'schedule date is required'
 			}
-			if(tournamentDetails.schedule_time == ''){
+			if (tournamentDetails.schedule_time == '') {
 				runTimeErrors.schedule_time = 'schedule time is required'
 			}
-			if(tournamentDetails.schedule_breaks == ''){
+			if (tournamentDetails.schedule_breaks == '') {
 				runTimeErrors.schedule_breaks = 'schedule breaks is required'
 			}
-			if(tournamentDetails.venue_availability == ''){
+			if (tournamentDetails.venue_availability == '') {
 				runTimeErrors.venue_availability = 'venue availability is required'
 			}
-			if(tournamentDetails.second_match_date == ''){
+			if (tournamentDetails.second_match_date == '') {
 				runTimeErrors.second_match_date = 'second match date is required'
 			}
-			if(tournamentDetails.second_match_time == ''){
+			if (tournamentDetails.second_match_time == '') {
 				runTimeErrors.second_match_time = 'second match time is required'
 			}
-			if(tournamentDetails.second_match_breaks == ''){
+			if (tournamentDetails.second_match_breaks == '') {
 				runTimeErrors.second_match_breaks = 'second match breaks is required'
 			}
-			if(tournamentDetails.second_venue_availability == ''){
+			if (tournamentDetails.second_venue_availability == '') {
 				runTimeErrors.second_venue_availability = 'second venue availability is required'
 			}
-			if(tournamentDetails.third_match_date == ''){
+			if (tournamentDetails.third_match_date == '') {
 				runTimeErrors.third_match_date = 'third match date is required'
 			}
-			if(tournamentDetails.third_match_time == ''){
+			if (tournamentDetails.third_match_time == '') {
 				runTimeErrors.third_match_time = 'third match time is required'
 			}
-			if(tournamentDetails.third_match_breaks == ''){
+			if (tournamentDetails.third_match_breaks == '') {
 				runTimeErrors.third_match_breaks = 'third match breaks is required'
 			}
-			if(tournamentDetails.third_venue_availability == ''){
+			if (tournamentDetails.third_venue_availability == '') {
 				runTimeErrors.third_venue_availability = 'third venue availability is required'
 			}
-			if(tournamentDetails.fourth_match_date == ''){
+			if (tournamentDetails.fourth_match_date == '') {
 				runTimeErrors.fourth_match_date = 'fourth match date is required'
 			}
-			if(tournamentDetails.fourth_match_time == ''){
+			if (tournamentDetails.fourth_match_time == '') {
 				runTimeErrors.fourth_match_time = 'fourth match time is required'
 			}
 			// if(tournamentDetails.fourth_match_breaks == ''){
 			// 	runTimeErrors.fourth_match_breaks = 'fourth match breaks is required'
 			// }
-			if(tournamentDetails.fourth_venue_availability == ''){
+			if (tournamentDetails.fourth_venue_availability == '') {
 				runTimeErrors.fourth_venue_availability = 'fourth venue availability is required'
 			}
-			if(runTimeErrors.age != '' || runTimeErrors.equipment_requirements != '' || runTimeErrors.schedule_date != '' || runTimeErrors.schedule_time != '' || runTimeErrors.schedule_breaks != '' || runTimeErrors.venue_availability != '' || runTimeErrors.second_match_date != '' || runTimeErrors.second_match_time != '' || runTimeErrors.second_match_breaks != '' || runTimeErrors.second_venue_availability != '' || runTimeErrors.third_match_date != '' || runTimeErrors.third_match_time != '' || runTimeErrors.third_match_breaks != '' || runTimeErrors.third_venue_availability != '' || runTimeErrors.fourth_match_date != '' || runTimeErrors.fourth_match_time != ''  || runTimeErrors.fourth_venue_availability != ''){
+			if (runTimeErrors.age != '' || runTimeErrors.equipment_requirements != '' || runTimeErrors.schedule_date != '' || runTimeErrors.schedule_time != '' || runTimeErrors.schedule_breaks != '' || runTimeErrors.venue_availability != '' || runTimeErrors.second_match_date != '' || runTimeErrors.second_match_time != '' || runTimeErrors.second_match_breaks != '' || runTimeErrors.second_venue_availability != '' || runTimeErrors.third_match_date != '' || runTimeErrors.third_match_time != '' || runTimeErrors.third_match_breaks != '' || runTimeErrors.third_venue_availability != '' || runTimeErrors.fourth_match_date != '' || runTimeErrors.fourth_match_time != '' || runTimeErrors.fourth_venue_availability != '') {
 				setErrorMessage('Please fill out all the fields');
 				setErrors(runTimeErrors)
-			}else{
+			} else {
 				setFieldset(fieldSet)
 				setErrorMessage('')
 			}
-		}else if(fieldSet == 'tournament_sponsorship'){
+		} else if (fieldSet == 'tournament_sponsorship') {
 			const runTimeErrors = {
 				contact_information: '',
 				roles_and_responsibilities: '',
 			}
-			if(tournamentDetails.contact_information == ''){
+			if (tournamentDetails.contact_information == '') {
 				runTimeErrors.contact_information = 'contact information is required'
 			}
-			if(tournamentDetails.roles_and_responsibilities == ''){
+			if (tournamentDetails.roles_and_responsibilities == '') {
 				runTimeErrors.roles_and_responsibilities = 'roles and responsibilities is required'
 			}
-			if(runTimeErrors.contact_information != '' || runTimeErrors.roles_and_responsibilities != ''){
+			if (runTimeErrors.contact_information != '' || runTimeErrors.roles_and_responsibilities != '') {
 				setErrorMessage('Please fill out all the fields');
 				setErrors(runTimeErrors)
-			}else{
+			} else {
 				setFieldset(fieldSet)
 				setErrorMessage('')
 			}
@@ -557,9 +557,9 @@ const NewTournamentForm = () => {
 		// 		setFieldset(fieldSet)
 		// 		setErrorMessage('')
 		// 	}
-			
+
 		// }
-		else{
+		else {
 			setFieldset(fieldSet)
 			setErrorMessage('')
 		}
@@ -591,13 +591,13 @@ const NewTournamentForm = () => {
 								<div className="col-sm-12">
 									<h6>Tournament Name</h6>
 									<div className={style.form_blk}>
-										<input 
-											type="text" 
+										<input
+											type="text"
 											name="title"
-											id="" 
-											className={style.input} 
+											id=""
+											className={style.input}
 											placeholder="eg: Lorem ipsum dollar"
-											onChange={handleChange} 
+											onChange={handleChange}
 											value={tournamentDetails.title}
 
 										/>
@@ -611,9 +611,9 @@ const NewTournamentForm = () => {
 										{tournamentData.categories &&
 											<select name="category_id" id="" className={style.input} onChange={handleChange}>
 												<option value="">Select Category</option>
-												{tournamentData.categories.map((category : any) => {
+												{tournamentData.categories.map((category: any) => {
 													return (
-														<option 
+														<option
 															value={category.id}
 															selected={tournamentDetails.category_id == category.id}
 															key={category.id}
@@ -631,9 +631,9 @@ const NewTournamentForm = () => {
 										{tournamentData.tournamentTypes &&
 											<select name="type" id="" className={style.input} onChange={handleChange}>
 												<option value="">Select Type</option>
-												{tournamentData.tournamentTypes.map((type : any) => {
+												{tournamentData.tournamentTypes.map((type: any) => {
 													return (
-														<option 
+														<option
 															value={type.id}
 															selected={tournamentDetails.type == type.id}
 															key={type.id}
@@ -648,13 +648,13 @@ const NewTournamentForm = () => {
 								<div className="col-sm-6">
 									<h6>Tournament Start Date</h6>
 									<div className={style.form_blk}>
-										<input 
-											type="text" 
-											name="start_date" 
-											id="" 
-											className={style.input} 
-											placeholder="eg: 04-12-2020" 
-											onChange={handleChange} 
+										<input
+											type="text"
+											name="start_date"
+											id=""
+											className={style.input}
+											placeholder="eg: 04-12-2020"
+											onChange={handleChange}
 											value={tournamentDetails.start_date}
 										/>
 										<p className="text-danger">{errors?.start_date}</p>
@@ -663,7 +663,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-6">
 									<h6>Tournament End Date</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="end_date" id="" className={style.input} placeholder="eg: 04-12-2020" 
+										<input type="text" name="end_date" id="" className={style.input} placeholder="eg: 04-12-2020"
 											onChange={handleChange}
 											value={tournamentDetails.end_date}
 										/>
@@ -673,9 +673,9 @@ const NewTournamentForm = () => {
 								<div className="col-sm-6">
 									<h6>Registration Deadline</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="registration_dead_line" id="" className={style.input} placeholder="eg: 04-12-2020" 
+										<input type="text" name="registration_dead_line" id="" className={style.input} placeholder="eg: 04-12-2020"
 											onChange={handleChange}
-											value={tournamentDetails.registration_dead_line}	
+											value={tournamentDetails.registration_dead_line}
 										/>
 										<p className="text-danger">{errors?.end_date}</p>
 									</div>
@@ -685,17 +685,17 @@ const NewTournamentForm = () => {
 									<div className={style.form_blk}>
 										<select name="event_type" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select Type</option>
-										
-											{tournamentData.eventTyeps && tournamentData.eventTyeps.map((eventType : any) => {
+
+											{tournamentData.eventTyeps && tournamentData.eventTyeps.map((eventType: any) => {
 												return (
-													<option 
+													<option
 														value={eventType.id}
 														selected={tournamentDetails.event_type == eventType.id}
 														key={eventType.id}
 													>{eventType.name}</option>
 												)
 											})}
-										
+
 										</select>
 										<p className="text-danger">{errors?.event_type}</p>
 									</div>
@@ -705,16 +705,16 @@ const NewTournamentForm = () => {
 									<div className={style.form_blk}>
 										<select name="country_id" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select Country</option>
-											{tournamentData.countries && tournamentData.countries.map((country : any) => {
+											{tournamentData.countries && tournamentData.countries.map((country: any) => {
 												return (
-													<option 
+													<option
 														value={country.id}
 														selected={tournamentDetails.country_id == country.id}
 														key={country.id}
 													>{country.name}</option>
 												)
 											})}
-									
+
 										</select>
 										<p className="text-danger">{errors?.country_id}</p>
 									</div>
@@ -722,7 +722,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>City</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="city" id="city" className={style.input} placeholder="eg: California" 
+										<input type="text" name="city" id="city" className={style.input} placeholder="eg: California"
 											onChange={handleChange}
 											value={tournamentDetails.city}
 										/>
@@ -732,7 +732,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-3">
 									<h6>Postal code</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="postal_code" id="zip_code" className={style.input} placeholder="eg: BL0 0WY" 
+										<input type="text" name="postal_code" id="zip_code" className={style.input} placeholder="eg: BL0 0WY"
 											onChange={handleChange}
 											value={tournamentDetails.postal_code}
 										/>
@@ -742,20 +742,20 @@ const NewTournamentForm = () => {
 								<div className="col-sm-12">
 									<h6>Address</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="address" id="address" className={style.input} placeholder="eg: 123 Main Street, California" 
+										<input type="text" name="address" id="address" className={style.input} placeholder="eg: 123 Main Street, California"
 											onChange={handleChange}
 											value={tournamentDetails.address}
-										 />
-										 <p className="text-danger">{errors?.postal_code}</p>
+										/>
+										<p className="text-danger">{errors?.postal_code}</p>
 									</div>
 								</div>
 								<div className="col-sm-6">
 									<h6>Number of Teams</h6>
 									<div className={style.form_blk}>
-										<select 
-											name="number_of_teams" 
-											id="" 
-											className={style.input} 
+										<select
+											name="number_of_teams"
+											id=""
+											className={style.input}
 											onChange={
 												(e) => {
 													handleChange(e)
@@ -764,16 +764,16 @@ const NewTournamentForm = () => {
 											}
 										>
 											<option value="">Select Number</option>
-											{tournamentData.numberOfTeams && tournamentData.numberOfTeams.map((numberOfTeam : any) => {
+											{tournamentData.numberOfTeams && tournamentData.numberOfTeams.map((numberOfTeam: any) => {
 												return (
-													<option 
+													<option
 														value={numberOfTeam.id}
 														selected={tournamentDetails.number_of_teams == numberOfTeam.id}
 														key={numberOfTeam.id}
 													>{numberOfTeam.number_of_teams}</option>
 												)
 											})}
-									
+
 										</select>
 										<p className="text-danger">{errors?.number_of_teams}</p>
 									</div>
@@ -783,9 +783,9 @@ const NewTournamentForm = () => {
 									<div className={style.form_blk}>
 										<select name="format" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select Format</option>
-											{tournamentData.tournamentFormats && tournamentData.tournamentFormats.map((tournamentFormat : any) => {
+											{tournamentData.tournamentFormats && tournamentData.tournamentFormats.map((tournamentFormat: any) => {
 												return (
-													<option 
+													<option
 														value={tournamentFormat.id}
 														selected={tournamentDetails.format == tournamentFormat.id}
 														key={tournamentFormat.id}
@@ -799,8 +799,8 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Entry Fee</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="entry_fee" id="" className={style.input} placeholder="eg: 100" 
-											onChange={handleChange} 
+										<input type="text" name="entry_fee" id="" className={style.input} placeholder="eg: 100"
+											onChange={handleChange}
 											value={tournamentDetails.entry_fee}
 										/>
 										<p className="text-danger">{errors?.entry_fee}</p>
@@ -810,7 +810,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Prize Distribution</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="prize_distribution" id="" className={style.input} placeholder="eg: 100" 
+										<input type="text" name="prize_distribution" id="" className={style.input} placeholder="eg: 100"
 											onChange={handleChange}
 											value={tournamentDetails.prize_distribution}
 										/>
@@ -822,9 +822,9 @@ const NewTournamentForm = () => {
 									<div className={style.form_blk}>
 										<select name="level" id="" className={style.input} onChange={handleChange}>
 											<option value="">Select</option>
-											{tournamentData.tournamentLevels && tournamentData.tournamentLevels.map((tournamentLevel : any) => {
+											{tournamentData.tournamentLevels && tournamentData.tournamentLevels.map((tournamentLevel: any) => {
 												return (
-													<option 
+													<option
 														value={tournamentLevel.id}
 														selected={tournamentDetails.level === tournamentLevel.id}
 														key={tournamentLevel.id}
@@ -890,7 +890,7 @@ const NewTournamentForm = () => {
 											editorLoaded={editorLoaded}
 										/> */}
 										<textarea name="code_of_conduct" id="" cols={30} rows={10} className={style.input} placeholder="eg: Lorem ipsum dollar" onChange={handleChange}>{tournamentDetails.code_of_conduct}</textarea>
-										
+
 										{/* {JSON.stringify(editorData)} */}
 										<p className="text-danger">{errors?.code_of_conduct}</p>
 									</div>
@@ -898,19 +898,19 @@ const NewTournamentForm = () => {
 								<div className="col-sm-6">
 									<h6>Age or Skill Level Restrictions</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="age" id="" className={style.input} placeholder="eg: 18" 
+										<input type="text" name="age" id="" className={style.input} placeholder="eg: 18"
 											onChange={handleChange}
 											value={tournamentDetails.age}
-											/>
+										/>
 										<p className="text-danger">{errors?.age}</p>
 									</div>
 								</div>
 								<div className="col-sm-6">
 									<h6>Equipment Requirements</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="equipment_requirements" id="" className={style.input} placeholder="eg: Lorem, Ipsum, Smit" 
-										onChange={handleChange}
-										value={tournamentDetails.equipment_requirements}
+										<input type="text" name="equipment_requirements" id="" className={style.input} placeholder="eg: Lorem, Ipsum, Smit"
+											onChange={handleChange}
+											value={tournamentDetails.equipment_requirements}
 										/>
 										<p className="text-danger">{errors?.equipment_requirements}</p>
 									</div>
@@ -935,7 +935,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Date</h6>
 									<div className={style.form_blk}>
-										<input type="date" name="schedule_date" id="" className={style.input} placeholder="eg: 04-12-2020"  
+										<input type="date" name="schedule_date" id="" className={style.input} placeholder="eg: 04-12-2020"
 											onChange={handleChange}
 											value={tournamentDetails.schedule_date}
 										/>
@@ -945,8 +945,8 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Time</h6>
 									<div className={style.form_blk}>
-										<input type="time" name="schedule_time" id="" className={style.input} placeholder="eg: 16:00" 
-											onChange={handleChange} 
+										<input type="time" name="schedule_time" id="" className={style.input} placeholder="eg: 16:00"
+											onChange={handleChange}
 											value={tournamentDetails.schedule_time}
 										/>
 										<p className="text-danger">{errors?.schedule_time}</p>
@@ -961,7 +961,7 @@ const NewTournamentForm = () => {
 											>1</option>
 											<option value="2" selected={tournamentDetails.schedule_breaks == '2'}>2</option>
 											<option value="3" selected={tournamentDetails.schedule_breaks == '3'}>3</option>
-											
+
 										</select>
 										<p className="text-danger">{errors?.schedule_breaks}</p>
 									</div>
@@ -980,17 +980,17 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Date</h6>
 									<div className={style.form_blk}>
-										<input type="date" name="second_match_date" id="" className={style.input} placeholder="eg: 04-12-2020" 
+										<input type="date" name="second_match_date" id="" className={style.input} placeholder="eg: 04-12-2020"
 											onChange={handleChange}
 											value={tournamentDetails.second_match_date}
-											/>
+										/>
 										<p className="text-danger">{errors?.second_match_date}</p>
 									</div>
 								</div>
 								<div className="col-sm-4">
 									<h6>Time</h6>
 									<div className={style.form_blk}>
-										<input type="time" name="second_match_time" id="" className={style.input} placeholder="eg: 16:00" 
+										<input type="time" name="second_match_time" id="" className={style.input} placeholder="eg: 16:00"
 											onChange={handleChange}
 											value={tournamentDetails.second_match_time}
 										/>
@@ -1012,7 +1012,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-12">
 									<h6>Venue Availability</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="second_venue_availability"  id="" className={style.input} placeholder="eg: 123 Main Street, California" 
+										<input type="text" name="second_venue_availability" id="" className={style.input} placeholder="eg: 123 Main Street, California"
 											onChange={handleChange}
 											value={tournamentDetails.second_venue_availability}
 										/>
@@ -1026,9 +1026,9 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Date</h6>
 									<div className={style.form_blk}>
-										<input type="date" name="third_match_date" id="" className={style.input} placeholder="eg: 04-12-2020" 
-										onChange={handleChange}
-										value={tournamentDetails.third_match_date}
+										<input type="date" name="third_match_date" id="" className={style.input} placeholder="eg: 04-12-2020"
+											onChange={handleChange}
+											value={tournamentDetails.third_match_date}
 										/>
 										<p className="text-danger">{errors?.third_match_date}</p>
 									</div>
@@ -1037,9 +1037,9 @@ const NewTournamentForm = () => {
 									<h6>Time</h6>
 									<div className={style.form_blk}>
 										<input type="time" name="third_match_time" id="" className={style.input} placeholder="eg: 16:00"
-										 onChange={handleChange}
-										 value={tournamentDetails.third_match_time}
-										 />
+											onChange={handleChange}
+											value={tournamentDetails.third_match_time}
+										/>
 										<p className="text-danger">{errors?.third_match_time}</p>
 									</div>
 								</div>
@@ -1058,8 +1058,8 @@ const NewTournamentForm = () => {
 									<h6>Venue Availability</h6>
 									<div className={style.form_blk}>
 										<input type="text" name="third_venue_availability" id="" className={style.input} placeholder="eg: 123 Main Street, California"
-										onChange={handleChange}
-										value={tournamentDetails.third_venue_availability}
+											onChange={handleChange}
+											value={tournamentDetails.third_venue_availability}
 										/>
 										<p className="text-danger">{errors?.third_venue_availability}</p>
 									</div>
@@ -1071,9 +1071,9 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Date</h6>
 									<div className={style.form_blk}>
-										<input type="date" name="fourth_match_date" id="" className={style.input} placeholder="eg: 04-12-2020"  
-										onChange={handleChange}
-										value={tournamentDetails.fourth_match_date}
+										<input type="date" name="fourth_match_date" id="" className={style.input} placeholder="eg: 04-12-2020"
+											onChange={handleChange}
+											value={tournamentDetails.fourth_match_date}
 										/>
 										<p className="text-danger">{errors?.fourth_match_date}</p>
 									</div>
@@ -1081,9 +1081,9 @@ const NewTournamentForm = () => {
 								<div className="col-sm-4">
 									<h6>Time</h6>
 									<div className={style.form_blk}>
-										<input type="time" name="fourth_match_time" id="" className={style.input} placeholder="eg: 16:00"  
-										onChange={handleChange}
-										value={tournamentDetails.fourth_match_time}
+										<input type="time" name="fourth_match_time" id="" className={style.input} placeholder="eg: 16:00"
+											onChange={handleChange}
+											value={tournamentDetails.fourth_match_time}
 										/>
 										<p className="text-danger">{errors?.fourth_match_time}</p>
 									</div>
@@ -1102,9 +1102,9 @@ const NewTournamentForm = () => {
 								<div className="col-sm-12">
 									<h6>Venue Availability</h6>
 									<div className={style.form_blk} >
-										<input type="text" name="fourth_venue_availability" id="" className={style.input} placeholder="eg: 123 Main Street, California"  
-										onChange={handleChange} 
-										value={tournamentDetails.fourth_venue_availability}
+										<input type="text" name="fourth_venue_availability" id="" className={style.input} placeholder="eg: 123 Main Street, California"
+											onChange={handleChange}
+											value={tournamentDetails.fourth_venue_availability}
 										/>
 									</div>
 								</div>
@@ -1127,9 +1127,9 @@ const NewTournamentForm = () => {
 								<div className="col-sm-6">
 									<h6>Contact Information</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="contact_information" id="" className={style.input} placeholder="eg: 194349034234" 
-										onChange={handleChange}
-										value={tournamentDetails.contact_information}
+										<input type="text" name="contact_information" id="" className={style.input} placeholder="eg: 194349034234"
+											onChange={handleChange}
+											value={tournamentDetails.contact_information}
 										/>
 									</div>
 								</div>
@@ -1164,7 +1164,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-12">
 									<h6>Sponsor Information</h6>
 									<div className={style.form_blk}>
-										<textarea name="sponsor_information" id="" rows={5} className={style.input} placeholder="Type something here" 
+										<textarea name="sponsor_information" id="" rows={5} className={style.input} placeholder="Type something here"
 											onChange={handleChange}
 											value={tournamentDetails.sponsor_information}
 										></textarea>
@@ -1187,12 +1187,12 @@ const NewTournamentForm = () => {
 										{/* <button type="button" name="" id="" className={style.input}>
 											Upload Logos
 										</button> */}
-										<input 
-											type="file" 
-											name="logos[]" 
-											id="" 
-											className={style.input} 
-											multiple 
+										<input
+											type="file"
+											name="logos[]"
+											id=""
+											className={style.input}
+											multiple
 											onChange={handleUploadMultipleLogo}
 										/>
 										<p className="text-danger">{errors?.logos}</p>
@@ -1204,7 +1204,7 @@ const NewTournamentForm = () => {
 										{/* <button type="button" name="" id="" className={style.input}>
 											Upload Banners
 										</button> */}
-										<input type="file" name="banners[]" id="" className={style.input} multiple onChange={handleUploadMultipleBanners}/>
+										<input type="file" name="banners[]" id="" className={style.input} multiple onChange={handleUploadMultipleBanners} />
 										<p className="text-danger">{errors?.banners}</p>
 									</div>
 								</div>
@@ -1213,7 +1213,7 @@ const NewTournamentForm = () => {
 							<div className="row">
 								{/* <PaymentPage /> */}
 								<div className={style.stripe_payment_form}>
-								
+
 									<div className="row">
 										<div className="col-12">
 											<h6 className="require">Name on Card</h6>
@@ -1253,8 +1253,8 @@ const NewTournamentForm = () => {
 									<span className="validation-error" style={{ color: "red" }}>
 										{cardError}
 									</span>
-									
-							</div>
+
+								</div>
 							</div>
 							<div className={`${style.btn_blk} justify-content-center mt-5`}>
 								<button type="button" className={`${style.site_btn} ${style.simple}`} onClick={() => setFieldset("tournament_staff")}>

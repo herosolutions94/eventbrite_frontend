@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import style from "@/styles/scss/app.module.scss"
 import Image from "next/image"
 import { PhotoAboutMe } from "@/components/images"
 import countries from '../../api/countries'
 import axios from 'axios'
 import { toast } from 'react-toastify';
+import Cookies from "js-cookie"
+import GetServerImage from "@/components/getServerImage"
 
 type ProfileFormProps = {
-	profileData : any
+	profileData: any
 }
 type ProfileFormState = {
 	id: number;
@@ -31,41 +33,47 @@ type ProfileFormState = {
 	twitter: string;
 	instagram: string;
 	linkedIn: string;
+	user_image: string;
 }
 
 
-const ProfileForm = ({profileData}:ProfileFormProps) => {
+const ProfileForm = ({ profileData }: ProfileFormProps) => {
+	const [imageLoading, setImageLoading] = useState<boolean>(false);
+	const [profileLoading, setProfileLoading] = useState<boolean>(false);
+	const [userThumbnail, setUserThumbnail] = useState<boolean>(null);
+
 	const [countriesData, setCountriesData] = useState<any[]>([]);
-	const [profileDataState, setProfileData] = useState<any>();
-	const [error, setError] = useState<{ name?: string,email?:string,phone_number?:string,password?:string,confirmPassword?:string,org_name?:string,org_website?:string,org_mailing_address?:string,org_communication_method?:string,org_timezone?:string,postal_code?:string,confirm_password?:string,country?:string,city?:string,address?:string,firstname?:string,lastname?:string,secondary_phone?:string,secondary_email?:string,facebook?:string,twitter?:string,instagram?:string,linkedIn?:string,state?:string }>({}); 
+	const [error, setError] = useState<{ name?: string, email?: string, phone_number?: string, password?: string, confirmPassword?: string, org_name?: string, org_website?: string, org_mailing_address?: string, org_communication_method?: string, org_timezone?: string, postal_code?: string, confirm_password?: string, country?: string, city?: string, address?: string, firstname?: string, lastname?: string, secondary_phone?: string, secondary_email?: string, facebook?: string, twitter?: string, instagram?: string, linkedIn?: string, state?: string }>({});
 
 	useEffect(() => {
 		if (profileData) {
-		  setFormData({
-			id: profileData.id || '',
-			firstname: profileData.firstname || '',
-			lastname: profileData.lastname || '',
-			phone_number: profileData.phone_number || '',
-			email: profileData.email || '',
-			org_name: profileData.org_name || '',
-			org_website: profileData.org_website || '',
-			org_mailing_address: profileData.org_mailing_address || '',
-			org_communication_method: profileData.org_communication_method || '',
-			org_timezone: profileData.org_timezone || '',
-			country: profileData.country || '',
-			city: profileData.city || '',
-			state: profileData.state || '',
-			postal_code: profileData.postal_code || '',
-			address: profileData.address || '',
-			secondary_phone: profileData.secondary_phone || '',
-			secondary_email: profileData.secondary_email || '',
-			facebook: profileData.facebook || '',
-			twitter: profileData.twitter || '',
-			instagram: profileData.instagram || '',
-			linkedIn: profileData.linkedIn || '',
-		  });
+			setFormData({
+				id: profileData.id || '',
+				firstname: profileData.firstname || '',
+				lastname: profileData.lastname || '',
+				phone_number: profileData.phone_number || '',
+				email: profileData.email || '',
+				org_name: profileData.org_name || '',
+				org_website: profileData.org_website || '',
+				org_mailing_address: profileData.org_mailing_address || '',
+				org_communication_method: profileData.org_communication_method || '',
+				org_timezone: profileData.org_timezone || '',
+				country: profileData.country || '',
+				city: profileData.city || '',
+				state: profileData.state || '',
+				postal_code: profileData.postal_code || '',
+				address: profileData.address || '',
+				secondary_phone: profileData.secondary_phone || '',
+				secondary_email: profileData.secondary_email || '',
+				facebook: profileData.facebook || '',
+				twitter: profileData.twitter || '',
+				instagram: profileData.instagram || '',
+				linkedIn: profileData.linkedIn || '',
+			});
+			setUserThumbnail(profileData.user_image)
 		}
-	  }, [profileData]);
+	}, [profileData]);
+
 	const [formData, setFormData] = useState({
 		id: '',
 		firstname: '',
@@ -89,13 +97,15 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 		instagram: '',
 		linkedIn: '',
 	});
-
 	const handleSubmitForm = async (e: any) => {
 		e.preventDefault();
+		setProfileLoading(true)
+		const newFrmData = { ...formData, user_image: userThumbnail, type: "organizer" }
 		try {
-			const response = await axios.post(process.env.API_URL + '/update-user-profile', formData)
-				toast.success(response.data.message);
+			const response = await axios.post(process.env.API_URL + '/update-user-profile', newFrmData)
+			toast.success(response.data.message);
 			if (response.status === 200) {
+				setProfileLoading(false)
 				toast.success(response.data.message);
 				setError({
 					firstname: '',
@@ -122,29 +132,66 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 
 			}
 		} catch (error) {
+			setProfileLoading(false)
 			if (axios.isAxiosError(error) && error.response?.status === 422) {
 				toast.error(error.response.data.message);
-			  const validationErrors = error.response.data.error;
-			  setError(validationErrors);
+				const validationErrors = error.response.data.error;
+				setError(validationErrors);
 			} else {
-			  // Handle other errors
+				// Handle other errors
 			}
-		  }
+		}
 
 	}
 	useEffect(() => {
 		const fetchCountriesData = async () => {
-		  try {
-			const data = await countries();
-			setCountriesData(data);
-		  } catch (error) {
-			console.error('Error fetching countries data:', error);
-		  }
+			try {
+				const data = await countries();
+				setCountriesData(data);
+			} catch (error) {
+				console.error('Error fetching countries data:', error);
+			}
 		};
-	
+
 		fetchCountriesData();
 	}, []);
+	const fileInputRef = useRef(null);
+	// const [value, setValue] = useState()
+	const handleChooseDp = () => {
+		fileInputRef?.current?.click();
+	};
+	const handleUpload = async (e: any) => {
+		e.preventDefault();
+		const files = e.target.files[0];
+		setImageLoading(true);
+		const fd = new FormData();
+		const user_email = Cookies.get("email");
+		const user_id = Cookies.get("user_id");
+		fd.append("image", files);
+		fd.append("user_email", user_email);
+		fd.append("user_id", user_id);
 
+		try {
+			const response = await axios.post(process.env.API_URL + '/upload-image', fd);
+			toast.success(response.data.message);
+			if (response) {
+				setImageLoading(false);
+				const res = response.data;
+				if (res.status === 1) {
+					setUserThumbnail(res.image_name)
+				}
+			}
+		} catch (error) {
+			setImageLoading(false);
+			if (axios.isAxiosError(error) && error.response?.status === 422) {
+				toast.error(error.response.data.message);
+				const validationErrors = error.response.data.error;
+				setError(validationErrors);
+			} else {
+				// Handle other errors
+			}
+		}
+	};
 	return (
 		<>
 			<form action="" method="POST">
@@ -152,14 +199,18 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 					<h4 className="mb-4">Personal information</h4>
 					<div className={style.dp_blk}>
 						<div className={`${style.ico} ${style.fill} ${style.round}`}>
-							<Image width={1000} height={1000} src={PhotoAboutMe} alt="" />
+							<GetServerImage src="uploads" image={userThumbnail} isLoading={imageLoading} />
 						</div>
 						<div className={style.txt}>
 							<div className={style.btn_blk}>
-								<button type="button" className={style.change_photo_btn}>
+								<button type="button" className={style.change_photo_btn} onClick={handleChooseDp} disabled={imageLoading}>
 									Change Photo
 								</button>
-								<input type="file" name="" id="" />
+								<input type="file"
+									ref={fileInputRef}
+									id="profile_dp"
+									onChange={handleUpload}
+									accept="image/*" />
 							</div>
 							<div className="pt-4"></div>
 							<div>Acceptable only jpg, png</div>
@@ -170,9 +221,9 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 						<div className="col-lg-6 col-6">
 							<h6>First Name</h6>
 							<div className={style.form_blk}>
-								<input type="text" name="firstname" id="" value={formData.firstname} className={style.input}  placeholder="eg: John" 
-										onChange={(e) => setFormData({...formData, firstname: e.target.value})} />
-									<p className="text-danger">{error?.firstname}</p>
+								<input type="text" name="firstname" id="" value={formData.firstname} className={style.input} placeholder="eg: John"
+									onChange={(e) => setFormData({ ...formData, firstname: e.target.value })} />
+								<p className="text-danger">{error?.firstname}</p>
 							</div>
 						</div>
 						<div className="col-lg-6 col-6">
@@ -185,11 +236,11 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 						<div className="col-lg-6 col-6">
 							<h6>Phone Number</h6>
 							<div className={style.form_blk}>
-								<input type="text" name="phone_number" id="" 
+								<input type="text" name="phone_number" id=""
 									value={formData.phone_number}
-									onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })} 
-									className={style.input} 
-									placeholder="eg: +92300 0000 000" 
+									onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
+									className={style.input}
+									placeholder="eg: +92300 0000 000"
 								/>
 								<p className="text-danger">{error?.phone_number}</p>
 							</div>
@@ -210,7 +261,7 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 							<h6>Organization Name</h6>
 							<div className={style.form_blk}>
 								<input type="text" name="address" id="address" className={style.input} placeholder="eg: Warmongers" value={formData.org_name}
-								onChange={(e) => setFormData({ ...formData, org_name: e.target.value })} />
+									onChange={(e) => setFormData({ ...formData, org_name: e.target.value })} />
 								<p className="text-danger">{error?.org_name}</p>
 							</div>
 						</div>
@@ -218,7 +269,7 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 							<h6>Organization Website</h6>
 							<div className={style.form_blk}>
 								<input type="text" name="address" id="address" className={style.input} placeholder="eg: www.website.com" value={formData.org_website}
-								onChange={(e) => setFormData({ ...formData, org_website: e.target.value })} />
+									onChange={(e) => setFormData({ ...formData, org_website: e.target.value })} />
 								<p className="text-danger">{error?.org_website}</p>
 							</div>
 						</div>
@@ -226,9 +277,9 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 							<h6>Mailing Address</h6>
 							<div className={style.form_blk}>
 								<input type="text" name="address" id="address" className={style.input} placeholder="eg: sample@gmail.com" value={formData.org_mailing_address}
-									 onChange={(e) => setFormData({ ...formData, org_mailing_address: e.target.value })} />
+									onChange={(e) => setFormData({ ...formData, org_mailing_address: e.target.value })} />
 								<p className="text-danger">{error?.org_mailing_address}</p>
-								
+
 							</div>
 						</div>
 						<div className="col-lg-4 col-6">
@@ -237,8 +288,8 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 								<select name="org_communication_method" id="" className={style.input}>
 									<option value="">Select</option>
 									<option value="email" selected={profileData?.org_communication_method === 'email'}>Email</option>
-									<option value="phone" selected={profileData?.org_communication_method==='phone'} >Phone</option>
-									<option value="messaging app" selected={profileData?.org_communication_method==='messaging app'}>Messaging App</option>
+									<option value="phone" selected={profileData?.org_communication_method === 'phone'} >Phone</option>
+									<option value="messaging app" selected={profileData?.org_communication_method === 'messaging app'}>Messaging App</option>
 								</select>
 								<p className="text-danger">{error?.org_communication_method}</p>
 							</div>
@@ -247,7 +298,7 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 							<h6>Time Zone</h6>
 							<div className={style.form_blk}>
 								<input type="text" name="address" id="address" className={style.input} placeholder="eg: EEST" value={formData.org_timezone}
-								onChange={(e) => setFormData({ ...formData, org_timezone: e.target.value })} />
+									onChange={(e) => setFormData({ ...formData, org_timezone: e.target.value })} />
 								<p className="text-danger">{error?.org_timezone}</p>
 							</div>
 						</div>
@@ -277,9 +328,12 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 							<h6>Country</h6>
 							<div className={style.form_blk}>
 								<select name="country" id="" className={style.input} value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })}>
-									<option value={profileData?.country}>Select</option>
-									{ countriesData.map((country ,index) => (
-										<option value={country.id} key={index} selected={ profileData?.country === country.id} >{country.name}</option>
+									<option value="">Select</option>
+									{countriesData.map((country, index) => (
+										parseInt(formData?.country) === country.id ?
+											<option value={country.id} key={index} selected={true}>{country.name}</option>
+											:
+											<option value={country.id} key={index}>{country.name}</option>
 									))}
 								</select>
 								<p className="text-danger">{error?.country}</p>
@@ -356,12 +410,14 @@ const ProfileForm = ({profileData}:ProfileFormProps) => {
 						</div>
 					</div>
 					<div className={`${style.btn_blk} justify-content-center mt-5`} >
-						<button type="submit" className={`${style.site_btn} ${style.px}`} onClick={handleSubmitForm}>
-							Save
+						<button type="submit" className={`${style.site_btn} ${style.px}`} onClick={handleSubmitForm} disabled={imageLoading || profileLoading}>
+							Save {
+								profileLoading ? <div className={style.lds_dual_ring}></div> : ""
+							}
 						</button>
 					</div>
 				</div>
-			</form>
+			</form >
 		</>
 	)
 }

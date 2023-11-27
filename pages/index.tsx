@@ -30,18 +30,20 @@ const Home = () => {
 	const [homePageData, setHomePageData] = useState<HomePageData | null>(null);
 	const [tournaments, setTournaments] = useState<any[]>([]);
 	const [trandingMatches, setTrandingMatches] = useState<any[]>([]);
+	const [categories, setCategories] = useState<any[]>([]);
 	const [contactUs, setContactUs] = useState<any[]>([]);
 
 	useEffect(() => {
 		fetchHomePageData();
 	}, []);
-	
+
 	const fetchHomePageData = async () => {
 		try {
 			const response = await axios.get(`${process.env.API_URL}/home`);
 			if (response.status === 200) {
 				setHomePageData(response.data.data);
 				setTournaments(response.data.tournaments);
+				setCategories(response.data.categories);
 				setTrandingMatches(response.data.trending_tournaments);
 				setContactUs(response.data.contact_us);
 			}
@@ -56,18 +58,19 @@ const Home = () => {
 	return (
 		<>
 			<Header pageTitle="Home" />
-			<Banner 
+			<Banner
 				title={homePageData.banner_title}
 				content={homePageData.banner_des}
 				image={process.env.ASSET_URL + homePageData.banner_img}
+				categories={categories}
 			/>
-			<Categories 
+			<Categories
 				title={homePageData.gamers_title}
 				subheading={homePageData.gamers_sub_title}
 				content={homePageData.gamers_des}
 				tournaments={tournaments}
 			/>
-			<Report 
+			<Report
 				title={homePageData.resource_title}
 				subheading={homePageData.resource_sub_title}
 				content={homePageData.resource_des}
@@ -76,12 +79,12 @@ const Home = () => {
 				image={homePageData.resource_img}
 			/>
 			{trandingMatches.length > 0 &&
-				<Matches 
+				<Matches
 					trandingMatches={trandingMatches}
 				/>
 			}
 
-			<Contact 
+			<Contact
 				content={contactUs}
 			/>
 			<Footer />

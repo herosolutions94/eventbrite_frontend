@@ -5,9 +5,10 @@ import { IconBell, IconEnvelope, PhotoUser_01 } from "../images"
 import Image from "next/image"
 import { useState } from "react"
 import Cookies from "js-cookie"
+import GetServerImage from "../getServerImage"
 
 const Navigation = (props: any) => {
-	const { headerType, navActive } = props
+	const { headerType, navActive, profileData } = props
 	const [dropdown, setDropdown] = useState(false)
 	const router = useRouter()
 
@@ -58,7 +59,7 @@ const Navigation = (props: any) => {
 						</ul>
 						<div id={style.pro_btn} className={style.dropdown}>
 							<div className={`${style.ico} ${style.fill} ${style.round}`} onClick={dropdownHandle}>
-								<Image width={100} height={100} src={PhotoUser_01} alt="" />
+								<GetServerImage src="uploads" image={profileData?.user_image} isLoading={false} />
 							</div>
 							<ul className={`${style.dropdown_menu} ${dropdown && style.active}`}>
 								<li>
@@ -106,7 +107,7 @@ const Navigation = (props: any) => {
 						</ul>
 						<div id={style.pro_btn} className={style.dropdown}>
 							<div className={`${style.ico} ${style.fill} ${style.round}`} onClick={dropdownHandle}>
-								<Image width={100} height={100} src={PhotoUser_01} alt="" />
+								<GetServerImage src="uploads" image={profileData?.user_image} isLoading={false} />
 							</div>
 							<ul className={`${style.dropdown_menu} ${dropdown && style.active}`}>
 								<li>

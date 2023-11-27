@@ -10,28 +10,29 @@ type pageContentProps = {
 	social_instagram: any;
 	social_linkedin: any;
 	social_yelp: any;
-  };
+};
 const Footer = () => {
+	const currentDate = new Date()
 	const [pageContent, setPageContent] = useState<pageContentProps | null>(
 		null
-	  );
-	
-	  useEffect(() => {
+	);
+
+	useEffect(() => {
 		getContent();
-	  }, []);
-	
-	  const getContent = async () => {
+	}, []);
+
+	const getContent = async () => {
 		try {
-		  const res = await axios.get(
-			`${process.env.API_URL}/get-site-settings`
-		  );
-		  if (res.status === 200) {
-			setPageContent(res.data.data);
-		  }
+			const res = await axios.get(
+				`${process.env.API_URL}/get-site-settings`
+			);
+			if (res.status === 200) {
+				setPageContent(res.data.data);
+			}
 		} catch (err) {
-		  console.log(err);
+			console.log(err);
 		}
-	  };
+	};
 	return (
 		<>
 			<footer id={style.footer}>
@@ -94,7 +95,7 @@ const Footer = () => {
 							</ul>
 						</div>
 						<div className={style.column4}>
-							<div className={style.title}>Sign up to our newsletter</div>
+							<div className={style.title}>Sign up to our news letter to receive updates on our latest tournament events</div>
 							<form action="" method="POST">
 								<div className={style.form_blk + " " + style.input}>
 									<input type="text" name="" id="" className={style.input} placeholder="Email Address" />
@@ -108,7 +109,7 @@ const Footer = () => {
 					</div>
 					<div className={style.copyright}>
 						<p>
-							© 2023 <Link href="/">Eventplus</Link>. All Rights Reserved
+							© {currentDate.getFullYear()} <Link href="/">Eventplus</Link>. All Rights Reserved
 						</p>
 						<ul className={style.terms_list}>
 							<li>

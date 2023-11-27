@@ -7,8 +7,8 @@ import Cookies from "js-cookie"
 import axios from "axios"
 import { toast } from 'react-toastify';
 
-const TournamentBanner =(props : any) => {
-	const {details,fetchData,teamsCount} = props;
+const TournamentBanner = (props: any) => {
+	const { details, fetchData, teamsCount } = props;
 	const [addTeamPopup, setAddTeamPopup] = useState(false)
 	const addTeamPopupHandle = () => {
 		setAddTeamPopup(!addTeamPopup)
@@ -16,7 +16,7 @@ const TournamentBanner =(props : any) => {
 	const AddToWishlist = async () => {
 		try {
 			const user_id = Cookies.get("user_id");
-			if(!user_id) {
+			if (!user_id) {
 				toast.error("Please login first");
 				return;
 			}
@@ -34,11 +34,11 @@ const TournamentBanner =(props : any) => {
 				const wishList = JSON.parse(localStorage.getItem("wishlist") || "[]");
 				wishList.push(details.id);
 				localStorage.setItem("wishlist", JSON.stringify(wishList));
-			}else{
+			} else {
 				toast.error("Something went wrong");
 			}
 
-		} catch (error : any) {
+		} catch (error: any) {
 			toast.error(error.response.data.message);
 		}
 	}
@@ -48,29 +48,29 @@ const TournamentBanner =(props : any) => {
 				<div className={style.contain}>
 					<div className={style.image_blk}>
 						{details?.images?.length > 0 ? (
-							details?.images.map((image:any, index:any) => {
-							if(image.caption === "banner"){
-								return <div className={style.image} key={index}>
-									<Image
-										width={1000}
-										height={1000}
-										src={process.env.ASSET_URL + image.image}
-										alt=""
-									/>
-								</div>
-							}
-						})
-						) :null}
-					
+							details?.images.map((image: any, index: any) => {
+								if (image.caption === "banner") {
+									return <div className={style.image} key={index}>
+										<Image
+											width={1000}
+											height={1000}
+											src={process.env.ASSET_URL + image.image}
+											alt=""
+										/>
+									</div>
+								}
+							})
+						) : null}
+
 					</div>
 					<div className={style.data}>
 						<div className={style.data_logo}>
-						{details?.images?.length > 0 ? (
-							<Image width={200} height={200} src={process.env.ASSET_URL +  details?.images[0].image} alt="Team Logo" />
-						) :
-							// <Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
-							null
-						}
+							{details?.images?.length > 0 ? (
+								<Image width={200} height={200} src={process.env.ASSET_URL + details?.images[0].image} alt="Team Logo" />
+							) :
+								// <Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
+								null
+							}
 						</div>
 						<div className={style.data_text}>
 							<div className={style.tags_blk}>
@@ -78,7 +78,7 @@ const TournamentBanner =(props : any) => {
 								{details?.tournament_type?.name ? (
 									<strong className={style.text_prime}>{details?.tournament_type?.name}</strong>
 								) : null}
-									
+
 								{details?.category?.name ? (
 									<span className={style.tag}>{details?.category?.name}</span>
 								) : null}
@@ -87,28 +87,34 @@ const TournamentBanner =(props : any) => {
 							<div className={`${style.btn_blk} align-items-center`}>
 								{Cookies.get("role") === "player" ? (
 									<>
-									{teamsCount < details.number_of_teams ? (
-										<button type="button" className={style.site_btn} onClick={addTeamPopupHandle}>
-											Add your Team
+										{teamsCount < details.number_of_teams ? (
+											<button type="button" className={style.site_btn} onClick={addTeamPopupHandle}>
+												Add your Team
+											</button>
+										) : null}
+
+										<button
+											className={style.heart_btn}
+											onClick={AddToWishlist}
+										>
+											<Image width={40} height={40} src={IconHeart} alt="Heart" /> Add to wishlist
 										</button>
-									) : null}
-									
-									<button 
-										className={style.heart_btn} 
-										onClick={AddToWishlist}
-									>
-										<Image width={40} height={40} src={IconHeart} alt="Heart" /> Add to wishlist
-									</button>
-								</>
+									</>
 								) : null}
 							</div>
 							<ul className={style.date_time_list_update}>
+								{
+									parseFloat(details?.entry_fee) > 0 ?
+										<li>Entry Fee: <span>${details?.entry_fee}</span></li>
+										:
+										<li>Entry Fee: <span>Free</span></li>
+								}
 								<li>Start Date: <span>
 									{new Date(details?.start_date).toLocaleDateString('en-US', {
-									day: 'numeric',
-									month: 'long',
-									year: 'numeric',
-								})}</span></li>
+										day: 'numeric',
+										month: 'long',
+										year: 'numeric',
+									})}</span></li>
 								<li>●</li>
 								<li> {new Date(details?.schedule_date).toLocaleDateString('en-US', {
 									day: 'numeric',
@@ -122,10 +128,10 @@ const TournamentBanner =(props : any) => {
 					</div>
 				</div>
 			</div>
-			{addTeamPopup ? 
-				<AddTeamPopup 
+			{addTeamPopup ?
+				<AddTeamPopup
 					popupClose={addTeamPopupHandle}
-					tournamentId = {details?.id} 
+					tournamentId={details?.id}
 					fetchData={fetchData}
 				/> : null}
 		</>

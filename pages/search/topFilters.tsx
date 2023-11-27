@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router"
 
 import Image from "next/image"
-import { IconList,IconMap } from "@/components/images"
+import { IconList, IconMap } from "@/components/images"
 
 
 // Topfilter props type
@@ -13,27 +13,29 @@ type TopFiltersProps = {
 	setActiveTab: React.Dispatch<React.SetStateAction<string>>
 	activeTab: string,
 	setTournaments: React.Dispatch<React.SetStateAction<any>>
-	response: any
+	response: any,
+	categories: any,
 	setResponse: React.Dispatch<React.SetStateAction<any>>,
 	category: string,
 	name: string
 }
 
-const TopFilters = ({ 
-		setActiveTab, 
-		activeTab,
-		setTournaments,
-		setResponse,
-		response ,
-		category,
-		name
-	}: TopFiltersProps) => {
+const TopFilters = ({
+	setActiveTab,
+	activeTab,
+	setTournaments,
+	setResponse,
+	response,
+	category,
+	name,
+	categories
+}: TopFiltersProps) => {
 	const paginationData = useMemo(() => {
 
 		const firstIndex = response?.data.length ? (response?.current_page - 1) * response?.per_page + 1 : 0
-		const lastIndex = response?.data.length + (response?.current_page - 1) * response?.per_page 
-		
-		return `Showing ${ firstIndex } to ${ lastIndex } of ${ response?.total } entries`
+		const lastIndex = response?.data.length + (response?.current_page - 1) * response?.per_page
+
+		return `Showing ${firstIndex} to ${lastIndex} of ${response?.total} entries`
 	}, [response])
 
 	const router = useRouter()
@@ -61,9 +63,10 @@ const TopFilters = ({
 	}
 	return (
 		<>
-			<MainSearch 
+			<MainSearch
 				setTournaments={setTournaments}
 				setResponse={setResponse}
+				categoriesArr={categories}
 			/>
 			<div className={style.top_head}>
 				<div className={style.txt}>
@@ -73,20 +76,20 @@ const TopFilters = ({
 				<div className={style.btn_blk}>
 					<div className={style.sort_list_btn}>
 						<button type="button" className={activeTab === "list" ? style.active : ""}>
-							<Image 
+							<Image
 								width={100}
-								height={100} 
-								src={IconList} 
-								alt="" 
+								height={100}
+								src={IconList}
+								alt=""
 								onClick={() => setActiveTab("list")}
 							/>
 						</button>
 						<button type="button" className={activeTab === "map" ? style.active : ""}>
-							<Image 
-								width={100} 
-								height={100} 
-								src={IconMap} 
-								alt="" 
+							<Image
+								width={100}
+								height={100}
+								src={IconMap}
+								alt=""
 								onClick={() => setActiveTab("map")}
 							/>
 						</button>
