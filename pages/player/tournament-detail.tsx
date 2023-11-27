@@ -10,13 +10,15 @@ import { PhotoTeam01 } from "@/components/images"
 import Cookies from "js-cookie"
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMemberData } from '../../states/actions/dashboard';
+import { RootState } from '../../states/reducers/rootReducer'; // Replace with the actual path
+
 const TournamentDetail = () => {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(fetchMemberData());
 	}, []);
-	const profileData = useSelector((state) => state.dashboard.content);
-	const isLoading = useSelector((state) => state.dashboard.isLoading);
+	const profileData = useSelector((state: RootState) => state.dashboard.content);
+	const isLoading = useSelector((state: RootState) => state.dashboard.isLoading);
 	const router = useRouter()
 	useEffect(() => {
 		if (profileData?.role === 'organizer') {
@@ -25,7 +27,6 @@ const TournamentDetail = () => {
 	}, [profileData]);
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
 	const [teams, setTeams] = useState<any>([]);
-	const router = useRouter();
 	const { id } = router.query;
 
 	useEffect(() => {

@@ -8,6 +8,7 @@ import Cookies from "js-cookie"
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMemberData } from '../../states/actions/dashboard';
 import style from "@/styles/scss/app.module.scss"
+import { RootState } from '../../states/reducers/rootReducer'; // Replace with the actual path
 
 type ProfileProps = {
 	name: string;
@@ -30,8 +31,8 @@ const Dashboard = () => {
 	useEffect(() => {
 		dispatch(fetchMemberData());
 	}, []);
-	const profileData = useSelector((state) => state.dashboard.content);
-	const isLoading = useSelector((state) => state.dashboard.isLoading);
+	const profileData = useSelector((state: RootState) => state.dashboard.content);
+	const isLoading = useSelector((state: RootState) => state.dashboard.isLoading);
 	const router = useRouter()
 	useEffect(() => {
 		if (profileData?.role === 'organizer') {

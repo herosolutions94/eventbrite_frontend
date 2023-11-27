@@ -7,6 +7,8 @@ import { useRouter } from "next/router"
 import Cookies from "js-cookie"
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMemberData } from '../../states/actions/dashboard';
+import { RootState } from '../../states/reducers/rootReducer'; // Replace with the actual path
+
 import style from "@/styles/scss/app.module.scss"
 
 type ProfileProps = {
@@ -31,8 +33,9 @@ const Dashboard = () => {
 	useEffect(() => {
 		dispatch(fetchMemberData());
 	}, []);
-	const profileData = useSelector((state) => state.dashboard.content);
-	const isLoading = useSelector((state) => state.dashboard.isLoading);
+	const profileData = useSelector((state: RootState) => state.dashboard.content);
+	const isLoading = useSelector((state: RootState) => state.dashboard.isLoading);
+
 	// const [profileData, setProfileData] = React.useState<ProfileProps | null>(null);
 	const role = Cookies.get("role");
 	const router = useRouter()
