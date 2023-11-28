@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, RefObject } from "react"
 import style from "@/styles/scss/app.module.scss"
 import Image from "next/image"
 import { PhotoAboutMe } from "@/components/images"
@@ -155,7 +155,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 
 		fetchCountriesData();
 	}, []);
-	const fileInputRef = useRef(null);
+	const fileInputRef: RefObject<HTMLInputElement> = useRef(null);
 	// const [value, setValue] = useState()
 	const handleChooseDp = () => {
 		if (fileInputRef?.current) {

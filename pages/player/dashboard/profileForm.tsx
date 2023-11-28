@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useState, useEffect, useRef, RefObject } from "react"
 import style from "@/styles/scss/app.module.scss"
 import Image from "next/image"
 import { PhotoAboutMe } from "@/components/images"
@@ -69,7 +69,10 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 				twitter: profileData.twitter || '',
 				instagram: profileData.instagram || '',
 				linkedIn: profileData.linkedIn || '',
-				dob: profileData.dob !== undefined && profileData.dob !== null && profileData.dob !== '' ? new Date(profileData.dob) : "",
+				dob:
+					profileData.dob !== undefined && profileData.dob !== null && profileData.dob !== ''
+						? new Date(profileData.dob).toISOString()
+						: '',
 				gender: profileData.gender || '',
 			});
 			setUserThumbnail(profileData.user_image)
@@ -101,6 +104,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 		dob: '',
 		gender: '',
 	});
+
 	const handleSubmitForm = async (e: any) => {
 		e.preventDefault();
 
@@ -123,22 +127,11 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 					lastname: '',
 					phone_number: '',
 					email: '',
-					org_name: '',
-					org_website: '',
-					org_mailing_address: '',
-					org_communication_method: '',
-					org_timezone: '',
 					country: '',
 					city: '',
 					state: '',
 					postal_code: '',
 					address: '',
-					secondary_phone: '',
-					secondary_email: '',
-					facebook: '',
-					twitter: '',
-					instagram: '',
-					linkedIn: '',
 					gender: '',
 					dob: '',
 				});
@@ -168,10 +161,13 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 
 		fetchCountriesData();
 	}, []);
-	const fileInputRef = useRef(null);
+	const fileInputRef: RefObject<HTMLInputElement> = useRef(null);
 	// const [value, setValue] = useState()
 	const handleChooseDp = () => {
-		fileInputRef?.current?.click();
+		if (fileInputRef?.current) {
+			fileInputRef?.current?.click();
+		}
+
 	};
 	const handleUpload = async (e: any) => {
 		e.preventDefault();
@@ -265,14 +261,13 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 								<p className="text-danger">{error?.email}</p>
 							</div>
 						</div>
-						<div className="col-lg-4 col-6">
+						{/* <div className="col-lg-4 col-6">
 							<h6>Date of Birth</h6>
 							<div className={style.form_blk}>
-								{/* <input type="text" name="" id="" value="12-31-1969" className={style.input} placeholder="eg: 01-01-1998" /> */}
 								<DatePicker selected={formData?.dob} onChange={(date) => setFormData({ ...formData, dob: date })} className={style.input} />
 								<p className="text-danger">{error?.dob}</p>
 							</div>
-						</div>
+						</div> */}
 						<div className="col-lg-4 col-6">
 							<h6>Gender</h6>
 							<div className={style.form_blk}>
