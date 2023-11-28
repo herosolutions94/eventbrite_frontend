@@ -10,7 +10,6 @@ import Footer from "@/components/footer"
 import axios from "axios"
 import { useRouter } from "next/router"
 import Cookies from "js-cookie"
-import { fetchMemberData } from '../../states/actions/dashboard';
 import style from "@/styles/scss/app.module.scss"
 
 type ProfileProps = {
