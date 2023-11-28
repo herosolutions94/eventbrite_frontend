@@ -4,37 +4,36 @@ import LogonSidebar from "@/components/logonSidebar"
 import { PhotoBlog01 } from "@/components/images"
 import SignUpForm from "./signup/signUpForm"
 import { SiteMaster } from "@/components/header/master"
-import { parse } from 'cookie';
+import { GetServerSideProps } from 'next';
 
-export const getServerSideProps = async (context) => {
-    const { req } = context;
-    const cookieHeader = req.headers.cookie || '';
+interface ServerSideProps {
+	email?: string | null;
+}
 
-    // Parse the cookie header to extract the specific cookie value
-    const cookieValue = parse(cookieHeader);
-    const email = cookieValue['email'] !== undefined && cookieValue['email'] !== null && cookieValue['email'] !== '' ? cookieValue['email'] : null;
-    const role = cookieValue['role'] !== undefined && cookieValue['role'] !== null && cookieValue['role'] !== '' ? cookieValue['role'] : null;
-    if (email !== null) {
-		if(role==='organizer'){
+export const getServerSideProps: GetServerSideProps<ServerSideProps> = async (context) => {
+	const { req } = context;
+	const email = req.cookies['email'] || null;
+	const role = req.cookies['role'] || null;
+
+	if (email !== null) {
+		if (role === 'organizer') {
 			return {
 				redirect: {
-					destination: '/organizer', // Replace '/dashboard' with the appropriate URL
+					destination: '/organizer',
+					permanent: false,
+				},
+			};
+		} else {
+			return {
+				redirect: {
+					destination: '/player',
 					permanent: false,
 				},
 			};
 		}
-		else{
-			return {
-				redirect: {
-					destination: '/player', // Replace '/dashboard' with the appropriate URL
-					permanent: false,
-				},
-			};
-		}
-        
-    }
-   
-    return { props: { email } };
+	}
+
+	return { props: { email } };
 };
 const SignUp = () => {
 	return (
