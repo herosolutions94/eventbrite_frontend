@@ -10,6 +10,9 @@ import GetServerImage from "@/components/getServerImage"
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+type ProfileFormProps = {
+	profileData: any
+}
 type ProfileFormState = {
 	id: number;
 	firstname: string;
@@ -37,7 +40,7 @@ type ProfileFormState = {
 const ProfileForm = ({ profileData }: ProfileFormProps) => {
 	const [imageLoading, setImageLoading] = useState<boolean>(false);
 	const [profileLoading, setProfileLoading] = useState<boolean>(false);
-	const [userThumbnail, setUserThumbnail] = useState<boolean>(null);
+	const [userThumbnail, setUserThumbnail] = useState<null>(null);
 
 	const [countriesData, setCountriesData] = useState<any[]>([]);
 	const [error, setError] = useState<{ name?: string, email?: string, phone_number?: string, password?: string, confirmPassword?: string, gender?: string, dob?: string, postal_code?: string, confirm_password?: string, country?: string, city?: string, address?: string, firstname?: string, lastname?: string, state?: string }>({});
@@ -178,8 +181,8 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 		const user_email = Cookies.get("email");
 		const user_id = Cookies.get("user_id");
 		fd.append("image", files);
-		fd.append("user_email", user_email);
-		fd.append("user_id", user_id);
+		fd.append("user_email", user_email || "");
+		fd.append("user_id", user_id || "");
 
 		try {
 			const response = await axios.post(process.env.API_URL + '/upload-image', fd);
