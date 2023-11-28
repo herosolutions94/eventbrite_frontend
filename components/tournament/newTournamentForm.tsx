@@ -647,7 +647,7 @@ const NewTournamentForm = () => {
 									<h6>Tournament Start Date</h6>
 									<div className={style.form_blk}>
 										<input
-											type="text"
+											type="date"
 											name="start_date"
 											id=""
 											className={style.input}
@@ -661,7 +661,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-6">
 									<h6>Tournament End Date</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="end_date" id="" className={style.input} placeholder="eg: 04-12-2020"
+										<input type="date" name="end_date" id="" className={style.input} placeholder="eg: 04-12-2020"
 											onChange={handleChange}
 											value={tournamentDetails.end_date}
 										/>
