@@ -26,6 +26,9 @@ export const fetchUsers = createAsyncThunk(
         );
 
         const data = await response.json();
+        if (data?.data?.status !== 'active') {
+            window.location.href = "/verify"
+        }
         // console.log(data?.data)
         return data?.data;
     }
