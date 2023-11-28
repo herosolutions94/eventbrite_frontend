@@ -3,7 +3,7 @@ import style from "@/styles/scss/app.module.scss"
 import Image from "next/image"
 import { PhotoAboutMe } from "@/components/images"
 import axios from "axios"
-import { toast } from "react-toastify"
+import { ToastContainer, toast } from "react-toastify"
 import countries from "@/pages/api/countries"
 import Cookies from "js-cookie"
 import GetServerImage from "@/components/getServerImage"
@@ -108,9 +108,9 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 	const handleSubmitForm = async (e: any) => {
 		e.preventDefault();
 
-		if (formData?.dob === undefined || formData?.dob === null || formData?.dob === '') {
-			setError({ ...error, dob: "Required" }); return;
-		}
+		// if (formData?.dob === undefined || formData?.dob === null || formData?.dob === '') {
+		// 	setError({ ...error, dob: "Required" }); return;
+		// }
 		if (formData?.gender === undefined || formData?.gender === null || formData?.gender === '') {
 			setError({ ...error, gender: "Required" }); return;
 		}

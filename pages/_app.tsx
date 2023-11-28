@@ -16,8 +16,9 @@ import { store } from "@/store/store";
 export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<>
-			<ToastContainer />
+
 			<Provider store={store}>
+				<ToastContainer />
 				<Component {...pageProps} toast={toast} />
 			</Provider>
 		</>
