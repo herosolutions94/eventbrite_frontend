@@ -1,3 +1,8 @@
+"use client"
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUsers } from "@/slices/userSlice";
+import { AppDispatch, RootState } from "@/store/store";
+
 import Header from "@/components/header/header"
 import React, { useEffect } from "react"
 import style from "@/styles/scss/app.module.scss"
@@ -6,29 +11,36 @@ import TournamentsItems from "./tournaments/tournamentsItems"
 import Link from "next/link"
 import Cookies from "js-cookie"
 import { useRouter } from "next/router"
-import { useSelector, useDispatch } from "react-redux";
-import { fetchMemberData } from '../../states/actions/dashboard';
-import { RootState } from '../../states/reducers/rootReducer'; // Replace with the actual path
 
 const Tournaments = () => {
 
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 	useEffect(() => {
-		dispatch(fetchMemberData());
-	}, []);
-	const profileData = useSelector((state: RootState) => state.dashboard.content);
-	const isLoading = useSelector((state: RootState) => state.dashboard.isLoading);
-	// const [profileData, setProfileData] = React.useState<ProfileProps | null>(null);
-	const role = Cookies.get("role");
+		// Get rowId or any other necessary data
+		const rowId = 123; // Replace with the actual rowId or data you need
+
+		// Dispatch the fetchUsers action with the payload
+		dispatch(fetchUsers({ rowId }));
+	}, [dispatch]);
+	const { profileData, loading, value } = useSelector(
+		(state: RootState) => state.user
+	);
 	const router = useRouter()
 	useEffect(() => {
 		if (profileData?.role === 'player') {
 			router.push("/player")
 		}
 	}, [profileData]);
+	if (loading) {
+		return (
+			<div className={style.loading_page}>
+				<img src="/images/loading.gif" />
+			</div>
+		)
+	}
 	return (
 		<>
-			<Header pageTitle="Tournaments" />
+			<Header pageTitle="Tournaments" profileData={profileData} />
 			<section className={style.dashboard} id={style.booking}>
 				<div className={style.contain}>
 					<div className={style.table_top_block}>

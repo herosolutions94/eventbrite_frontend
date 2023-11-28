@@ -8,6 +8,7 @@ import Report from "./home/report"
 import Categories from "./home/categories"
 import Matches from "./home/matches"
 import axios from "axios"
+import Cookies from "js-cookie"
 
 type HomePageData = {
 	banner_img: string;

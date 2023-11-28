@@ -8,6 +8,8 @@ import Cookies from "js-cookie"
 import GetServerImage from "../getServerImage"
 
 const Navigation = (props: any) => {
+	const email = Cookies.get("email")
+	const role = Cookies.get("role")
 	const { headerType, navActive, profileData } = props
 	const [dropdown, setDropdown] = useState(false)
 	const router = useRouter()
@@ -26,7 +28,7 @@ const Navigation = (props: any) => {
 	return (
 		<>
 			<nav id={style.nav} className={`${navActive ? style.active : ""}`}>
-				{headerType === "player" ? (
+				{headerType === "player" && profileData?.id > 0 ? (
 					<>
 						<ul id={style.nav_list}>
 							<li>
@@ -74,7 +76,7 @@ const Navigation = (props: any) => {
 							</ul>
 						</div>
 					</>
-				) : headerType === "organizer" ? (
+				) : headerType === "organizer" && profileData?.id > 0 ? (
 					<>
 						<ul id={style.nav_list}>
 							<li>
@@ -139,16 +141,34 @@ const Navigation = (props: any) => {
 								How it works
 							</Link>
 						</li>
-						<li>
-							<Link href="/signin" className={router.pathname === "/signin" ? style.active : ""}>
-								Sign in
-							</Link>
-						</li>
-						<li>
-							<Link href="/signup" className={router.pathname === "/signup" ? style.active : ""}>
-								Sign up
-							</Link>
-						</li>
+						{
+							email !== undefined && email !== null && email !== '' ?
+								role !== undefined && role !== null && role !== '' && role === 'player' ?
+									<li>
+										<Link href="/player" className={router.pathname === "/player" ? style.active : ""}>
+											Dashboard
+										</Link>
+									</li>
+									:
+									<li>
+										<Link href="/organizer" className={router.pathname === "/organizer" ? style.active : ""}>
+											Dashboard
+										</Link>
+									</li>
+								:
+								<>
+									<li>
+										<Link href="/signin" className={router.pathname === "/signin" ? style.active : ""}>
+											Sign in
+										</Link>
+									</li>
+									<li>
+										<Link href="/signup" className={router.pathname === "/signup" ? style.active : ""}>
+											Sign up
+										</Link>
+									</li>
+								</>
+						}
 					</ul>
 				)}
 			</nav>

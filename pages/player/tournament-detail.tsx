@@ -1,3 +1,8 @@
+"use client"
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUsers } from "@/slices/userSlice";
+import { AppDispatch, RootState } from "@/store/store";
+
 import React, { useEffect, useState } from "react"
 import style from "@/styles/scss/app.module.scss"
 import Footer from "@/components/footer"
@@ -8,23 +13,11 @@ import { useRouter } from 'next/router';
 import axios from "axios"
 import { PhotoTeam01 } from "@/components/images"
 import Cookies from "js-cookie"
-import { useSelector, useDispatch } from "react-redux";
-import { fetchMemberData } from '../../states/actions/dashboard';
-import { RootState } from '../../states/reducers/rootReducer'; // Replace with the actual path
+
 
 const TournamentDetail = () => {
-	const dispatch = useDispatch();
-	useEffect(() => {
-		dispatch(fetchMemberData());
-	}, []);
-	const profileData = useSelector((state: RootState) => state.dashboard.content);
-	const isLoading = useSelector((state: RootState) => state.dashboard.isLoading);
 	const router = useRouter()
-	useEffect(() => {
-		if (profileData?.role === 'organizer') {
-			router.push("/organizer")
-		}
-	}, [profileData]);
+
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
 	const [teams, setTeams] = useState<any>([]);
 	const { id } = router.query;
@@ -48,12 +41,36 @@ const TournamentDetail = () => {
 			console.log(error);
 		}
 	};
+	const dispatch = useDispatch<AppDispatch>();
+	useEffect(() => {
+		// Get rowId or any other necessary data
+		const rowId = 123; // Replace with the actual rowId or data you need
+
+		// Dispatch the fetchUsers action with the payload
+		dispatch(fetchUsers({ rowId }));
+	}, [dispatch]);
+	const { profileData, loading, value } = useSelector(
+		(state: RootState) => state.user
+	);
+	useEffect(() => {
+		if (profileData?.role === 'organizer') {
+			router.push("/organizer")
+		}
+	}, [profileData]);
+	if (loading) {
+		return (
+			<div className={style.loading_page}>
+				<img src="/images/loading.gif" />
+			</div>
+		)
+	}
 	if (!tournamentDetails) {
 		return 'Loading...';
 	}
+
 	return (
 		<>
-			<Header pageTitle="Tournaments" />
+			<Header pageTitle="Tournaments" profileData={profileData} />
 			<section className={`${style.dashboard} ${style.organizer_detail}`} id={style.tournament_detail}>
 				<div className={style.contain}>
 					<div className={style.blk}>

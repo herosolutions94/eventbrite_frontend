@@ -8,8 +8,10 @@ import "@/styles/scss/app.generic.scss"
 import type { AppProps } from "next/app"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import { Providers } from "@/components/provider";
 import { Provider } from "react-redux";
-import store from "../states/store";
+import { store } from "@/store/store";
+// import store from "../states/store";
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
