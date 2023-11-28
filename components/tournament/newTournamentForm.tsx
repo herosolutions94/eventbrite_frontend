@@ -668,6 +668,7 @@ const NewTournamentForm = () => {
 										<p className="text-danger">{errors?.end_date}</p>
 									</div>
 								</div>
+
 								<div className="col-sm-6">
 									<h6>Registration Deadline</h6>
 									<div className={style.form_blk}>
