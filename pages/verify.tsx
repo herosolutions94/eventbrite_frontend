@@ -36,7 +36,7 @@ const Verify = () => {
 
 		fetchProfileData()
 	}, []);
-	if (profileData === null || profileData?.id <= 0) {
+	if (profileData === null || profileData === undefined || profileData === '') {
 		return (
 			<div className={style.loading_page}>
 				<img src="/images/loading.gif" />
