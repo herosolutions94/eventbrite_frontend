@@ -138,6 +138,11 @@ const NewTournamentForm = () => {
 			formData.append('logos[]', e.target.files[i])
 		}
 	}
+	const handleUploadMultipleDocuments = async (e: any) => {
+		for (let i = 0; i < e.target.files.length; i++) {
+			formData.append('documents[]', e.target.files[i])
+		}
+	}
 	const handleUploadMultipleBanners = async (e: any) => {
 		for (let i = 0; i < e.target.files.length; i++) {
 			formData.append('banners[]', e.target.files[i])
@@ -396,6 +401,22 @@ const NewTournamentForm = () => {
 				setErrorMessage('Please fill out all the fields');
 				setErrors(runTimeErrors)
 			} else {
+				
+				if(tournamentDetails.start_date!==null && tournamentDetails.start_date!==undefined && tournamentDetails.end_date!==null && tournamentDetails.end_date!==undefined && tournamentDetails.registration_dead_line!==null && tournamentDetails.registration_dead_line!==undefined){
+					const startDate = new Date(tournamentDetails.start_date);
+					const endDate = new Date(tournamentDetails.end_date);
+					const registrationDeadline = new Date(tournamentDetails.registration_dead_line);
+					if (endDate <= startDate) {
+						toast.error('End date must be greater than start date');
+						return;
+					  }
+				  
+					  // Validate registration_deadline should be greater than start_date and less than end_date
+					  if (registrationDeadline <= startDate || registrationDeadline >= endDate) {
+						toast.error('Registration deadline should be between start date and end date');
+						return;
+					  }
+				}
 				setFieldset(fieldSet)
 				setErrorMessage('')
 			}
@@ -672,7 +693,7 @@ const NewTournamentForm = () => {
 								<div className="col-sm-6">
 									<h6>Registration Deadline</h6>
 									<div className={style.form_blk}>
-										<input type="text" name="registration_dead_line" id="" className={style.input} placeholder="eg: 04-12-2020"
+										<input type="date" name="registration_dead_line" id="" className={style.input} placeholder="eg: 04-12-2020"
 											onChange={handleChange}
 											value={tournamentDetails.registration_dead_line}
 										/>
@@ -847,6 +868,23 @@ const NewTournamentForm = () => {
 						<fieldset className={style.blk}>
 							<h5 className="mb-5">Rules and Regulations</h5>
 							<div className="row">
+							<div className="col-sm-12">
+									<h6>Upload Logos</h6>
+									<div className={style.form_blk}>
+										{/* <button type="button" name="" id="" className={style.input}>
+											Upload Logos
+										</button> */}
+										<input
+											type="file"
+											name="documents[]"
+											id=""
+											className={style.input}
+											multiple
+											onChange={handleUploadMultipleDocuments}
+										/>
+										<p className="text-danger">{errors?.logos}</p>
+									</div>
+								</div>
 								<div className="col-sm-12">
 									<h6>Tournament Overview</h6>
 									<div className={style.form_blk}>
