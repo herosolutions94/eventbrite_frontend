@@ -10,12 +10,12 @@ import Header from "@/components/header/header";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { useRouter } from "next/router";
-import NewCreditBuyForm from "./new-credit-form";
+import NewCreditBuyForm from "../../components/new-credit-form";
 // Replace with the actual path
 
 const stripePromise = loadStripe(
-  "pk_test_51Moz1CFV8hMVqQzQH96smahOCpKUnMix9OMtfhQe3YjnaL4kpLa6An91ycTRcs26A7hZwgr0HelG4ElEdYBAEwbb00MpdTNJhb"
-);
+    "pk_test_51Moz1CFV8hMVqQzQH96smahOCpKUnMix9OMtfhQe3YjnaL4kpLa6An91ycTRcs26A7hZwgr0HelG4ElEdYBAEwbb00MpdTNJhb"
+  );
 
 const BuyCredits = () => {
   const dispatch = useDispatch<AppDispatch>();
