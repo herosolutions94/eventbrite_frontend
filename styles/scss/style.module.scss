@@ -419,7 +419,15 @@
 		}
 	}
 }
-
+.accept_btn{
+background-color: chartreuse;
+}
+.accepted_badge{
+	background-color: chartreuse;
+	padding:4px;
+	border-radius: 4px;
+	align-self: flex-start;
+}
 /*
 |----------------------------------------------------------------------
 |       Footer
@@ -2459,7 +2467,46 @@
 		max-width: 90rem;
 	}
 }
+.credits_blk:not(:last-child) {
+    margin-bottom: 3rem;
+}
 
+.credits_blk {
+    position: relative;
+    background: #232324;
+    padding: 2.5rem 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.7rem 3.5rem -0.5rem rgba(0,0,0,.1), 0 -0.5rem 1rem -0.6rem rgba(0,0,0,.1);
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+@media (max-width: 991px){
+.credits_blk ul.blans {
+    flex-flow: wrap;
+}
+}
+.credits_blk ul.blans {
+    display: flex;
+    justify-content: space-between;
+    -webkit-box-orient: vertical;
+    margin: -20px;
+}
+.credits_blk ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.credits_blk ul>li {
+    color: #fff;
+    font-size: 14px;
+    padding: 20px;
+    align-self: center;
+}
 #tournament_detail {
 	padding-bottom: 8rem;
 
@@ -2965,4 +3012,21 @@
 	100% {
 		transform: rotate(360deg);
 	}
+}
+.stripeCol .form_blk .input{
+	padding: 1.4rem 1.6rem;
+}
+.dollar_label{
+	position: absolute;
+    top: 8px;
+    left: 12px;
+    font-size: 23px;
+    color: #9a9898;
+}
+.credit_buy_input .input{
+	padding-left: 3.7rem;
+}
+p.error{
+	color:red;
+	font-size: 12px;
 }

@@ -4,6 +4,7 @@ import Image from "next/image"
 import { PhotoTeam01, PhotoTeam02, PhotoTeam03 } from "@/components/images"
 import MembersPopup from "./membersPopup"
 import ConfirmDeletionPopup from "../../tournamentDetail/confirmDeletionPopup"
+import ConfirmAcceptancePopup from "@/pages/tournamentDetail/confirmAcceptancePopup"
 
 const TournamentContent = (props: any) => {
 	const {teams} = props
@@ -11,6 +12,7 @@ const TournamentContent = (props: any) => {
 	const [members, setMembers] = useState([])
 
 	const [deletePopup , setDeletePopup] = useState(false)
+	const [acceptPopup , setAcceptPopup] = useState({show:false,team_id:null})
 	const [deleteId , setDeleteId] = useState('')
 
 	const membersPopupHandle = (members: any) => () => {
@@ -23,6 +25,7 @@ const TournamentContent = (props: any) => {
 	const handleCloseMembersPopup = () => {
 		setMembersPopup(false)
 	}
+	console.log(teams)
 	return (
 		<>
 			<div id={style.overview}>
@@ -42,9 +45,18 @@ const TournamentContent = (props: any) => {
 								<strong>{team.team_name}</strong>
 							</li>
 							<li>
-								<span>Team Captain:</span>
+								
+								
 								{team.team_members.length > 0 ? (
-									<strong>{team.team_members.find((member: any) => member.role === 'captain').mem_name}</strong>
+									<strong>{
+										team?.team_members?.find(
+											(member: any) => 
+											member?.role === 'captain' ? 
+											<span>Team Captain:{member.mem_name }</span>
+											: 
+											""
+											)
+											}</strong>
 								) : (
 									'N/A'
 								)}
@@ -69,6 +81,20 @@ const TournamentContent = (props: any) => {
 							>
 								Show Members
 							</button>
+							{
+								team?.status==='pending' ?
+							<>
+							<button 
+								type="button" 
+								className={`${style.site_btn} ${style.sm} ${style.accept_btn}`} 
+								onClick={
+									() => {
+										setAcceptPopup({show:true,team_id:team?.id})
+									}
+								}
+							>
+								Accept
+							</button>
 							<button 
 								type="button" 
 								className={`${style.site_btn} ${style.sm}`} 
@@ -81,6 +107,10 @@ const TournamentContent = (props: any) => {
 							>
 								Delete
 							</button>
+							</>
+							:
+							<span className={style.accepted_badge}>Accepted</span>
+}
 						</div>
 					) : null}
 				</div>
@@ -94,6 +124,12 @@ const TournamentContent = (props: any) => {
 				<ConfirmDeletionPopup 
 					popupClose={deletePopupHandle}
 					deleteId={deleteId}
+					teams={teams}
+				/>:null}
+			{acceptPopup?.show ? 
+				<ConfirmAcceptancePopup 
+					popupClose={setAcceptPopup}
+					acceptId={acceptPopup?.team_id}
 					teams={teams}
 				/>:null}
 		</>

@@ -84,11 +84,11 @@ const Navigation = (props: any) => {
 									Dashboard
 								</Link>
 							</li>
-							{/* <li>
-									<Link href="/organizer/transactions" className={router.pathname === "/organizer/transactions" ? style.active : ""}>
-										Transactions
+							<li>
+									<Link href="/organizer/buy-credits" className={router.pathname === "/organizer/transactions" ? style.active : ""}>
+										Buy Credits
 									</Link>
-								</li> */}
+								</li>
 							<li>
 								<Link href="/organizer/tournaments" className={router.pathname === "/organizer/tournaments" ? style.active : ""}>
 									Tournaments

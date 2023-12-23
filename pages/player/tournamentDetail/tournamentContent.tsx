@@ -39,9 +39,16 @@ const TournamentContent = (props: any) => {
 								<strong>{team.team_name}</strong>
 							</li>
 							<li>
-								<span>Team Captain:</span>
-								{team.team_members.length > 0 && team.team_members.find((member: any) => member.role === 'captain' || member.role === 'Captain') ? (
-									<strong>{team.team_members.find((member: any) => member.role === 'captain')?.mem_name}</strong>
+							{team.team_members.length > 0 ? (
+									<strong>{
+										team?.team_members?.find(
+											(member: any) => 
+											member?.role === 'captain' ? 
+											<span>Team Captain:{member.mem_name }</span>
+											: 
+											""
+											)
+											}</strong>
 								) : (
 									'N/A'
 								)}
@@ -65,6 +72,12 @@ const TournamentContent = (props: any) => {
 							
 						</div>
 					) : null}
+					{
+						team?.status==='accepted' ?
+						<span className={style.accepted_badge}>Accepted</span>
+						:
+						""
+					}
 				</div>
 				))}
 			</div>
