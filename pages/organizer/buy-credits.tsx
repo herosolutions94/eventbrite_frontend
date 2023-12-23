@@ -42,6 +42,7 @@ const BuyCredits = () => {
       </div>
     );
   }
+  
   return (
     <>
       <Header pageTitle="Buy Credits" profileData={profileData} />
