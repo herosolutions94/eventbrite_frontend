@@ -5,45 +5,16 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { toast,ToastContainer } from "react-toastify";
 import { useRouter } from 'next/router';
-
-import style from "@/styles/scss/app.module.scss";
 import {
     CardElement,
     useStripe,
     useElements,
+    CardNumberElement,
+    CardExpiryElement,
+    CardCvcElement
   } from "@stripe/react-stripe-js";
-  const useOptions = () => {
-    const options = useMemo(
-      () => ({
-        style: {
-          base: {
-            display: "block",
-            width: "100%",
-            height: "2rem",
-            fontSize: "0.875",
-            fontFamily: "'Poppins', sans-serif",
-            fontWeight: "400",
-            color: "rgba(255, 255, 255, 0.8)",
-            background: "#fff",
-            textAlign: "left",
-            padding: "0.6rem 1.4rem",
-            "::placeholder": {
-              color: "rgba(255, 255, 255, 0.4)",
-              fontSize: "0.875"
-            }
-          },
-          invalid: {
-            color: "#e71939"
-          }
-        }
-      }),
-      []
-    );
-  
-    return options;
-  };
-function NewCreditBuyForm({}) {
-    const options = useOptions();
+import style from "@/styles/scss/app.module.scss";
+const NewCreditBuyForm = () => {
     const stripe = useStripe();
     const elements = useElements();
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
