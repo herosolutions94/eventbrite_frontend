@@ -54,3 +54,4 @@ export { default as VectorBank } from "/public/images/bank.svg"
 
 export { default as IconMap } from "/public/images/icon-map.svg"
 export { default as IconList } from "/public/images/icon-list.svg"
+export { default as vs } from "/public/images/vs.svg"
