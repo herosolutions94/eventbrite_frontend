@@ -3088,6 +3088,15 @@ p.error{
 				text-align: right;
 			}
 		}
+		.choose_team{
+			width: 26rem;
+			select{
+				padding: 1rem;
+				width: 100%;
+				font-size: 1.3rem;
+    			border-radius: 20px;
+			}
+		}
 	}
 	.icon_vs{
 		width: 3rem;
@@ -3098,6 +3107,26 @@ p.error{
 		}
 	}
 	.select_winner{
+		@include flex;
+		@include mobile_sm{
+			flex-direction: column;
+			gap: 2rem;
+		}
+		.match_type{
+			align-self: center;
+			width: fit-content;
+			@include mobile_sm{
+				align-self: flex-start;
+			}
+			span{
+				background-color: #1B191D;
+				color: #E5492D;
+				font-size: 1.2rem;
+				padding: 0.6rem 1.5rem;
+				border-radius: 50px;
+			}
+		}
+		.inner_select{
 		margin-top: 1rem;
 		@include flex($justify:center);
 		gap: 1rem;
@@ -3106,6 +3135,10 @@ p.error{
 		width: fit-content;
 		margin: auto;
 		border-radius: 29px;
+		@include mobile_sm{
+			width: 100%;
+		}
+		}
 		p{
 			margin-bottom: 0;
 			align-self: center;
@@ -3120,5 +3153,153 @@ p.error{
 		@include mobile_sm{
 			margin-top: 3rem;
 		}
+	}
+	.main_round_outer{
+		margin-bottom: 4rem;
+		padding: 2rem;
+		border: 1px solid #E5492D;
+		border-radius: 20px;
+		.lbl_round{
+			text-align: center;
+			background-color: #1B191D;
+			width: fit-content;
+			margin: -3.2rem auto 1.5rem;
+			padding: 0 1.5rem;
+		}
+	}
+	.btn_center{
+		justify-content: center;
+	}
+}
+
+// ==========round_complete_toggle=====
+.round_complete_toggle{
+	background-color: #000000;
+	margin-bottom: 2rem;
+    border-radius: 0.8rem;
+    box-shadow: 0 0.5rem 1rem 0 rgba(var(--dark_rgb), 0.35);
+	.head_toggle{
+		@include flex;
+		padding: 2rem;
+		cursor: pointer;
+		.flex_1{
+			flex: 1;
+			@include flex;
+			column-gap: 1rem;
+			img{
+				width: 3rem;
+			}
+			h4{
+				margin-bottom: 0;
+				flex: 1;
+				align-self: center;
+				font-size: 2rem;
+			}
+		}
+		.flex_2{
+			align-self: center;
+			img{
+				width: 2rem;
+			}
+		}
+	}
+	.body_toggle{
+		@include flex;
+		gap: 2rem;
+		padding: 2rem;
+		padding-top: 0;
+		display: none;
+		@include mobile{
+			flex-wrap: wrap;
+			gap: unset;
+			.team_main{
+				flex: unset;
+				width: 50%;
+				padding:1rem;
+				&:first-child{
+					width: 100%;
+				}
+			}
+		}
+		&.active{
+			display: flex;
+		}
+		.badge_logo{
+			justify-content: center;
+			@include mobile{
+				justify-content: flex-start;
+			}
+			img{
+				width: 7rem;
+			}
+			p{
+				margin-bottom: 0;
+				align-self: center;
+			}
+		}
+		.check_logo{
+			img{
+				width: 3rem;
+			}
+		}
+	}
+}
+
+// =======final_winner_blk====
+.final_winner_blk{
+	@include flex;
+		gap: 2rem;
+		@include mobile{
+			flex-wrap: wrap;
+			gap: unset;
+			.team_main{
+				flex: unset;
+				width: 50%;
+				padding:1rem;
+				&:first-child{
+					width: 100%;
+				}
+			}
+		}
+		.badge_logo{
+			justify-content: center;
+			@include mobile{
+				justify-content: flex-start;
+			}
+			img{
+				width: 10rem;
+			}
+			p{
+				margin-bottom: 0;
+				align-self: center;
+			}
+		}
+		.check_logo{
+			img{
+				width: 4rem;
+			}
+		}
+}
+
+// ===========tab_pills======
+.tab_pills{
+	@include flex;
+	column-gap: 3rem;
+	margin-bottom: 3rem;
+	.tab_pill{
+		font-size: 1.5rem;
+		border-bottom: 2px solid #e5492d00;
+		cursor: pointer;
+		@include trans;
+		&.active , &:hover{
+			border-bottom: 2px solid #E5492D;
+			@include trans;
+		}
+	}
+}
+.tab_bdy{
+	display: none;
+	&.active{
+		display: block;
 	}
 }

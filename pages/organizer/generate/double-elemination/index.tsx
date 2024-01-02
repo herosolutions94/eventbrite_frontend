@@ -6,19 +6,19 @@ import { useRouter } from 'next/router';
 import axios from "axios"
 import Image from "next/image";
 import Link from "next/link";
-import RoundOne from "./rounds/round-one";
+import RoundOne from "../rounds/round-one";
 import { PhotoTeam01, PhotoTeam02, PhotoTeam03, PhotoTeam04, PhotoTeam05, vs } from "@/components/images"
-import RoundTwo from "./rounds/round-two";
-import RoundThree from "./rounds/round-three";
-import RoundFour from "./rounds/round-four";
-import Final from "./rounds/final";
+import RoundTwo from "../rounds/round-two";
+import RoundThree from "../rounds/round-three";
+import RoundFour from "../rounds/round-four";
+import Final from "../rounds/final";
 
-const Generate = () => {
+const DoubleElemination = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
 	const [teams, setTeams] = useState<any>([]);
 	const router = useRouter();
 	const { id } = router.query;
-
+	const [tabToggle , setTabToggle] = useState(0);
 	useEffect(() => {
 		if(id !== undefined){
 			fetchData();
@@ -54,7 +54,17 @@ const Generate = () => {
                                 <h3>Testing tournament</h3>
                             </div>
                         </div>
-                        <Final/>
+						<div className={style.tab_pills}>
+							<div className={tabToggle == 0 ? `${style.tab_pill} ${style.active}` : `${style.tab_pill}`} onClick={() => setTabToggle(0)}>Winner pool</div>
+							<div className={tabToggle == 1 ? `${style.tab_pill} ${style.active}` : `${style.tab_pill}`} onClick={() => setTabToggle(1)}>Looser pool</div>
+						</div>
+						<div className={tabToggle == 0 ? `${style.tab_bdy} ${style.active}` : `${style.tab_bdy}`}>
+							<RoundOne/>
+						</div>
+						<div className={tabToggle == 1 ? `${style.tab_bdy} ${style.active}` : `${style.tab_bdy}`}>
+							<RoundTwo/>
+						</div>
+                        
 					</div>
 				</section>
 			<Footer />
@@ -62,4 +72,4 @@ const Generate = () => {
 	)
 }
 
-export default Generate
+export default DoubleElemination
