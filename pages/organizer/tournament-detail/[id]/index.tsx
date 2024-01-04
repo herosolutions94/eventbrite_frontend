@@ -11,6 +11,7 @@ import { PhotoTeam01 } from "@/components/images"
 const TournamentDetail = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
 	const [teams, setTeams] = useState<any>([]);
+	const [acceptedTeamsCount, setAcceptedTeamsCount] = useState<any>(0);
 	const router = useRouter();
 	const { id } = router.query;
 
@@ -25,6 +26,7 @@ const TournamentDetail = () => {
 			if (response.status === 200) {
 				setTournamentDetails(response.data.data);
 				setTeams(response.data.data.teams);
+				setAcceptedTeamsCount(response?.data?.acceptedTeamsCount)
 			}
 		} catch (error) {
 			console.log(error);
@@ -33,6 +35,7 @@ const TournamentDetail = () => {
 	if(!tournamentDetails){
 		return 'Loading...';
 	}
+	console.log(tournamentDetails)
 	return (
 		<>
 			<Header pageTitle="Tournaments" />
@@ -48,6 +51,8 @@ const TournamentDetail = () => {
 								end_date={tournamentDetails?.end_date}
 								schedule_time={tournamentDetails?.schedule_time}
 								overview={tournamentDetails?.overview}
+								acceptedTeamsCount={acceptedTeamsCount}
+								tournamentId={tournamentDetails?.id}
 							/>
 							{tournamentDetails?.teams?.length > 0 ? 
 								<TournamentContent 

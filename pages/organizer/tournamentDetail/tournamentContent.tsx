@@ -1,13 +1,25 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import style from "@/styles/scss/app.module.scss"
 import Image from "next/image"
 import { PhotoTeam01, PhotoTeam02, PhotoTeam03 } from "@/components/images"
 import MembersPopup from "./membersPopup"
 import ConfirmDeletionPopup from "../../tournamentDetail/confirmDeletionPopup"
 import ConfirmAcceptancePopup from "@/pages/tournamentDetail/confirmAcceptancePopup"
-
+interface TeamMember {
+	id: number;
+	role: string;
+	mem_name:string
+	// ... add other properties if needed
+  }
+  interface Team {
+	id: number;
+	team_name: string;
+	team_members: TeamMember[];
+	// ... add other properties if needed
+  }
 const TournamentContent = (props: any) => {
-	const {teams} = props
+	const teams: Team[] =props?.teams
+	// const {teams} = props
 	const [membersPopup, setMembersPopup] = useState(false)
 	const [members, setMembers] = useState([])
 
@@ -24,8 +36,7 @@ const TournamentContent = (props: any) => {
 	}
 	const handleCloseMembersPopup = () => {
 		setMembersPopup(false)
-	}
-	console.log(teams)
+	}	
 	return (
 		<>
 			<div id={style.overview}>
@@ -48,15 +59,17 @@ const TournamentContent = (props: any) => {
 								
 								
 								{team.team_members.length > 0 ? (
-									<strong>{
-										team?.team_members?.find(
-											(member: any) => 
-											member?.role === 'captain' ? 
-											<span>Team Captain:{member.mem_name }</span>
-											: 
-											""
-											)
-											}</strong>
+									<strong>
+										{
+											team?.team_members && team?.team_members.map((member: any, index: number) => (
+												member?.role === 'captain' ? 
+												<span className={style.team_list_li_span}>Team Captain:{member?.mem_name }</span>
+												: 
+												""
+											))
+											}
+											
+											</strong>
 								) : (
 									'N/A'
 								)}

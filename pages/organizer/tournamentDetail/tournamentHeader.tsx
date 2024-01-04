@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import style from "@/styles/scss/app.module.scss"
 import Image from "next/image"
 import { PhotoTeam01 } from "@/components/images"
+import StartTournamentPopup from "@/pages/tournamentDetail/startTournamentPopup"
 // import { SingleElimination } from "./eliminationBracket"
 
 type TournamentHeaderProps = {
@@ -12,11 +13,16 @@ type TournamentHeaderProps = {
 	end_date: string
 	schedule_time: string
 	overview: string
+	acceptedTeamsCount:number
+	tournamentId: number | null
 }
-const TournamentHeader = ({ category, type, title, start_date, end_date, schedule_time, overview }: TournamentHeaderProps) => {
-	const[popupShow , setPopupShow] = useState(false);
+const TournamentHeader = ({ category, type, title, start_date, end_date, schedule_time, overview,acceptedTeamsCount ,tournamentId}: TournamentHeaderProps) => {
+	const [popupShow, setPopupShow] = useState<{ show: boolean; item: number | null }>({
+		show: false,
+		item: null,
+	  });
 	const TogglePoup = () =>{
-		setPopupShow(!popupShow);
+		setPopupShow({show:false,item:null});
 	}
 	return (
 		<>
@@ -42,11 +48,16 @@ const TournamentHeader = ({ category, type, title, start_date, end_date, schedul
 						</li>
 					</ul>
 				</div>
+				{
+					acceptedTeamsCount >= 2 ?
 				<div className={`${style.btn_blk} ps-4 ms-auto`}>
-					<button type="button" className={`${style.site_btn} ${style.sm}`} onClick={TogglePoup}>
+					<button type="button" className={`${style.site_btn} ${style.sm}`} onClick={() => setPopupShow({ show: true, item: tournamentId !== null ? tournamentId : null })}>
 						Generate Bracket
 					</button>
 				</div>
+				:
+				""
+}
 			</div>
 			<div className={style.content}>
 				<h5>Tournament Overview</h5>
@@ -58,27 +69,7 @@ const TournamentHeader = ({ category, type, title, start_date, end_date, schedul
 			</div>
 
 			{/* ===============popup=============== */}
-			<div className={popupShow ? `${style.generate_bracket_popup} ${style.popup} ${style.active}` : `${style.generate_bracket_popup} ${style.popup}`}>
-					<div className={style.table_dv}>
-						<div className={style.table_cell}>
-							<div className={style._inner}>
-								<div className={style.x_btn}  onClick={TogglePoup}></div>
-								<h3>Select elimination type</h3>
-								<div className={style.opt_choose}>
-									<select className={style.input} name="">
-										<option>Single elimination</option>
-										<option>Double elimination</option>
-									</select>
-								</div>
-								<div className={`${style.btn_blk}`}>
-									<button type="submit" className={`${style.site_btn} ${style.sm}`}>
-									Start tournament
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+			<StartTournamentPopup popupShow={popupShow} TogglePoup={TogglePoup} />
 		</>
 	)
 }
