@@ -3,8 +3,10 @@ import style from "@/styles/scss/app.module.scss"
 import axios from "axios"
 import { ToastContainer, toast } from "react-toastify"
 import Cookies from "js-cookie"
+import { useRouter } from "next/router"
 
 const StartTournamentPopup = (props: any) => {
+    const router = useRouter()
 	const { TogglePoup,popupShow } = props
     const [tournamentDetails, setTournamentDetails] = useState({
         type: "",
@@ -30,17 +32,17 @@ const StartTournamentPopup = (props: any) => {
                 });
 				if(res.status === 200){
                     console.log(res?.data)
-                    // if(res?.data?.status===1){
-                    //     toast.success(res?.data?.msg)
-                    //     TogglePoup({show:false,team_id:null})
-                    //     // handleTeams(teams)
-                    //     setTimeout(() => {
-                    //         window.location.reload()
-                    //     }, 2000);
-                    // }
-                    // else{
-                    //     toast.error(res?.data?.msg)
-                    // }
+                    if(res?.data?.status===1){
+                        toast.success(res?.data?.msg)
+                        TogglePoup({show:false,team_id:null})
+                        // handleTeams(teams)
+                        setTimeout(() => {
+                            router.push("/organizer/select-team")
+                        }, 2000);
+                    }
+                    else{
+                        toast.error(res?.data?.msg)
+                    }
                     
                 }
 			}
