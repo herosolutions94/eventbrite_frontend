@@ -36,9 +36,7 @@ const StartTournamentPopup = (props: any) => {
                         toast.success(res?.data?.msg)
                         TogglePoup({show:false,team_id:null})
                         // handleTeams(teams)
-                        setTimeout(() => {
-                            router.push("/organizer/select-team")
-                        }, 2000);
+                            router.push("/organizer/select-team/"+res?.data?.tournament_id+"/"+res?.data?.round_id)
                     }
                     else{
                         toast.error(res?.data?.msg)

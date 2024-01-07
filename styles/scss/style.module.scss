@@ -2947,7 +2947,17 @@ background-color: chartreuse;
 
 	.match_team_blk {
 		@include flex(center);
-
+		div.input{
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: space-between;
+			.input{
+				width: auto;
+				height: auto;
+				text-align: right;
+			}
+		}
 		.inner_blk {
 			-webkit-box-flex: 1;
 			-ms-flex: 1;
@@ -3081,6 +3091,10 @@ p.error{
 		.data_text{
 			flex: 1;
 			align-self: center;
+			.input{
+				max-width: 150px;
+				height: 4rem;
+			}
 		}
 		&:last-child{
 			flex-direction: row-reverse;
@@ -3095,6 +3109,13 @@ p.error{
 				width: 100%;
 				font-size: 1.3rem;
     			border-radius: 20px;
+			}
+		}
+	}
+	.team_main:last-child{
+		.data_text{
+			.input{
+				margin-left: auto;
 			}
 		}
 	}
@@ -3153,8 +3174,13 @@ p.error{
 		@include mobile_sm{
 			margin-top: 3rem;
 		}
+		button{
+			height: 3rem;
+			width: 80px;
+		}
 	}
 	.main_round_outer{
+		position: relative;
 		margin-bottom: 4rem;
 		padding: 2rem;
 		border: 1px solid #E5492D;
@@ -3307,3 +3333,56 @@ p.error{
 	position: relative;
 	padding-right: 10px;
 }
+.isLoading{
+	position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba($color: #000000, $alpha: 0.8);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+	z-index: 999;
+}
+@keyframes ldio {
+	0% { transform: translate(-50%,-50%) rotate(0deg); }
+	100% { transform: translate(-50%,-50%) rotate(360deg); }
+  }
+  .ldio div {
+	position: absolute;
+	width: 120px;
+	height: 120px;
+	border: 20px solid #f05537;
+	border-top-color: transparent;
+	border-radius: 50%;
+  }
+  .ldio div {
+	animation: ldio 1s linear infinite;
+	top: 100px;
+	left: 100px
+  }
+  .loadingio_spinner {
+	width: 200px;
+	height: 200px;
+	display: inline-block;
+	overflow: hidden;
+	background: rgba(255, 255, 255, 0);
+  }
+  .ldio {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	transform: translateZ(0) scale(1);
+	backface-visibility: hidden;
+	transform-origin: 0 0; /* see note above */
+  }
+  .ldio div { box-sizing: content-box; }
+  .completed_toggle_blk{
+	width: 100%;
+	flex-wrap: wrap;
+  }
+  .completed_toggle_blk .round_complete_toggle{
+	width: 100%;
+  }

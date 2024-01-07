@@ -53,6 +53,8 @@ const TournamentDetail = () => {
 								overview={tournamentDetails?.overview}
 								acceptedTeamsCount={acceptedTeamsCount}
 								tournamentId={tournamentDetails?.id}
+								is_started={tournamentDetails?.is_started}
+								in_progress_round={tournamentDetails?.in_progress_round}
 							/>
 							{tournamentDetails?.teams?.length > 0 ? 
 								<TournamentContent 

@@ -3,6 +3,7 @@ import style from "@/styles/scss/app.module.scss"
 import Image from "next/image"
 import { PhotoTeam01 } from "@/components/images"
 import StartTournamentPopup from "@/pages/tournamentDetail/startTournamentPopup"
+import Link from "next/link"
 // import { SingleElimination } from "./eliminationBracket"
 
 type TournamentHeaderProps = {
@@ -15,8 +16,10 @@ type TournamentHeaderProps = {
 	overview: string
 	acceptedTeamsCount:number
 	tournamentId: number | null
+	is_started:number,
+	in_progress_round:any
 }
-const TournamentHeader = ({ category, type, title, start_date, end_date, schedule_time, overview,acceptedTeamsCount ,tournamentId}: TournamentHeaderProps) => {
+const TournamentHeader = ({ category, type, title, start_date, end_date, schedule_time, overview,acceptedTeamsCount ,tournamentId,is_started,in_progress_round}: TournamentHeaderProps) => {
 	const [popupShow, setPopupShow] = useState<{ show: boolean; item: number | null }>({
 		show: false,
 		item: null,
@@ -49,12 +52,22 @@ const TournamentHeader = ({ category, type, title, start_date, end_date, schedul
 					</ul>
 				</div>
 				{
-					acceptedTeamsCount >= 2 ?
+					acceptedTeamsCount >= 2 && is_started!=1 ?
 				<div className={`${style.btn_blk} ps-4 ms-auto`}>
 					<button type="button" className={`${style.site_btn} ${style.sm}`} onClick={() => setPopupShow({ show: true, item: tournamentId !== null ? tournamentId : null })}>
 						Generate Bracket
 					</button>
 				</div>
+				:
+				is_started===1 ?
+				in_progress_round?.id > 0 ?
+				<div className={`${style.btn_blk} ps-4 ms-auto`}>
+					<Link href={"/organizer/select-team/"+in_progress_round?.tournament_id+"/"+in_progress_round?.id} className={`${style.site_btn} ${style.sm}`}>
+						Round {in_progress_round?.round_no}
+					</Link>
+				</div>
+				:
+				""
 				:
 				""
 }
