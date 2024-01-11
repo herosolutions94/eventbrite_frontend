@@ -149,7 +149,7 @@ const RoundOne = ({tournamentDetails,round_row}:RoundOneProps) => {
                                             className={style.site_btn} onClick={(e)=>handleSaveScore(e,match_row?.id,match_row)}>
                                             Save
                                         </button>
-								</div>
+								        </div>
                                     </div>
                                 </div>
                             )

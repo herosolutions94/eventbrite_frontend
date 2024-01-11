@@ -236,7 +236,7 @@ const NewTournamentForm = () => {
         toast.error(paymentMethodReq.error.message);
         deleteTouranment(tournamentId);
       } else {
-        const amount = tournamentData.tournament_fee * numberOfTeams;
+        const amount = tournamentData.tournament_fee!==null && tournamentData.tournament_fee!==undefined && parseFloat(tournamentData.tournament_fee) > 0 ? parseFloat(tournamentData.tournament_fee) * numberOfTeams : numberOfTeams; 
         var payment_form_data = new FormData();
         payment_form_data.append(
           "payment_token",
@@ -735,7 +735,7 @@ const NewTournamentForm = () => {
     }
     // setFieldset(fieldSet)
   };
-
+console.log(tournamentData)
   return (
     <>
       <form
