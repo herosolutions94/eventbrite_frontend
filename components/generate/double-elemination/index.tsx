@@ -6,38 +6,36 @@ import { useRouter } from 'next/router';
 import axios from "axios"
 import Image from "next/image";
 import Link from "next/link";
-import RoundOne from "../rounds/round-one";
+// import RoundOne from "../rounds/round-one";
 import { PhotoTeam01, PhotoTeam02, PhotoTeam03, PhotoTeam04, PhotoTeam05, vs } from "@/components/images"
-import RoundTwo from "../rounds/round-two";
-import RoundThree from "../rounds/round-three";
-import RoundFour from "../rounds/round-four";
 import Final from "../rounds/final";
 
 const DoubleElemination = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
 	const [teams, setTeams] = useState<any>([]);
+	const [tabToggle , setTabToggle] = useState<number>(0);
 	const router = useRouter();
-	const { id } = router.query;
-	const [tabToggle , setTabToggle] = useState(0);
-	useEffect(() => {
-		if(id !== undefined){
-			fetchData();
-		}
-	}, [id]);
-	const fetchData = async () => {
-		try {
-			const response = await axios.get(process.env.API_URL + "/tournament-details/" + id, {});
-			if (response.status === 200) {
-				setTournamentDetails(response.data.data);
-				setTeams(response.data.data.teams);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-	if(!tournamentDetails){
-		return 'Loading...';
-	}
+	// const { id } = router.query;
+	
+	// useEffect(() => {
+	// 	if(id !== undefined){
+	// 		fetchData();
+	// 	}
+	// }, [id]);
+	// const fetchData = async () => {
+	// 	try {
+	// 		const response = await axios.get(process.env.API_URL + "/tournament-details/" + id, {});
+	// 		if (response.status === 200) {
+	// 			setTournamentDetails(response.data.data);
+	// 			setTeams(response.data.data.teams);
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
+	// if(!tournamentDetails){
+	// 	return 'Loading...';
+	// }
 	return (
 		<>
 			<Header pageTitle="generate" />
@@ -59,10 +57,10 @@ const DoubleElemination = () => {
 							<div className={tabToggle == 1 ? `${style.tab_pill} ${style.active}` : `${style.tab_pill}`} onClick={() => setTabToggle(1)}>Looser pool</div>
 						</div>
 						<div className={tabToggle == 0 ? `${style.tab_bdy} ${style.active}` : `${style.tab_bdy}`}>
-							<RoundOne/>
+							{/* <RoundOne/> */}
 						</div>
 						<div className={tabToggle == 1 ? `${style.tab_bdy} ${style.active}` : `${style.tab_bdy}`}>
-							<RoundTwo/>
+							{/* <RoundTwo/> */}
 						</div>
                         
 					</div>
