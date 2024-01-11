@@ -72,7 +72,19 @@ const TournamentDetail = () => {
 			<section className={`${style.dashboard} ${style.organizer_detail}`} id={style.tournament_detail}>
 				<div className={style.contain}>
 					<div className={style.blk}>
-						<TournamentHeader category={tournamentDetails?.category?.name} type={tournamentDetails?.tournament_type?.name} title={tournamentDetails?.title} start_date={tournamentDetails?.start_date} end_date={tournamentDetails?.end_date} schedule_time={tournamentDetails?.schedule_time} overview={tournamentDetails?.overview} />
+						<TournamentHeader 
+						category={tournamentDetails?.category?.name} 
+						type={tournamentDetails?.tournament_type?.name} 
+						title={tournamentDetails?.title} 
+						start_date={tournamentDetails?.start_date} 
+						end_date={tournamentDetails?.end_date} 
+						schedule_time={tournamentDetails?.schedule_time} 
+						overview={tournamentDetails?.overview}
+						acceptedTeamsCount={null}
+						tournamentId={null}
+						is_started={null}
+						in_progress_round={null}
+						/>
 						{tournamentDetails?.teams?.length > 0 ? <TournamentContent teams={teams} /> : ""}
 					</div>
 				</div>

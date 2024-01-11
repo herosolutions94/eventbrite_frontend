@@ -83,6 +83,7 @@ const TournamentDetail = () => {
 							end_date={tournamentDetails?.end_date}
 							schedule_time={tournamentDetails?.schedule_time}
 							overview={tournamentDetails?.overview}
+							
 						/>
 						{tournamentDetails?.teams?.length > 0 ?
 							<TournamentContent
