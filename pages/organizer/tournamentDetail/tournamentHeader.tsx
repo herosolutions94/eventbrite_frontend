@@ -14,10 +14,10 @@ type TournamentHeaderProps = {
 	end_date: string
 	schedule_time: string
 	overview: string
-	acceptedTeamsCount:number
+	acceptedTeamsCount:number | null
 	tournamentId: number | null
-	is_started:number,
-	in_progress_round:any
+	is_started:number | null,
+	in_progress_round:any | null
 }
 const TournamentHeader = ({ category, type, title, start_date, end_date, schedule_time, overview,acceptedTeamsCount ,tournamentId,is_started,in_progress_round}: TournamentHeaderProps) => {
 	const [popupShow, setPopupShow] = useState<{ show: boolean; item: number | null }>({
