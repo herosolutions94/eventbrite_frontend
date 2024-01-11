@@ -6,13 +6,13 @@ import { useRouter } from 'next/router';
 import axios from "axios"
 import Image from "next/image";
 import Link from "next/link";
-import RoundOne from "./rounds/round-one";
+import RoundOne from "@/components/rounds/round-one";
 import { PhotoTeam01, PhotoTeam02, PhotoTeam03, PhotoTeam04, PhotoTeam05, vs } from "@/components/images"
-import RoundTwo from "./rounds/round-two";
-import RoundThree from "./rounds/round-three";
-import RoundFour from "./rounds/round-four";
-import Final from "./rounds/final";
-import CompletedMatch from "./rounds/completedMatch";
+import RoundTwo from "@/components/rounds/round-two";
+import RoundThree from "@/components/rounds/round-three";
+import RoundFour from "@/components/rounds/round-four";
+import Final from "@/components/rounds/final";
+import CompletedMatch from "@/components/rounds/completedMatch";
 import { ToastContainer, toast } from "react-toastify"
 import Cookies from "js-cookie"
 const Generate = () => {
