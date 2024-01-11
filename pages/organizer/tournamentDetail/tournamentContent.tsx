@@ -63,7 +63,7 @@ const TournamentContent = (props: any) => {
 										{
 											team?.team_members && team?.team_members.map((member: any, index: number) => (
 												member?.role === 'captain' ? 
-												<span className={style.team_list_li_span}>Team Captain:{member?.mem_name }</span>
+												<span className={style.team_list_li_span} key={index}>Team Captain:{member?.mem_name }</span>
 												: 
 												""
 											))
