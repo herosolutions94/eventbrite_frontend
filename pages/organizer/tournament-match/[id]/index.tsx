@@ -8,16 +8,13 @@ import Image from "next/image";
 import Link from "next/link";
 import RoundOne from "@/components/rounds/round-one";
 import { PhotoTeam01, PhotoTeam02, PhotoTeam03, PhotoTeam04, PhotoTeam05, vs } from "@/components/images"
-import RoundTwo from "@/components/rounds/round-two";
-import RoundThree from "@/components/rounds/round-three";
-import RoundFour from "@/components/rounds/round-four";
-import Final from "@/components/rounds/final";
 import CompletedMatch from "@/components/rounds/completedMatch";
 import { ToastContainer, toast } from "react-toastify"
 import Cookies from "js-cookie"
 const Generate = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
 	const [teams, setTeams] = useState<any>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 	const router = useRouter();
 	const { id } = router.query;
 
@@ -40,7 +37,7 @@ const Generate = () => {
 	if(!tournamentDetails){
 		return 'Loading...';
 	}
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    
     const handleStartNextRound=async(e:any)=>{
         e.preventDefault();
             setIsLoading(true)
