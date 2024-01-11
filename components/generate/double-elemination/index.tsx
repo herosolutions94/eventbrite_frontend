@@ -8,7 +8,6 @@ import Image from "next/image";
 import Link from "next/link";
 // import RoundOne from "../rounds/round-one";
 import { PhotoTeam01, PhotoTeam02, PhotoTeam03, PhotoTeam04, PhotoTeam05, vs } from "@/components/images"
-import Final from "../rounds/final";
 
 const DoubleElemination = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
