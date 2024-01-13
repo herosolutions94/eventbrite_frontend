@@ -63,7 +63,7 @@ const TournamentHeader = ({ category, type, title, start_date, end_date, schedul
 				in_progress_round!==null && in_progress_round?.id > 0 ?
 				<div className={`${style.btn_blk} ps-4 ms-auto`}>
 					<Link href={"/organizer/select-team/"+in_progress_round?.tournament_id+"/"+in_progress_round?.id} className={`${style.site_btn} ${style.sm}`}>
-						Round {in_progress_round?.round_no}
+						Tournament Matches
 					</Link>
 				</div>
 				:

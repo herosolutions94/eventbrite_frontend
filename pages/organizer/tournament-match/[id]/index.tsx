@@ -11,6 +11,7 @@ import { PhotoTeam01, PhotoTeam02, PhotoTeam03, PhotoTeam04, PhotoTeam05, vs } f
 import CompletedMatch from "@/components/rounds/completedMatch";
 import { ToastContainer, toast } from "react-toastify"
 import Cookies from "js-cookie"
+import DoubleElemination from "@/components/rounds/double-elemination";
 const Generate = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
 	const [teams, setTeams] = useState<any>([]);
@@ -37,7 +38,6 @@ const Generate = () => {
 	if(!tournamentDetails){
 		return 'Loading...';
 	}
-    
     const handleStartNextRound=async(e:any)=>{
         e.preventDefault();
             setIsLoading(true)
@@ -80,10 +80,13 @@ const Generate = () => {
                             </div>
                         </div>
                         {
+                            tournamentDetails?.match_type==='double' && tournamentDetails?.completed_rounds >=1 ?
+                            <DoubleElemination tournamentDetails={tournamentDetails} />
+                            :
                             tournamentDetails?.rounds?.map((round_row: any, index: number)=>{
                                 return(
                                     round_row?.status==='completed' ? 
-                                    <CompletedMatch round_row={round_row} tournamentDetails={tournamentDetails} />
+                                    <CompletedMatch round_row={round_row} tournamentDetails={tournamentDetails} type="win" />
                                     :
                                     <RoundOne round_row={round_row} tournamentDetails={tournamentDetails} />
                                 )
@@ -104,12 +107,19 @@ const Generate = () => {
                                 </div>
                             </div>
                             :
-                            
-                            <Link 
+                            ""
+                            }
+                            {
+                                tournamentDetails?.match_type==='single' ?
+                                <Link 
                             href="#!"
                             onClick={handleStartNextRound}
                             className={`${style.site_btn} ${style.lg}`}>Initiate round {parseInt(tournamentDetails?.latestCompletedRound?.round_no) + 1}</Link>
-}
+                            :
+                            ""
+                            }
+                            
+
                         </div>
                         :
                         ""

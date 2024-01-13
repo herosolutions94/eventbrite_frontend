@@ -2,13 +2,15 @@ import React, { useEffect , useState} from "react"
 import style from "@/styles/scss/app.module.scss"
 import Image from "next/image";
 import Link from "next/link";
-import { PhotoTeam01, PhotoTeam02, PhotoTeam03, PhotoTeam04, PhotoTeam05, vs, CheckCircle, CaretDown, Badge } from "@/components/images"
+import { PhotoTeam01, PhotoTeam02, PhotoTeam03, PhotoTeam04, PhotoTeam05, vs, CheckCircle, CaretDown, Badge,LooserBadge } from "@/components/images"
 type RoundOneProps = {
 	tournamentDetails:any,
-    round_row:any
+    round_row:any,
+    type:any | null
 }
-const CompletedMatch = ({tournamentDetails,round_row}:RoundOneProps) => {
+const CompletedMatch = ({tournamentDetails,round_row,type}:RoundOneProps) => {
 	const[toggle , setToggle] = useState<boolean>(false);
+    console.log("toggle",toggle)
 	return (
 		<>
             <div className={style.round_complete_toggle}>
@@ -25,6 +27,7 @@ const CompletedMatch = ({tournamentDetails,round_row}:RoundOneProps) => {
                {
                         round_row?.matches?.map((match_row:any,index:number)=>{
                             return(
+                                type==='win' ?
                                 match_row?.status===1 && match_row?.winner > 0 ? 
                                 <div className={style.round_complete_toggle}>
                                     <div className={`${style.body_toggle} ${style.active}`}>
@@ -47,6 +50,32 @@ const CompletedMatch = ({tournamentDetails,round_row}:RoundOneProps) => {
                                     </div>
                                     :
                                     ""
+                                :
+                                type==='loose' ?
+                                match_row?.status===1 && match_row?.looser > 0 ? 
+                                <div className={style.round_complete_toggle}>
+                                    <div className={`${style.body_toggle} ${style.active}`}>
+                                            <div className={style.team_main}>
+                                                <div className={style.data_logo}>
+                                                    <Image width={200} height={200} src={match_row?.looser_row?.logo ? process.env.ASSET_URL + match_row?.looser_row?.logo : PhotoTeam01} alt={match_row?.winner?.team_name} />
+                                                </div>
+                                                <div className={style.data_text}>
+                                                    <h3>{match_row?.looser_row?.team_name}</h3>
+                                                </div>
+                                            </div>
+                                            <div className={`${style.team_main} ${style.badge_logo}`}>
+                                                <Image width={200} height={200} src={LooserBadge} alt="Team Logo" />
+                                                <p>Looser</p>
+                                            </div>
+                                            <div className={`${style.team_main} ${style.check_logo}`}>
+                                                <Image width={200} height={200} src={CheckCircle} alt="Team Logo" />
+                                            </div>
+                                    </div>
+                                    </div>
+                                    :
+                                    ""
+                                :
+                                ""
                             )
                         })
                     }
