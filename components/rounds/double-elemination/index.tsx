@@ -63,7 +63,7 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 										round_row?.status==='completed' ? 
                                     		<CompletedMatch round_row={round_row} tournamentDetails={tournamentDetails} type="win" />
                                     		:
-                                    		<RoundOne round_row={round_row} tournamentDetails={tournamentDetails} />
+                                    		<RoundOne round_row={round_row} tournamentDetails={tournamentDetails} loose_round={0} />
 									)
 								})
 								:
@@ -109,10 +109,19 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 									)
 								})
 								:
+								tournamentDetails?.loose_in_progress_round?.id > 0 && tournamentDetails?.loose_in_progress_round?.matches?.length > 0 ?
+								""
+								:
 								<div className="alert alert-danger">No loosing teams yet!</div>
 							}
 							{
-									tournamentDetails?.pending_looser_teams?.length > 1 ?
+								tournamentDetails?.loose_in_progress_round?.id > 0 && tournamentDetails?.loose_in_progress_round?.matches?.length > 0 ?
+								<RoundOne  round_row={tournamentDetails?.loose_in_progress_round} tournamentDetails={tournamentDetails} loose_round={1} />
+								:
+								""
+							}
+							{
+									tournamentDetails?.pending_looser_pool > 1 ?
 									<div className={`${style.btn_blk} ${style.btn_center}`}>
 										<Link 
                             				href="#!"

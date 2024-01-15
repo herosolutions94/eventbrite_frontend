@@ -10,9 +10,10 @@ import { useRouter } from "next/router"
 
 type RoundOneProps = {
 	tournamentDetails:any,
-    round_row:any
+    round_row:any,
+    loose_round:any | null
 }
-const RoundOne = ({tournamentDetails,round_row}:RoundOneProps) => {
+const RoundOne = ({tournamentDetails,round_row,loose_round}:RoundOneProps) => {
     const router = useRouter()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [formFields, setFormFields] = useState({
@@ -42,7 +43,8 @@ const RoundOne = ({tournamentDetails,round_row}:RoundOneProps) => {
                 team1_score:formFields?.team1_score,
                 team2_score:formFields?.team2_score,
                 winner:formFields?.winner,
-                tournament_id:tournamentDetails?.id
+                tournament_id:tournamentDetails?.id,
+                loose_round:loose_round
             }, {
                 headers: {
                     Authorization: `Bearer ${Cookies.get("token")}`,
