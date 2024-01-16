@@ -88,7 +88,7 @@ const Generate = () => {
                                     round_row?.status==='completed' ? 
                                     <CompletedMatch round_row={round_row} tournamentDetails={tournamentDetails} type="win" />
                                     :
-                                    <RoundOne round_row={round_row} tournamentDetails={tournamentDetails} loose_round={0} />
+                                    <RoundOne round_row={round_row} tournamentDetails={tournamentDetails} loose_round={0} final_round={0} />
                                 )
                             })
                         }

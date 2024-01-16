@@ -63,14 +63,14 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 										round_row?.status==='completed' ? 
                                     		<CompletedMatch round_row={round_row} tournamentDetails={tournamentDetails} type="win" />
                                     		:
-                                    		<RoundOne round_row={round_row} tournamentDetails={tournamentDetails} loose_round={0} />
+                                    		<RoundOne round_row={round_row} tournamentDetails={tournamentDetails} loose_round={0} final_round={0} />
 									)
 								})
 								:
 								<div className="alert alert-danger">No winning teams yet!</div>
 							}
 								{
-									tournamentDetails?.pending_winner_teams?.length > 1 ?
+									tournamentDetails?.pending_winner_teams?.length > 1 && parseInt(tournamentDetails?.final_match_round)!==1 ?
 									<div className={`${style.btn_blk} ${style.btn_center}`}>
 										<Link 
                             				href="#!"
@@ -116,12 +116,12 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 							}
 							{
 								tournamentDetails?.loose_in_progress_round?.id > 0 && tournamentDetails?.loose_in_progress_round?.matches?.length > 0 ?
-								<RoundOne  round_row={tournamentDetails?.loose_in_progress_round} tournamentDetails={tournamentDetails} loose_round={1} />
+								<RoundOne  round_row={tournamentDetails?.loose_in_progress_round} tournamentDetails={tournamentDetails} loose_round={1} final_round={0} />
 								:
 								""
 							}
 							{
-									tournamentDetails?.pending_looser_pool > 1 ?
+									tournamentDetails?.pending_looser_pool > 1 && parseInt(tournamentDetails?.final_match_round)!==1 ?
 									<div className={`${style.btn_blk} ${style.btn_center}`}>
 										<Link 
                             				href="#!"
@@ -132,7 +132,29 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 									""
 								}
 						</div>
-                        
+                        {
+									parseInt(tournamentDetails?.final_match_round)===1 ?
+									<div className={`${style.btn_blk} ${style.btn_center}`}>
+										<Link 
+                            				href="#!"
+                            				onClick={(e)=>handleStartNextRound(e,'final')}
+                            				className={`${style.site_btn} ${style.lg}`}>Initiate final round</Link>
+									</div>
+									:
+									""
+								}
+								{
+									tournamentDetails?.final_match_round_obj?.id > 0 && tournamentDetails?.final_match_round_obj?.status==="in_progress" ?
+									<RoundOne  round_row={tournamentDetails?.final_match_round_obj} tournamentDetails={tournamentDetails} loose_round={0} final_round={1} />
+									:
+									""
+								}
+								{
+									tournamentDetails?.final_completed_round?.id > 0 && tournamentDetails?.final_completed_round?.status==="completed" ?
+									<CompletedMatch round_row={tournamentDetails?.final_completed_round} tournamentDetails={tournamentDetails} type="final" />
+									:
+									""
+								}
 					
 		</>
 	)

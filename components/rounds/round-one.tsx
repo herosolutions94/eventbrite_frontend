@@ -11,9 +11,10 @@ import { useRouter } from "next/router"
 type RoundOneProps = {
 	tournamentDetails:any,
     round_row:any,
-    loose_round:any | null
+    loose_round:any | null,
+    final_round:any | null
 }
-const RoundOne = ({tournamentDetails,round_row,loose_round}:RoundOneProps) => {
+const RoundOne = ({tournamentDetails,round_row,loose_round,final_round}:RoundOneProps) => {
     const router = useRouter()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [formFields, setFormFields] = useState({
@@ -44,7 +45,8 @@ const RoundOne = ({tournamentDetails,round_row,loose_round}:RoundOneProps) => {
                 team2_score:formFields?.team2_score,
                 winner:formFields?.winner,
                 tournament_id:tournamentDetails?.id,
-                loose_round:loose_round
+                loose_round:loose_round,
+                final_round:final_round
             }, {
                 headers: {
                     Authorization: `Bearer ${Cookies.get("token")}`,
@@ -72,7 +74,13 @@ const RoundOne = ({tournamentDetails,round_row,loose_round}:RoundOneProps) => {
 	return (
 		<>
 			<div className={style.main_round_outer}>
-                <div className={style.lbl_round}>Round {round_row?.round_no}</div>
+                {
+                    final_round===1 ?
+                        <div className={style.lbl_round}>Final Round</div>
+                        :
+                        <div className={style.lbl_round}>Round {round_row?.round_no}</div>
+                }
+                
                     {
                         isLoading ? 
                         <div className={style.isLoading}>
