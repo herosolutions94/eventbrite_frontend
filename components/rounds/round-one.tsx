@@ -12,9 +12,10 @@ type RoundOneProps = {
 	tournamentDetails:any,
     round_row:any,
     loose_round:any | null,
-    final_round:any | null
+    final_round:any | null,
+    round_no_key:any | null,
 }
-const RoundOne = ({tournamentDetails,round_row,loose_round,final_round}:RoundOneProps) => {
+const RoundOne = ({tournamentDetails,round_row,loose_round,final_round,round_no_key}:RoundOneProps) => {
     const router = useRouter()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [formFields, setFormFields] = useState({
@@ -78,7 +79,7 @@ const RoundOne = ({tournamentDetails,round_row,loose_round,final_round}:RoundOne
                     final_round===1 ?
                         <div className={style.lbl_round}>Final Round</div>
                         :
-                        <div className={style.lbl_round}>Round {round_row?.round_no}</div>
+                        <div className={style.lbl_round}>Round {round_no_key > 0 ? round_no_key : ""}</div>
                 }
                 
                     {

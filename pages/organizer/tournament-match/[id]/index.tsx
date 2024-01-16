@@ -86,9 +86,9 @@ const Generate = () => {
                             tournamentDetails?.rounds?.map((round_row: any, index: number)=>{
                                 return(
                                     round_row?.status==='completed' ? 
-                                    <CompletedMatch round_row={round_row} tournamentDetails={tournamentDetails} type="win" />
+                                    <CompletedMatch round_row={round_row} tournamentDetails={tournamentDetails} type="win" round_no_key={0} />
                                     :
-                                    <RoundOne round_row={round_row} tournamentDetails={tournamentDetails} loose_round={0} final_round={0} />
+                                    <RoundOne round_row={round_row} tournamentDetails={tournamentDetails} loose_round={0} final_round={0} round_no_key={index+1} />
                                 )
                             })
                         }

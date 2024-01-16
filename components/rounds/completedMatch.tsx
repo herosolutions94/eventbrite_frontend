@@ -6,9 +6,10 @@ import { PhotoTeam01, PhotoTeam02, PhotoTeam03, PhotoTeam04, PhotoTeam05, vs, Ch
 type RoundOneProps = {
 	tournamentDetails:any,
     round_row:any,
-    type:any | null
+    type:any | null,
+    round_no_key:any | null
 }
-const CompletedMatch = ({tournamentDetails,round_row,type}:RoundOneProps) => {
+const CompletedMatch = ({tournamentDetails,round_row,type,round_no_key}:RoundOneProps) => {
 	const[toggle , setToggle] = useState<boolean>(false);
     useEffect(()=>{
         if(type==='final'){
@@ -25,7 +26,7 @@ const CompletedMatch = ({tournamentDetails,round_row,type}:RoundOneProps) => {
                         type==='final' ?
                         <h4>Final Round</h4>
                         :
-                        <h4>Round {round_row?.round_no}</h4>
+                        <h4>Round {round_no_key > 0 ? round_no_key : ""}</h4>
                     }
                     
                  </div>

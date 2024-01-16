@@ -61,9 +61,9 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 								tournamentDetails?.winners_arr?.map((round_row: any, index: number)=>{
 									return(
 										round_row?.status==='completed' ? 
-                                    		<CompletedMatch round_row={round_row} tournamentDetails={tournamentDetails} type="win" />
+                                    		<CompletedMatch round_row={round_row} tournamentDetails={tournamentDetails} type="win" round_no_key={index+1} />
                                     		:
-                                    		<RoundOne round_row={round_row} tournamentDetails={tournamentDetails} loose_round={0} final_round={0} />
+                                    		<RoundOne round_row={round_row} tournamentDetails={tournamentDetails} loose_round={0} final_round={0} round_no_key={index+1} />
 									)
 								})
 								:
@@ -75,7 +75,7 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 										<Link 
                             				href="#!"
                             				onClick={(e)=>handleStartNextRound(e,'win')}
-                            				className={`${style.site_btn} ${style.lg}`}>Initiate next round {parseInt(tournamentDetails?.latestCompletedRound?.round_no) + 1}</Link>
+                            				className={`${style.site_btn} ${style.lg}`}>Initiate next round</Link>
 									</div>
 									:
 									""
@@ -115,7 +115,7 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 							}
 							{
 								tournamentDetails?.loose_in_progress_round?.id > 0 && tournamentDetails?.loose_in_progress_round?.matches?.length > 0 ?
-								<RoundOne  round_row={tournamentDetails?.loose_in_progress_round} tournamentDetails={tournamentDetails} loose_round={1} final_round={0} />
+								<RoundOne  round_row={tournamentDetails?.loose_in_progress_round} tournamentDetails={tournamentDetails} loose_round={1} final_round={0} round_no_key={0} />
 								:
 								""
 							}
@@ -125,7 +125,7 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 										<Link 
                             				href="#!"
                             				onClick={(e)=>handleStartNextRound(e,'lose')}
-                            				className={`${style.site_btn} ${style.lg}`}>Initiate next round {parseInt(tournamentDetails?.latestCompletedRound?.round_no) + 1}</Link>
+                            				className={`${style.site_btn} ${style.lg}`}>Initiate next round</Link>
 									</div>
 									:
 									""
@@ -144,13 +144,13 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 								}
 								{
 									tournamentDetails?.final_match_round_obj?.id > 0 && tournamentDetails?.final_match_round_obj?.status==="in_progress" ?
-									<RoundOne  round_row={tournamentDetails?.final_match_round_obj} tournamentDetails={tournamentDetails} loose_round={0} final_round={1} />
+									<RoundOne  round_row={tournamentDetails?.final_match_round_obj} tournamentDetails={tournamentDetails} loose_round={0} final_round={1} round_no_key={0} />
 									:
 									""
 								}
 								{
-									tournamentDetails?.final_completed_round?.id > 0 && tournamentDetails?.final_completed_round?.status==="completed" ?
-									<CompletedMatch round_row={tournamentDetails?.final_completed_round} tournamentDetails={tournamentDetails} type="final" />
+									tabToggle == 0 && tournamentDetails?.final_completed_round?.id > 0 && tournamentDetails?.final_completed_round?.status==="completed" ?
+									<CompletedMatch round_row={tournamentDetails?.final_completed_round} tournamentDetails={tournamentDetails} type="final" round_no_key={0} />
 									:
 									""
 								}
