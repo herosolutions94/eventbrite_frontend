@@ -43,7 +43,8 @@ const Generate = () => {
             setIsLoading(true)
             const res = await axios.post(`${process.env.API_URL}/start-next-round/${tournamentDetails?.id}`, {
                 user_id: Cookies.get("user_id"),
-                tournament_id:tournamentDetails?.id
+                tournament_id:tournamentDetails?.id,
+                type:'win'
             }, {
                 headers: {
                     Authorization: `Bearer ${Cookies.get("token")}`,
@@ -86,7 +87,7 @@ const Generate = () => {
                             tournamentDetails?.rounds?.map((round_row: any, index: number)=>{
                                 return(
                                     round_row?.status==='completed' ? 
-                                    <CompletedMatch round_row={round_row} tournamentDetails={tournamentDetails} type="win" round_no_key={0} />
+                                    <CompletedMatch round_row={round_row} tournamentDetails={tournamentDetails} type="win" round_no_key={index+1} />
                                     :
                                     <RoundOne round_row={round_row} tournamentDetails={tournamentDetails} loose_round={0} final_round={0} round_no_key={index+1} />
                                 )
@@ -114,7 +115,7 @@ const Generate = () => {
                                 <Link 
                             href="#!"
                             onClick={handleStartNextRound}
-                            className={`${style.site_btn} ${style.lg}`}>Initiate round {parseInt(tournamentDetails?.latestCompletedRound?.round_no) + 1}</Link>
+                            className={`${style.site_btn} ${style.lg}`}>Initiate next round</Link>
                             :
                             ""
                             }
