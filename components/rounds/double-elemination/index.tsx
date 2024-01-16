@@ -80,7 +80,6 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 									:
 									""
 								}
-							{/* <RoundOne/> */}
 						</div>
 						<div className={tabToggle == 1 ? `${style.tab_bdy} ${style.active}` : `${style.tab_bdy}`}>
 						{
