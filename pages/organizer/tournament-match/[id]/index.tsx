@@ -64,6 +64,7 @@ const Generate = () => {
                 
             }
       }
+      console.log(tournamentDetails)
 	return (
 		<>
 			<Header pageTitle="Tournament Matches" />
@@ -111,7 +112,7 @@ const Generate = () => {
                             ""
                             }
                             {
-                                tournamentDetails?.match_type==='single' ?
+                                tournamentDetails?.match_type==='single' && tournamentDetails?.available_teams_count > 1 ?
                                 <Link 
                             href="#!"
                             onClick={handleStartNextRound}

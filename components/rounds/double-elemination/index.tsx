@@ -54,6 +54,7 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 						<div className={style.tab_pills}>
 							<div className={tabToggle == 0 ? `${style.tab_pill} ${style.active}` : `${style.tab_pill}`} onClick={() => setTabToggle(0)}>Winner pool</div>
 							<div className={tabToggle == 1 ? `${style.tab_pill} ${style.active}` : `${style.tab_pill}`} onClick={() => setTabToggle(1)}>Looser pool</div>
+							<div className={tabToggle == 2 ? `${style.tab_pill} ${style.active}` : `${style.tab_pill}`} onClick={() => setTabToggle(2)}>Eliminated pool</div>
 						</div>
 						<div className={tabToggle == 0 ? `${style.tab_bdy} ${style.active}` : `${style.tab_bdy}`}>
 							{
@@ -129,6 +130,35 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 									</div>
 									:
 									""
+								}
+						</div>
+						<div className={tabToggle == 2 ? `${style.tab_bdy} ${style.active}` : `${style.tab_bdy}`}>
+								{
+									tournamentDetails?.eleminated_teams_arr?.length > 0 ?
+									tournamentDetails?.eleminated_teams_arr?.map((eliminated_row: any, index: number)=>{
+										return(
+											<div className={style.round_complete_toggle}>
+												<div className={`${style.body_toggle} ${style.active}`}>
+														<div className={style.team_main}>
+															<div className={style.data_logo}>
+																<Image width={200} height={200} src={eliminated_row?.logo ? process.env.ASSET_URL + eliminated_row?.logo : PhotoTeam01} alt={eliminated_row?.full_name} />
+															</div>
+															<div className={style.data_text}>
+																<h3>{eliminated_row?.full_name}</h3>
+															</div>
+														</div>
+														<div className={`${style.team_main} ${style.badge_logo}`}>
+															<Image width={200} height={200} src={LooserBadge} alt="Team Logo" />
+															<p>Looser</p>
+														</div>
+														
+												</div>
+											</div>
+										)
+									})
+									:
+									<div className="alert alert-danger">No team(s) eliminated yet!</div>
+
 								}
 						</div>
                         {
