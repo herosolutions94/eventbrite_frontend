@@ -137,7 +137,7 @@ const DoubleElemination = ({tournamentDetails}:DoubleEleminationProps) => {
 									tournamentDetails?.eleminated_teams_arr?.length > 0 ?
 									tournamentDetails?.eleminated_teams_arr?.map((eliminated_row: any, index: number)=>{
 										return(
-											<div className={style.round_complete_toggle}>
+											<div className={style.round_complete_toggle} key={index}>
 												<div className={`${style.body_toggle} ${style.active}`}>
 														<div className={style.team_main}>
 															<div className={style.data_logo}>
