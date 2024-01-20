@@ -16,7 +16,7 @@ import TournamentMatches from "@/components/tournament-matches"
 const TournamentDetail = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
 	const [teamsCount, setTeamsCount] = useState<number>(0);
-	const [isLoading, setIsLoading] = useState<boolean>(true);
+	// const [isLoading, setIsLoading] = useState<boolean>(true);
 	const router = useRouter();
 	const { id } = router.query;
 	const [addReview, setAddReview] = useState<boolean>(false);
@@ -28,20 +28,24 @@ const TournamentDetail = () => {
 	useEffect(() => {
 		fetchData(id);
 	}, [id]);
+	useEffect(() => {
+		console.log(tournamentDetails)
+	}, [tournamentDetails]);
 	const fetchData = async (id:any) => {
 		try {
 			const response = await axios.get(process.env.API_URL + "/tournament-details/" + id, {});
 			// console.log(response)
 			if (response.status === 200) {
-				setIsLoading(false)
+				
 				setTournamentDetails(response.data.data);
 				setTeamsCount(response.data.teamsCount);
+				// setIsLoading(false)
 			}
 		} catch (error) {
 			console.log(error);
 		}
 	};
-	if(isLoading ){
+	if(tournamentDetails===undefined || tournamentDetails===null || tournamentDetails==='' ){
 		return <div id={style.loader}></div>;
 	}
 	return (
