@@ -45,9 +45,9 @@ const TournamentDetail = () => {
 			console.log(error);
 		}
 	};
-	if(tournamentDetails===undefined || tournamentDetails===null || tournamentDetails==='' ){
-		return <div id={style.loader}></div>;
-	}
+	// if(tournamentDetails===undefined || tournamentDetails===null || tournamentDetails==='' ){
+	// 	return <div id={style.loader}></div>;
+	// }
 	return (
 		<>
 			<Header pageTitle="Tournament Detail" />
