@@ -4,7 +4,6 @@ import Image from "next/image";
 
 const OverviewBlock = (details: any) => {
   let d_key = 0;
-  console.log(details);
   return (
     <>
       {details?.details?.address && (

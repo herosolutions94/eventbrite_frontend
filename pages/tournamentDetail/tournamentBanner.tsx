@@ -67,7 +67,6 @@ const TournamentBanner = (props: any) => {
 
     return normalizedDate <= normalizedToday;
   };
-  console.log(details?.images);
   return (
     <>
       <div className={style.banner}>
