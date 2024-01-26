@@ -23,7 +23,7 @@ const TournamentDetail = () => {
 	const addReviewHandle = () => {
 		setAddReview(!addReview);
 	}
-// console.log(id);
+	// console.log(id);
 
 	useEffect(() => {
 		fetchData(id);
@@ -31,12 +31,12 @@ const TournamentDetail = () => {
 	useEffect(() => {
 		console.log(tournamentDetails)
 	}, [tournamentDetails]);
-	const fetchData = async (id:any) => {
+	const fetchData = async (id: any) => {
 		try {
 			const response = await axios.get(process.env.API_URL + "/tournament-details/" + id, {});
 			// console.log(response)
 			if (response.status === 200) {
-				
+
 				setTournamentDetails(response.data.data);
 				setTeamsCount(response.data.teamsCount);
 				// setIsLoading(false)
@@ -48,51 +48,52 @@ const TournamentDetail = () => {
 	// if(tournamentDetails===undefined || tournamentDetails===null || tournamentDetails==='' ){
 	// 	return <div id={style.loader}></div>;
 	// }
+	console.log(tournamentDetails?.single_brackets)
 	return (
 		<>
 			<Header pageTitle="Tournament Detail" />
 			<section id={style.tournament_detail}>
 				{
-					tournamentDetails?.status===0 ?
-					<div className="alert alert-danger">Invalid request</div>
-				:
-				<>
-					<TournamentBanner
-						details={tournamentDetails}
-						fetchData={fetchData as any}
-						teamsCount={teamsCount}
-					/>
-					<div id={style.overview}>
-						<div className={style.contain}>
+					tournamentDetails?.status === 0 ?
+						<div className="alert alert-danger">Invalid request</div>
+						:
+						<>
+							<TournamentBanner
+								details={tournamentDetails}
+								fetchData={fetchData as any}
+								teamsCount={teamsCount}
+							/>
+							<div id={style.overview}>
+								<div className={style.contain}>
 
-							<OverviewBlock details={tournamentDetails} />
-							{tournamentDetails?.teams?.length > 0 &&
-								<TournamentTeams teams={tournamentDetails?.teams} />
-							}
-							{tournamentDetails?.reviews?.length > 0 &&
-								<>
-									<ReviewsBlock reviews={tournamentDetails?.reviews} />
-									<div className={`${style.btn_blk} justify-content-center mb-5`}>
-										<button type="button" className={style.site_btn} onClick={addReviewHandle}>Add Review</button>
-									</div>
-									{
-										addReview ? <ReviewPopup popupClose={addReviewHandle} /> : null
+									<OverviewBlock details={tournamentDetails} />
+									{tournamentDetails?.teams?.length > 0 &&
+										<TournamentTeams teams={tournamentDetails?.teams} />
 									}
-								</>
-							}
-							<MapBlock />
-						</div>
-					</div>
-				</>
-			}
+									{tournamentDetails?.reviews?.length > 0 &&
+										<>
+											<ReviewsBlock reviews={tournamentDetails?.reviews} />
+											<div className={`${style.btn_blk} justify-content-center mb-5`}>
+												<button type="button" className={style.site_btn} onClick={addReviewHandle}>Add Review</button>
+											</div>
+											{
+												addReview ? <ReviewPopup popupClose={addReviewHandle} /> : null
+											}
+										</>
+									}
+									<MapBlock />
+								</div>
+							</div>
+						</>
+				}
 			</section>
 			{
 				tournamentDetails?.single_brackets?.length > 0 ?
-			
-			<TournamentMatches matches={tournamentDetails?.single_brackets} />
-			:
-			""
-}
+
+					<TournamentMatches matches={tournamentDetails?.single_brackets} />
+					:
+					""
+			}
 			<Footer />
 		</>
 	)
