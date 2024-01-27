@@ -91,13 +91,13 @@ const TournamentDetail = () => {
 						</>
 				}
 			</section>
-			{
+			{/* {
 				tournamentBrack?.length > 0 ?
 
 					<TournamentMatches matches={tournamentDetails?.single_brackets} />
 					:
 					""
-			}
+			} */}
 			<Footer />
 		</>
 	)
