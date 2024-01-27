@@ -23,6 +23,7 @@ const TournamentMatches = ({ matches }: TournamentMatchesProps) => {
         </div>
       </section>
     </>
+
   );
 }
 
