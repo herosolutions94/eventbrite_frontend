@@ -24,7 +24,7 @@ const TournamentMatches = ({ matches }: TournamentMatchesProps) => {
       </section>
     </>
   );
-};
+}
 
 export default TournamentMatches;
 
@@ -71,10 +71,11 @@ type SingleEliminationProps = {
 export const SingleElimination = ({ matches }: SingleEliminationProps) => (
   <SingleEliminationBracket
     theme={GlootTheme}
-    matches={simpleSmallBracket}
+    matches={matches}
     matchComponent={Match}
     svgWrapper={({ children, ...props }: { children: React.ReactNode, [key: string]: any }) => (
       <SVGViewer
+        className="responsive-bracket"
         width={10000}
         height={5000}
         background="rgb(11, 13, 19)"

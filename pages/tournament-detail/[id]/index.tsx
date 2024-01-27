@@ -15,6 +15,7 @@ import TournamentMatches from "@/components/tournament-matches"
 
 const TournamentDetail = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
+	const [tournamentBrack, setTournamentBracket] = useState<[]>([]);
 	const [teamsCount, setTeamsCount] = useState<number>(0);
 	// const [isLoading, setIsLoading] = useState<boolean>(true);
 	const router = useRouter();
@@ -28,6 +29,9 @@ const TournamentDetail = () => {
 	useEffect(() => {
 		fetchData(id);
 	}, [id]);
+	useEffect(() => {
+		setTournamentBracket(tournamentDetails?.single_brackets)
+	}, [tournamentDetails?.single_brackets]);
 	useEffect(() => {
 		console.log(tournamentDetails)
 	}, [tournamentDetails]);
@@ -88,7 +92,7 @@ const TournamentDetail = () => {
 				}
 			</section>
 			{
-				tournamentDetails?.single_brackets?.length > 0 ?
+				tournamentBrack?.length > 0 ?
 
 					<TournamentMatches matches={tournamentDetails?.single_brackets} />
 					:
