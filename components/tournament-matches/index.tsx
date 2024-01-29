@@ -15,7 +15,7 @@ type TournamentMatchesProps = {
 const TournamentMatches = ({ matches }: TournamentMatchesProps) => {
   return (
     <>
-      <section className="affiliate">
+      <section id={style.tournament_detail}>
         <div className={style.contain}>
           <SingleElimination matches={matches} />
         </div>
