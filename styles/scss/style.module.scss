@@ -3487,28 +3487,24 @@ p.error {
 	width: 100%;
 }
 
-.responsive-bracket {
-	max-width: 100%;
-	/* Ensure the bracket doesn't exceed the screen width */
-	max-height: 100%;
-	/* Ensure the bracket doesn't exceed the screen height */
-	width: 10000px !important;
-	/* Let the width adjust dynamically */
-	height: 10000px !important;
-	/* Let the height adjust dynamically */
-}
 
-/* Add media queries for different screen sizes */
-@media screen and (max-width: 600px) {
-	.responsive-bracket {
-		/* Adjust styles for small screens */
-	}
-}
-
-@media screen and (min-width: 601px) and (max-width: 1024px) {
-	.responsive-bracket {
-		/* Adjust styles for medium screens */
-	}
-}
 
 /* Add more media queries for larger screens if needed */
+// .tournament_brackets {
+// 	height: 5000px !important;
+// 	width: 100% !important;
+// }
+
+// .tournament_brackets svg {
+// 	height: 100%;
+// 	width: 100% !important;
+// }
+
+// .tournament_brackets svg rect {
+// 	width: 100% !important;
+// }
+// .bracket_parent {
+// 	position: relative;
+// 	overflow: scroll;
+// 	padding: 3rem;
+// }

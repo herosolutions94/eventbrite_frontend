@@ -5,6 +5,7 @@ import {
   SVGViewer,
   createTheme,
 } from '@g-loot/react-tournament-brackets';
+import { useWindowSize } from "@uidotdev/usehooks";
 
 import axios from "axios";
 import style from "@/styles/scss/app.module.scss"
@@ -14,14 +15,7 @@ type TournamentMatchesProps = {
 const TournamentMatches = ({ matches }: TournamentMatchesProps) => {
   return (
     <>
-      <section id={style.affiliate}>
-        <div className={style.contain}>
-          <div className={`${style.content} text-center`}>
-            <h2>Tournament Brackets</h2>
-          </div>
-          <SingleElimination matches={matches} />
-        </div>
-      </section>
+      <SingleElimination matches={matches} />
     </>
 
   );
@@ -69,27 +63,40 @@ const GlootTheme = createTheme({
 type SingleEliminationProps = {
   matches: [],
 }
-export const SingleElimination = ({ matches }: SingleEliminationProps) => (
-  <SingleEliminationBracket
-    theme={GlootTheme}
-    matches={matches}
-    matchComponent={Match}
-    svgWrapper={({ children, ...props }: { children: React.ReactNode, [key: string]: any }) => (
-      <SVGViewer
-        className="responsive-bracket"
-        width={10000}
-        height={5000}
-        background="rgb(11, 13, 19)"
-        SVGBackground="rgb(11, 13, 19)"
-        {...props}
-      >
-        {children}
-      </SVGViewer>
-    )}
-    onMatchClick={(match: any) => console.log(match)}
-    onPartyClick={(match: any) => console.log(match)}
-  />
-);
+// ...
+
+export const SingleElimination = ({ matches }: SingleEliminationProps) => {
+  const { width, height } = useWindowSize();
+
+  // Check if width and height are not null before using them in calculations
+  // const finalWidth = width !== null ? Math.max(width - 50, 500) : 5000;
+  // const finalHeight = height !== null ? Math.max(height + 3000, 5000) : 5000;
+  const finalWidth = width !== null ? Math.max(width - 50, 500) : 500;
+  const finalHeight = height !== null ? Math.max(height - 0, 500) : 500;
+  console.log(finalWidth, finalHeight)
+  return (
+    <SingleEliminationBracket
+      theme={GlootTheme}
+      matches={matches}
+      matchComponent={Match}
+      svgWrapper={({ children, ...props }: { children: React.ReactNode, [key: string]: any }) => (
+        <SVGViewer
+          // className={`${style.responsive_bracket} ${style.tournament_brackets}`}
+          width={10000}
+          height={50000}
+          background="rgb(11, 13, 19)"
+          SVGBackground="rgb(11, 13, 19)"
+          {...props}
+        >
+          {children}
+        </SVGViewer>
+      )}
+      onMatchClick={(match: any) => console.log(match)}
+      onPartyClick={(match: any) => console.log(match)}
+    />
+  );
+};
+
 
 
 
