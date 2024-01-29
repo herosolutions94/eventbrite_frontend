@@ -15,7 +15,11 @@ type TournamentMatchesProps = {
 const TournamentMatches = ({ matches }: TournamentMatchesProps) => {
   return (
     <>
-      <SingleElimination matches={matches} />
+      <section className="affiliate">
+        <div className={style.contain}>
+          <SingleElimination matches={matches} />
+        </div>
+      </section>
     </>
 
   );
@@ -67,12 +71,14 @@ type SingleEliminationProps = {
 
 export const SingleElimination = ({ matches }: SingleEliminationProps) => {
   const { width, height } = useWindowSize();
-
+  // const [width, height]: [number | null, number |] = useWindowSize();
+  const finalWidth: number = width !== null ? Math.max(width - 50, 500) : 500;
+  const finalHeight: number = height !== null ? Math.max(height - 100, 500) : 500;
   // Check if width and height are not null before using them in calculations
   // const finalWidth = width !== null ? Math.max(width - 50, 500) : 5000;
   // const finalHeight = height !== null ? Math.max(height + 3000, 5000) : 5000;
-  const finalWidth = width !== null ? Math.max(width - 50, 500) : 500;
-  const finalHeight = height !== null ? Math.max(height - 0, 500) : 500;
+  // const finalWidth = width !== null ? Math.max(width - 50, 500) : 500;
+  // const finalHeight = height !== null ? Math.max(height - 0, 500) : 500;
   console.log(finalWidth, finalHeight)
   return (
     <SingleEliminationBracket
@@ -81,9 +87,9 @@ export const SingleElimination = ({ matches }: SingleEliminationProps) => {
       matchComponent={Match}
       svgWrapper={({ children, ...props }: { children: React.ReactNode, [key: string]: any }) => (
         <SVGViewer
-          // className={`${style.responsive_bracket} ${style.tournament_brackets}`}
-          width={10000}
-          height={50000}
+          // Check and adjust the width and height values as needed
+          width={1000}  // Adjust this value based on your layout
+          height={800}  // Adjust this value based on your layout
           background="rgb(11, 13, 19)"
           SVGBackground="rgb(11, 13, 19)"
           {...props}
@@ -94,8 +100,10 @@ export const SingleElimination = ({ matches }: SingleEliminationProps) => {
       onMatchClick={(match: any) => console.log(match)}
       onPartyClick={(match: any) => console.log(match)}
     />
+
   );
 };
+
 
 
 
