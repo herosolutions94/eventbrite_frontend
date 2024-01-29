@@ -1722,7 +1722,7 @@ const TournamentDetail = () => {
 	// if(tournamentDetails===undefined || tournamentDetails===null || tournamentDetails==='' ){
 	// 	return <div id={style.loader}></div>;
 	// }
-	console.log(tournamentDetails?.single_brackets)
+	// console.log(tournamentDetails?.single_brackets)
 	return (
 		<>
 			<Header pageTitle="Tournament Detail" />
@@ -1767,7 +1767,7 @@ const TournamentDetail = () => {
 					:
 					""
 			}
-			{/* <Footer /> */}
+			<Footer />
 		</>
 	)
 }
