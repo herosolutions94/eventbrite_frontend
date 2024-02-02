@@ -12,6 +12,16 @@ import CompletedMatch from "@/components/rounds/completedMatch";
 import { ToastContainer, toast } from "react-toastify"
 import Cookies from "js-cookie"
 import DoubleElemination from "@/components/rounds/double-elemination";
+interface FormState {
+    team1_score: number;
+    team2_score: number;
+    winner: string;
+    team_1:{};
+    team_2:{};
+    team1:number;
+    team2:number;
+    id:number;
+  }
 const Generate = () => {
     const [tournamentDetails, setTournamentDetails] = useState<any>([]);
     const [teams, setTeams] = useState<any>([]);
@@ -21,37 +31,66 @@ const Generate = () => {
     const [formFields, setFormFields] = useState({
         team1_score: "",
         team2_score: "",
-        winner: ""
+        winner: "",
+        team_1:"",
+        team_2:"",
+        team1:"",
+        team2:"",
+        id:""
     });
-    const handleChange = (e: any) => {
-        const { name, value } = e.target;
-        setFormFields({ ...formFields, [name]: value });
-    };
-    const handleSaveScore = async (e: any, match_id: any, match_row: any) => {
+    const initialFormState: FormState[] = [
+        { team1_score: 0, team2_score: 0, winner: '',team_1:"",team_2:"",team1:0,team2:0,id:0 },
+        // Add more rows as needed
+      ];
+      const [formState, setFormState] = useState<FormState[]>(initialFormState);
+      
+      const updateFormState = () => {
+        // Assuming fetchedArray contains your data
+        const fetchedArray = tournamentDetails?.latestCompletedRound?.matches;
+    
+        // Transform the fetched data into the format expected by the state
+        const transformedArray: FormState[] = fetchedArray.map((item:any) => ({
+          id: item.id,
+          team1_score: item.team1_score,
+          team2_score: item.team2_score,
+          winner: item.winner,
+          // Add other fields as needed
+        }));
+    
+        // Set the transformed array in the state
+        setFormState(transformedArray);
+      };
+    
+      const handleChange = (index: number, field: keyof FormState, value: string | number) => {
+        const updatedFormState = [...formState];
+        updatedFormState[index][field] = value as never; // Explicitly cast to 'never'
+        setFormState(updatedFormState);
+      };
+    const handleSaveScore = async (e: any) => {
         e.preventDefault();
-        if (formFields?.team1_score === '' || formFields?.team1_score === null || formFields?.team1_score === undefined) {
-            toast.error(match_row?.team_1?.team_name + " score is required!"); return;
-        }
-        if (formFields?.team2_score === '' || formFields?.team2_score === null || formFields?.team2_score === undefined) {
-            toast.error(match_row?.team_2?.team_name + " score is required!"); return;
-        }
-        if (formFields?.winner === '' || formFields?.winner === null || formFields?.winner === undefined) {
-            toast.error(" Winner required!"); return;
-        }
-        if (match_id && match_id > 0) {
-            console.log({
-                user_id: Cookies.get("user_id"),
-                team1_score: formFields?.team1_score,
-                team2_score: formFields?.team2_score,
-                winner: formFields?.winner,
-                tournament_id: tournamentDetails?.id,
-            }); return;
+        const hasEmptyField = formState.some((row) => {
+            // Check each value in the row
+            return Object.values(row).some((value:any) => {
+              if (value === '' || value === null || value === undefined || value<=0) {
+                return true; 
+              }
+              return false;
+            });
+          });
+          if (hasEmptyField) {
+            toast.error('Please fill in all fields before saving, and team 1 score and team 2 score must be greater than 0.')
+            return true;
+          }
+          else{
+            console.log(formState)
+          }
+        
+        if (tournamentDetails?.id > 0) {
+            
             setIsLoading(true)
-            const res = await axios.post(`${process.env.API_URL}/update-match-score/${match_id}`, {
+            const res = await axios.post(`${process.env.API_URL}/update-match-score/${tournamentDetails?.id}`, {
                 user_id: Cookies.get("user_id"),
-                team1_score: formFields?.team1_score,
-                team2_score: formFields?.team2_score,
-                winner: formFields?.winner,
+                matches: JSON.stringify(formState),
                 tournament_id: tournamentDetails?.id,
             }, {
                 headers: {
@@ -64,7 +103,9 @@ const Generate = () => {
                 if (res?.data?.status === 1) {
                     toast.success(res?.data?.msg)
                     // handleTeams(teams)
-                    router.reload();
+                    setTimeout(() => {
+                        handleStartNextRound()
+                    }, 2000);
                 }
                 else {
                     toast.error(res?.data?.msg)
@@ -100,8 +141,7 @@ const Generate = () => {
     const handleStartNextRoundPopup = async (e: any) => {
         e.preventDefault();
     }
-    const handleStartNextRound = async (e: any) => {
-        e.preventDefault();
+    const handleStartNextRound = async () => {
         setIsLoading(true)
         const res = await axios.post(`${process.env.API_URL}/start-next-round/${tournamentDetails?.id}`, {
             user_id: Cookies.get("user_id"),
@@ -126,7 +166,25 @@ const Generate = () => {
 
         }
     }
-    console.log(tournamentDetails?.latestCompletedRound)
+    useEffect(() => {
+        // Assuming fetchedArray contains your data
+        const fetchedArray = tournamentDetails?.latestCompletedRound?.matches;
+    
+        // Transform the fetched data into the format expected by the state
+        const transformedArray: FormState[] = fetchedArray?.map((item:any) => ({
+          team1_score: item.team1_score,
+          team2_score: item.team2_score,
+          winner: item.winner,
+          team_1:item.team_1,
+          team_2:item.team_2,
+          team1:item.team1,
+          team2:item.team2,
+          id:item.id,
+        }));
+    
+        // Set the transformed array in the state
+        setFormState(transformedArray);
+      }, [tournamentDetails?.latestCompletedRound?.matches]);
     return (
         <>
             <Header pageTitle="Tournament Matches" />
@@ -204,12 +262,14 @@ const Generate = () => {
                                                 <div className={style.table_blk}>
                                                     {
                                                         isLoading ?
+                                                            <div className={style.loading_parent}>
                                                             <div className={style.loadingio_spinner}>
                                                                 <div className={style.ldio}>
                                                                     <div></div>
                                                                 </div>
                                                             </div>
-                                                            :
+                                                            </div>
+                                                             :
                                                             ""
                                                     }
                                                     <table>
@@ -223,7 +283,7 @@ const Generate = () => {
                                                         </thead>
                                                         <tbody>
                                                             {
-                                                                tournamentDetails?.latestCompletedRound?.matches?.map((match_row: any, index: any) => {
+                                                                formState?.map((match_row: any, index: any) => {
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{index + 1}</td>
@@ -237,7 +297,7 @@ const Generate = () => {
                                                                                                 </div>
                                                                                                 <div className={style.data_text}>
                                                                                                     <h3>{match_row?.team_1?.team_name}</h3>
-                                                                                                    <input type="number" className={style.input} placeholder="Team A Score" name="team1_score" onChange={handleChange} defaultValue={match_row?.team1_score} />
+                                                                                                    <input type="number" className={style.input} placeholder="Team A Score" name="team1_score" onChange={(e) => handleChange(index, 'team1_score', (e.target.value))} defaultValue={match_row?.team1_score} />
                                                                                                 </div>
                                                                                             </>
                                                                                             :
@@ -255,7 +315,7 @@ const Generate = () => {
                                                                                                 </div>
                                                                                                 <div className={style.data_text}>
                                                                                                     <h3>{match_row?.team_2?.team_name}</h3>
-                                                                                                    <input type="number" className={style.input} placeholder="Team B Score" name="team2_score" onChange={handleChange} defaultValue={match_row?.team2_score} />
+                                                                                                    <input type="number" className={style.input} placeholder="Team B Score" name="team2_score" onChange={(e) => handleChange(index, 'team2_score', (e.target.value))} defaultValue={match_row?.team2_score} />
                                                                                                 </div>
                                                                                             </>
                                                                                             :
@@ -272,7 +332,7 @@ const Generate = () => {
                                                                                             </div>
                                                                                             <div className={style.inner_select}>
                                                                                                 <p>Select winner</p>
-                                                                                                <select name="winner" id="" className="input" onChange={handleChange}>
+                                                                                                <select name="winner" id="" className="input" onChange={(e) => handleChange(index, 'winner', (e.target.value))}>
                                                                                                     <option value="">Choose team</option>
                                                                                                     <option value={match_row?.team_1?.id} selected={match_row?.winner === match_row?.team_1?.id ? true : false}>{match_row?.team_1?.team_name}</option>
                                                                                                     <option value={match_row?.team_2?.id} selected={match_row?.winner === match_row?.team_2?.id ? true : false}>{match_row?.team_2?.team_name}</option>
@@ -291,14 +351,15 @@ const Generate = () => {
 
                                                         </tbody>
                                                     </table>
-                                                    <div className={`${style.btn_blk} mt-5`}>
+                                                    
+                                                </div>
+                                                <div className={`${style.text_center} mt-5 mb-5`}>
                                                         <button
                                                             type="button"
-                                                            className={style.site_btn}>
-                                                            Update
+                                                            className={style.site_btn} onClick={handleSaveScore}>
+                                                            Update and Start Next Round
                                                         </button>
                                                     </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

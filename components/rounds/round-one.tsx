@@ -71,7 +71,6 @@ const RoundOne = ({ tournamentDetails, round_row, loose_round, final_round, roun
             toast.error('Invalid request!')
         }
     }
-    console.log(tournamentDetails, round_row)
     return (
         <>
             <div className={style.main_round_outer}>
