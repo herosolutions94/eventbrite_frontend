@@ -746,6 +746,7 @@ const NewTournamentForm = () => {
         method="post"
         onSubmit={handleSubmit}
         encType="multipart/form-data"
+        className={style.tournament_form}
       >
         {/* {errors.address && (
 					
@@ -767,7 +768,7 @@ const NewTournamentForm = () => {
               <h5 className="mb-5">Tournament Details</h5>
               <div className="row">
                 <div className="col-sm-12">
-                  <h6>Tournament Name</h6>
+                  <h6>Tournament Name <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="text"
@@ -782,7 +783,7 @@ const NewTournamentForm = () => {
                   <p className="text-danger">{errors?.title}</p>
                 </div>
                 <div className="col-sm-6">
-                  <h6>Tournament Category</h6>
+                  <h6>Tournament Category <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     {tournamentData.categories && (
                       <select
@@ -811,7 +812,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <h6>Tournament Type</h6>
+                  <h6>Tournament Type <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     {tournamentData.tournamentTypes && (
                       <select
@@ -838,7 +839,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <h6>Tournament Start Date</h6>
+                  <h6>Tournament Start Date <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="date"
@@ -853,7 +854,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <h6>Tournament End Date</h6>
+                  <h6>Tournament End Date <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="date"
@@ -868,7 +869,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <h6>Participant Registration Open Date</h6>
+                  <h6>Participant Registration Open Date <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="date"
@@ -883,7 +884,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <h6>Registration Deadline</h6>
+                  <h6>Registration Deadline <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="date"
@@ -899,7 +900,7 @@ const NewTournamentForm = () => {
                 </div>
 
                 <div className="col-sm-6">
-                  <h6>Event Type</h6>
+                  <h6>Event Type <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <select
                       name="event_type"
@@ -928,7 +929,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-5">
-                  <h6>Country</h6>
+                  <h6>Country <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <select
                       name="country_id"
@@ -956,7 +957,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-4">
-                  <h6>City</h6>
+                  <h6>City <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="text"
@@ -971,7 +972,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-3">
-                  <h6>Postal code</h6>
+                  <h6>Postal code <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="text"
@@ -986,7 +987,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <h6>Address</h6>
+                  <h6>Address <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="text"
@@ -1001,7 +1002,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <h6>Number of Teams</h6>
+                  <h6>Number of Teams <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <select
                       name="number_of_teams"
@@ -1035,7 +1036,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <h6>Tournament Format</h6>
+                  <h6>Tournament Format <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <select
                       name="format"
@@ -1066,7 +1067,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-4">
-                  <h6>Entry Fee</h6>
+                  <h6>Entry Fee <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="text"
@@ -1081,7 +1082,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-4">
-                  <h6>Prize Distribution</h6>
+                  <h6>Prize Distribution <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="text"
@@ -1096,7 +1097,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-4">
-                  <h6>Tournament Level</h6>
+                  <h6>Tournament Level <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <select
                       name="level"
@@ -1143,7 +1144,7 @@ const NewTournamentForm = () => {
               <h5 className="mb-5">Rules and Regulations</h5>
               <div className="row">
                 <div className="col-sm-12">
-                  <h6>Upload Documents</h6>
+                  <h6>Upload Documents <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     {/* <button type="button" name="" id="" className={style.input}>
 											Upload Logos
@@ -1160,7 +1161,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <h6>Tournament Description</h6>
+                  <h6>Tournament Description <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     {/* <CKeditor
 											name="overview"
@@ -1185,7 +1186,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <h6>Specific rules for the tournament</h6>
+                  <h6>Specific rules for the tournament <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     {/* <CKeditor
 											name="rules"
@@ -1208,7 +1209,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <h6>Code of Conduct</h6>
+                  <h6>Code of Conduct <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     {/* <CKeditor
 											name="code_of_conduct"
@@ -1235,7 +1236,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <h6>Age or Skill Level Restrictions</h6>
+                  <h6>Age or Skill Level Restrictions <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="text"
@@ -1250,7 +1251,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <h6>Equipment Requirements</h6>
+                  <h6>Equipment Requirements <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="text"
@@ -1292,7 +1293,7 @@ const NewTournamentForm = () => {
               <h6 className={style.text_prime}>01. Match</h6>
               <div className="row">
                 <div className="col-sm-4">
-                  <h6>Date</h6>
+                  <h6>Date <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="date"
@@ -1307,7 +1308,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-4">
-                  <h6>Time</h6>
+                  <h6>Time <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="time"
@@ -1322,7 +1323,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-4">
-                  <h6>Breaks ({tournamentDetails.schedule_breaks})</h6>
+                  <h6>Breaks ({tournamentDetails.schedule_breaks}) <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     {/* <select
                       name="schedule_breaks"
@@ -1359,7 +1360,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <h6>Venue Availability</h6>
+                  <h6>Venue Availability <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="text"
@@ -1377,7 +1378,7 @@ const NewTournamentForm = () => {
               <h6 className={style.text_prime}>02. Match</h6>
               <div className="row">
                 <div className="col-sm-4">
-                  <h6>Date</h6>
+                  <h6>Date <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="date"
@@ -1392,7 +1393,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-4">
-                  <h6>Time</h6>
+                  <h6>Time <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="time"
@@ -1407,7 +1408,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-4">
-                  <h6>Breaks ({tournamentDetails?.second_match_breaks})</h6>
+                  <h6>Breaks ({tournamentDetails?.second_match_breaks}) <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     {/* <select
                       name="second_match_breaks"
@@ -1438,7 +1439,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <h6>Venue Availability</h6>
+                  <h6>Venue Availability <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="text"
@@ -1459,7 +1460,7 @@ const NewTournamentForm = () => {
               <h6 className={style.text_prime}>03. Match</h6>
               <div className="row">
                 <div className="col-sm-4">
-                  <h6>Date</h6>
+                  <h6>Date <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="date"
@@ -1474,7 +1475,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-4">
-                  <h6>Time</h6>
+                  <h6>Time <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="time"
@@ -1489,7 +1490,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-4">
-                  <h6>Breaks ({tournamentDetails?.third_match_breaks})</h6>
+                  <h6>Breaks ({tournamentDetails?.third_match_breaks}) <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     {/* <select
                       name="third_match_breaks"
@@ -1520,7 +1521,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <h6>Venue Availability</h6>
+                  <h6>Venue Availability <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="text"
@@ -1630,7 +1631,7 @@ const NewTournamentForm = () => {
               <h5 className="mb-5">Tournament Staff & Volunteers</h5>
               <div className="row">
                 <div className="col-sm-6">
-                  <h6>Contact Information</h6>
+                  <h6>Contact Information <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <input autoComplete="off"
                       type="text"
@@ -1644,7 +1645,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <h6>Roles and Responsibilities</h6>
+                  <h6>Roles and Responsibilities <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <select
                       name="roles_and_responsibilities"
@@ -1703,7 +1704,7 @@ const NewTournamentForm = () => {
               <h5 className="mb-5">Sponsorship and Marketing</h5>
               <div className="row">
                 <div className="col-sm-12">
-                  <h6>Sponsor Information</h6>
+                  <h6>Sponsor Information <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <textarea
                       name="sponsor_information"
@@ -1728,7 +1729,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <h6>Upload Logos</h6>
+                  <h6>Upload Logos <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     {/* <button type="button" name="" id="" className={style.input}>
 											Upload Logos
@@ -1745,7 +1746,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <h6>Upload Banners</h6>
+                  <h6>Upload Banners <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     {/* <button type="button" name="" id="" className={style.input}>
 											Upload Banners
@@ -1770,7 +1771,7 @@ const NewTournamentForm = () => {
                 <div className={style.stripe_payment_form}>
                   <div className="row">
                     <div className="col-12">
-                      <h6 className="require">Name on Card</h6>
+                      <h6 className="require">Name on Card <sup>*</sup></h6>
                       <div className={style.form_blk}>
                         <input autoComplete="off"
                           type="text"
@@ -1781,7 +1782,7 @@ const NewTournamentForm = () => {
                       </div>
                     </div>
                     <div className="col-12">
-                      <h6 className="require">Card Number</h6>
+                      <h6 className="require">Card Number <sup>*</sup></h6>
                       <div className={style.form_blk}>
                         <div className={style.input_blk}>
                           <CardNumberElement options={options} />
@@ -1792,7 +1793,7 @@ const NewTournamentForm = () => {
                       </div>
                     </div>
                     <div className="col-6">
-                      <h6 className="require">Expiry Date</h6>
+                      <h6 className="require">Expiry Date <sup>*</sup></h6>
                       <div className={style.form_blk}>
                         <div className={style.input_blk}>
                           <CardExpiryElement options={options} />
@@ -1800,7 +1801,7 @@ const NewTournamentForm = () => {
                       </div>
                     </div>
                     <div className="col-6">
-                      <h6 className="require">CVC</h6>
+                      <h6 className="require">CVC <sup>*</sup></h6>
                       <div className={style.form_blk}>
                         <div className={style.input_blk}>
                           <CardCvcElement options={options} />
