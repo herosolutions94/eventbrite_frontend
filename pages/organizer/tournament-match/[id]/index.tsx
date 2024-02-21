@@ -16,12 +16,12 @@ interface FormState {
     team1_score: number;
     team2_score: number;
     winner: string;
-    team_1:{};
-    team_2:{};
-    team1:number;
-    team2:number;
-    id:number;
-  }
+    team_1: {};
+    team_2: {};
+    team1: number;
+    team2: number;
+    id: number;
+}
 const Generate = () => {
     const [tournamentDetails, setTournamentDetails] = useState<any>([]);
     const [teams, setTeams] = useState<any>([]);
@@ -32,61 +32,61 @@ const Generate = () => {
         team1_score: "",
         team2_score: "",
         winner: "",
-        team_1:"",
-        team_2:"",
-        team1:"",
-        team2:"",
-        id:""
+        team_1: "",
+        team_2: "",
+        team1: "",
+        team2: "",
+        id: ""
     });
     const initialFormState: FormState[] = [
-        { team1_score: 0, team2_score: 0, winner: '',team_1:"",team_2:"",team1:0,team2:0,id:0 },
+        { team1_score: 0, team2_score: 0, winner: '', team_1: "", team_2: "", team1: 0, team2: 0, id: 0 },
         // Add more rows as needed
-      ];
-      const [formState, setFormState] = useState<FormState[]>(initialFormState);
-      
-      const updateFormState = () => {
+    ];
+    const [formState, setFormState] = useState<FormState[]>(initialFormState);
+
+    const updateFormState = () => {
         // Assuming fetchedArray contains your data
         const fetchedArray = tournamentDetails?.latestCompletedRound?.matches;
-    
+
         // Transform the fetched data into the format expected by the state
-        const transformedArray: FormState[] = fetchedArray.map((item:any) => ({
-          id: item.id,
-          team1_score: item.team1_score,
-          team2_score: item.team2_score,
-          winner: item.winner,
-          // Add other fields as needed
+        const transformedArray: FormState[] = fetchedArray.map((item: any) => ({
+            id: item.id,
+            team1_score: item.team1_score,
+            team2_score: item.team2_score,
+            winner: item.winner,
+            // Add other fields as needed
         }));
-    
+
         // Set the transformed array in the state
         setFormState(transformedArray);
-      };
-    
-      const handleChange = (index: number, field: keyof FormState, value: string | number) => {
+    };
+
+    const handleChange = (index: number, field: keyof FormState, value: string | number) => {
         const updatedFormState = [...formState];
         updatedFormState[index][field] = value as never; // Explicitly cast to 'never'
         setFormState(updatedFormState);
-      };
+    };
     const handleSaveScore = async (e: any) => {
         e.preventDefault();
         const hasEmptyField = formState.some((row) => {
             // Check each value in the row
-            return Object.values(row).some((value:any) => {
-              if (value === '' || value === null || value === undefined || value<=0) {
-                return true; 
-              }
-              return false;
+            return Object.values(row).some((value: any) => {
+                if (value === '' || value === null || value === undefined || value <= 0) {
+                    return true;
+                }
+                return false;
             });
-          });
-          if (hasEmptyField) {
+        });
+        if (hasEmptyField) {
             toast.error('Please fill in all fields before saving, and team 1 score and team 2 score must be greater than 0.')
             return true;
-          }
-          else{
+        }
+        else {
             console.log(formState)
-          }
-        
+        }
+
         if (tournamentDetails?.id > 0) {
-            
+
             setIsLoading(true)
             const res = await axios.post(`${process.env.API_URL}/update-match-score/${tournamentDetails?.id}`, {
                 user_id: Cookies.get("user_id"),
@@ -124,6 +124,25 @@ const Generate = () => {
             fetchData();
         }
     }, [id]);
+    useEffect(() => {
+        // Assuming fetchedArray contains your data
+        const fetchedArray = tournamentDetails?.latestCompletedRound?.matches;
+
+        // Transform the fetched data into the format expected by the state
+        const transformedArray: FormState[] = fetchedArray?.map((item: any) => ({
+            team1_score: item.team1_score,
+            team2_score: item.team2_score,
+            winner: item.winner,
+            team_1: item.team_1,
+            team_2: item.team_2,
+            team1: item.team1,
+            team2: item.team2,
+            id: item.id,
+        }));
+
+        // Set the transformed array in the state
+        setFormState(transformedArray);
+    }, [tournamentDetails?.latestCompletedRound?.matches]);
     const fetchData = async () => {
         try {
             const response = await axios.get(process.env.API_URL + "/tournament-details/" + id, {});
@@ -166,25 +185,7 @@ const Generate = () => {
 
         }
     }
-    useEffect(() => {
-        // Assuming fetchedArray contains your data
-        const fetchedArray = tournamentDetails?.latestCompletedRound?.matches;
-    
-        // Transform the fetched data into the format expected by the state
-        const transformedArray: FormState[] = fetchedArray?.map((item:any) => ({
-          team1_score: item.team1_score,
-          team2_score: item.team2_score,
-          winner: item.winner,
-          team_1:item.team_1,
-          team_2:item.team_2,
-          team1:item.team1,
-          team2:item.team2,
-          id:item.id,
-        }));
-    
-        // Set the transformed array in the state
-        setFormState(transformedArray);
-      }, [tournamentDetails?.latestCompletedRound?.matches]);
+
     return (
         <>
             <Header pageTitle="Tournament Matches" />
@@ -263,13 +264,13 @@ const Generate = () => {
                                                     {
                                                         isLoading ?
                                                             <div className={style.loading_parent}>
-                                                            <div className={style.loadingio_spinner}>
-                                                                <div className={style.ldio}>
-                                                                    <div></div>
+                                                                <div className={style.loadingio_spinner}>
+                                                                    <div className={style.ldio}>
+                                                                        <div></div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            </div>
-                                                             :
+                                                            :
                                                             ""
                                                     }
                                                     <table>
@@ -351,15 +352,15 @@ const Generate = () => {
 
                                                         </tbody>
                                                     </table>
-                                                    
+
                                                 </div>
                                                 <div className={`${style.text_center} mt-5 mb-5`}>
-                                                        <button
-                                                            type="button"
-                                                            className={style.site_btn} onClick={handleSaveScore}>
-                                                            Update and Start Next Round
-                                                        </button>
-                                                    </div>
+                                                    <button
+                                                        type="button"
+                                                        className={style.site_btn} onClick={handleSaveScore}>
+                                                        Update and Start Next Round
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

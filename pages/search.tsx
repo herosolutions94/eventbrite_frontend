@@ -20,17 +20,18 @@ const Search = () => {
 	const [categories, setCategories] = useState<any | null>([]);
 	const [response, setResponse] = useState<any | null>(null);
 	const params = useRouter().query;
-
+	const category = params.category
+	const keyword_name = params.name
 	useEffect(() => {
-		fetchTournaments();
-	}, []);
+		fetchTournaments(params.category, params.name);
+	}, [params]);
 	// get params from url
 
-	const fetchTournaments = async () => {
-
+	const fetchTournaments = async (category: any, name: any) => {
 		try {
-			if (!params.category && !params.name) {
+			if (!category && !name) {
 				const response = await axios.get(`${process.env.API_URL}/tournaments`);
+				console.log(response?.data)
 				if (response.status === 200) {
 					setTournaments(response.data.data.data);
 					setResponse(response.data.data);
@@ -38,11 +39,12 @@ const Search = () => {
 				}
 				return;
 			}
-			const response = await axios.get(`${process.env.API_URL}/tournaments?category=${params.category}&name=${params.name}`);
+			const response = await axios.get(`${process.env.API_URL}/tournaments?category=${category}&name=${name}`);
+			console.log(response?.data)
 			if (response.status === 200) {
 				console.log(response.data)
 				setTournaments(response.data.data.data);
-
+				setCategories(response.data.categories);
 				setResponse(response.data.data);
 			}
 		} catch (error) {

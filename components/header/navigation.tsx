@@ -85,10 +85,10 @@ const Navigation = (props: any) => {
 								</Link>
 							</li>
 							<li>
-									<Link href="/organizer/buy-credits" className={router.pathname === "/organizer/transactions" ? style.active : ""}>
-										Buy Credits
-									</Link>
-								</li>
+								<Link href="/organizer/buy-credits" className={router.pathname === "/organizer/transactions" ? style.active : ""}>
+									Buy Credits
+								</Link>
+							</li>
 							<li>
 								<Link href="/organizer/tournaments" className={router.pathname === "/organizer/tournaments" ? style.active : ""}>
 									Tournaments
@@ -159,12 +159,12 @@ const Navigation = (props: any) => {
 								<>
 									<li>
 										<Link href="/signin" className={router.pathname === "/signin" ? style.active : ""}>
-											Sign in
+											Login
 										</Link>
 									</li>
 									<li>
 										<Link href="/signup" className={router.pathname === "/signup" ? style.active : ""}>
-											Sign up
+											Sign Up
 										</Link>
 									</li>
 								</>

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import style from "@/styles/scss/app.module.scss"
 import { useRouter } from "next/router"
 import axios from "axios"
@@ -16,12 +16,20 @@ const MainSearch = ({ setTournaments, categoriesArr }: MapSearchProps) => {
 	const [category, setCategory] = React.useState(params?.category || "")
 	const [postCode, setPostCode] = React.useState(params?.postCode || "")
 	const [eventName, setEventName] = React.useState(params?.name || "")
+	useEffect(() => {
+		if (params?.category) {
+			setCategory(params?.category)
+		}
+		if (params?.name) {
+			setEventName(params?.name)
+		}
+	}, [params]);
 
 	const handleRedirect = (e: any) => {
 		e.preventDefault()
 		const formData = {
-			category: category ? category : params.category,
-			name: eventName ? eventName : params.name,
+			category: category ? category : "",
+			name: eventName ? eventName : "",
 		}
 		router.push({
 			pathname: "/search",
@@ -31,17 +39,16 @@ const MainSearch = ({ setTournaments, categoriesArr }: MapSearchProps) => {
 	const handleCategorySearch = async (e: any) => {
 		const search = e.target.value;
 		setCategory(search);
-		try {
-			const response = await axios.post(`${process.env.API_URL}/get-categories`, { search });
-			if (response.status === 200) {
-				setCategories(response.data.data);
-			}
-		} catch (error) {
-			console.log(error);
-		}
+		// try {
+		// 	const response = await axios.post(`${process.env.API_URL}/get-categories`, { search });
+		// 	if (response.status === 200) {
+		// 		setCategories(response.data.data);
+		// 	}
+		// } catch (error) {
+		// 	console.log(error);
+		// }
 
 	}
-
 
 	return (
 		<>

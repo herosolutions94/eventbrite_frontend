@@ -236,7 +236,7 @@ const NewTournamentForm = () => {
         toast.error(paymentMethodReq.error.message);
         deleteTouranment(tournamentId);
       } else {
-        const amount = tournamentData.tournament_fee!==null && tournamentData.tournament_fee!==undefined && parseFloat(tournamentData.tournament_fee) > 0 ? parseFloat(tournamentData.tournament_fee) * numberOfTeams : numberOfTeams; 
+        const amount = tournamentData.tournament_fee !== null && tournamentData.tournament_fee !== undefined && parseFloat(tournamentData.tournament_fee) > 0 ? parseFloat(tournamentData.tournament_fee) * numberOfTeams : numberOfTeams;
         var payment_form_data = new FormData();
         payment_form_data.append(
           "payment_token",
@@ -517,11 +517,10 @@ const NewTournamentForm = () => {
 
           // Validate registration_deadline should be greater than start_date and less than end_date
           if (
-            registrationDeadline <= startDate ||
             registrationDeadline >= endDate
           ) {
             toast.error(
-              "Registration deadline should be between start date and end date"
+              "Registration deadline should be before end date"
             );
             return;
           }
@@ -735,7 +734,7 @@ const NewTournamentForm = () => {
     }
     // setFieldset(fieldSet)
   };
-console.log(tournamentData)
+  console.log(tournamentData)
   return (
     <>
       <form
