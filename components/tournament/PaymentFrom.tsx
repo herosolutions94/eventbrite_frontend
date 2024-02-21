@@ -42,65 +42,65 @@ const PaymentForm = () => {
 	const elements = useElements()
 	const [cardError, setCardError] = useState("")
 
-  
-  const chargePayment = async (clientSecret: any, paymentMethodReq: any, setup_id: any, paymentMethodSetup: any, customer_id: any) => {
-    const result = await stripe!.confirmCardPayment(clientSecret, {
-        payment_method: paymentMethodSetup,
-        setup_future_usage: 'off_session'
-    });
-    if (result.error) {
-      toast.error(result.error.message)
-      return;
-    } else if (result.paymentIntent?.status === "succeeded") {
-      toast.success("Payment Successful")
-    }
-  }
 
-const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    if (!stripe || !elements) {
-      return;
-    }
-    const cardElement = elements.getElement(CardNumberElement);
-    if (!cardElement) {
-        alert();
-      return;
-    }
-    const paymentMethodReq = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement,
-      });
-      if (paymentMethodReq.error) {
-        console.log(paymentMethodReq.error.message);
-      } else {
-        var form_data = new FormData();
-        form_data.append('payment_token', paymentMethodReq.paymentMethod?.id as string);
-        form_data.append('user_id', Cookies.get('user_id') as string);
-        form_data.append('amount', 100 as any);
-        await axios.post(process.env.API_URL + "/create-indent-payment", form_data).then((data : any) => {
-          let client_secret = data.data.data.arr.client_secret;
-          let client_secret_setup = data.data.data.arr.setup_client_secret;
+	const chargePayment = async (clientSecret: any, paymentMethodReq: any, setup_id: any, paymentMethodSetup: any, customer_id: any) => {
+		const result = await stripe!.confirmCardPayment(clientSecret, {
+			payment_method: paymentMethodSetup,
+			setup_future_usage: 'off_session'
+		});
+		if (result.error) {
+			toast.error(result.error.message)
+			return;
+		} else if (result.paymentIntent?.status === "succeeded") {
+			toast.success("Payment Successful")
+		}
+	}
 
-          if (data.data.data.status === 1) {
-              let card_result = stripe.confirmCardSetup(client_secret_setup, {
-                  payment_method: {
-                      card: cardElement,
-                  },
-              });
-              card_result.then(response => {
-                if(response.error) {
-                  toast.error(response.error.message)
-                }
-                else {
-                  let paymentMethod = response.setupIntent.payment_method;
-                  let setup_intent_id = response.setupIntent.id;
-                  chargePayment(client_secret, paymentMethodReq, setup_intent_id, paymentMethod, data.data.data.arr.customer);
-                }
-              })
-          }
-        })
-      }
-  };
+	const handleSubmit = async (e: any) => {
+		e.preventDefault();
+		if (!stripe || !elements) {
+			return;
+		}
+		const cardElement = elements.getElement(CardNumberElement);
+		if (!cardElement) {
+			alert();
+			return;
+		}
+		const paymentMethodReq = await stripe.createPaymentMethod({
+			type: "card",
+			card: cardElement,
+		});
+		if (paymentMethodReq.error) {
+			console.log(paymentMethodReq.error.message);
+		} else {
+			var form_data = new FormData();
+			form_data.append('payment_token', paymentMethodReq.paymentMethod?.id as string);
+			form_data.append('user_id', Cookies.get('user_id') as string);
+			form_data.append('amount', 100 as any);
+			await axios.post(process.env.API_URL + "/create-indent-payment", form_data).then((data: any) => {
+				let client_secret = data.data.data.arr.client_secret;
+				let client_secret_setup = data.data.data.arr.setup_client_secret;
+
+				if (data.data.data.status === 1) {
+					let card_result = stripe.confirmCardSetup(client_secret_setup, {
+						payment_method: {
+							card: cardElement,
+						},
+					});
+					card_result.then((response: any) => {
+						if (response.error) {
+							toast.error(response.error.message)
+						}
+						else {
+							let paymentMethod = response.setupIntent.payment_method;
+							let setup_intent_id = response.setupIntent.id;
+							chargePayment(client_secret, paymentMethodReq, setup_intent_id, paymentMethod, data.data.data.arr.customer);
+						}
+					})
+				}
+			})
+		}
+	};
 
 	return (
 		<div className={style.stripe_payment_form}>
@@ -109,7 +109,7 @@ const handleSubmit = async (e: any) => {
 					<div className="col-12">
 						<h6 className="require">Name on Card</h6>
 						<div className={style.form_blk}>
-							<input type="text" className={style.input} placeholder="Name on card" />
+							<input type="text" className={style.input} placeholder="Name on card" autoComplete="none" />
 							<span className="validation-error"></span>
 						</div>
 					</div>

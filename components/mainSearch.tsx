@@ -52,7 +52,7 @@ const MainSearch = ({ setTournaments, categoriesArr }: MapSearchProps) => {
 
 	return (
 		<>
-			<form action="" method="post" className={style.main_search_form} onSubmit={handleRedirect}>
+			<form autoComplete="off" action="" method="post" className={style.main_search_form} onSubmit={handleRedirect}>
 				<div className={style.input_wrap}>
 					{/* <input
 						type="text"
@@ -105,6 +105,7 @@ const MainSearch = ({ setTournaments, categoriesArr }: MapSearchProps) => {
 						placeholder="Search by Name"
 						onChange={(e) => setEventName(e.target.value)}
 						value={eventName}
+						autoComplete="none"
 					/>
 				</div>
 				{/* <input 

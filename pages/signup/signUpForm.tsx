@@ -13,7 +13,7 @@ const SignUpForm = () => {
 	const router = useRouter();
 	const [countriesData, setCountriesData] = useState<any[]>([]);
 	const [signup, setSignup] = useState("organizer");
-	const [error, setError] = useState<{ name?: string,email?:string,phone_number?:string,password?:string,confirmPassword?:string,org_name?:string,org_website?:string,org_mailing_address?:string,org_communication_method?:string,org_timezone?:string,postal_code?:string,confirm_password?:string,country?:string,city?:string,address?:string }>({})
+	const [error, setError] = useState<{ name?: string, email?: string, phone_number?: string, password?: string, confirmPassword?: string, org_name?: string, org_website?: string, org_mailing_address?: string, org_communication_method?: string, org_timezone?: string, postal_code?: string, confirm_password?: string, country?: string, city?: string, address?: string }>({})
 	const [formData, setFormData] = useState({
 		name: "",
 		email: "",
@@ -57,31 +57,31 @@ const SignUpForm = () => {
 		} catch (error) {
 			if (axios.isAxiosError(error) && error.response?.status === 422) {
 				toast.error(error.response.data.message);
-			  const validationErrors = error.response.data.error;
-			  setError(validationErrors);
+				const validationErrors = error.response.data.error;
+				setError(validationErrors);
 			} else {
-			  // Handle other errors
+				// Handle other errors
 			}
-		  }
+		}
 	};
 
 	useEffect(() => {
 		const fetchCountriesData = async () => {
-		  try {
-			const data = await countries();
-			setCountriesData(data);
-		  } catch (error) {
-			console.error('Error fetching countries data:', error);
-		  }
+			try {
+				const data = await countries();
+				setCountriesData(data);
+			} catch (error) {
+				console.error('Error fetching countries data:', error);
+			}
 		};
-	
+
 		fetchCountriesData();
 	}, [error]);
-	
+
 	return (
 		<>
 			<div className={style.logon_form}>
-				<form action="" method="POST">
+				<form action="" method="POST" autoComplete="off">
 					<div className={style.log_blk}>
 						<div className={style.txt}>
 							<h2>Sign up</h2>
@@ -102,14 +102,15 @@ const SignUpForm = () => {
 							<div className="col-sm-12">
 								<h6 className="require">Full Name</h6>
 								<div className={style.form_blk}>
-									<input 
-										type="text" 
-										name="email" 
-										id="email" 
-										className={style.input} 
-										placeholder="eg: John Wick" 
+									<input
+										type="text"
+										name="name"
+										id="name"
+										className={style.input}
+										placeholder="eg: John Wick"
 										value={formData.name}
-										onChange={(e) => setFormData({...formData, name: e.target.value})}
+										autoComplete="none"
+										onChange={(e) => setFormData({ ...formData, name: e.target.value })}
 									/>
 									<p className="text-danger">{error.name}</p>
 								</div>
@@ -117,14 +118,15 @@ const SignUpForm = () => {
 							<div className="col-sm-12">
 								<h6 className="require">Email Address</h6>
 								<div className={style.form_blk}>
-									<input 
-										type="text" 
-										name="email" 
-										id="email" 
-										className={style.input} 
-										placeholder="eg: sample@gmail.com" 
+									<input
+										type="text"
+										name="email"
+										id="email"
+										className={style.input}
+										placeholder="eg: sample@gmail.com"
 										value={formData.email}
-										onChange={(e) => setFormData({...formData, email: e.target.value})} 
+										autoComplete="none"
+										onChange={(e) => setFormData({ ...formData, email: e.target.value })}
 									/>
 									<p className="text-danger">{error.email}</p>
 								</div>
@@ -132,14 +134,15 @@ const SignUpForm = () => {
 							<div className="col-sm-12">
 								<h6 className="require">Phone Number</h6>
 								<div className={style.form_blk}>
-									<input 
-										type="text" 
-										name="phone_number" 
-										id="phone" 
-										className={style.input} 
-										placeholder="eg: 194349034234" 
+									<input
+										type="text"
+										name="phone_number"
+										id="phone"
+										className={style.input}
+										placeholder="eg: 194349034234"
 										value={formData.phone_number}
-										onChange={(e) => setFormData({...formData, phone_number: e.target.value})}
+										autoComplete="none"
+										onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
 									/>
 									<p className="text-danger">
 										{error.phone_number}
@@ -151,9 +154,9 @@ const SignUpForm = () => {
 									<div className="col-sm-12">
 										<h6>Country</h6>
 										<div className={style.form_blk}>
-											<select name="country" id="" className={style.input} value={playerData.country} onChange={(e) => setPlayerData({...playerData, country: e.target.value})}>
+											<select name="country" id="" className={style.input} value={playerData.country} onChange={(e) => setPlayerData({ ...playerData, country: e.target.value })}>
 												<option value="">Select</option>
-												{ countriesData.map((country ,index) => (
+												{countriesData.map((country, index) => (
 													<option value={country.id} key={index} >{country.name}</option>
 												))}
 											</select>
@@ -165,14 +168,15 @@ const SignUpForm = () => {
 									<div className="col-sm-6">
 										<h6>City</h6>
 										<div className={style.form_blk}>
-											<input 
-												type="text" 
-												name="city" 
-												id="city" 
-												className={style.input} 
-												placeholder="eg: California" 
+											<input
+												type="text"
+												name="city"
+												id="city"
+												className={style.input}
+												placeholder="eg: California"
 												value={playerData.city}
-												onChange={(e) => setPlayerData({...playerData, city: e.target.value})} 
+												autoComplete="none"
+												onChange={(e) => setPlayerData({ ...playerData, city: e.target.value })}
 											/>
 											<p className="text-danger">
 												{error.city}
@@ -182,14 +186,15 @@ const SignUpForm = () => {
 									<div className="col-sm-6">
 										<h6>Postal code</h6>
 										<div className={style.form_blk}>
-											<input 
-												type="text" 
-												name="zip_code" 
-												id="zip_code" 
-												className={style.input} 
-												placeholder="eg: BL0 0WY" 
+											<input
+												type="text"
+												name="zip_code"
+												id="zip_code"
+												className={style.input}
+												placeholder="eg: BL0 0WY"
 												value={playerData.postal_code}
-												onChange={(e) => setPlayerData({...playerData, postal_code: e.target.value})}
+												autoComplete="none"
+												onChange={(e) => setPlayerData({ ...playerData, postal_code: e.target.value })}
 											/>
 											<p className="text-danger">
 												{error.postal_code}
@@ -199,14 +204,15 @@ const SignUpForm = () => {
 									<div className="col-sm-12">
 										<h6>Address</h6>
 										<div className={style.form_blk}>
-											<input 
-												type="text" 
-												name="address" 
-												id="address" 
-												className={style.input} 
-												placeholder="eg: 123 Main Street, California" 
+											<input
+												type="text"
+												name="address"
+												id="address"
+												className={style.input}
+												placeholder="eg: 123 Main Street, California"
 												value={playerData.address}
-												onChange={(e) => setPlayerData({...playerData, address: e.target.value})} 
+												autoComplete="none"
+												onChange={(e) => setPlayerData({ ...playerData, address: e.target.value })}
 											/>
 											<p className="text-danger">
 												{error.address}
@@ -219,14 +225,15 @@ const SignUpForm = () => {
 									<div className="col-sm-12">
 										<h6>Organization Name</h6>
 										<div className={style.form_blk}>
-											<input 
-												type="text" 
-												name="address" 
-												id="address" 
-												className={style.input} 
-												placeholder="eg: Warmongers" 
+											<input
+												type="text"
+												name="address"
+												id="address"
+												className={style.input}
+												placeholder="eg: Warmongers"
 												value={organizerData.org_name}
-												onChange={(e) => setOrganizerData({...organizerData, org_name: e.target.value})}
+												autoComplete="none"
+												onChange={(e) => setOrganizerData({ ...organizerData, org_name: e.target.value })}
 											/>
 											<p className="text-danger">{error.org_name}</p>
 										</div>
@@ -234,14 +241,15 @@ const SignUpForm = () => {
 									<div className="col-sm-12">
 										<h6>Organization Website</h6>
 										<div className={style.form_blk}>
-											<input 
-												type="text" 
+											<input
+												type="text"
 												name="org_website"
 												id="org_website"
-												className={style.input} 
-												placeholder="eg: www.website.com" 
+												className={style.input}
+												placeholder="eg: www.website.com"
 												value={organizerData.org_website}
-												onChange={(e) => setOrganizerData({...organizerData, org_website: e.target.value})}
+												autoComplete="none"
+												onChange={(e) => setOrganizerData({ ...organizerData, org_website: e.target.value })}
 											/>
 											<p className="text-danger">{error.org_website}</p>
 										</div>
@@ -249,14 +257,15 @@ const SignUpForm = () => {
 									<div className="col-sm-12">
 										<h6>Mailing Address</h6>
 										<div className={style.form_blk}>
-											<input 
-												type="text" 
-												name="address" 
-												id="address" 
-												className={style.input} 
-												placeholder="eg: sample@gmail.com" 
+											<input
+												type="text"
+												name="address"
+												id="address"
+												className={style.input}
+												placeholder="eg: sample@gmail.com"
 												value={organizerData.org_mailing_address}
-												onChange={(e) => setOrganizerData({...organizerData, org_mailing_address: e.target.value})}
+												autoComplete="none"
+												onChange={(e) => setOrganizerData({ ...organizerData, org_mailing_address: e.target.value })}
 											/>
 											<p className="text-danger">
 												{error.org_mailing_address}
@@ -266,7 +275,7 @@ const SignUpForm = () => {
 									<div className="col-sm-12">
 										<h6>Preferred Communication Method</h6>
 										<div className={style.form_blk}>
-											<select name="" id="" className={style.input} value={organizerData.org_communication_method} onChange={(e) => setOrganizerData({...organizerData, org_communication_method: e.target.value})}>
+											<select name="" id="" className={style.input} value={organizerData.org_communication_method} onChange={(e) => setOrganizerData({ ...organizerData, org_communication_method: e.target.value })}>
 												<option value="">Select</option>
 												<option value="email">Email</option>
 												<option value="phone">Phone</option>
@@ -280,14 +289,15 @@ const SignUpForm = () => {
 									<div className="col-sm-12">
 										<h6>Time Zone</h6>
 										<div className={style.form_blk}>
-											<input 
-												type="text" 
-												name="address" 
-												id="address" 
-												className={style.input} 
-												placeholder="eg: EEST" 
+											<input
+												type="text"
+												name="address"
+												id="address"
+												className={style.input}
+												placeholder="eg: EEST"
 												value={organizerData.org_timezone}
-												onChange={(e) => setOrganizerData({...organizerData, org_timezone: e.target.value})}
+												autoComplete="none"
+												onChange={(e) => setOrganizerData({ ...organizerData, org_timezone: e.target.value })}
 											/>
 											<p className="text-danger">
 												{error.org_timezone}
@@ -299,14 +309,15 @@ const SignUpForm = () => {
 							<div className="col-sm-12">
 								<h6 className="require">Password</h6>
 								<div className="form_blk pass_blk">
-									<input 
-										type="password" 
-										name="password" 
-										id="password" 
-										className={style.input} 
-										placeholder="eg: PassLogin%7" 
+									<input
+										type="password"
+										name="password"
+										id="password"
+										className={style.input}
+										placeholder="eg: PassLogin%7"
+										autoComplete="none"
 										value={formData.password}
-										onChange={(e) => setFormData({...formData, password: e.target.value})}
+										onChange={(e) => setFormData({ ...formData, password: e.target.value })}
 									/>
 									<i className={style.icon_eye}></i>
 									<p className="text-danger">{error.password}</p>
@@ -315,14 +326,15 @@ const SignUpForm = () => {
 							<div className="col-sm-12">
 								<h6 className="require">Confirm Password</h6>
 								<div className="form_blk pass_blk">
-									<input 
-										type="password" 
-										name="confirm_password" 
-										id="password" 
-										className={style.input} 
-										placeholder="eg: PassLogin%7" 
+									<input
+										type="password"
+										name="confirm_password"
+										id="password"
+										className={style.input}
+										placeholder="eg: PassLogin%7"
+										autoComplete="none"
 										value={formData.confirm_password}
-										onChange={(e) => setFormData({...formData, confirm_password: e.target.value})}
+										onChange={(e) => setFormData({ ...formData, confirm_password: e.target.value })}
 									/>
 									<i className={style.icon_eye}></i>
 									<p className="text-danger">{error.confirm_password}</p>
@@ -331,12 +343,12 @@ const SignUpForm = () => {
 							<div className="col-sm-12">
 								<div className={style.form_blk}>
 									<div className={style.lbl_btn}>
-										<input 
-											type="checkbox" 
-											name="confirm" 
+										<input
+											type="checkbox"
+											name="confirm"
 											id="confirm"
 											checked={formData.terms_and_conditions}
-											onChange={(e) => setFormData({...formData, terms_and_conditions: e.target.checked})}
+											onChange={(e) => setFormData({ ...formData, terms_and_conditions: e.target.checked })}
 										/>
 										<label htmlFor="confirm">
 											I agree to Eventplus{" "}

@@ -115,9 +115,9 @@ const Navigation = (props: any) => {
 								<li>
 									<Link href="/organizer">Dashboard</Link>
 								</li>
-								{/* <li>
-									<Link href="/organizer/transactions">Transactions</Link>
-								</li> */}
+								<li>
+									<Link href="/organizer/transactions">Public Profile</Link>
+								</li>
 								<li>
 									<a onClick={handleLogout}>Sign out</a>
 								</li>

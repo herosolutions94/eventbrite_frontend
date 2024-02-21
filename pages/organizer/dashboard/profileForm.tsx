@@ -7,6 +7,8 @@ import axios from 'axios'
 import { toast } from 'react-toastify';
 import Cookies from "js-cookie"
 import GetServerImage from "@/components/getServerImage"
+import handler from '../../api/hello';
+import states from "@/pages/api/states"
 
 type ProfileFormProps = {
 	profileData: any
@@ -43,6 +45,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 	const [userThumbnail, setUserThumbnail] = useState<null>(null);
 
 	const [countriesData, setCountriesData] = useState<any[]>([]);
+	const [statesData, setStatesData] = useState<any[]>([]);
 	const [error, setError] = useState<{ name?: string, email?: string, phone_number?: string, password?: string, confirmPassword?: string, org_name?: string, org_website?: string, org_mailing_address?: string, org_communication_method?: string, org_timezone?: string, postal_code?: string, confirm_password?: string, country?: string, city?: string, address?: string, firstname?: string, lastname?: string, secondary_phone?: string, secondary_email?: string, facebook?: string, twitter?: string, instagram?: string, linkedIn?: string, state?: string }>({});
 
 	useEffect(() => {
@@ -155,8 +158,37 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 
 		fetchCountriesData();
 	}, []);
+	useEffect(() => {
+		const fetchStatesData = async () => {
+
+			if (parseInt(formData?.state) > 0) {
+				console.log("formData?.state", formData?.country);
+				try {
+					const data = await states(formData?.country);
+					console.log(data)
+					setStatesData(data);
+				} catch (error) {
+					console.error('Error fetching states data:', error);
+				}
+			}
+
+		};
+
+		fetchStatesData();
+	}, [formData?.state]);
 	const fileInputRef: RefObject<HTMLInputElement> = useRef(null);
 	// const [value, setValue] = useState()
+	const handlerCountryChange = async (country_id: any) => {
+		setFormData({ ...formData, country: country_id })
+		try {
+			const data = await states(country_id);
+			console.log(data)
+			setStatesData(data);
+		} catch (error) {
+			console.error('Error fetching countries data:', error);
+		}
+
+	};
 	const handleChooseDp = () => {
 		if (fileInputRef?.current) {
 			fileInputRef?.current?.click();
@@ -197,7 +229,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 	};
 	return (
 		<>
-			<form action="" method="POST">
+			<form autoComplete="off" action="" method="POST">
 				<div className={style.blk}>
 					<h4 className="mb-4">Personal information</h4>
 					<div className={style.dp_blk}>
@@ -224,7 +256,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 						<div className="col-lg-6 col-6">
 							<h6>First Name</h6>
 							<div className={style.form_blk}>
-								<input type="text" name="firstname" id="" value={formData.firstname} className={style.input} placeholder="eg: John"
+								<input type="text" name="firstname" id="" value={formData.firstname} className={style.input} placeholder="eg: John" autoComplete="none"
 									onChange={(e) => setFormData({ ...formData, firstname: e.target.value })} />
 								<p className="text-danger">{error?.firstname}</p>
 							</div>
@@ -232,7 +264,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 						<div className="col-lg-6 col-6">
 							<h6>Last Name</h6>
 							<div className={style.form_blk}>
-								<input type="text" name="lastname" id="" value={formData.lastname} className={style.input} placeholder="eg: Wick" onChange={(e) => setFormData({ ...formData, lastname: e.target.value })} />
+								<input type="text" name="lastname" id="" value={formData.lastname} className={style.input} placeholder="eg: Wick" autoComplete="none" onChange={(e) => setFormData({ ...formData, lastname: e.target.value })} />
 								<p className="text-danger">{error?.lastname}</p>
 							</div>
 						</div>
@@ -242,6 +274,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 								<input type="text" name="phone_number" id=""
 									value={formData.phone_number}
 									onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
+									autoComplete="none"
 									className={style.input}
 									placeholder="eg: +92300 0000 000"
 								/>
@@ -251,7 +284,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 						<div className="col-lg-6 col-6">
 							<h6>Email Address</h6>
 							<div className={style.form_blk}>
-								<input type="text" id="" name="" value={formData.email}
+								<input type="text" id="" name="" value={formData.email} autoComplete="none"
 									className={style.input} placeholder="eg: sample@gmail.com" onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
 								<p className="text-danger">{error?.email}</p>
 							</div>
@@ -263,7 +296,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 						<div className="col-lg-6 col-6">
 							<h6>Organization Name</h6>
 							<div className={style.form_blk}>
-								<input type="text" name="address" id="address" className={style.input} placeholder="eg: Warmongers" value={formData.org_name}
+								<input type="text" name="address" id="address" className={style.input} placeholder="eg: Warmongers" value={formData.org_name} autoComplete="none"
 									onChange={(e) => setFormData({ ...formData, org_name: e.target.value })} />
 								<p className="text-danger">{error?.org_name}</p>
 							</div>
@@ -271,7 +304,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 						<div className="col-lg-6 col-6">
 							<h6>Organization Website</h6>
 							<div className={style.form_blk}>
-								<input type="text" name="address" id="address" className={style.input} placeholder="eg: www.website.com" value={formData.org_website}
+								<input type="text" name="address" id="address" className={style.input} placeholder="eg: www.website.com" value={formData.org_website} autoComplete="none"
 									onChange={(e) => setFormData({ ...formData, org_website: e.target.value })} />
 								<p className="text-danger">{error?.org_website}</p>
 							</div>
@@ -279,7 +312,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 						<div className="col-lg-4 col-6">
 							<h6>Mailing Address</h6>
 							<div className={style.form_blk}>
-								<input type="text" name="address" id="address" className={style.input} placeholder="eg: sample@gmail.com" value={formData.org_mailing_address}
+								<input type="text" name="address" id="address" className={style.input} autoComplete="none" placeholder="eg: sample@gmail.com" value={formData.org_mailing_address}
 									onChange={(e) => setFormData({ ...formData, org_mailing_address: e.target.value })} />
 								<p className="text-danger">{error?.org_mailing_address}</p>
 
@@ -300,7 +333,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 						<div className="col-lg-4 col-6">
 							<h6>Time Zone</h6>
 							<div className={style.form_blk}>
-								<input type="text" name="address" id="address" className={style.input} placeholder="eg: EEST" value={formData.org_timezone}
+								<input type="text" name="address" id="address" className={style.input} autoComplete="none" placeholder="eg: EEST" value={formData.org_timezone}
 									onChange={(e) => setFormData({ ...formData, org_timezone: e.target.value })} />
 								<p className="text-danger">{error?.org_timezone}</p>
 							</div>
@@ -312,14 +345,14 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 						<div className="col-lg-6 col-6">
 							<h6>Phone Number</h6>
 							<div className={style.form_blk}>
-								<input type="text" name="secondary_phone" id="" value={formData.secondary_phone} className={style.input} placeholder="eg: +92300 0000 000" onChange={(e) => setFormData({ ...formData, secondary_phone: e.target.value })} />
+								<input type="text" name="secondary_phone" id="" autoComplete="none" value={formData.secondary_phone} className={style.input} placeholder="eg: +92300 0000 000" onChange={(e) => setFormData({ ...formData, secondary_phone: e.target.value })} />
 								<p className="text-danger">{error?.secondary_phone}</p>
 							</div>
 						</div>
 						<div className="col-lg-6 col-6">
 							<h6>Email Address</h6>
 							<div className={style.form_blk}>
-								<input type="text" id="" name="secondary_email" value={formData.secondary_email} className={style.input} placeholder="eg: sample@gmail.com" onChange={(e) => setFormData({ ...formData, secondary_email: e.target.value })} />
+								<input type="text" id="" name="secondary_email" autoComplete="none" value={formData.secondary_email} className={style.input} placeholder="eg: sample@gmail.com" onChange={(e) => setFormData({ ...formData, secondary_email: e.target.value })} />
 								<p className="text-danger">{error?.secondary_email}</p>
 							</div>
 						</div>
@@ -330,7 +363,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 						<div className="col-lg-4 col-6">
 							<h6>Country</h6>
 							<div className={style.form_blk}>
-								<select name="country" id="" className={style.input} value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })}>
+								<select name="country" id="" className={style.input} value={formData.country} onChange={(e) => handlerCountryChange(e.target.value)}>
 									<option value="">Select</option>
 									{countriesData.map((country, index) => (
 										parseInt(formData?.country) === country.id ?
@@ -347,13 +380,12 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 							<div className={style.form_blk}>
 								<select name="state" id="" className={style.input} value={formData.state} onChange={(e) => setFormData({ ...formData, state: e.target.value })}>
 									<option value="">Select</option>
-									<option value="Isle of Wight">Isle of Wight</option>
-									<option value="St Helens">St Helens</option>
-									<option value="London Borough of Brent">London Borough of Brent</option>
-									<option value="Walsall">Walsall</option>
-									<option value="Trafford">Trafford</option>
-									<option value="City of Southampton">City of Southampton</option>
-									<option value="Sheffield">Sheffield</option>
+									{statesData.map((state, index) => (
+										parseInt(formData?.state) === state.id ?
+											<option value={state.id} key={index} selected={true}>{state.name}</option>
+											:
+											<option value={state.id} key={index}>{state.name}</option>
+									))}
 								</select>
 								<p className="text-danger">{error?.state}</p>
 							</div>
@@ -361,21 +393,21 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 						<div className="col-lg-4 col-6">
 							<h6>City</h6>
 							<div className={style.form_blk}>
-								<input type="text" name="" id="" value={formData.city} className={style.input} placeholder="eg: California" onChange={(e) => setFormData({ ...formData, city: e.target.value })} />
+								<input type="text" name="" id="" autoComplete="none" value={formData.city} className={style.input} placeholder="eg: California" onChange={(e) => setFormData({ ...formData, city: e.target.value })} />
 								<p className="text-danger">{error?.city}</p>
 							</div>
 						</div>
 						<div className="col-lg-4 col-6">
 							<h6>Zip Code</h6>
 							<div className={style.form_blk}>
-								<input type="text" id="" name="postal_code" value={formData.postal_code} className={style.input} placeholder="eg: BL0 0WY" onChange={(e) => setFormData({ ...formData, postal_code: e.target.value })} />
+								<input type="text" id="" autoComplete="none" name="postal_code" value={formData.postal_code} className={style.input} placeholder="eg: BL0 0WY" onChange={(e) => setFormData({ ...formData, postal_code: e.target.value })} />
 								<p className="text-danger">{error?.postal_code}</p>
 							</div>
 						</div>
 						<div className="col-lg-8 col-12">
 							<h6>Address</h6>
 							<div className={style.form_blk}>
-								<input type="text" id="" name="address" value={formData.address} className={style.input} placeholder="eg: 123 Main Street, California" onChange={(e) => setFormData({ ...formData, address: e.target.value })} />
+								<input type="text" id="" autoComplete="none" name="address" value={formData.address} className={style.input} placeholder="eg: 123 Main Street, California" onChange={(e) => setFormData({ ...formData, address: e.target.value })} />
 								<p className="text-danger">{error?.address}</p>
 							</div>
 						</div>
@@ -386,28 +418,28 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 						<div className="col-lg-6 col-6">
 							<h6>Facebook</h6>
 							<div className={style.form_blk}>
-								<input type="text" id="" name="facebook" value={formData.facebook} className={style.input} placeholder="eg: www.facebook.com" onChange={(e) => setFormData({ ...formData, facebook: e.target.value })} />
+								<input type="text" id="" name="facebook" autoComplete="none" value={formData.facebook} className={style.input} placeholder="eg: www.facebook.com" onChange={(e) => setFormData({ ...formData, facebook: e.target.value })} />
 								<p className="text-danger">{error?.facebook}</p>
 							</div>
 						</div>
 						<div className="col-lg-6 col-6">
 							<h6>Twitter</h6>
 							<div className={style.form_blk}>
-								<input type="text" id="" name="twitter" value={formData.twitter} className={style.input} placeholder="eg: www.twitter.com" onChange={(e) => setFormData({ ...formData, twitter: e.target.value })} />
+								<input type="text" id="" name="twitter" autoComplete="none" value={formData.twitter} className={style.input} placeholder="eg: www.twitter.com" onChange={(e) => setFormData({ ...formData, twitter: e.target.value })} />
 								<p className="text-danger">{error?.twitter}</p>
 							</div>
 						</div>
 						<div className="col-lg-6 col-6">
 							<h6>Instagram</h6>
 							<div className={style.form_blk}>
-								<input type="text" id="" name="instagram" value={formData.instagram} className={style.input} placeholder="eg: www.instagram.com" onChange={(e) => setFormData({ ...formData, instagram: e.target.value })} />
+								<input type="text" id="" name="instagram" autoComplete="none" value={formData.instagram} className={style.input} placeholder="eg: www.instagram.com" onChange={(e) => setFormData({ ...formData, instagram: e.target.value })} />
 								<p className="text-danger">{error?.instagram}</p>
 							</div>
 						</div>
 						<div className="col-lg-6 col-6">
 							<h6>linkedin</h6>
 							<div className={style.form_blk}>
-								<input type="text" id="" name="linkedIn" value={formData.linkedIn} className={style.input} placeholder="eg: www.linkedin.com" onChange={(e) => setFormData({ ...formData, linkedIn: e.target.value })} />
+								<input type="text" id="" name="linkedIn" autoComplete="none" value={formData.linkedIn} className={style.input} placeholder="eg: www.linkedin.com" onChange={(e) => setFormData({ ...formData, linkedIn: e.target.value })} />
 								<p className="text-danger">{error?.linkedIn}</p>
 							</div>
 						</div>
