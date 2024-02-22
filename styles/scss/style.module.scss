@@ -3542,3 +3542,30 @@ p.error {
 form.tournament_form h6 sup {
 	color: red
 }
+
+.remove_staff {
+	color: #fff;
+	background-color: #f05537;
+	width: 20px;
+	height: 20px;
+	border-radius: 75%;
+	font-size: 1.4rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.staff_remove_flex {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	width: 80px;
+	position: absolute;
+	right: -22px;
+	top: 30px;
+}
+.form_blk_flex{
+	display:flex;
+	gap:10px
+}

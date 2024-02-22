@@ -49,7 +49,34 @@ const useOptions = () => {
 
   return options;
 };
+interface StaffData {
+  contact: string;
+  responsibility: string;
+}
+
+interface StaffState {
+  staff: StaffData[];
+}
+
 const NewTournamentForm = () => {
+  const [staffData, setStaffData] = useState<StaffState>({
+    staff: [{ contact: "", responsibility: "" }],
+  });
+  const handleStaffInputChange = (index: number, field: keyof typeof staffData.staff[0], value: string) => {
+    const updatedStaff = [...staffData.staff];
+    updatedStaff[index][field] = value;
+    setStaffData({ ...staffData, staff: updatedStaff });
+  };
+  const handleAddStaff = () => {
+    setStaffData({
+      ...staffData,
+      staff: [...staffData.staff, { contact: "", responsibility: "" }]
+    });
+  };
+  const handleRemoveStaff = (index: number) => {
+    const updatedStaff = staffData.staff.filter((_, i) => i !== index);
+    setStaffData({ ...staffData, staff: updatedStaff });
+  };
   const options = useOptions();
   const stripe = useStripe();
   const elements = useElements();
@@ -114,7 +141,8 @@ const NewTournamentForm = () => {
     sponsor_information: "",
     logos: [] as any,
     banners: [] as any,
-    documents: [] as any
+    documents: [] as any,
+    sponsors: "",
   });
   useEffect(() => {
     fetchTournamentData();
@@ -181,16 +209,20 @@ const NewTournamentForm = () => {
     customer_id: any,
     tournamentId: any
   ) => {
+    setIsLoading(true)
     const result = await stripe!.confirmCardPayment(clientSecret, {
       payment_method: paymentMethodSetup,
       setup_future_usage: "off_session"
     });
+    setIsLoading(false)
     // console.log(result);
     if (result.error) {
+
       toast.error(result.error.message);
       deleteTouranment(tournamentId);
       return;
     } else if (result.paymentIntent?.status === "succeeded") {
+
       toast.success("Record has been inserted successfully.");
       updatePaymentStatus(tournamentId);
       router.push("/organizer/tournaments");
@@ -228,10 +260,11 @@ const NewTournamentForm = () => {
     }
     const cardElement = elements.getElement(CardNumberElement);
     if (!cardElement) {
-      alert("Something Went Wrong! Please Try Again Later");
+      // alert("Something Went Wrong! Please Try Again Later");
       return;
     }
     try {
+      setIsLoading(true)
       const paymentMethodReq = await stripe.createPaymentMethod({
         type: "card",
         card: cardElement
@@ -262,6 +295,7 @@ const NewTournamentForm = () => {
                   card: cardElement
                 }
               });
+              setIsLoading(false)
               card_result.then((response: any) => {
                 if (response.error) {
                   toast.error(response.error.message);
@@ -286,9 +320,11 @@ const NewTournamentForm = () => {
       toast.error("Something Went Wrong! Please Try Again Later");
     }
   };
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setIsLoading(true)
     formData.append("user_id", Cookies.get("user_id") as string);
     formData.append("title", tournamentDetails.title);
     formData.append("category_id", tournamentDetails.category_id);
@@ -316,6 +352,10 @@ const NewTournamentForm = () => {
     formData.append(
       "sponsor_information",
       tournamentDetails.sponsor_information
+    );
+    formData.append(
+      "sponsors",
+      tournamentDetails.sponsors
     );
     // formData.append('overview', overview);
     // formData.append('rules', rules);
@@ -349,6 +389,7 @@ const NewTournamentForm = () => {
     );
     formData.append("fourth_match_date", tournamentDetails.fourth_match_date);
     formData.append("fourth_match_time", tournamentDetails.fourth_match_time);
+
     formData.append(
       "fourth_match_breaks",
       tournamentDetails.fourth_match_breaks.toString()
@@ -368,6 +409,7 @@ const NewTournamentForm = () => {
     tournamentDetails?.documents.forEach((file: File) => {
       formData.append("documents[]", file);
     });
+    formData.append("staff_arr", JSON.stringify(staffData?.staff));
     logFormDataKeys(formData);
     try {
       const res = await axios.post(
@@ -380,10 +422,12 @@ const NewTournamentForm = () => {
           }
         }
       );
+      setIsLoading(false)
       //   logFormDataKeys(formData);
       console.log(res);
       //   return;
       if (res.status === 200) {
+
         setTournamentId(res.data.tournament_id);
         submitTournament(res.data.tournament_id);
       }
@@ -528,18 +572,26 @@ const NewTournamentForm = () => {
             );
             return;
           }
-          if (open_date <= startDate || open_date >= endDate) {
+          if (
+            registrationDeadline < startDate
+          ) {
             toast.error(
-              "Registration Open Date should be between start date and end date"
+              "Registration deadline should be after start date"
             );
             return;
           }
-          if (open_date > registrationDeadline) {
+          if (open_date >= endDate) {
             toast.error(
-              "Registration Deadline Date should be greater than open date"
+              "Registration Open Date should be before end date"
             );
             return;
           }
+          // if (open_date > registrationDeadline) {
+          //   toast.error(
+          //     "Registration Deadline Date should be greater than open date"
+          //   );
+          //   return;
+          // }
         }
         setFieldset(fieldSet);
         setErrorMessage("");
@@ -676,27 +728,27 @@ const NewTournamentForm = () => {
         setErrorMessage("");
       }
     } else if (fieldSet == "tournament_sponsorship") {
-      const runTimeErrors = {
-        contact_information: "",
-        roles_and_responsibilities: ""
-      };
-      if (tournamentDetails.contact_information == "") {
-        runTimeErrors.contact_information = "contact information is required";
-      }
-      if (tournamentDetails.roles_and_responsibilities == "") {
-        runTimeErrors.roles_and_responsibilities =
-          "roles and responsibilities is required";
-      }
-      if (
-        runTimeErrors.contact_information != "" ||
-        runTimeErrors.roles_and_responsibilities != ""
-      ) {
-        setErrorMessage("Please fill out all the fields");
-        setErrors(runTimeErrors);
-      } else {
-        setFieldset(fieldSet);
-        setErrorMessage("");
-      }
+      // const runTimeErrors = {
+      //   contact_information: "",
+      //   roles_and_responsibilities: ""
+      // };
+      // if (tournamentDetails.contact_information == "") {
+      //   runTimeErrors.contact_information = "contact information is required";
+      // }
+      // if (tournamentDetails.roles_and_responsibilities == "") {
+      //   runTimeErrors.roles_and_responsibilities =
+      //     "roles and responsibilities is required";
+      // }
+      // if (
+      //   runTimeErrors.contact_information != "" ||
+      //   runTimeErrors.roles_and_responsibilities != ""
+      // ) {
+      //   setErrorMessage("Please fill out all the fields");
+      //   setErrors(runTimeErrors);
+      // } else {
+      setFieldset(fieldSet);
+      setErrorMessage("");
+      // }
     }
     // else if(fieldSet == 'tournament_staff'){
     // 	const runTimeErrors = {
@@ -738,7 +790,7 @@ const NewTournamentForm = () => {
     }
     // setFieldset(fieldSet)
   };
-  console.log(tournamentData)
+  // console.log(tournamentData)
   return (
     <>
       <form
@@ -1629,7 +1681,7 @@ const NewTournamentForm = () => {
           <>
             <fieldset className={style.blk}>
               <h5 className="mb-5">Tournament Staff & Volunteers</h5>
-              <div className="row">
+              {/* <div className="row">
                 <div className="col-sm-6">
                   <h6>Contact Information <sup>*</sup></h6>
                   <div className={style.form_blk}>
@@ -1678,6 +1730,48 @@ const NewTournamentForm = () => {
                     </p>
                   </div>
                 </div>
+              </div> */}
+              <div>
+                {staffData.staff.map((staff, index) => (
+                  <div key={index} className="row position-relative">
+                    <div className="col-sm-6">
+                      <h6>Contact Information <sup>*</sup></h6>
+                      <div className={style.form_blk}>
+                        <input
+                          autoComplete="off"
+                          type="text"
+                          name="contact_information"
+                          className={style.input}
+                          placeholder="eg: 194349034234"
+                          value={staff.contact}
+                          onChange={(e) => handleStaffInputChange(index, 'contact', e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-sm-6">
+                      <h6>Roles and Responsibilities <sup>*</sup></h6>
+                      <div className={style.form_blk}>
+                        <select
+                          name="roles_and_responsibilities"
+                          className={style.input}
+                          value={staff.responsibility}
+                          onChange={(e) => handleStaffInputChange(index, 'responsibility', e.target.value)}
+                        >
+                          <option value="Select">Select</option>
+                          <option value="Referees">Referees</option>
+                          <option value="Scorekeepers">Scorekeepers</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className={style.staff_remove_flex}>
+                      <button onClick={() => handleRemoveStaff(index)} className={style.remove_staff}>x</button>
+                    </div>
+                  </div>
+                ))}
+                <div className={`${style.btn_blk} justify-content-center mt-5`}>
+                  <button onClick={handleAddStaff} className={style.site_btn}>Add Staff</button>
+                </div>
+
               </div>
               <div></div>
               <div className={`${style.btn_blk} justify-content-center mt-5`}>
@@ -1703,31 +1797,49 @@ const NewTournamentForm = () => {
             <fieldset className={style.blk}>
               <h5 className="mb-5">Sponsorship and Marketing</h5>
               <div className="row">
-                <div className="col-sm-12">
-                  <h6>Sponsor Information <sup>*</sup></h6>
-                  <div className={style.form_blk}>
-                    <textarea
-                      name="sponsor_information"
-                      id=""
-                      rows={5}
-                      className={style.input}
-                      placeholder="Type something here"
-                      onChange={handleChange}
-                      value={tournamentDetails.sponsor_information}
-                    ></textarea>
+                <div className="col-md-12">
+                  <h6>Do you want to add sponsors?</h6>
+                  <div className={`${style.form_blk} ${style.form_blk_flex}`}>
+                    <div className={style.lbl_btn}>
+                      <input type="radio" name="sponsors" id="sponsors" value="no" checked={tournamentDetails.sponsors == 'no' ? true : false} onChange={handleChange} />
+                      <label htmlFor="no">No</label>
+                    </div>
+                    <div className={style.lbl_btn}>
+                      <input type="radio" name="sponsors" id="sponsors" value="yes" checked={tournamentDetails.sponsors == 'yes' ? true : false} onChange={handleChange} />
+                      <label htmlFor="yes">Yes</label>
+                    </div>
                   </div>
-                  <div className={style.form_blk}>
-                    {/* <CKeditor
+                </div>
+                {
+                  tournamentDetails?.sponsors == 'yes' ?
+                    <div className="col-sm-12">
+                      <h6>Sponsor Information <sup>*</sup></h6>
+                      <div className={style.form_blk}>
+                        <textarea
+                          name="sponsor_information"
+                          id=""
+                          rows={5}
+                          className={style.input}
+                          placeholder="Type something here"
+                          onChange={handleChange}
+                          value={tournamentDetails.sponsor_information}
+                        ></textarea>
+                      </div>
+                      {/* <div className={style.form_blk}>
+                    <CKeditor
 											name="sponsor_information"
 											onChange={(editorData: string) => {
 												setSponsorInformation(editorData);
 											}}
 											value={tournamentDetails.sponsor_information}
 											editorLoaded={editorLoaded}
-										/> */}
-                    {/* {JSON.stringify(editorData)} */}
-                  </div>
-                </div>
+										/>
+                    {JSON.stringify(editorData)}
+                  </div> */}
+                    </div>
+                    :
+                    ""
+                }
                 <div className="col-sm-12">
                   <h6>Upload Logos <sup>*</sup></h6>
                   <div className={style.form_blk}>
@@ -1822,8 +1934,8 @@ const NewTournamentForm = () => {
                 >
                   Back
                 </button>
-                <button type="submit" className={style.site_btn}>
-                  Create Tournament
+                <button type="submit" className={style.site_btn} disabled={isLoading}>
+                  {isLoading ? "Please Wait..." : "Create Tournament"}
                 </button>
               </div>
             </fieldset>
