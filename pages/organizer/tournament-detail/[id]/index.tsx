@@ -17,10 +17,10 @@ const TournamentDetail = () => {
 
 	useEffect(() => {
 		if (id !== undefined) {
-			fetchData();
+			fetchData(id);
 		}
 	}, [id]);
-	const fetchData = async () => {
+	const fetchData = async (id: any) => {
 		try {
 			const response = await axios.get(process.env.API_URL + "/tournament-details/" + id, {});
 			if (response.status === 200) {
@@ -33,9 +33,11 @@ const TournamentDetail = () => {
 		}
 	};
 	if (!tournamentDetails) {
-		return 'Loading...';
+		return <div className={style.loading_page}>
+			<img src="/images/loading.gif" />
+		</div>;
 	}
-	console.log(tournamentDetails)
+	// console.log(tournamentDetails)
 	return (
 		<>
 			<Header pageTitle="Tournaments" />
@@ -55,6 +57,7 @@ const TournamentDetail = () => {
 							tournamentId={tournamentDetails?.id}
 							is_started={tournamentDetails?.is_started}
 							in_progress_round={tournamentDetails?.in_progress_round}
+							allow_edit={tournamentDetails?.allow_edit}
 						/>
 						{tournamentDetails?.teams?.length > 0 ?
 							<TournamentContent

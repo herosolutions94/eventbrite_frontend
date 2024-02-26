@@ -22,7 +22,7 @@ const Navigation = (props: any) => {
 		Cookies.remove("email")
 		Cookies.remove("role")
 		Cookies.remove("token")
-		router.push("/signin")
+		router.push("/login")
 	}
 
 	return (
@@ -158,7 +158,7 @@ const Navigation = (props: any) => {
 								:
 								<>
 									<li>
-										<Link href="/signin" className={router.pathname === "/signin" ? style.active : ""}>
+										<Link href="/login" className={router.pathname === "/login" ? style.active : ""}>
 											Login
 										</Link>
 									</li>

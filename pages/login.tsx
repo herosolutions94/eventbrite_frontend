@@ -2,7 +2,7 @@ import React from "react"
 import style from "@/styles/scss/app.module.scss"
 import LogonSidebar from "@/components/logonSidebar"
 import { PhotoBlog02 } from "@/components/images"
-import SignInForm from "./signin/signInForm"
+import SignInForm from "./login/signInForm"
 import { SiteMaster } from "@/components/header/master"
 import { GetServerSideProps } from 'next';
 

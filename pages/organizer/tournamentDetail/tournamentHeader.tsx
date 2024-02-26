@@ -14,18 +14,19 @@ type TournamentHeaderProps = {
 	end_date: string
 	schedule_time: string
 	overview: string
-	acceptedTeamsCount:number | null
+	acceptedTeamsCount: number | null
 	tournamentId: number | null
-	is_started:number | null,
-	in_progress_round:any | null
+	is_started: number | null,
+	in_progress_round: any | null,
+	allow_edit: any | null
 }
-const TournamentHeader = ({ category, type, title, start_date, end_date, schedule_time, overview,acceptedTeamsCount ,tournamentId,is_started,in_progress_round}: TournamentHeaderProps) => {
+const TournamentHeader = ({ category, type, title, start_date, end_date, schedule_time, overview, acceptedTeamsCount, tournamentId, is_started, in_progress_round, allow_edit }: TournamentHeaderProps) => {
 	const [popupShow, setPopupShow] = useState<{ show: boolean; item: number | null }>({
 		show: false,
 		item: null,
-	  });
-	const TogglePoup = () =>{
-		setPopupShow({show:false,item:null});
+	});
+	const TogglePoup = () => {
+		setPopupShow({ show: false, item: null });
 	}
 	return (
 		<>
@@ -52,25 +53,35 @@ const TournamentHeader = ({ category, type, title, start_date, end_date, schedul
 					</ul>
 				</div>
 				{
-					acceptedTeamsCount!==null && acceptedTeamsCount >= 2 && is_started!=1 ?
-				<div className={`${style.btn_blk} ps-4 ms-auto`}>
-					<button type="button" className={`${style.site_btn} ${style.sm}`} onClick={() => setPopupShow({ show: true, item: tournamentId !== null ? tournamentId : null })}>
-						Generate Bracket
-					</button>
-				</div>
-				:
-				is_started===1 ?
-				// in_progress_round!==null && in_progress_round?.id > 0 ?
-				<div className={`${style.btn_blk} ps-4 ms-auto`}>
-					<Link href={"/organizer/tournament-match/"+tournamentId} className={`${style.site_btn} ${style.sm}`}>
-						Tournament Matches
-					</Link>
-				</div>
-				// :
-				// ""
-				:
-				""
-}
+					allow_edit === 1 ?
+						<div className={`${style.btn_blk} ps-4 ms-auto`}>
+							<Link href={"/organizer/edit-tournament/" + tournamentId} className={`${style.site_btn} ${style.sm}`}>
+								Edit Tournament
+							</Link>
+						</div>
+						:
+						""
+				}
+				{
+					acceptedTeamsCount !== null && acceptedTeamsCount >= 2 && is_started != 1 ?
+						<div className={`${style.btn_blk} ps-4 ms-auto`}>
+							<button type="button" className={`${style.site_btn} ${style.sm}`} onClick={() => setPopupShow({ show: true, item: tournamentId !== null ? tournamentId : null })}>
+								Generate Bracket
+							</button>
+						</div>
+						:
+						is_started === 1 ?
+							// in_progress_round!==null && in_progress_round?.id > 0 ?
+							<div className={`${style.btn_blk} ps-4 ms-auto`}>
+								<Link href={"/organizer/tournament-match/" + tournamentId} className={`${style.site_btn} ${style.sm}`}>
+									Tournament Matches
+								</Link>
+							</div>
+							// :
+							// ""
+							:
+							""
+				}
 			</div>
 			<div className={style.content}>
 				<h5>Tournament Overview</h5>

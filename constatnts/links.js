@@ -7,7 +7,7 @@ export const TERMS_AND_CONDITIONS_PAGE = "/terms-and-conditions";
 export const PRIVACY_POLICY_PAGE = "/privacy-policy";
 
 // AUTH PAGES
-export const SIGNIN_PAGE = "/signin";
+export const SIGNIN_PAGE = "/login";
 export const SIGNUP_PAGE = "/signup";
 export const RESET_REQUEST_PAGE = "/reset-password";
 

@@ -47,6 +47,39 @@ const OverviewBlock = (details: any) => {
           })}
         </div>
       )}
+      {details?.details?.staff_arr?.length > 0 && (
+        <div className={style.blk}>
+          <h5>Tournament Staff & Volunteers</h5>
+          <ul className={`${style.staff_ul} ${style.staff_ul_first}`}>
+            <li>
+              <div className="">
+                <strong>Contact Information</strong>
+              </div>
+            </li>
+            <li>
+              <div className="">
+                <strong>Roles and Responsibilities</strong>
+              </div>
+            </li>
+          </ul>
+          {details?.details?.staff_arr.map((staff_row: any, d_index: any) => {
+            return (
+              <ul className={style.staff_ul} key={d_index}>
+                <li>
+                  <div className="">
+                    {staff_row?.contact}
+                  </div>
+                </li>
+                <li>
+                  <div className="">
+                    {staff_row?.responsibility}
+                  </div>
+                </li>
+              </ul>
+            );
+          })}
+        </div>
+      )}
     </>
   );
 };

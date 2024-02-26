@@ -49,10 +49,12 @@ const TournamentDetail = () => {
 			console.log(error);
 		}
 	};
-	if(isLoading){
-		return <div id={style.loader}></div>;
+	if (isLoading) {
+		return <div className={style.loading_page}>
+			<img src="/images/loading.gif" />
+		</div>;
 	}
-	// console.log(tournamentDetails?.single_brackets)
+	console.log(tournamentDetails)
 	return (
 		<>
 			<Header pageTitle="Tournament Detail" />
