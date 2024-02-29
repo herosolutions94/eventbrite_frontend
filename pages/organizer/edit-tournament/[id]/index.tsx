@@ -14,6 +14,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import axios from "axios";
+import UpdateTournamentForm from "@/components/tournament/updateTournamentForm";
 const stripePromise = loadStripe(
     "pk_test_51Moz1CFV8hMVqQzQH96smahOCpKUnMix9OMtfhQe3YjnaL4kpLa6An91ycTRcs26A7hZwgr0HelG4ElEdYBAEwbb00MpdTNJhb"
 );
@@ -100,7 +101,7 @@ const EditTournament = () => {
                         </div>
                     </div>
                     <Elements stripe={stripePromise}>
-                        <NewTournamentForm />
+                        <UpdateTournamentForm tournamentDetailsContent={tournamentDetails} />
                     </Elements>
                 </div>
             </section>
