@@ -10,6 +10,7 @@ interface ServerSideProps {
 	email?: string | null;
 }
 
+
 export const getServerSideProps: GetServerSideProps<ServerSideProps> = async (context) => {
 	const { req } = context;
 	const email = req.cookies['email'] || null;
