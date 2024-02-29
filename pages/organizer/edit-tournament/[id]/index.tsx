@@ -100,9 +100,7 @@ const EditTournament = () => {
                             </Link>
                         </div>
                     </div>
-                    <Elements stripe={stripePromise}>
-                        <UpdateTournamentForm tournamentDetailsContent={tournamentDetails} />
-                    </Elements>
+                    <UpdateTournamentForm tournamentDetailsContent={tournamentDetails} />
                 </div>
             </section>
             <Footer />

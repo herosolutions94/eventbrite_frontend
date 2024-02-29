@@ -64,6 +64,46 @@ interface FormProps {
         user_id: string;
         title: string;
         slug: string | null;
+        category_id: string | null,
+        type: string | null,
+        start_date: string | null,
+        end_date: string | null,
+        open_date: string | null,
+        registration_dead_line: string | null,
+        event_type: string | null,
+        country_id: string | null,
+        city: string | null,
+        postal_code: string | null,
+        address: string | null,
+        number_of_teams: string | null,
+        format: string | null,
+        entry_fee: string | null,
+        prize_distribution: string | null,
+        level: string | null,
+        overview: string | null,
+        rules: string | null,
+        code_of_conduct: string | null,
+        age: string | null,
+        equipment_requirements: string | null,
+        schedule_date: string | null,
+        schedule_time: string | null,
+        schedule_breaks: 0,
+        venue_availability: string | null,
+        second_match_date: string | null,
+        second_match_time: string | null,
+        second_match_breaks: 0,
+        second_venue_availability: string | null,
+        third_match_date: string | null,
+        third_match_time: string | null,
+        third_match_breaks: 0,
+        third_venue_availability: string | null,
+        fourth_match_date: string | null,
+        fourth_match_time: string | null,
+        fourth_match_breaks: 0,
+        fourth_venue_availability: string | null,
+        contact_information: string | null,
+        roles_and_responsibilities: string | null,
+        sponsor_information: string | null,
         // Add more properties as needed
     };
 }
@@ -87,8 +127,8 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
         setStaffData({ ...staffData, staff: updatedStaff });
     };
     const options = useOptions();
-    const stripe = useStripe();
-    const elements = useElements();
+    // const stripe = useStripe();
+    // const elements = useElements();
 
     const router = useRouter();
     const [tournamentData, setTournamentData] = useState<any>([]);
@@ -106,6 +146,35 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
     const [cardError, setCardError] = useState("");
     const [tournamentId, setTournamentId] = useState("");
     const [numberOfTeams, setNumberOfTeams] = useState(0);
+    useEffect(() => {
+        if (tournamentDetailsContent && tournamentDetailsContent.id > 0) {
+            setTournamentDetails(prevState => ({
+                ...prevState,
+                title: tournamentDetailsContent.title || prevState.title,
+                category_id: tournamentDetailsContent.category_id || prevState.category_id,
+                type: tournamentDetailsContent.type || prevState.type,
+                start_date: tournamentDetailsContent.start_date || prevState.start_date,
+                end_date: tournamentDetailsContent.end_date || prevState.end_date,
+                open_date: tournamentDetailsContent.open_date || prevState.open_date,
+                registration_dead_line: tournamentDetailsContent.registration_dead_line || prevState.registration_dead_line,
+                event_type: tournamentDetailsContent.event_type || prevState.event_type,
+                country_id: tournamentDetailsContent.country_id || prevState.country_id,
+                city: tournamentDetailsContent.city || prevState.city,
+                postal_code: tournamentDetailsContent.postal_code || prevState.postal_code,
+                address: tournamentDetailsContent.address || prevState.address,
+                number_of_teams: tournamentDetailsContent.number_of_teams || prevState.number_of_teams,
+                format: tournamentDetailsContent.format || prevState.format,
+                entry_fee: tournamentDetailsContent.entry_fee || prevState.entry_fee,
+                prize_distribution: tournamentDetailsContent.prize_distribution || prevState.prize_distribution,
+                level: tournamentDetailsContent.level || prevState.level,
+                overview: tournamentDetailsContent.overview || prevState.overview,
+                rules: tournamentDetailsContent.rules || prevState.rules,
+                code_of_conduct: tournamentDetailsContent.code_of_conduct || prevState.code_of_conduct,
+                age: tournamentDetailsContent.age || prevState.age,
+            }));
+        }
+    }, [tournamentDetailsContent]);
+    console.log(tournamentDetailsContent)
     const [tournamentDetails, setTournamentDetails] = useState({
         title: "",
         category_id: "",
@@ -153,6 +222,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
         documents: [] as any,
         sponsors: "",
     });
+    console.log(tournamentDetails)
     useEffect(() => {
         fetchTournamentData();
     }, []);
@@ -219,23 +289,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
         tournamentId: any
     ) => {
         setIsLoading(true)
-        const result = await stripe!.confirmCardPayment(clientSecret, {
-            payment_method: paymentMethodSetup,
-            setup_future_usage: "off_session"
-        });
-        setIsLoading(false)
-        // console.log(result);
-        if (result.error) {
 
-            toast.error(result.error.message);
-            deleteTouranment(tournamentId);
-            return;
-        } else if (result.paymentIntent?.status === "succeeded") {
-
-            toast.success("Record has been inserted successfully.");
-            updatePaymentStatus(tournamentId);
-            router.push("/organizer/tournaments");
-        }
     };
     const updatePaymentStatus = async (tournamentId: any) => {
         try {
@@ -264,70 +318,8 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
     };
 
     const submitTournament = async (tournamentId: any) => {
-        if (!stripe || !elements) {
-            return;
-        }
-        const cardElement = elements.getElement(CardNumberElement);
-        if (!cardElement) {
-            // alert("Something Went Wrong! Please Try Again Later");
-            return;
-        }
-        try {
-            setIsLoading(true)
-            const paymentMethodReq = await stripe.createPaymentMethod({
-                type: "card",
-                card: cardElement
-            });
-            if (paymentMethodReq.error) {
-                toast.error(paymentMethodReq.error.message);
-                deleteTouranment(tournamentId);
-            } else {
-                const amount = tournamentData.tournament_fee !== null && tournamentData.tournament_fee !== undefined && parseFloat(tournamentData.tournament_fee) > 0 ? parseFloat(tournamentData.tournament_fee) * numberOfTeams : numberOfTeams;
-                var payment_form_data = new FormData();
-                payment_form_data.append(
-                    "payment_token",
-                    paymentMethodReq.paymentMethod?.id as string
-                );
-                payment_form_data.append("user_id", Cookies.get("user_id") as string);
-                payment_form_data.append("amount", amount as any);
-                await axios
-                    .post(
-                        process.env.API_URL + "/create-indent-payment",
-                        payment_form_data
-                    )
-                    .then((data: any) => {
-                        let client_secret = data.data.data.arr.client_secret;
-                        let client_secret_setup = data.data.data.arr.setup_client_secret;
-                        if (data.data.data.status === 1) {
-                            let card_result = stripe.confirmCardSetup(client_secret_setup, {
-                                payment_method: {
-                                    card: cardElement
-                                }
-                            });
-                            setIsLoading(false)
-                            card_result.then((response: any) => {
-                                if (response.error) {
-                                    toast.error(response.error.message);
-                                    deleteTouranment(tournamentId);
-                                } else {
-                                    let paymentMethod = response.setupIntent.payment_method;
-                                    let setup_intent_id = response.setupIntent.id;
-                                    chargePayment(
-                                        client_secret,
-                                        paymentMethodReq,
-                                        setup_intent_id,
-                                        paymentMethod,
-                                        data.data.data.arr.customer,
-                                        tournamentId
-                                    );
-                                }
-                            });
-                        }
-                    });
-            }
-        } catch (err) {
-            toast.error("Something Went Wrong! Please Try Again Later");
-        }
+
+
     };
     const [isLoading, setIsLoading] = useState(false);
 
@@ -846,6 +838,9 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                 <div className="col-sm-6">
                                     <h6>Tournament Category <sup>*</sup></h6>
                                     <div className={style.form_blk}>
+                                        {
+                                            console.log(tournamentDetails?.category_id)
+                                        }
                                         {tournamentData.categories && (
                                             <select
                                                 name="category_id"
@@ -859,7 +854,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                                         <option
                                                             value={category.id}
                                                             selected={
-                                                                tournamentDetails.category_id == category.id
+                                                                parseInt(tournamentDetails.category_id) == category.id
                                                             }
                                                             key={category.id}
                                                         >
@@ -1174,7 +1169,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                                             <option
                                                                 value={tournamentLevel.id}
                                                                 selected={
-                                                                    tournamentDetails.level === tournamentLevel.id
+                                                                    parseInt(tournamentDetails.level) === tournamentLevel.id
                                                                 }
                                                                 key={tournamentLevel.id}
                                                             >
