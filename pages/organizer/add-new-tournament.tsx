@@ -77,9 +77,9 @@ const AddNewTournament = () => {
               </Link>
             </div>
           </div>
-          <Elements stripe={stripePromise}>
-            <NewTournamentForm />
-          </Elements>
+          {/* <Elements stripe={stripePromise}> */}
+          <NewTournamentForm />
+          {/* </Elements> */}
         </div>
       </section>
       <Footer />

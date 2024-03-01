@@ -3575,15 +3575,53 @@ form.tournament_form h6 sup {
 	margin-bottom: 10px;
 	margin-top: 30px
 }
+
 .staff_ul {
 	display: flex;
 	flex-wrap: wrap;
 	padding: 0;
-	margin:0;
+	margin: 0;
 }
 
 .staff_ul li {
 	flex: 1;
 	list-style: none;
 	margin-bottom: 5px
+}
+
+.tournamentList {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-bottom: 20px
+}
+
+.tournamentList>div {
+	width: calc(100%/3);
+	padding: 0.6rem 1.6rem;
+	background: rgba(var(--light_rgb), 0.2);
+	color: rgba(var(--light_rgb), 0.8);
+	border-radius: 4px;
+	position: relative;
+}
+
+.tournamentList>div .cross_btn {
+	position: absolute;
+	top: -5px;
+	right: -10px;
+	width: 20px;
+	height: 20px;
+	background: #bf0a0a;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	border-radius: 75%;
+	line-height: 1;
+	cursor: pointer
+}
+
+.tournamentList>div>a {
+	color: rgba(var(--light_rgb), 0.8);
+	display: block
 }

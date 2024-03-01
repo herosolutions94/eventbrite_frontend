@@ -5,9 +5,20 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 // import CKeditor from "@/components/ckEditor";
-
+import {
+  CardElement,
+  useStripe,
+  useElements,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import InputSlider from "react-input-slider";
-
+const stripePromise = loadStripe(
+  "pk_test_51Moz1CFV8hMVqQzQH96smahOCpKUnMix9OMtfhQe3YjnaL4kpLa6An91ycTRcs26A7hZwgr0HelG4ElEdYBAEwbb00MpdTNJhb"
+);
 const useOptions = () => {
   const options = useMemo(
     () => ({
@@ -47,7 +58,7 @@ interface StaffState {
   staff: StaffData[];
 }
 
-const NewTournamentForm = () => {
+const NewTournamentFormCopy = () => {
   const [staffData, setStaffData] = useState<StaffState>({
     staff: [{ contact: "", responsibility: "" }],
   });
@@ -67,8 +78,8 @@ const NewTournamentForm = () => {
     setStaffData({ ...staffData, staff: updatedStaff });
   };
   const options = useOptions();
-  // const stripe = useStripe();
-  // const elements = useElements();
+  const stripe = useStripe();
+  const elements = useElements();
 
   const router = useRouter();
   const [tournamentData, setTournamentData] = useState<any>([]);
@@ -190,8 +201,47 @@ const NewTournamentForm = () => {
   }
 
   logFormDataKeys(formData);
+  const chargePayment = async (
+    clientSecret: any,
+    paymentMethodReq: any,
+    setup_id: any,
+    paymentMethodSetup: any,
+    customer_id: any,
+    tournamentId: any
+  ) => {
+    setIsLoading(true)
+    const result = await stripe!.confirmCardPayment(clientSecret, {
+      payment_method: paymentMethodSetup,
+      setup_future_usage: "off_session"
+    });
+    setIsLoading(false)
+    // console.log(result);
+    if (result.error) {
 
+      toast.error(result.error.message);
+      deleteTouranment(tournamentId);
+      return;
+    } else if (result.paymentIntent?.status === "succeeded") {
 
+      toast.success("Record has been inserted successfully.");
+      updatePaymentStatus(tournamentId);
+      router.push("/organizer/tournaments");
+    }
+  };
+  const updatePaymentStatus = async (tournamentId: any) => {
+    try {
+      if (tournamentId) {
+        const res = await axios.put(
+          `${process.env.API_URL}/update-tournament-payment-status/${tournamentId}`,
+          {
+            payment_status: "1"
+          }
+        );
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const deleteTouranment = async (tournamentId: any) => {
     try {
       if (tournamentId) {
@@ -201,6 +251,73 @@ const NewTournamentForm = () => {
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const submitTournament = async (tournamentId: any) => {
+    if (!stripe || !elements) {
+      return;
+    }
+    const cardElement = elements.getElement(CardNumberElement);
+    if (!cardElement) {
+      // alert("Something Went Wrong! Please Try Again Later");
+      return;
+    }
+    try {
+      setIsLoading(true)
+      const paymentMethodReq = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement
+      });
+      if (paymentMethodReq.error) {
+        toast.error(paymentMethodReq.error.message);
+        deleteTouranment(tournamentId);
+      } else {
+        const amount = tournamentData.tournament_fee !== null && tournamentData.tournament_fee !== undefined && parseFloat(tournamentData.tournament_fee) > 0 ? parseFloat(tournamentData.tournament_fee) * numberOfTeams : numberOfTeams;
+        var payment_form_data = new FormData();
+        payment_form_data.append(
+          "payment_token",
+          paymentMethodReq.paymentMethod?.id as string
+        );
+        payment_form_data.append("user_id", Cookies.get("user_id") as string);
+        payment_form_data.append("amount", amount as any);
+        await axios
+          .post(
+            process.env.API_URL + "/create-indent-payment",
+            payment_form_data
+          )
+          .then((data: any) => {
+            let client_secret = data.data.data.arr.client_secret;
+            let client_secret_setup = data.data.data.arr.setup_client_secret;
+            if (data.data.data.status === 1) {
+              let card_result = stripe.confirmCardSetup(client_secret_setup, {
+                payment_method: {
+                  card: cardElement
+                }
+              });
+              setIsLoading(false)
+              card_result.then((response: any) => {
+                if (response.error) {
+                  toast.error(response.error.message);
+                  deleteTouranment(tournamentId);
+                } else {
+                  let paymentMethod = response.setupIntent.payment_method;
+                  let setup_intent_id = response.setupIntent.id;
+                  chargePayment(
+                    client_secret,
+                    paymentMethodReq,
+                    setup_intent_id,
+                    paymentMethod,
+                    data.data.data.arr.customer,
+                    tournamentId
+                  );
+                }
+              });
+            }
+          });
+      }
+    } catch (err) {
+      toast.error("Something Went Wrong! Please Try Again Later");
     }
   };
   const [isLoading, setIsLoading] = useState(false);
@@ -311,10 +428,8 @@ const NewTournamentForm = () => {
       //   return;
       if (res.status === 200) {
 
-        // setTournamentId(res.data.tournament_id);
-        // submitTournament(res.data.tournament_id);
-        toast.success("Record has been inserted successfully.");
-        router.push("/organizer/tournaments");
+        setTournamentId(res.data.tournament_id);
+        submitTournament(res.data.tournament_id);
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -458,10 +573,10 @@ const NewTournamentForm = () => {
             return;
           }
           if (
-            registrationDeadline > startDate
+            registrationDeadline < startDate
           ) {
             toast.error(
-              "Registration deadline should be before start date"
+              "Registration deadline should be after start date"
             );
             return;
           }
@@ -1760,10 +1875,11 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
               </div>
-              {/* <h5 className="mb-5 mt-4">
+              <h5 className="mb-5 mt-4">
                 Payment | Total: {tournamentData.tournament_fee * numberOfTeams}
               </h5>
               <div className="row">
+                {/* <PaymentPage /> */}
                 <div className={style.stripe_payment_form}>
                   <div className="row">
                     <div className="col-12">
@@ -1809,7 +1925,7 @@ const NewTournamentForm = () => {
                     {cardError}
                   </span>
                 </div>
-              </div> */}
+              </div>
               <div className={`${style.btn_blk} justify-content-center mt-5`}>
                 <button
                   type="button"
@@ -1830,4 +1946,4 @@ const NewTournamentForm = () => {
   );
 };
 
-export default NewTournamentForm;
+export default NewTournamentFormCopy;

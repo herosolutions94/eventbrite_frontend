@@ -104,6 +104,11 @@ interface FormProps {
         contact_information: string | null,
         roles_and_responsibilities: string | null,
         sponsor_information: string | null,
+        sponsors: string | null,
+        logos_arr: [],
+        banner_arr: [],
+        documents_arr: [],
+        staffArr: [],
         // Add more properties as needed
     };
 }
@@ -135,6 +140,11 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
     const [errors, setErrors] = useState<any>({});
     const [errorMessage, setErrorMessage] = useState("");
     const [fieldset, setFieldset] = useState("tournament_details");
+
+    const [logos_arr, setLogosArr] = useState<any>([]);
+    const [documents_arr, setDocumentsArr] = useState<any>([]);
+    const [banner_arr, setBannersArr] = useState<any>([]);
+
     const logos = useState<any>([]);
     const banners = useState<any>([]);
     const documents = useState<any>([]);
@@ -146,35 +156,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
     const [cardError, setCardError] = useState("");
     const [tournamentId, setTournamentId] = useState("");
     const [numberOfTeams, setNumberOfTeams] = useState(0);
-    useEffect(() => {
-        if (tournamentDetailsContent && tournamentDetailsContent.id > 0) {
-            setTournamentDetails(prevState => ({
-                ...prevState,
-                title: tournamentDetailsContent.title || prevState.title,
-                category_id: tournamentDetailsContent.category_id || prevState.category_id,
-                type: tournamentDetailsContent.type || prevState.type,
-                start_date: tournamentDetailsContent.start_date || prevState.start_date,
-                end_date: tournamentDetailsContent.end_date || prevState.end_date,
-                open_date: tournamentDetailsContent.open_date || prevState.open_date,
-                registration_dead_line: tournamentDetailsContent.registration_dead_line || prevState.registration_dead_line,
-                event_type: tournamentDetailsContent.event_type || prevState.event_type,
-                country_id: tournamentDetailsContent.country_id || prevState.country_id,
-                city: tournamentDetailsContent.city || prevState.city,
-                postal_code: tournamentDetailsContent.postal_code || prevState.postal_code,
-                address: tournamentDetailsContent.address || prevState.address,
-                number_of_teams: tournamentDetailsContent.number_of_teams || prevState.number_of_teams,
-                format: tournamentDetailsContent.format || prevState.format,
-                entry_fee: tournamentDetailsContent.entry_fee || prevState.entry_fee,
-                prize_distribution: tournamentDetailsContent.prize_distribution || prevState.prize_distribution,
-                level: tournamentDetailsContent.level || prevState.level,
-                overview: tournamentDetailsContent.overview || prevState.overview,
-                rules: tournamentDetailsContent.rules || prevState.rules,
-                code_of_conduct: tournamentDetailsContent.code_of_conduct || prevState.code_of_conduct,
-                age: tournamentDetailsContent.age || prevState.age,
-            }));
-        }
-    }, [tournamentDetailsContent]);
-    console.log(tournamentDetailsContent)
+
     const [tournamentDetails, setTournamentDetails] = useState({
         title: "",
         category_id: "",
@@ -221,8 +203,73 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
         banners: [] as any,
         documents: [] as any,
         sponsors: "",
+        logos_arr: [] as any,
+        documents_arr: [] as any,
+        staffArr: [] as any,
+        banner_arr: [] as any,
     });
-    console.log(tournamentDetails)
+    useEffect(() => {
+        if (tournamentDetailsContent && tournamentDetailsContent.id > 0) {
+            setTournamentDetails(prevState => ({
+                ...prevState,
+                title: tournamentDetailsContent.title || prevState.title,
+                category_id: tournamentDetailsContent.category_id || prevState.category_id,
+                type: tournamentDetailsContent.type || prevState.type,
+                start_date: tournamentDetailsContent.start_date || prevState.start_date,
+                end_date: tournamentDetailsContent.end_date || prevState.end_date,
+                open_date: tournamentDetailsContent.open_date || prevState.open_date,
+                registration_dead_line: tournamentDetailsContent.registration_dead_line || prevState.registration_dead_line,
+                event_type: tournamentDetailsContent.event_type || prevState.event_type,
+                country_id: tournamentDetailsContent.country_id || prevState.country_id,
+                city: tournamentDetailsContent.city || prevState.city,
+                postal_code: tournamentDetailsContent.postal_code || prevState.postal_code,
+                address: tournamentDetailsContent.address || prevState.address,
+                number_of_teams: tournamentDetailsContent.number_of_teams || prevState.number_of_teams,
+                format: tournamentDetailsContent.format || prevState.format,
+                entry_fee: tournamentDetailsContent.entry_fee || prevState.entry_fee,
+                prize_distribution: tournamentDetailsContent.prize_distribution || prevState.prize_distribution,
+                level: tournamentDetailsContent.level || prevState.level,
+                overview: tournamentDetailsContent.overview || prevState.overview,
+                rules: tournamentDetailsContent.rules || prevState.rules,
+                code_of_conduct: tournamentDetailsContent.code_of_conduct || prevState.code_of_conduct,
+                age: tournamentDetailsContent.age || prevState.age,
+                equipment_requirements: tournamentDetailsContent.equipment_requirements || prevState.equipment_requirements,
+                schedule_date: tournamentDetailsContent.schedule_date || prevState.schedule_date,
+                schedule_time: tournamentDetailsContent.schedule_time || prevState.schedule_time,
+                schedule_breaks: tournamentDetailsContent.schedule_breaks || prevState.schedule_breaks,
+                venue_availability: tournamentDetailsContent.venue_availability || prevState.venue_availability,
+                second_match_date: tournamentDetailsContent.second_match_date || prevState.second_match_date,
+                second_match_time: tournamentDetailsContent.second_match_time || prevState.second_match_time,
+                second_match_breaks: tournamentDetailsContent.second_match_breaks || prevState.second_match_breaks,
+                second_venue_availability: tournamentDetailsContent.second_venue_availability || prevState.second_venue_availability,
+                third_match_date: tournamentDetailsContent.third_match_date || prevState.third_match_date,
+                third_match_breaks: tournamentDetailsContent.third_match_breaks || prevState.third_match_breaks,
+                third_venue_availability: tournamentDetailsContent.third_venue_availability || prevState.third_venue_availability,
+                fourth_match_date: tournamentDetailsContent.fourth_match_date || prevState.fourth_match_date,
+                third_match_time: tournamentDetailsContent.third_match_time || prevState.third_match_time,
+                fourth_match_time: tournamentDetailsContent.fourth_match_time || prevState.fourth_match_time,
+                fourth_match_breaks: tournamentDetailsContent.fourth_match_breaks || prevState.fourth_match_breaks,
+                fourth_venue_availability: tournamentDetailsContent.fourth_venue_availability || prevState.fourth_venue_availability,
+                contact_information: tournamentDetailsContent.contact_information || prevState.contact_information,
+                roles_and_responsibilities: tournamentDetailsContent.roles_and_responsibilities || prevState.roles_and_responsibilities,
+                sponsor_information: tournamentDetailsContent.sponsor_information || prevState.sponsor_information,
+                sponsors: tournamentDetailsContent.sponsors || prevState.sponsors,
+                logos_arr: tournamentDetailsContent?.logos_arr || prevState.logos_arr,
+                documents_arr: tournamentDetailsContent?.documents_arr || prevState.documents_arr,
+            }));
+            const newdocumentsArray = [...tournamentDetailsContent?.documents_arr];
+            setDocumentsArr(newdocumentsArray)
+            const newBannersArray = [...tournamentDetailsContent?.banner_arr];
+            setBannersArr(newBannersArray)
+            const newStaffArray = [...tournamentDetailsContent?.staffArr];
+            // console.log(newStaffArray)
+            setStaffData({ staff: newStaffArray });
+            const newlogosArray = [...tournamentDetailsContent?.logos_arr]; // Assuming existingArray contains your new data
+            setLogosArr(newlogosArray);
+        }
+    }, [tournamentDetailsContent]);
+
+    // console.log(tournamentDetails)
     useEffect(() => {
         fetchTournamentData();
     }, []);
@@ -411,10 +458,13 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
             formData.append("documents[]", file);
         });
         formData.append("staff_arr", JSON.stringify(staffData?.staff));
+        formData.append("logos_arr", JSON.stringify(logos_arr));
+        formData.append("documents_arr", JSON.stringify(documents_arr));
+        formData.append("banner_arr", JSON.stringify(banner_arr));
         logFormDataKeys(formData);
         try {
             const res = await axios.post(
-                process.env.API_URL + "/tournaments-create",
+                process.env.API_URL + "/tournaments-update/" + tournamentDetailsContent?.id,
                 formData,
                 {
                     headers: {
@@ -426,11 +476,13 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
             setIsLoading(false)
             //   logFormDataKeys(formData);
             console.log(res);
-            //   return;
+            // return;
             if (res.status === 200) {
 
-                setTournamentId(res.data.tournament_id);
-                submitTournament(res.data.tournament_id);
+                // setTournamentId(res.data.tournament_id);
+                // submitTournament(res.data.tournament_id);
+                toast.success("Record has been updated successfully.");
+                router.push("/organizer/tournaments");
             }
         } catch (err) {
             if (axios.isAxiosError(err)) {
@@ -574,10 +626,10 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                         return;
                     }
                     if (
-                        registrationDeadline < startDate
+                        registrationDeadline > startDate
                     ) {
                         toast.error(
-                            "Registration deadline should be after start date"
+                            "Registration deadline should be before start date"
                         );
                         return;
                     }
@@ -791,7 +843,10 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
         }
         // setFieldset(fieldSet)
     };
-    // console.log(tournamentData)
+    const handleRemoveDocument = (indexToRemove: number) => {
+        setDocumentsArr((prevArr: any) => prevArr.filter((_: any, index: any) => index !== indexToRemove));
+    };
+    // console.log(tournamentDetails?.rules)
     return (
         <>
             <form
@@ -838,9 +893,6 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                 <div className="col-sm-6">
                                     <h6>Tournament Category <sup>*</sup></h6>
                                     <div className={style.form_blk}>
-                                        {
-                                            console.log(tournamentDetails?.category_id)
-                                        }
                                         {tournamentData.categories && (
                                             <select
                                                 name="category_id"
@@ -1205,6 +1257,21 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                         {/* <button type="button" name="" id="" className={style.input}>
 											Upload Logos
 										</button> */}
+                                        {
+                                            documents_arr?.length > 0 ?
+                                                <div className={style.tournamentList}>
+                                                    {
+                                                        documents_arr?.map((document: any, d_index: any) => (
+                                                            <div key={document?.id}>
+                                                                <a href={`${process.env.ASSET_URL}/'uploads'/${document?.image}`}>Document {d_index + 1}</a>
+                                                                <div className={style.cross_btn} onClick={() => handleRemoveDocument(d_index)}>x</div>
+                                                            </div>
+                                                        ))
+                                                    }
+                                                </div>
+                                                :
+                                                ""
+                                        }
                                         <input autoComplete="off"
                                             type="file"
                                             name="documents[]"
@@ -1260,7 +1327,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                             className={style.input}
                                             placeholder="eg: Lorem ipsum dollar"
                                             onChange={handleChange}
-                                        ></textarea>
+                                        >{tournamentDetails?.rules}</textarea>
                                         <p className="text-danger">{errors?.rules}</p>
                                     </div>
                                 </div>
@@ -1425,6 +1492,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                             className={style.input}
                                             placeholder="eg: 123 Main Street, California"
                                             onChange={handleChange}
+                                            value={tournamentDetails?.venue_availability}
                                         />
                                         <p className="text-danger">{errors?.venue_availability}</p>
                                     </div>
@@ -1847,6 +1915,22 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                 <div className="col-sm-12">
                                     <h6>Upload Logos <sup>*</sup></h6>
                                     <div className={style.form_blk}>
+                                        {
+                                            logos_arr?.length > 0 ?
+                                                <div className={style.tournamentList}>
+                                                    {
+                                                        logos_arr?.map((logo: any, index: any) => (
+                                                            <div key={logo?.id}>
+                                                                <a href={`${process.env.ASSET_URL}/'uploads'/${logo?.image}`}>Logo {index + 1}</a>
+                                                                <div className={style.cross_btn}>x</div>
+                                                            </div>
+                                                        ))
+                                                    }
+                                                </div>
+                                                :
+                                                ""
+                                        }
+
                                         {/* <button type="button" name="" id="" className={style.input}>
 											Upload Logos
 										</button> */}
@@ -1867,6 +1951,21 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                         {/* <button type="button" name="" id="" className={style.input}>
 											Upload Banners
 										</button> */}
+                                        {
+                                            banner_arr?.length > 0 ?
+                                                <div className={style.tournamentList}>
+                                                    {
+                                                        banner_arr?.map((banner: any, banner_index: any) => (
+                                                            <div key={banner?.id}>
+                                                                <a href={`${process.env.ASSET_URL}/'uploads'/${banner?.image}`}>Banner {banner_index + 1}</a>
+                                                                <div className={style.cross_btn}>x</div>
+                                                            </div>
+                                                        ))
+                                                    }
+                                                </div>
+                                                :
+                                                ""
+                                        }
                                         <input autoComplete="off"
                                             type="file"
                                             name="banners[]"
@@ -1879,57 +1978,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                     </div>
                                 </div>
                             </div>
-                            <h5 className="mb-5 mt-4">
-                                Payment | Total: {tournamentData.tournament_fee * numberOfTeams}
-                            </h5>
-                            <div className="row">
-                                {/* <PaymentPage /> */}
-                                <div className={style.stripe_payment_form}>
-                                    <div className="row">
-                                        <div className="col-12">
-                                            <h6 className="require">Name on Card <sup>*</sup></h6>
-                                            <div className={style.form_blk}>
-                                                <input autoComplete="off"
-                                                    type="text"
-                                                    className={style.input}
-                                                    placeholder="Name on card"
-                                                />
-                                                <span className="validation-error"></span>
-                                            </div>
-                                        </div>
-                                        <div className="col-12">
-                                            <h6 className="require">Card Number <sup>*</sup></h6>
-                                            <div className={style.form_blk}>
-                                                <div className={style.input_blk}>
-                                                    <CardNumberElement options={options} />
-                                                    <span>
-                                                        <img src="/images/card.svg" alt="" />
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-6">
-                                            <h6 className="require">Expiry Date <sup>*</sup></h6>
-                                            <div className={style.form_blk}>
-                                                <div className={style.input_blk}>
-                                                    <CardExpiryElement options={options} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-6">
-                                            <h6 className="require">CVC <sup>*</sup></h6>
-                                            <div className={style.form_blk}>
-                                                <div className={style.input_blk}>
-                                                    <CardCvcElement options={options} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <span className="validation-error" style={{ color: "red" }}>
-                                        {cardError}
-                                    </span>
-                                </div>
-                            </div>
+
                             <div className={`${style.btn_blk} justify-content-center mt-5`}>
                                 <button
                                     type="button"
@@ -1939,7 +1988,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                     Back
                                 </button>
                                 <button type="submit" className={style.site_btn} disabled={isLoading}>
-                                    {isLoading ? "Please Wait..." : "Create Tournament"}
+                                    {isLoading ? "Please Wait..." : "Update Tournament"}
                                 </button>
                             </div>
                         </fieldset>
