@@ -6,17 +6,16 @@ import { PhotoStreamBox } from "@/components/images"
 
 const Contact = (props: any) => {
 	const { content } = props;
-	console.log(content)
 	return (
 		<>
 			<section id={style.in_touch}>
 				<div className={style.contain}>
 					<div className={style.content + " text-center"}>
-						{content?.contact_section_title ?
+						{/* {content?.contact_section_title ?
 							<h5 className={style.subheading}>{content?.contact_section_title}</h5>
-							:
-							<h5 className={style.subheading}>{content?.title}</h5>
-						}
+							: */}
+						<h5 className={style.subheading}>{content?.title}</h5>
+						{/* } */}
 						<h2>{content?.heading}</h2>
 					</div>
 					<div className={style.main_row + " row flex-md-row-reverse"}>

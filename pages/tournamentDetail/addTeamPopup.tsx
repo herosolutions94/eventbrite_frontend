@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react"
 import style from "@/styles/scss/app.module.scss"
 import Link from "next/link"
 import axios from "axios";
 import Cookies from "js-cookie"
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 import { toast } from 'react-toastify';
 import PaymentPage from '../paymentPage';
 import ConfirmDeletionPopup from "./confirmDeletionPopup";
@@ -17,8 +17,8 @@ type teamMembers = {
 	emergency_phone: string,
 }
 const AddTeamPopup = (props: any) => {
-	const { popupClose,tournamentId,fetchData } = props
-	
+	const { popupClose, tournamentId, fetchData, details } = props
+
 	const router = useRouter();
 	const [fieldset, setFieldset] = useState("team_info")
 	const [errors, setErrors] = useState<any>({})
@@ -37,7 +37,7 @@ const AddTeamPopup = (props: any) => {
 		affiliation: "",
 		team_color: "",
 		skill: "",
-		logo : "",
+		logo: "",
 		full_name: "",
 		email: "",
 		phone: "",
@@ -99,7 +99,7 @@ const AddTeamPopup = (props: any) => {
 	// 	],
 	// })
 
-	const addMoreTeams =(e: any) => {
+	const addMoreTeams = (e: any) => {
 		setTeamMembers([...teamMembers, teams])
 		setTeams({
 			mem_name: "",
@@ -119,7 +119,7 @@ const AddTeamPopup = (props: any) => {
 	const handleNext = (fieldset: string) => (e: any) => {
 		e.preventDefault();
 		setFieldset(fieldset)
-		setTeamDetails({...teamDetails, teams: teamMembers})
+		setTeamDetails({ ...teamDetails, teams: teamMembers })
 	}
 	const [logo, setLogo] = useState<any>(null)
 	const [waiver, setWaiver] = useState<any>(null)
@@ -128,7 +128,7 @@ const AddTeamPopup = (props: any) => {
 	}
 	const handleUploadWaiver = async (e: any) => {
 		setWaiver(e.target.files[0])
-	} 
+	}
 	const handleTeamSubmit = async (e: any) => {
 		e.preventDefault();
 		formData.append('user_id', Cookies.get("user_id") as string)
@@ -150,28 +150,29 @@ const AddTeamPopup = (props: any) => {
 		formData.append('card_year', teamDetails.card_year)
 		formData.append('cvc', teamDetails.cvc)
 		formData.append('logo', logo)
-		formData.append('waivers_file', waiver)	
-		
-		
-		try {const res = await axios.post(process.env.API_URL + "/create-team", formData, {
-			headers: {
-				'Content-Type': 'multipart/form-data',
-				'Authorization': 'Bearer ' + Cookies.get("token")
-			},
-		})
+		formData.append('waivers_file', waiver)
+
+
+		try {
+			const res = await axios.post(process.env.API_URL + "/create-team", formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					'Authorization': 'Bearer ' + Cookies.get("token")
+				},
+			})
 			if (res.status === 200) {
 				toast.success('Record has been inserted successfully.')
 				popupClose()
 				router.push("/tournament-detail/" + tournamentId)
-			}	
+			}
 		}
 		catch (err) {
-			if(axios.isAxiosError(err)) {
-				if(err.response?.status === 422) {
+			if (axios.isAxiosError(err)) {
+				if (err.response?.status === 422) {
 					toast.error('Please fill out all the fields')
 					setErrors(err.response?.data.errors)
 
-				} else if(err.response?.status === 401) {
+				} else if (err.response?.status === 401) {
 					toast.error('You are not authorized to perform this action.')
 				}
 			}
@@ -180,64 +181,64 @@ const AddTeamPopup = (props: any) => {
 	const deleteMemberHandle = () => {
 		setDeleteMember(!deleteMember);
 	}
-	const [deleteMember, setDeleteMember]=useState(false);
+	const [deleteMember, setDeleteMember] = useState(false);
 
 	const handleFieldSet = (fieldSet: string) => {
-		if(fieldSet == 'captain_info'){
+		if (fieldSet == 'captain_info') {
 			const runTimeErrors = {
 				team_name: "",
 				affiliation: "",
 				team_color: "",
 				skill: "",
 			}
-			if(teamDetails.team_name == ""){
+			if (teamDetails.team_name == "") {
 				runTimeErrors.team_name = "Please enter team name"
 			}
-			if(teamDetails.affiliation == ""){
+			if (teamDetails.affiliation == "") {
 				runTimeErrors.affiliation = "Please select affiliation"
 			}
-			if(teamDetails.team_color == ""){
+			if (teamDetails.team_color == "") {
 				runTimeErrors.team_color = "Please enter team color"
 			}
-			if(teamDetails.skill == ""){
+			if (teamDetails.skill == "") {
 				runTimeErrors.skill = "Please enter skill"
 			}
-			if(runTimeErrors.team_name != "" || runTimeErrors.affiliation != "" || runTimeErrors.team_color != "" || runTimeErrors.skill != ""){
+			if (runTimeErrors.team_name != "" || runTimeErrors.affiliation != "" || runTimeErrors.team_color != "" || runTimeErrors.skill != "") {
 				setErrors(runTimeErrors)
-				
+
 				return false;
 			}
 			setFieldset(fieldSet)
-		}else if(fieldSet == 'members_info'){
+		} else if (fieldSet == 'members_info') {
 			const runTimeErrors = {
 				full_name: "",
 				email: "",
 				phone: "",
 			}
-			if(teamDetails.full_name == ""){
+			if (teamDetails.full_name == "") {
 				runTimeErrors.full_name = "Please enter full name"
 			}
-			if(teamDetails.email == ""){
+			if (teamDetails.email == "") {
 				runTimeErrors.email = "Please enter email"
 			}
-			if(teamDetails.phone == ""){
+			if (teamDetails.phone == "") {
 				runTimeErrors.phone = "Please enter phone"
 			}
-			if(runTimeErrors.full_name != "" || runTimeErrors.email != "" || runTimeErrors.phone != ""){
+			if (runTimeErrors.full_name != "" || runTimeErrors.email != "" || runTimeErrors.phone != "") {
 				setErrors(runTimeErrors)
-				
+
 				return false;
 			}
 			setFieldset(fieldSet)
-		}else if(fieldSet == 'fee_info'){
+		} else if (fieldSet == 'fee_info') {
 			// do nothing
-		}else{
+		} else {
 			// do nothing
 		}
 	}
 
-	
-	return (	
+
+	return (
 		<>
 			<div id={style.add_team_popup} className={style.popup}>
 				<div className={style.table_dv}>
@@ -255,12 +256,12 @@ const AddTeamPopup = (props: any) => {
 													<div className="col-sm-6">
 														<h6 className="require">Team Name</h6>
 														<div className={style.form_blk}>
-															<input type="text" 
-																name="team_name" 
-																id="" 
-																className={style.input} 
-																placeholder="eg: Warmongers" 
-																onChange={handleChange} 
+															<input type="text"
+																name="team_name"
+																id=""
+																className={style.input}
+																placeholder="eg: Warmongers"
+																onChange={handleChange}
 																value={teamDetails.team_name}
 															/>
 															<p className="text-danger">{errors?.team_name}</p>
@@ -282,20 +283,20 @@ const AddTeamPopup = (props: any) => {
 													<div className="col-sm-6">
 														<h6>Team Logo</h6>
 														<div className={style.form_blk}>
-															<input 
-																type="file" 
-																name="logo" 
-																id="" 
-																className={style.input} 
-																onChange={handleUploadLogo} 
+															<input
+																type="file"
+																name="logo"
+																id=""
+																className={style.input}
+																onChange={handleUploadLogo}
 															/>
-															
+
 														</div>
 													</div>
 													<div className="col-sm-6">
 														<h6>Team Colors</h6>
 														<div className={style.form_blk}>
-															<input type="text" name="team_color" id="" className={style.input} placeholder="eg: Yellow & Black"  onChange={handleChange} value={teamDetails.team_color} />
+															<input type="text" name="team_color" id="" className={style.input} placeholder="eg: Yellow & Black" onChange={handleChange} value={teamDetails.team_color} />
 															<p className="text-danger">{errors?.team_color}</p>
 														</div>
 													</div>
@@ -359,62 +360,62 @@ const AddTeamPopup = (props: any) => {
 													<div className="col-sm-6">
 														<h6 className="require">Full Name</h6>
 														<div className={style.form_blk}>
-															<input type="text" name="mem_name" id="email" 
+															<input type="text" name="mem_name" id="email"
 																className={style.input}
-																placeholder="eg: John Wick" 
+																placeholder="eg: John Wick"
 																value={teams.mem_name}
-																onChange={(e) => setTeams({...teams, mem_name: e.target.value})}
+																onChange={(e) => setTeams({ ...teams, mem_name: e.target.value })}
 															/>
-														
+
 														</div>
 													</div>
 													<div className="col-sm-6">
 														<h6 className="require">Email Address</h6>
 														<div className={style.form_blk}>
 															<input type="text" name="mem_email" id="email" className={style.input}
-																placeholder="eg: sample@gmail.com" 
+																placeholder="eg: sample@gmail.com"
 																value={teams.mem_email}
-																onChange={(e) => setTeams({...teams, mem_email: e.target.value})}
+																onChange={(e) => setTeams({ ...teams, mem_email: e.target.value })}
 															/>
 														</div>
 													</div>
 													<div className="col-sm-6">
 														<h6 className="require">Phone Number</h6>
 														<div className={style.form_blk}>
-															<input type="text" name="mem_phone" id="phone" 	
-																className={style.input} placeholder="eg: 194349034234" 
+															<input type="text" name="mem_phone" id="phone"
+																className={style.input} placeholder="eg: 194349034234"
 																value={teams.mem_phone}
-																onChange={(e) => setTeams({...teams, mem_phone: e.target.value})}
+																onChange={(e) => setTeams({ ...teams, mem_phone: e.target.value })}
 															/>
 														</div>
 													</div>
 													<div className="col-sm-6">
 														<h6 className="require">Role/Position</h6>
 														<div className={style.form_blk}>
-															<input type="text" name="role" id="role" 
-																className={style.input} placeholder="eg: Captain" 
+															<input type="text" name="role" id="role"
+																className={style.input} placeholder="eg: Captain"
 																value={teams.role}
-																onChange={(e) => setTeams({...teams, role: e.target.value})}
+																onChange={(e) => setTeams({ ...teams, role: e.target.value })}
 															/>
 														</div>
 													</div>
 													<div className="col-sm-6">
 														<h6 className="require">Emergency Contact Name</h6>
 														<div className={style.form_blk}>
-															<input type="text" name="emergency_name" id="phone" 
-																className={style.input} placeholder="eg: John Wick" 
+															<input type="text" name="emergency_name" id="phone"
+																className={style.input} placeholder="eg: John Wick"
 																value={teams.emergency_name}
-																onChange={(e) => setTeams({...teams, emergency_name: e.target.value})}
+																onChange={(e) => setTeams({ ...teams, emergency_name: e.target.value })}
 															/>
 														</div>
 													</div>
 													<div className="col-sm-6">
 														<h6 className="require">Emergency Contact Phone Number</h6>
 														<div className={style.form_blk}>
-															<input type="text" name="emergency_phone" id="phone" 
-																className={style.input} placeholder="eg: 194349034234" 
+															<input type="text" name="emergency_phone" id="phone"
+																className={style.input} placeholder="eg: 194349034234"
 																value={teams.emergency_phone}
-																onChange={(e) => setTeams({...teams, emergency_phone: e.target.value})}
+																onChange={(e) => setTeams({ ...teams, emergency_phone: e.target.value })}
 															/>
 														</div>
 													</div>
@@ -480,22 +481,35 @@ const AddTeamPopup = (props: any) => {
 											<fieldset>
 												<h5 className="mb-5">Payment Method</h5>
 												<div className="row">
-													<div className="col-sm-12">
-														<div className="col-sm-6">
+													<div className="col-sm-6">
+														<div className="col-sm-12">
 															<h6>Upload Payment Proof</h6>
 															<div className={style.form_blk}>
-																<input 
-																	type="file" 
-																	name="logo" 
-																	id="" 
-																	className={style.input} 
-																	onChange={handleUploadLogo} 
+																<input
+																	type="file"
+																	name="logo"
+																	id=""
+																	className={style.input}
+																	onChange={handleUploadLogo}
 																/>
-																
+
 															</div>
 														</div>
 													</div>
-													
+													<div className="col-sm-6">
+														<h6>Organizer Bank Details</h6>
+														<div className={style.form_blk}>
+															<textarea
+																id=""
+																rows={5}
+																className={style.input}
+																value={details.bank_information}
+																readOnly
+															></textarea>
+
+														</div>
+													</div>
+
 												</div>
 												<div className={`${style.btn_blk} justify-content-center mt-5`}>
 													<button type="button" className={`${style.site_btn} ${style.simple}`} onClick={() => setFieldset("members_info")}>
@@ -522,16 +536,16 @@ const AddTeamPopup = (props: any) => {
 													</div>
 													<div className="col-sm-6">
 														<h6>File Upload</h6>
-													
+
 														<div className={style.form_blk}>
-															<input 
-																type="file" 
-																name="waivers_file" 
-																id="" 
-																className={style.input} 
-																onChange={handleUploadWaiver} 
+															<input
+																type="file"
+																name="waivers_file"
+																id=""
+																className={style.input}
+																onChange={handleUploadWaiver}
 															/>
-															
+
 														</div>
 													</div>
 													<div className="col-sm-12">
@@ -567,7 +581,7 @@ const AddTeamPopup = (props: any) => {
 				</div>
 			</div>
 			{
-				deleteMember? <ConfirmDeletionPopup popupClose={deleteMemberHandle}/>:null
+				deleteMember ? <ConfirmDeletionPopup popupClose={deleteMemberHandle} /> : null
 			}
 		</>
 	)

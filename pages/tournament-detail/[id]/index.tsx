@@ -32,9 +32,9 @@ const TournamentDetail = () => {
 	useEffect(() => {
 		setTournamentBracket(tournamentDetails?.single_brackets)
 	}, [tournamentDetails?.single_brackets]);
-	useEffect(() => {
-		console.log(tournamentDetails)
-	}, [tournamentDetails]);
+	// useEffect(() => {
+	// 	console.log(tournamentDetails)
+	// }, [tournamentDetails]);
 	const fetchData = async (id: any) => {
 		try {
 			const response = await axios.get(process.env.API_URL + "/tournament-details/" + id, {});

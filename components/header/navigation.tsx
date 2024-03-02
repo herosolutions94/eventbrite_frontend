@@ -33,7 +33,7 @@ const Navigation = (props: any) => {
 						<ul id={style.nav_list}>
 							<li>
 								<Link href="/player" className={router.pathname === "/player" ? style.active : ""}>
-									Dashboard
+									Profile Settings
 								</Link>
 							</li>
 							<li>
@@ -65,7 +65,7 @@ const Navigation = (props: any) => {
 							</div>
 							<ul className={`${style.dropdown_menu} ${dropdown && style.active}`}>
 								<li>
-									<Link href="/player">Dashboard</Link>
+									<Link href="/player">Profile Settings</Link>
 								</li>
 								<li>
 									<Link href="/player/booking">Bookings</Link>
@@ -81,7 +81,7 @@ const Navigation = (props: any) => {
 						<ul id={style.nav_list}>
 							<li>
 								<Link href="/organizer" className={router.pathname === "/organizer" ? style.active : ""}>
-									Dashboard
+									Profile Settings
 								</Link>
 							</li>
 							<li>
@@ -91,7 +91,7 @@ const Navigation = (props: any) => {
 							</li>
 							<li>
 								<Link href="/organizer/tournaments" className={router.pathname === "/organizer/tournaments" ? style.active : ""}>
-									Tournaments
+									Dashboard
 								</Link>
 							</li>
 						</ul>
@@ -113,7 +113,7 @@ const Navigation = (props: any) => {
 							</div>
 							<ul className={`${style.dropdown_menu} ${dropdown && style.active}`}>
 								<li>
-									<Link href="/organizer">Dashboard</Link>
+									<Link href="/organizer">Profile Settings</Link>
 								</li>
 								<li>
 									<Link href="/organizer/transactions">Public Profile</Link>
@@ -146,13 +146,13 @@ const Navigation = (props: any) => {
 								role !== undefined && role !== null && role !== '' && role === 'player' ?
 									<li>
 										<Link href="/player" className={router.pathname === "/player" ? style.active : ""}>
-											Dashboard
+											Profile Settings
 										</Link>
 									</li>
 									:
 									<li>
 										<Link href="/organizer" className={router.pathname === "/organizer" ? style.active : ""}>
-											Dashboard
+											Profile Settings
 										</Link>
 									</li>
 								:

@@ -17,6 +17,7 @@ type paginationData = {
 const TournamentsItems = () => {
 	const router = useRouter();
 	const [response, setResponse] = useState<paginationData>();
+	const [isLoading, setIsLoading] = useState(true);
 	const [tournaments, setTournaments] = useState<any[]>([]);
 	const currentPage = response?.current_page || 1;
 	const lastPage = response?.last_page;
@@ -27,18 +28,19 @@ const TournamentsItems = () => {
 	useEffect(() => {
 		fetchHomePageData();
 	}, []);
-	
+
 	const fetchHomePageData = async () => {
 		try {
 			const response = await axios.post(`${process.env.API_URL}/tournamentsByUser`, {
 				user_id: Cookies.get("user_id"),
-			},{
+			}, {
 				headers: {
 					Authorization: `Bearer ${Cookies.get("token")}`,
 				},
 			});
-			
+
 			if (response.status === 200) {
+				setIsLoading(false)
 				setTournaments(response.data.data.data);
 				setResponse(response.data.data);
 			}
@@ -49,42 +51,44 @@ const TournamentsItems = () => {
 	const renderPageNumbers = () => {
 		const pageNumbers = [];
 		const maxVisiblePages = 5; // Maximum number of visible page links
-	
+
 		// Calculate the range of page numbers to display
 		let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
 		let endPage = Math.min(startPage + maxVisiblePages - 1, lastPage);
-	
+
 		if (lastPage > maxVisiblePages && endPage - startPage + 1 < maxVisiblePages) {
-		  // Adjust the start page if the visible range is less than maxVisiblePages
-		  startPage = endPage - maxVisiblePages + 1;
+			// Adjust the start page if the visible range is less than maxVisiblePages
+			startPage = endPage - maxVisiblePages + 1;
 		}
-	
+
 		for (let page = startPage; page <= endPage; page++) {
-		  pageNumbers.push(
-			<li
-			  key={page}
-			  className={page === currentPage ? style.active : ""}
-			  onClick={() => handlePageChange(page)}
-			>
-			  <span>{page}</span>
-			</li>
-		  );
+			pageNumbers.push(
+				<li
+					key={page}
+					className={page === currentPage ? style.active : ""}
+					onClick={() => handlePageChange(page)}
+				>
+					<span>{page}</span>
+				</li>
+			);
 		}
-	
+
 		return pageNumbers;
-	  };
+	};
 
 	const handlePageChange = async (page: number) => {
+		setIsLoading(true)
 		try {
 			const response = await axios.post(`${process.env.API_URL}/tournamentsByUser`, {
 				user_id: Cookies.get("user_id"),
 				page: page,
-			},{
+			}, {
 				headers: {
 					Authorization: `Bearer ${Cookies.get("token")}`,
 				},
 			});
 			if (response.status === 200) {
+				setIsLoading(false)
 				setTournaments(response.data.data.data);
 				setResponse(response.data.data);
 			}
@@ -94,47 +98,54 @@ const TournamentsItems = () => {
 	};
 	return (
 		<>
-			<div className={style.match_cards}>
+			{
+				isLoading ?
+					<h3>Loading....</h3>
+					:
+					<>
+						<div className={style.match_cards}>
 
-				{tournaments?.length > 0 ?
-					tournaments.map((data: any) => {
-					return  <MatchCard 
-								title={data.title}
-								team={data.teams?.[0]?.team_name}
-								team_logo={data.teams?.[0]?.logo ? process.env.ASSET_URL + data.teams?.[0]?.logo : PhotoTeam01}
-								date={data.start_date}
-								time={data.schedule_time}
-								stream_link={`/organizer/tournament-detail/${data.id}`}
-								tags={data?.category?.name}
-								
-								text={'lorem ipsum'}
-							
-								img={process.env.ASSET_URL + data?.images[0]?.image}
-								key={data.id} 
-							/>
-					})
-					: <div className={style.no_data}>No Tournament Found</div>
-				}
-			</div>
-			{tournaments?.length > 0 ?
-			<div className={style.pagination}>
-				<ul>
-				<li>
-					<button type="button" className={style.prev}></button>
-				</li>
-					{renderPageNumbers()}
-				<li>
-					<a href="#">...</a>
-				</li>
-				<li>
-					<a href="#">{lastPage}</a>
-				</li>
-				<li>
-					<button type="button" className={style.next}></button>
-				</li>
-				</ul>
-			</div>
-			: null}
+							{tournaments?.length > 0 ?
+								tournaments.map((data: any) => {
+									return <MatchCard
+										title={data.title}
+										team={data.teams?.[0]?.team_name}
+										team_logo={data.teams?.[0]?.logo ? process.env.ASSET_URL + data.teams?.[0]?.logo : PhotoTeam01}
+										date={data.start_date}
+										time={data.schedule_time}
+										stream_link={`/organizer/tournament-detail/${data.id}`}
+										tags={data?.category?.name}
+
+										text={'lorem ipsum'}
+
+										img={process.env.ASSET_URL + data?.images[0]?.image}
+										key={data.id}
+									/>
+								})
+								: <div className={style.no_data}>There is no tournament, please click on the Add new Tournament to create new tournament.</div>
+							}
+						</div>
+						{tournaments?.length > 0 ?
+							<div className={style.pagination}>
+								<ul>
+									<li>
+										<button type="button" className={style.prev}></button>
+									</li>
+									{renderPageNumbers()}
+									<li>
+										<a href="#">...</a>
+									</li>
+									<li>
+										<a href="#">{lastPage}</a>
+									</li>
+									<li>
+										<button type="button" className={style.next}></button>
+									</li>
+								</ul>
+							</div>
+							: null}
+					</>
+			}
 		</>
 	)
 }

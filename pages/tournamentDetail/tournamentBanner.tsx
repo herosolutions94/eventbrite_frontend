@@ -64,7 +64,6 @@ const TournamentBanner = (props: any) => {
       open_date.getMonth(),
       open_date.getDate()
     );
-
     return normalizedDate <= normalizedToday;
   };
   return (
@@ -74,19 +73,19 @@ const TournamentBanner = (props: any) => {
           <div className={style.image_blk}>
             {details?.images?.length > 0
               ? details?.images.map((image: any, index: any) => {
-                  if (image.caption === "banner") {
-                    return (
-                      <div className={style.image} key={index}>
-                        <Image
-                          width={1000}
-                          height={1000}
-                          src={process.env.ASSET_URL + image.image}
-                          alt=""
-                        />
-                      </div>
-                    );
-                  }
-                })
+                if (image.caption === "banner") {
+                  return (
+                    <div className={style.image} key={index}>
+                      <Image
+                        width={1000}
+                        height={1000}
+                        src={process.env.ASSET_URL + image.image}
+                        alt=""
+                      />
+                    </div>
+                  );
+                }
+              })
               : null}
           </div>
           <div className={style.data}>
@@ -99,7 +98,7 @@ const TournamentBanner = (props: any) => {
                   alt="Team Logo"
                 />
               ) : // <Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
-              null}
+                null}
             </div>
             <div className={style.data_text}>
               <div className={style.tags_blk}>
@@ -117,7 +116,7 @@ const TournamentBanner = (props: any) => {
               <div className={`${style.btn_blk} align-items-center`}>
                 {Cookies.get("role") === "player" ? (
                   <>
-                    {teamsCount < details.number_of_teams && isDateInPast() ? (
+                    {teamsCount < parseInt(details?.number_of_teams) && isDateInPast() ? (
                       <button
                         type="button"
                         className={style.site_btn}
@@ -185,6 +184,7 @@ const TournamentBanner = (props: any) => {
           popupClose={addTeamPopupHandle}
           tournamentId={details?.id}
           fetchData={fetchData}
+          details={details}
         />
       ) : null}
     </>

@@ -128,6 +128,7 @@ const NewTournamentForm = () => {
     contact_information: "",
     roles_and_responsibilities: "",
     sponsor_information: "",
+    bank_information: "",
     logos: [] as any,
     banners: [] as any,
     documents: [] as any,
@@ -207,6 +208,9 @@ const NewTournamentForm = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    if (tournamentDetails.bank_information == "") {
+      toast.error("Bank information is required"); return;
+    }
     setIsLoading(true)
     formData.append("user_id", Cookies.get("user_id") as string);
     formData.append("title", tournamentDetails.title);
@@ -225,9 +229,9 @@ const NewTournamentForm = () => {
     formData.append("postal_code", tournamentDetails.postal_code);
     formData.append("address", tournamentDetails.address);
     formData.append("number_of_teams", tournamentDetails.number_of_teams);
-    formData.append("format", tournamentDetails.format);
+    // formData.append("format", tournamentDetails.format);
     formData.append("entry_fee", tournamentDetails.entry_fee);
-    formData.append("prize_distribution", tournamentDetails.prize_distribution);
+    // formData.append("prize_distribution", tournamentDetails.prize_distribution);
     formData.append("level", tournamentDetails.level);
     formData.append("overview", tournamentDetails.overview);
     formData.append("rules", tournamentDetails.rules);
@@ -235,6 +239,10 @@ const NewTournamentForm = () => {
     formData.append(
       "sponsor_information",
       tournamentDetails.sponsor_information
+    );
+    formData.append(
+      "bank_information",
+      tournamentDetails.bank_information
     );
     formData.append(
       "sponsors",
@@ -395,15 +403,15 @@ const NewTournamentForm = () => {
       if (tournamentDetails.number_of_teams == "") {
         runTimeErrors.number_of_teams = "number of teams is required";
       }
-      if (tournamentDetails.format == "") {
-        runTimeErrors.format = "format is required";
-      }
+      // if (tournamentDetails.format == "") {
+      //   runTimeErrors.format = "format is required";
+      // }
       if (tournamentDetails.entry_fee == "") {
         runTimeErrors.entry_fee = "entry fee is required";
       }
-      if (tournamentDetails.prize_distribution == "") {
-        runTimeErrors.prize_distribution = "prize distribution is required";
-      }
+      // if (tournamentDetails.prize_distribution == "") {
+      //   runTimeErrors.prize_distribution = "prize distribution is required";
+      // }
       if (tournamentDetails.level == "") {
         runTimeErrors.level = "level is required";
       }
@@ -449,11 +457,16 @@ const NewTournamentForm = () => {
           }
 
           // Validate registration_deadline should be greater than start_date and less than end_date
-          if (
-            registrationDeadline >= endDate
-          ) {
+
+          if (open_date > startDate) {
             toast.error(
-              "Registration deadline should be before end date"
+              "Open Date should be less than start date"
+            );
+            return;
+          }
+          if (open_date >= endDate) {
+            toast.error(
+              "Registration Open Date should be before end date"
             );
             return;
           }
@@ -465,18 +478,25 @@ const NewTournamentForm = () => {
             );
             return;
           }
-          if (open_date >= endDate) {
+          if (
+            registrationDeadline < open_date
+          ) {
             toast.error(
-              "Registration Open Date should be before end date"
+              "Registration deadline should be after Open date"
             );
             return;
           }
-          // if (open_date > registrationDeadline) {
-          //   toast.error(
-          //     "Registration Deadline Date should be greater than open date"
-          //   );
-          //   return;
-          // }
+          if (
+            registrationDeadline >= endDate
+          ) {
+            toast.error(
+              "Registration deadline should be before end date"
+            );
+            return;
+          }
+
+
+
         }
         setFieldset(fieldSet);
         setErrorMessage("");
@@ -486,21 +506,20 @@ const NewTournamentForm = () => {
         overview: "",
         rules: "",
         code_of_conduct: "",
-        sponsor_information: ""
+        sponsor_information: "",
+        bank_information: ""
       };
       if (tournamentDetails.overview == "") {
         runTimeErrors.overview = "overview is required";
       }
-      if (tournamentDetails.rules == "") {
-        runTimeErrors.rules = "rules is required";
-      }
-      if (tournamentDetails.code_of_conduct == "") {
-        runTimeErrors.code_of_conduct = "code of conduct is required";
-      }
+      // if (tournamentDetails.rules == "") {
+      //   runTimeErrors.rules = "rules is required";
+      // }
+      // if (tournamentDetails.code_of_conduct == "") {
+      //   runTimeErrors.code_of_conduct = "code of conduct is required";
+      // }
       if (
-        runTimeErrors.overview != "" ||
-        runTimeErrors.rules != "" ||
-        runTimeErrors.code_of_conduct != ""
+        runTimeErrors.overview != ""
       ) {
         setErrorMessage("Please fill out all the fields");
         setErrors(runTimeErrors);
@@ -609,8 +628,57 @@ const NewTournamentForm = () => {
         setErrorMessage("Please fill out all the fields");
         setErrors(runTimeErrors);
       } else {
-        setFieldset(fieldSet);
-        setErrorMessage("");
+        const startDate = new Date(tournamentDetails.start_date);
+        const endDate = new Date(tournamentDetails.end_date);
+
+        const schedule_date = new Date(
+          tournamentDetails.schedule_date
+        );
+        const second_match_date = new Date(
+          tournamentDetails.second_match_date
+        );
+        const third_match_date = new Date(
+          tournamentDetails.third_match_date
+        );
+        const fourth_match_date = new Date(
+          tournamentDetails.fourth_match_date
+        );
+        if (schedule_date < startDate) {
+          toast.error("First Match schedule date must be greater than start date");
+          return;
+        }
+        else if (schedule_date > endDate) {
+          toast.error("First Match schedule date must be less than end date");
+          return;
+        }
+        else if (second_match_date < startDate) {
+          toast.error("Second Match schedule date must be greater than start date");
+          return;
+        }
+        else if (third_match_date > endDate) {
+          toast.error("Third Match schedule date must be less than end date");
+          return;
+        }
+        else if (third_match_date < startDate) {
+          toast.error("Third Match schedule date must be greater than start date");
+          return;
+        }
+        else if (third_match_date > endDate) {
+          toast.error("Third Match schedule date must be less than end date");
+          return;
+        }
+        else if (fourth_match_date < startDate) {
+          toast.error("Fourth Match schedule date must be greater than start date");
+          return;
+        }
+        else if (fourth_match_date > endDate) {
+          toast.error("Fourth Match schedule date must be less than end date");
+          return;
+        }
+        else {
+          setFieldset(fieldSet);
+          setErrorMessage("");
+        }
       }
     } else if (fieldSet == "tournament_sponsorship") {
       // const runTimeErrors = {
@@ -675,7 +743,7 @@ const NewTournamentForm = () => {
     }
     // setFieldset(fieldSet)
   };
-  // console.log(tournamentData)
+  console.log(isLoading)
   return (
     <>
       <form
@@ -972,37 +1040,7 @@ const NewTournamentForm = () => {
                     <p className="text-danger">{errors?.number_of_teams}</p>
                   </div>
                 </div>
-                <div className="col-sm-6">
-                  <h6>Tournament Format <sup>*</sup></h6>
-                  <div className={style.form_blk}>
-                    <select
-                      name="format"
-                      id=""
-                      className={style.input}
-                      onChange={handleChange}
-                    >
-                      <option value="">Select Format</option>
-                      {tournamentData.tournamentFormats &&
-                        tournamentData.tournamentFormats.map(
-                          (tournamentFormat: any) => {
-                            return (
-                              <option
-                                value={tournamentFormat.id}
-                                selected={
-                                  tournamentDetails.format ==
-                                  tournamentFormat.id
-                                }
-                                key={tournamentFormat.id}
-                              >
-                                {tournamentFormat.name}
-                              </option>
-                            );
-                          }
-                        )}
-                    </select>
-                    <p className="text-danger">{errors?.format}</p>
-                  </div>
-                </div>
+
                 <div className="col-sm-4">
                   <h6>Entry Fee <sup>*</sup></h6>
                   <div className={style.form_blk}>
@@ -1018,21 +1056,7 @@ const NewTournamentForm = () => {
                     <p className="text-danger">{errors?.entry_fee}</p>
                   </div>
                 </div>
-                <div className="col-sm-4">
-                  <h6>Prize Distribution <sup>*</sup></h6>
-                  <div className={style.form_blk}>
-                    <input autoComplete="off"
-                      type="text"
-                      name="prize_distribution"
-                      id=""
-                      className={style.input}
-                      placeholder="eg: 100"
-                      onChange={handleChange}
-                      value={tournamentDetails.prize_distribution}
-                    />
-                    <p className="text-danger">{errors?.prize_distribution}</p>
-                  </div>
-                </div>
+
                 <div className="col-sm-4">
                   <h6>Tournament Level <sup>*</sup></h6>
                   <div className={style.form_blk}>
@@ -1081,7 +1105,7 @@ const NewTournamentForm = () => {
               <h5 className="mb-5">Rules and Regulations</h5>
               <div className="row">
                 <div className="col-sm-12">
-                  <h6>Upload Documents <sup>*</sup></h6>
+                  <h6>Upload Documents </h6>
                   <div className={style.form_blk}>
                     {/* <button type="button" name="" id="" className={style.input}>
 											Upload Logos
@@ -1123,7 +1147,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <h6>Specific rules for the tournament <sup>*</sup></h6>
+                  <h6>Specific rules for the tournament </h6>
                   <div className={style.form_blk}>
                     {/* <CKeditor
 											name="rules"
@@ -1146,7 +1170,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <h6>Code of Conduct <sup>*</sup></h6>
+                  <h6>Code of Conduct </h6>
                   <div className={style.form_blk}>
                     {/* <CKeditor
 											name="code_of_conduct"
@@ -1262,36 +1286,14 @@ const NewTournamentForm = () => {
                 <div className="col-sm-4">
                   <h6>Breaks ({tournamentDetails.schedule_breaks}) <sup>*</sup></h6>
                   <div className={style.form_blk}>
-                    {/* <select
+                    <input autoComplete="off"
+                      type="number"
                       name="schedule_breaks"
                       id=""
                       className={style.input}
+                      placeholder=""
                       onChange={handleChange}
-                    >
-                      <option value="">Select</option>
-                      <option
-                        value="1"
-                        selected={tournamentDetails.schedule_breaks == "1"}
-                      >
-                        1
-                      </option>
-                      <option
-                        value="2"
-                        selected={tournamentDetails.schedule_breaks == "2"}
-                      >
-                        2
-                      </option>
-                      <option
-                        value="3"
-                        selected={tournamentDetails.schedule_breaks == "3"}
-                      >
-                        3
-                      </option>
-                    </select> */}
-                    <InputSlider
-                      axis="x"
-                      x={tournamentDetails.schedule_breaks}
-                      onChange={({ x }) => handleNumericalSliderChange(x, "schedule_breaks")}
+                      value={tournamentDetails.schedule_breaks}
                     />
                     <p className="text-danger">{errors?.schedule_breaks}</p>
                   </div>
@@ -1347,30 +1349,14 @@ const NewTournamentForm = () => {
                 <div className="col-sm-4">
                   <h6>Breaks ({tournamentDetails?.second_match_breaks}) <sup>*</sup></h6>
                   <div className={style.form_blk}>
-                    {/* <select
+                    <input autoComplete="off"
+                      type="number"
                       name="second_match_breaks"
                       id=""
                       className={style.input}
+                      placeholder=""
                       onChange={handleChange}
-                    >
-                      <option value="">Select</option>
-                      <option
-                        value="1"
-                        selected={tournamentDetails.second_match_breaks == "1"}
-                      >
-                        1
-                      </option>
-                      <option
-                        value="2"
-                        selected={tournamentDetails.second_match_breaks == "2"}
-                      >
-                        2
-                      </option>
-                    </select> */}
-                    <InputSlider
-                      axis="x"
-                      x={tournamentDetails.second_match_breaks}
-                      onChange={({ x }) => handleNumericalSliderChange(x, "second_match_breaks")}
+                      value={tournamentDetails.second_match_breaks}
                     />
                     <p className="text-danger">{errors?.second_match_breaks}</p>
                   </div>
@@ -1429,30 +1415,14 @@ const NewTournamentForm = () => {
                 <div className="col-sm-4">
                   <h6>Breaks ({tournamentDetails?.third_match_breaks}) <sup>*</sup></h6>
                   <div className={style.form_blk}>
-                    {/* <select
+                    <input autoComplete="off"
+                      type="number"
                       name="third_match_breaks"
                       id=""
                       className={style.input}
+                      placeholder=""
                       onChange={handleChange}
-                    >
-                      <option value="">Select</option>
-                      <option
-                        value="1"
-                        selected={tournamentDetails.third_match_breaks == "1"}
-                      >
-                        1
-                      </option>
-                      <option
-                        value="2"
-                        selected={tournamentDetails.third_match_breaks == "2"}
-                      >
-                        2
-                      </option>
-                    </select> */}
-                    <InputSlider
-                      axis="x"
-                      x={tournamentDetails.third_match_breaks}
-                      onChange={({ x }) => handleNumericalSliderChange(x, "third_match_breaks")}
+                      value={tournamentDetails.third_match_breaks}
                     />
                     <p className="text-danger">{errors?.third_match_breaks}</p>
                   </div>
@@ -1511,20 +1481,14 @@ const NewTournamentForm = () => {
                 <div className="col-sm-4">
                   <h6>Breaks ({tournamentDetails?.fourth_match_breaks})</h6>
                   <div className={style.form_blk}>
-                    {/* <select
+                    <input autoComplete="off"
+                      type="number"
                       name="fourth_match_breaks"
                       id=""
                       className={style.input}
+                      placeholder=""
                       onChange={handleChange}
-                    >
-                      <option value="">Select</option>
-                      <option value="">1</option>
-                      <option value="">2</option>
-                    </select> */}
-                    <InputSlider
-                      axis="x"
-                      x={tournamentDetails.fourth_match_breaks}
-                      onChange={({ x }) => handleNumericalSliderChange(x, "fourth_match_breaks")}
+                      value={tournamentDetails.fourth_match_breaks}
                     />
                     <p className="text-danger">{errors?.fourth_match_breaks}</p>
                   </div>
@@ -1654,7 +1618,7 @@ const NewTournamentForm = () => {
                   </div>
                 ))}
                 <div className={`${style.btn_blk} justify-content-center mt-5`}>
-                  <button onClick={handleAddStaff} className={style.site_btn}>Add Staff</button>
+                  <button onClick={handleAddStaff} className={style.site_btn} type="button">Add Staff</button>
                 </div>
 
               </div>
@@ -1682,66 +1646,6 @@ const NewTournamentForm = () => {
             <fieldset className={style.blk}>
               <h5 className="mb-5">Sponsorship and Marketing</h5>
               <div className="row">
-                <div className="col-md-12">
-                  <h6>Do you want to add sponsors?</h6>
-                  <div className={`${style.form_blk} ${style.form_blk_flex}`}>
-                    <div className={style.lbl_btn}>
-                      <input type="radio" name="sponsors" id="sponsors" value="no" checked={tournamentDetails.sponsors == 'no' ? true : false} onChange={handleChange} />
-                      <label htmlFor="no">No</label>
-                    </div>
-                    <div className={style.lbl_btn}>
-                      <input type="radio" name="sponsors" id="sponsors" value="yes" checked={tournamentDetails.sponsors == 'yes' ? true : false} onChange={handleChange} />
-                      <label htmlFor="yes">Yes</label>
-                    </div>
-                  </div>
-                </div>
-                {
-                  tournamentDetails?.sponsors == 'yes' ?
-                    <div className="col-sm-12">
-                      <h6>Sponsor Information <sup>*</sup></h6>
-                      <div className={style.form_blk}>
-                        <textarea
-                          name="sponsor_information"
-                          id=""
-                          rows={5}
-                          className={style.input}
-                          placeholder="Type something here"
-                          onChange={handleChange}
-                          value={tournamentDetails.sponsor_information}
-                        ></textarea>
-                      </div>
-                      {/* <div className={style.form_blk}>
-                    <CKeditor
-											name="sponsor_information"
-											onChange={(editorData: string) => {
-												setSponsorInformation(editorData);
-											}}
-											value={tournamentDetails.sponsor_information}
-											editorLoaded={editorLoaded}
-										/>
-                    {JSON.stringify(editorData)}
-                  </div> */}
-                    </div>
-                    :
-                    ""
-                }
-                <div className="col-sm-12">
-                  <h6>Upload Logos <sup>*</sup></h6>
-                  <div className={style.form_blk}>
-                    {/* <button type="button" name="" id="" className={style.input}>
-											Upload Logos
-										</button> */}
-                    <input autoComplete="off"
-                      type="file"
-                      name="logos[]"
-                      id=""
-                      className={style.input}
-                      multiple
-                      onChange={handleUploadMultipleLogo}
-                    />
-                    <p className="text-danger">{errors?.logos}</p>
-                  </div>
-                </div>
                 <div className="col-sm-12">
                   <h6>Upload Banners <sup>*</sup></h6>
                   <div className={style.form_blk}>
@@ -1759,6 +1663,71 @@ const NewTournamentForm = () => {
                     <p className="text-danger">{errors?.banners}</p>
                   </div>
                 </div>
+                <div className="col-sm-12">
+                  <h6>Bank Information <sup>*</sup></h6>
+                  <div className={style.form_blk}>
+                    <textarea
+                      name="bank_information"
+                      id=""
+                      rows={5}
+                      className={style.input}
+                      placeholder="Type something here"
+                      onChange={handleChange}
+                      value={tournamentDetails.bank_information}
+                    ></textarea>
+                    <p className="text-danger">{errors?.bank_information}</p>
+                  </div>
+                </div>
+                <div className="col-md-12">
+                  <h6>Do you want to add sponsors?</h6>
+                  <div className={`${style.form_blk} ${style.form_blk_flex}`}>
+                    <div className={style.lbl_btn}>
+                      <input type="radio" name="sponsors" id="sponsors" value="no" checked={tournamentDetails.sponsors == 'no' ? true : false} onChange={handleChange} />
+                      <label htmlFor="no">No</label>
+                    </div>
+                    <div className={style.lbl_btn}>
+                      <input type="radio" name="sponsors" id="sponsors" value="yes" checked={tournamentDetails.sponsors == 'yes' ? true : false} onChange={handleChange} />
+                      <label htmlFor="yes">Yes</label>
+                    </div>
+                  </div>
+                </div>
+                {
+                  tournamentDetails?.sponsors == 'yes' ?
+                    <>
+                      <div className="col-sm-12">
+                        <h6>Sponsor Information <sup>*</sup></h6>
+                        <div className={style.form_blk}>
+                          <textarea
+                            name="sponsor_information"
+                            id=""
+                            rows={5}
+                            className={style.input}
+                            placeholder="Type something here"
+                            onChange={handleChange}
+                            value={tournamentDetails.sponsor_information}
+                          ></textarea>
+                        </div>
+                      </div>
+
+                      <div className="col-sm-12">
+                        <h6>Upload Logos <sup>*</sup></h6>
+                        <div className={style.form_blk}>
+                          <input autoComplete="off"
+                            type="file"
+                            name="logos[]"
+                            id=""
+                            className={style.input}
+                            multiple
+                            onChange={handleUploadMultipleLogo}
+                          />
+                          <p className="text-danger">{errors?.logos}</p>
+                        </div>
+                      </div>
+                    </>
+                    :
+                    ""
+                }
+
               </div>
               {/* <h5 className="mb-5 mt-4">
                 Payment | Total: {tournamentData.tournament_fee * numberOfTeams}

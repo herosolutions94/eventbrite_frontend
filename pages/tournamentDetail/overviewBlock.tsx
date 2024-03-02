@@ -25,28 +25,51 @@ const OverviewBlock = (details: any) => {
           <div dangerouslySetInnerHTML={{ __html: details?.details?.rules }} />
         </div>
       )}
-      {details?.details?.images?.length > 0 && (
+      {details?.details?.documents?.length > 0 && (
         <div className={style.blk}>
           <h5>Documents</h5>
-          {details?.details?.images.map((image: any, d_index: any) => {
-            if (image.caption === "banner") {
+          <ul className={style.documents}>
+            {details?.details?.documents.map((document: any, d_index: any) => {
+              // if (image.caption === "banner") {
               return (
-                <ul className={style.documents} key={d_index}>
-                  <li>
-                    <a
-                      href={process.env.ASSET_URL + image.image}
-                      target="_blank"
-                      style={{ color: "#fff" }}
-                    >
-                      Document {++d_key}
-                    </a>
-                  </li>
-                </ul>
+
+                <li key={d_index}>
+                  <a
+                    href={process.env.ASSET_URL + document.image}
+                    target="_blank"
+                    style={{ color: "#fff" }}
+                  >
+                    Document {++d_key}
+                  </a>
+                </li>
+
               );
-            }
-          })}
+              // }
+            })}
+          </ul>
         </div>
       )}
+      {details?.details?.sponsors === 'yes' && details?.details?.logos?.length > 0 && (
+        <div className={style.blk}>
+          <h5>Spnsors Information</h5>
+          <p>{details?.details?.sponsor_information}</p>
+          <h5>Spnsors Logos</h5>
+          <ul className={style.t_logos}>
+            {details?.details?.logos.map((logo: any, d_index: any) => {
+              // if (image.caption === "banner") {
+              return (
+
+                <li key={d_index}>
+                  <img src={process.env.ASSET_URL + logo.image} />
+                </li>
+
+              );
+              // }
+            })}
+          </ul>
+        </div>
+      )}
+
       {details?.details?.staff_arr?.length > 0 && (
         <div className={style.blk}>
           <h5>Tournament Staff & Volunteers</h5>
