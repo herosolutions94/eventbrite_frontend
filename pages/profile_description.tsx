@@ -9,7 +9,7 @@ import Sellerdetail from "./profile-description/sellerdetails";
 export default function Profile_description() {
   return (
     <div>
-      <Header />
+      <Header pageTitle="Profile description" />
       <Smallbanner />
       <Sellerdetail />
       <Footer />
