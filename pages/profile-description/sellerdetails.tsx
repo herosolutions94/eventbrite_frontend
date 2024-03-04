@@ -20,7 +20,7 @@ interface SellerdetailProps {
 const Sellerdetail: React.FC<SellerdetailProps> = ({ profileDetails }) => {
   const [tournamentTab, setTournamentTab] = useState('open');
   useEffect(() => {
-    if (profileDetails?.id > 0) {
+    if (profileDetails !== undefined && profileDetails?.id > 0) {
       if (profileDetails?.open_tournaments?.length <= 0 && profileDetails?.yet_to_be?.length > 0) {
         setTournamentTab("yet")
       }
@@ -74,19 +74,19 @@ const Sellerdetail: React.FC<SellerdetailProps> = ({ profileDetails }) => {
                 <h4>Your Tournaments</h4>
                 <ul>
                   {
-                    profileDetails?.open_tournaments?.length > 0 ?
+                    profileDetails !== undefined && profileDetails?.open_tournaments?.length > 0 ?
                       <li onClick={() => (setTournamentTab('open'))} className={tournamentTab === 'open' ? style.active : ""}>Open</li>
                       :
                       ""
                   }
                   {
-                    profileDetails?.yet_to_be?.length > 0 ?
+                    profileDetails !== undefined && profileDetails?.yet_to_be?.length > 0 ?
                       <li onClick={() => (setTournamentTab('yet'))} className={tournamentTab === 'yet' ? style.active : ""}>Yet to be</li>
                       :
                       ""
                   }
                   {
-                    profileDetails?.completed_tournaments?.length > 0 ?
+                    profileDetails !== undefined && profileDetails?.completed_tournaments?.length > 0 ?
                       <li onClick={() => (setTournamentTab('completed'))} className={tournamentTab === 'completed' ? style.active : ""}> Completed</li>
                       :
                       ""
