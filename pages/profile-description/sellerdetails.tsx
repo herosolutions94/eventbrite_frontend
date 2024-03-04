@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "@/styles/scss/app.module.scss";
 import TournamentItem from "./tournamentItem";
 interface ProfileDetails {
+  id: number,
   user_image: string;
   user_cover: string;
   firstname: string;
@@ -19,12 +20,15 @@ interface SellerdetailProps {
 const Sellerdetail: React.FC<SellerdetailProps> = ({ profileDetails }) => {
   const [tournamentTab, setTournamentTab] = useState('open');
   useEffect(() => {
-    if (profileDetails?.open_tournaments?.length <= 0 && profileDetails?.yet_to_be?.length > 0) {
-      setTournamentTab("yet")
+    if (profileDetails?.id > 0) {
+      if (profileDetails?.open_tournaments?.length <= 0 && profileDetails?.yet_to_be?.length > 0) {
+        setTournamentTab("yet")
+      }
+      else if (profileDetails?.open_tournaments?.length <= 0 && profileDetails?.completed_tournaments?.length > 0) {
+        setTournamentTab("completed")
+      }
     }
-    else if (profileDetails?.open_tournaments?.length <= 0 && profileDetails?.completed_tournaments?.length > 0) {
-      setTournamentTab("completed")
-    }
+
   }, [profileDetails]);
 
   // console.log(profileDetails?.yet_to_be, profileDetails?.completed_tournaments)
