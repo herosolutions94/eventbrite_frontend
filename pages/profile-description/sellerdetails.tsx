@@ -1,7 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "@/styles/scss/app.module.scss";
+import TournamentItem from "./tournamentItem";
+interface ProfileDetails {
+  user_image: string;
+  user_cover: string;
+  firstname: string;
+  lastname: string
+  total_tournaments: number;
+  total_matches: number;
+  open_tournaments: [],
+  completed_tournaments: [],
+  yet_to_be: []
+  // Add more properties as needed
+}
+interface SellerdetailProps {
+  profileDetails: ProfileDetails;
+}
+const Sellerdetail: React.FC<SellerdetailProps> = ({ profileDetails }) => {
+  const [tournamentTab, setTournamentTab] = useState('open');
+  useEffect(() => {
+    if (profileDetails?.open_tournaments?.length <= 0 && profileDetails?.yet_to_be?.length > 0) {
+      setTournamentTab("yet")
+    }
+    else if (profileDetails?.open_tournaments?.length <= 0 && profileDetails?.completed_tournaments?.length > 0) {
+      setTournamentTab("completed")
+    }
+  }, [profileDetails]);
 
-export default function Sellerdetail() {
+  // console.log(profileDetails?.yet_to_be, profileDetails?.completed_tournaments)
   return (
     <div>
       <section id={style.seller_detail}>
@@ -13,26 +39,26 @@ export default function Sellerdetail() {
                 <ul>
                   <li>
                     <h5>Total tournaments organized:</h5>
-                    <p>05</p>
+                    <p>{profileDetails?.total_tournaments}</p>
                   </li>
                   <li>
                     <h5>Total matches played:</h5>
-                    <p>03</p>
+                    <p>{profileDetails?.total_matches}</p>
                   </li>
-                  <li>
+                  {/* <li>
                     <h5>Total tournaments participated:</h5>
-                    <p>02</p>
+                    <p>{profileDetails?.total_matches}</p>
                   </li>
                   <li>
                     <h5>Total events attended:</h5>
                     <p>0</p>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </div>
             <div className={style.colr}>
               <div className={style.outer}>
-                <h3>Over View</h3>
+                {/* <h3>Over View</h3>
                 <p>
                   Lorem Ipsum is simply dummy text of the printing and
                   typesetting industry. Lorem Ipsum has been the industrys
@@ -40,63 +66,41 @@ export default function Sellerdetail() {
                   printer took a galley of type and scrambled it to make a type
                   specimen book.
                 </p>
-                <hr />
+                <hr /> */}
                 <h4>Your Tournaments</h4>
                 <ul>
-                  <li>Open</li>
-                  <li>Yet to be</li>
-                  <li> Completed</li>
+                  {
+                    profileDetails?.open_tournaments?.length > 0 ?
+                      <li onClick={() => (setTournamentTab('open'))} className={tournamentTab === 'open' ? style.active : ""}>Open</li>
+                      :
+                      ""
+                  }
+                  {
+                    profileDetails?.yet_to_be?.length > 0 ?
+                      <li onClick={() => (setTournamentTab('yet'))} className={tournamentTab === 'yet' ? style.active : ""}>Yet to be</li>
+                      :
+                      ""
+                  }
+                  {
+                    profileDetails?.completed_tournaments?.length > 0 ?
+                      <li onClick={() => (setTournamentTab('completed'))} className={tournamentTab === 'completed' ? style.active : ""}> Completed</li>
+                      :
+                      ""
+                  }
                 </ul>
-                <div className={style.flex}>
-                  <div className={style.col1}>
-                    <div className={style.image}>
-                      <img src="images/tt1.jpeg" />
-                    </div>
-                    <div className={style.text}>
-                      <h4>Triarchy</h4>
-                    </div>
-                  </div>
-                  <div className={style.col1}>
-                    <div className={style.image}>
-                      <img src="images/tt2.png" />
-                    </div>
-                    <div className={style.text}>
-                      <h4>Jojopeng</h4>
-                    </div>
-                  </div>
-                  <div className={style.col1}>
-                    <div className={style.image}>
-                      <img src="images/tt4.jpeg" />
-                    </div>
-                    <div className={style.text}>
-                      <h4>Eldritch</h4>
-                    </div>
-                  </div>
-                  <div className={style.col1}>
-                    <div className={style.image}>
-                      <img src="images/tt5.jpeg" />
-                    </div>
-                    <div className={style.text}>
-                      <h4>Tyotrsons</h4>
-                    </div>
-                  </div>
-                  <div className={style.col1}>
-                    <div className={style.image}>
-                      <img src="images/tt1.jpeg" />
-                    </div>
-                    <div className={style.text}>
-                      <h4>Lionhearts</h4>
-                    </div>
-                  </div>
-                  <div className={style.col1}>
-                    <div className={style.image}>
-                      <img src="images/tt2.png" />
-                    </div>
-                    <div className={style.text}>
-                      <h4>Kajored</h4>
-                    </div>
-                  </div>
-                </div>
+                {
+                  tournamentTab === 'open' ?
+                    <TournamentItem items={profileDetails?.open_tournaments} />
+                    :
+                    tournamentTab === 'yet' ?
+                      <TournamentItem items={profileDetails?.yet_to_be} />
+                      :
+                      tournamentTab === 'completed' ?
+                        <TournamentItem items={profileDetails?.completed_tournaments} />
+                        :
+                        <div className={style.no_data}>No data found!!</div>
+                }
+
               </div>
             </div>
           </div>
@@ -105,3 +109,4 @@ export default function Sellerdetail() {
     </div>
   );
 }
+export default Sellerdetail

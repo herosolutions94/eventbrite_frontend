@@ -1,34 +1,36 @@
 import React from "react";
 import style from "@/styles/scss/app.module.scss";
-
-export default function Smallbanner() {
+import GetServerImage from "@/components/getServerImage";
+interface ProfileDetails {
+  user_image: string;
+  user_cover: string;
+  firstname: string;
+  lastname: string
+  // Add more properties as needed
+}
+interface SmallbannerProps {
+  profileDetails: ProfileDetails;
+}
+const Smallbanner: React.FC<SmallbannerProps> = ({ profileDetails }) => {
+  console.log(profileDetails)
   return (
     <div>
-      <section id={style.smalbanner}>
+      <section id={style.smalbanner} style={{
+        backgroundImage: profileDetails?.user_cover
+          ? `url(${process.env.ASSET_URL}/uploads/${profileDetails?.user_cover})`
+          : ""
+      }}>
         <div className={style.contain}></div>
       </section>
       <div className={style.profile}>
         <div className={style.contain}>
           <div className={style.content}>
             <div className={style.icon}>
-              <img src="images/dp.jpeg" alt="" />
-              <div className={style.btn}>
-                <input
-                  className={style.hide}
-                  type="file"
-                  accept="image/png, image/jpg, image/jpeg"></input>
-                <img src="images/camera.png"></img>
-              </div>
+              <GetServerImage src="uploads" image={profileDetails?.user_image} isLoading={false} />
+
             </div>
             <div className={style.text}>
-              <h3>Samus Aran</h3>
-              <div className={style.stars}>
-                <img src="images/star.png" alt="" />
-                <img src="images/star.png" alt="" />
-                <img src="images/star.png" alt="" />
-                <img src="images/star.png" alt="" />
-                <img src="images/star.png" alt="" />
-              </div>
+              <h3>{profileDetails?.firstname + " " + profileDetails?.lastname}</h3>
             </div>
           </div>
         </div>
@@ -36,3 +38,4 @@ export default function Smallbanner() {
     </div>
   );
 }
+export default Smallbanner;

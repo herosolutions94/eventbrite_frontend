@@ -36,13 +36,16 @@ type ProfileFormState = {
 	instagram: string;
 	linkedIn: string;
 	user_image: string;
+	user_cover: string;
 }
 
 
 const ProfileForm = ({ profileData }: ProfileFormProps) => {
 	const [imageLoading, setImageLoading] = useState<boolean>(false);
+	const [coverLoading, setCoverLoading] = useState<boolean>(false);
 	const [profileLoading, setProfileLoading] = useState<boolean>(false);
 	const [userThumbnail, setUserThumbnail] = useState<null>(null);
+	const [userCover, setUserCover] = useState<null>(null);
 
 	const [countriesData, setCountriesData] = useState<any[]>([]);
 	const [statesData, setStatesData] = useState<any[]>([]);
@@ -74,9 +77,9 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 				linkedIn: profileData.linkedIn || '',
 			});
 			setUserThumbnail(profileData.user_image)
+			setUserCover(profileData?.user_cover ? profileData?.user_cover : null)
 		}
 	}, [profileData]);
-
 	const [formData, setFormData] = useState({
 		id: '',
 		firstname: '',
@@ -103,7 +106,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 	const handleSubmitForm = async (e: any) => {
 		e.preventDefault();
 		setProfileLoading(true)
-		const newFrmData = { ...formData, user_image: userThumbnail, type: "organizer" }
+		const newFrmData = { ...formData, user_image: userThumbnail, type: "organizer", user_cover: userCover }
 		try {
 			const response = await axios.post(process.env.API_URL + '/update-user-profile', newFrmData)
 			toast.success(response.data.message);
@@ -177,6 +180,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 		fetchStatesData();
 	}, [formData?.state]);
 	const fileInputRef: RefObject<HTMLInputElement> = useRef(null);
+	const coverInputRef: RefObject<HTMLInputElement> = useRef(null);
 	// const [value, setValue] = useState()
 	const handlerCountryChange = async (country_id: any) => {
 		setFormData({ ...formData, country: country_id })
@@ -192,6 +196,12 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 	const handleChooseDp = () => {
 		if (fileInputRef?.current) {
 			fileInputRef?.current?.click();
+		}
+
+	};
+	const handleChooseCover = () => {
+		if (coverInputRef?.current) {
+			coverInputRef?.current?.click();
 		}
 
 	};
@@ -227,12 +237,73 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 			}
 		}
 	};
+	const handleUploadCover = async (e: any) => {
+		e.preventDefault();
+		const files = e.target.files[0];
+		setCoverLoading(true);
+		const fd = new FormData();
+		let user_email = Cookies.get("email");
+		let user_id = Cookies.get("user_id");
+		fd.append("image", files);
+		fd.append("user_email", user_email || "");
+		fd.append("user_id", user_id || "");
+
+		try {
+			const response = await axios.post(process.env.API_URL + '/upload-cover', fd);
+			toast.success(response.data.message);
+			if (response) {
+				setCoverLoading(false);
+				const res = response.data;
+				if (res.status === 1) {
+					setUserCover(res.image_name)
+				}
+			}
+		} catch (error) {
+			setCoverLoading(false);
+			if (axios.isAxiosError(error) && error.response?.status === 422) {
+				toast.error(error.response.data.message);
+				const validationErrors = error.response.data.error;
+				setError(validationErrors);
+			} else {
+				// Handle other errors
+			}
+		}
+	};
 	return (
 		<>
 			<form autoComplete="off" action="" method="POST">
 				<div className={style.blk}>
-					<h4 className="mb-4">Personal information</h4>
-					<div className={style.dp_blk}>
+					<section id={style.smalbanner} className={style.profileSmallBanner} style={{
+						backgroundImage: userCover
+							? `url(${process.env.ASSET_URL}/uploads/${userCover})`
+							: ""
+					}}>
+						<div className={style.contain}>
+
+						</div>
+
+						{
+							coverLoading ?
+								<div className={style.imageLoading}>
+									<h3>Please Wait File is being uploaded...</h3>
+								</div>
+								:
+								<>
+									<div className={style.organizer_cover_choose} onClick={handleChooseCover}>
+										<img src="/images/camera.png" />
+									</div>
+									<input type="file"
+										ref={coverInputRef}
+										id="profile_dp"
+										onChange={handleUploadCover}
+										accept="image/*" style={{ display: "none" }} />
+								</>
+
+						}
+
+					</section>
+					<div className={`${style.dp_blk} ${style.organizer_dp_blk}`}>
+
 						<div className={`${style.ico} ${style.fill} ${style.round}`}>
 							<GetServerImage src="uploads" image={userThumbnail} isLoading={imageLoading} />
 						</div>
@@ -252,6 +323,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 							<div>The maximum file size is 500 kb and the minimum size is 80 kb.</div>
 						</div>
 					</div>
+					<h4 className="mb-4">Personal information</h4>
 					<div className={`${style.form_row} row`}>
 						<div className="col-lg-6 col-6">
 							<h6>First Name</h6>

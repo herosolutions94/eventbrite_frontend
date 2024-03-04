@@ -3070,12 +3070,12 @@
   position: absolute;
   top: 8px;
   left: 12px;
-  font-size: 23px;
+  font-size: 20px;
   color: #9a9898;
 }
 
 .credit_buy_input .input {
-  padding-left: 3.7rem;
+  padding-left: 10.7rem;
 }
 
 p.error {
@@ -3659,6 +3659,10 @@ form.tournament_form h6 sup {
   height: 300px;
 }
 
+#smalbanner.profileSmallBanner {
+  padding: 0
+}
+
 #smalbanner::before {
   content: "";
   position: absolute;
@@ -3809,6 +3813,12 @@ form.tournament_form h6 sup {
   background-color: #f05537;
   margin: 0 10px;
   border-radius: 4px;
+  cursor: pointer
+}
+
+#seller_detail .colr ul li.active {
+  background-color: #fff;
+  color: #f05537;
 }
 
 #seller_detail .col1 {
@@ -3832,6 +3842,7 @@ form.tournament_form h6 sup {
 #seller_detail .col1 .text h4 {
   text-align: center;
   font-size: 1.8rem;
+  color: #fff;
 }
 
 .t_logos {
@@ -3860,4 +3871,29 @@ form.tournament_form h6 sup {
   margin-bottom: 1rem;
   border: 1px solid transparent;
   border-radius: 0.25rem;
+}
+
+.organizer_dp_blk {
+  position: relative;
+  top: -60px;
+  z-index: 9;
+}
+
+.organizer_cover_choose {
+  width: 30px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 9;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.imageLoading {
+  position: relative;
+  z-index: 9;
+  background: rgba(0, 0, 0, 0.95);
+  width: 100%;
+  height: 100%;
+  margin-top: -1px;
 }

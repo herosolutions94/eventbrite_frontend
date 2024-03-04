@@ -24,7 +24,11 @@ const Navigation = (props: any) => {
 		Cookies.remove("token")
 		router.push("/login")
 	}
-
+	const toSlugUrl = (str: any) => {
+		if (str) {
+			return str.replace(/ /g, "-");
+		}
+	}
 	return (
 		<>
 			<nav id={style.nav} className={`${navActive ? style.active : ""}`}>
@@ -116,7 +120,7 @@ const Navigation = (props: any) => {
 									<Link href="/organizer">Profile Settings</Link>
 								</li>
 								<li>
-									<Link href="/organizer/transactions">Public Profile</Link>
+									<Link href={"/profile/" + profileData?.id + "/" + toSlugUrl(profileData?.firstname + " " + profileData?.lastname)}>Public Profile</Link>
 								</li>
 								<li>
 									<a onClick={handleLogout}>Sign out</a>
