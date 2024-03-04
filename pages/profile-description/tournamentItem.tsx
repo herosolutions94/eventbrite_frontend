@@ -16,7 +16,7 @@ const TournamentItem: React.FC<TournamentItemProps> = ({ items }) => {
     console.log(items); // Check if items are correctly received
     return (
         <div className={style.flex}>
-            {items.length > 0 ? (
+            {items !== undefined && items.length > 0 ? (
                 items.map((item, index) => (
                     <Link href={`/tournament-detail/${item.id}`} className={style.col1} key={index}>
                         <div className={style.image}>
