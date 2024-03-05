@@ -28,18 +28,18 @@ export default function Profile_description() {
             const response = await axios.get(process.env.API_URL + "/public-profile/" + id, {});
             if (response.status === 200) {
                 setIsLoading(false)
+                console.log(response?.data)
                 setProfileDetails(response?.data?.data?.profile);
             }
         } catch (error) {
             console.log(error);
         }
     };
-    if (isLoading) {
+    if (isLoading && !profileDetails) {
         return <div className={style.loading_page}>
             <img src="/images/loading.gif" />
         </div>;
     }
-    console.log(profileDetails)
     return (
         <div>
             <Header pageTitle={profileDetails?.firstname + " " + profileDetails?.lastname + " Profile"} />
