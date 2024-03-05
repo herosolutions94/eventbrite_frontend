@@ -28,7 +28,7 @@ export default function Profile_description() {
             const response = await axios.get(process.env.API_URL + "/public-profile/" + id, {});
             if (response.status === 200) {
                 setIsLoading(false)
-                setProfileDetails(response?.data?.profile);
+                setProfileDetails(response?.data?.data?.profile);
             }
         } catch (error) {
             console.log(error);
