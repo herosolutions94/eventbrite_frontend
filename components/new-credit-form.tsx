@@ -4,17 +4,48 @@ import { ErrorMessage } from "@hookform/error-message";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast, ToastContainer } from "react-toastify";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import {
   CardElement,
   useStripe,
   useElements,
   CardNumberElement,
   CardExpiryElement,
-  CardCvcElement
+  CardCvcElement,
 } from "@stripe/react-stripe-js";
 import style from "@/styles/scss/app.module.scss";
+const useOptions = () => {
+  const options = useMemo(
+    () => ({
+      style: {
+        base: {
+          display: "block",
+          width: "100%",
+          height: "2rem",
+          fontSize: "0.875",
+          fontFamily: "'Poppins', sans-serif",
+          fontWeight: "400",
+          color: "rgba(255, 255, 255, 0.8)",
+          background: "#fff",
+          textAlign: "left",
+          padding: "0.6rem 1.4rem",
+          "::placeholder": {
+            color: "rgba(255, 255, 255, 0.4)",
+            fontSize: "0.875",
+          },
+        },
+        invalid: {
+          color: "#e71939",
+        },
+      },
+    }),
+    []
+  );
+
+  return options;
+};
 const NewCreditBuyForm = () => {
+  const options = useOptions();
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
@@ -26,15 +57,16 @@ const NewCreditBuyForm = () => {
     setValue,
     control,
     watch,
-    formState: { errors, isValid }
+    formState: { errors, isValid },
   } = useForm({ mode: "all" });
-  const watchAllFields = watch()
-  const handleCardDetailsChange = (ev: { error: { message: string } } | any) => {
+  const watchAllFields = watch();
+  const handleCardDetailsChange = (
+    ev: { error: { message: string } } | any
+  ) => {
     ev.error ? setCheckoutError(ev.error.message) : setCheckoutError(undefined);
   };
 
   const onSubmit = async (frmData: any) => {
-
     // e.preventDefault()
     setIsProcessing(true);
 
@@ -44,8 +76,10 @@ const NewCreditBuyForm = () => {
       return;
     }
 
-    const cardElement = elements.getElement(CardElement);
-    if (cardElement) {
+    const cardElement = elements.getElement(CardNumberElement);
+    const cardExpiryElement = elements.getElement(CardExpiryElement);
+    const cardCvcElement = elements.getElement(CardCvcElement);
+    if (cardElement && cardExpiryElement && cardCvcElement) {
       try {
         const paymentMethodReq = await stripe.createPaymentMethod({
           type: "card",
@@ -56,8 +90,7 @@ const NewCreditBuyForm = () => {
           setCheckoutError(paymentMethodReq.error.message);
           setIsProcessing(false);
           return;
-        }
-        else {
+        } else {
           var payment_form_data = new FormData();
           payment_form_data.append(
             "payment_token",
@@ -65,6 +98,7 @@ const NewCreditBuyForm = () => {
           );
           payment_form_data.append("user_id", Cookies.get("user_id") as string);
           payment_form_data.append("amount", frmData?.amount as any);
+          payment_form_data.append("card_holder", frmData?.card_holder as any);
           await axios
             .post(
               process.env.API_URL + "/create-indent-payment",
@@ -76,12 +110,13 @@ const NewCreditBuyForm = () => {
               if (data.data.data.status === 1) {
                 let card_result = stripe.confirmCardSetup(client_secret_setup, {
                   payment_method: {
-                    card: cardElement
-                  }
+                    card: cardElement,
+                  },
                 });
                 card_result.then((response) => {
                   if (response.error) {
-                    toast.error(response.error.message); return;
+                    toast.error(response.error.message);
+                    return;
                     setIsProcessing(false);
                   } else {
                     let paymentMethod = response.setupIntent.payment_method;
@@ -103,12 +138,10 @@ const NewCreditBuyForm = () => {
         setCheckoutError(err.message);
         setIsProcessing(false);
       }
-    }
-    else {
-      setCheckoutError('Please fill in all required card details.');
+    } else {
+      setCheckoutError("Please fill in all required card details.");
       setIsProcessing(false);
     }
-
   };
   const router = useRouter();
   const chargePayment = async (
@@ -121,16 +154,18 @@ const NewCreditBuyForm = () => {
   ) => {
     const result = await stripe!.confirmCardPayment(clientSecret, {
       payment_method: paymentMethodSetup,
-      setup_future_usage: "off_session"
+      setup_future_usage: "off_session",
     });
     if (result.error) {
       setIsProcessing(false);
-      toast.error(result.error.message); return;
+      toast.error(result.error.message);
+      return;
     } else if (result.paymentIntent?.status === "succeeded") {
       const formData = new FormData();
       formData.append("user_id", Cookies.get("user_id") as string);
       formData.append("amount", amount);
       formData.append("credits", watchAllFields?.credits);
+      formData.append("card_holder", watchAllFields?.card_holder);
       formData.append("payment_intent_id", result.paymentIntent.id);
       formData.append("customer_id", customer_id);
       formData.append("payment_method_id", paymentMethodReq.paymentMethod?.id);
@@ -141,8 +176,8 @@ const NewCreditBuyForm = () => {
           {
             headers: {
               "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${Cookies.get("token")}`
-            }
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
           }
         );
         //   logFormDataKeys(formData);
@@ -153,16 +188,13 @@ const NewCreditBuyForm = () => {
           if (res?.data?.status === 1) {
             toast.success(res?.data?.msg);
             setTimeout(() => {
-              router.reload()
+              router.reload();
             }, 2000);
-          }
-          else {
+          } else {
             toast.error(res?.data?.msg);
           }
-
         }
-      }
-      catch (err) {
+      } catch (err) {
         if (axios.isAxiosError(err)) {
           if (err.response?.status === 422) {
             toast.error("Please fill out all the fields");
@@ -172,30 +204,26 @@ const NewCreditBuyForm = () => {
         }
       }
     }
-  }
+  };
   useEffect(() => {
     if (parseFloat(watchAllFields?.credits) >= 0) {
       const calculatedAmount = parseFloat(watchAllFields?.credits) * 1.5; // Assuming 1 credit = 1.5 euros
       setValue("amount", calculatedAmount);
     }
-
   }, [watchAllFields?.credits]);
 
   return (
-    <form action=""
-      method="post"
-      onSubmit={handleSubmit(onSubmit)}>
+    <form action="" method="post" onSubmit={handleSubmit(onSubmit)}>
       <ToastContainer />
       <fieldset className={style.blk}>
         <div className="row">
           <div className="col-12">
             <div className={style.credit_buy_input}>
-              {
-                watchAllFields?.amount >= 0 ?
-                  <h6>Amount: ${watchAllFields?.amount}</h6>
-                  :
-                  ""
-              }
+              {watchAllFields?.amount >= 0 ? (
+                <h6>Amount: ${watchAllFields?.amount}</h6>
+              ) : (
+                ""
+              )}
               <div className={style.form_blk}>
                 <input
                   type="text"
@@ -205,12 +233,12 @@ const NewCreditBuyForm = () => {
                     required: "Credit is required",
                     pattern: {
                       value: /^\d+(\.\d{1,2})?$/, // Allows whole numbers or numbers with up to two decimal places
-                      message: "Invalid value"
+                      message: "Invalid value",
                     },
                     min: {
                       value: 5, // Minimum value is now 5
-                      message: "credits should be greater than 5"
-                    }
+                      message: "credits should be greater than 5",
+                    },
                   })}
                 />
                 <strong className={style.dollar_label}>Credits</strong>
@@ -226,38 +254,93 @@ const NewCreditBuyForm = () => {
               />
             </div>
           </div>
+          <div className="col-12">
+            <h6 className="require">Card Holder Name</h6>
+            <div>
+              <div className={style.form_blk}>
+                <input
+                  type="text"
+                  className={style.input}
+                  placeholder="Card Holder Name"
+                  {...register("card_holder", {
+                    required: "Card Holder Name is required",
+                  })}
+                />
+              </div>
+              <ErrorMessage
+                errors={errors}
+                name="card_holder"
+                render={({ message }) => (
+                  <p className={style.error}>
+                    <i className="fi-warning"></i> {message}
+                  </p>
+                )}
+              />
+            </div>
+          </div>
           <div className="col-sm-12">
             <h6 className="require">Card Number</h6>
             <div className={style.stripeCol}>
               <div className={style.form_blk}>
                 <div className={style.input}>
-                  <CardElement options={{
-                    style: {
-                      base: {
-                        fontSize: '14px',
-                        color: '#fff',
-                        '::placeholder': {
-                          color: '#aab7c4',
-                        },
-                      },
-                      invalid: {
-                        color: '#9e2146',
-                      },
-                    },
-                  }} onChange={handleCardDetailsChange} />
+                  <CardNumberElement
+                    options={options}
+                    onChange={handleCardDetailsChange}
+                  />
+                  {/* <span>
+                    <img src="/images/card.svg" alt="" />
+                  </span> */}
                 </div>
               </div>
             </div>
-            {checkoutError && <div className="alert alert-danger">{checkoutError}</div>}
           </div>
+          <div className="col-sm-6">
+            <h6 className="require">Card Expiry</h6>
+            <div className={style.stripeCol}>
+              <div className={style.form_blk}>
+                <div className={style.input}>
+                  <CardExpiryElement
+                    options={options}
+                    onChange={handleCardDetailsChange}
+                  />
+                  {/* <span>
+                    <img src="/images/card.svg" alt="" />
+                  </span> */}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-sm-6">
+            <h6 className="require">Card CVC</h6>
+            <div className={style.stripeCol}>
+              <div className={style.form_blk}>
+                <div className={style.input}>
+                  <CardCvcElement
+                    options={options}
+                    onChange={handleCardDetailsChange}
+                  />
+                  {/* <span>
+                    <img src="/images/card.svg" alt="" />
+                  </span> */}
+                </div>
+              </div>
+            </div>
+          </div>
+          {checkoutError && (
+            <div className="alert alert-danger">{checkoutError}</div>
+          )}
         </div>
         <div className={`${style.btn_blk} justify-content-center mt-5`}>
-          <button type="submit" className={style.site_btn} disabled={isProcessing}>
+          <button
+            type="submit"
+            className={style.site_btn}
+            disabled={isProcessing}
+          >
             Submit {isProcessing ? <i className="spinner"></i> : ""}
           </button>
         </div>
       </fieldset>
     </form>
-  )
-}
-export default NewCreditBuyForm
+  );
+};
+export default NewCreditBuyForm;

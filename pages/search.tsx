@@ -82,11 +82,12 @@ const Search = () => {
 											<div className="col-lg-4 col-md-6 col-sm-4" key={tournament.id}>
 												<CategoryCard
 													title={tournament.title}
+													tournamentId={tournament.id}
 													link={`/tournament-detail/${tournament.id}`}
 													tag={tournament?.category?.name}
 													date={tournament.start_date}
 													text={'lorem ipsum'}
-
+													is_favorite={tournament?.is_favorite ? tournament?.is_favorite : 0}
 													img={process.env.ASSET_URL + tournament?.images[0]?.image}
 												/>
 											</div>

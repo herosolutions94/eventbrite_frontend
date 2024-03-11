@@ -36,11 +36,14 @@ const EditTournament = () => {
         const handleRouteChange = (url: string) => {
             if (
                 router.asPath !== url &&
-                !confirm("Are you sure you want to leave?")
+                !confirm("Are you sure you want to continue?")
             ) {
                 router.events.emit("routeChangeError");
                 throw new Error("Abort route change. Please ignore this error.");
             }
+            else {
+                router.push('/organizer/tournaments'); 
+              }
         };
 
         router.events.on("routeChangeStart", handleRouteChange);

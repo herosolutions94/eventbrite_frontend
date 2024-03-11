@@ -110,19 +110,19 @@ const NewTournamentForm = () => {
     age: "",
     equipment_requirements: "",
     schedule_date: "",
-    schedule_time: "",
+    schedule_time: "00:00",
     schedule_breaks: 0,
     venue_availability: "",
     second_match_date: "",
-    second_match_time: "",
+    second_match_time: "00:00",
     second_match_breaks: 0,
     second_venue_availability: "",
     third_match_date: "",
-    third_match_time: "",
+    third_match_time: "00:00",
     third_match_breaks: 0,
     third_venue_availability: "",
     fourth_match_date: "",
-    fourth_match_time: "",
+    fourth_match_time: "00:00",
     fourth_match_breaks: 0,
     fourth_venue_availability: "",
     contact_information: "",
@@ -561,9 +561,9 @@ const NewTournamentForm = () => {
       if (tournamentDetails.schedule_time == "") {
         runTimeErrors.schedule_time = "schedule time is required";
       }
-      if (tournamentDetails.schedule_breaks == 0) {
-        runTimeErrors.schedule_breaks = "schedule breaks is required";
-      }
+      // if (tournamentDetails.schedule_breaks == 0) {
+      //   runTimeErrors.schedule_breaks = "schedule breaks is required";
+      // }
       if (tournamentDetails.venue_availability == "") {
         runTimeErrors.venue_availability = "venue availability is required";
       }
@@ -573,9 +573,9 @@ const NewTournamentForm = () => {
       if (tournamentDetails.second_match_time == "") {
         runTimeErrors.second_match_time = "second match time is required";
       }
-      if (tournamentDetails.second_match_breaks == 0) {
-        runTimeErrors.second_match_breaks = "second match breaks is required";
-      }
+      // if (tournamentDetails.second_match_breaks == 0) {
+      //   runTimeErrors.second_match_breaks = "second match breaks is required";
+      // }
       if (tournamentDetails.second_venue_availability == "") {
         runTimeErrors.second_venue_availability =
           "second venue availability is required";
@@ -586,9 +586,9 @@ const NewTournamentForm = () => {
       if (tournamentDetails.third_match_time == "") {
         runTimeErrors.third_match_time = "third match time is required";
       }
-      if (tournamentDetails.third_match_breaks == 0) {
-        runTimeErrors.third_match_breaks = "third match breaks is required";
-      }
+      // if (tournamentDetails.third_match_breaks == 0) {
+      //   runTimeErrors.third_match_breaks = "third match breaks is required";
+      // }
       if (tournamentDetails.third_venue_availability == "") {
         runTimeErrors.third_venue_availability =
           "third venue availability is required";
@@ -1644,7 +1644,7 @@ const NewTournamentForm = () => {
         ) : fieldset === "tournament_sponsorship" ? (
           <>
             <fieldset className={style.blk}>
-              <h5 className="mb-5">Sponsorship and Marketing</h5>
+              <h5 className="mb-5">Banners & Sponsors</h5>
               <div className="row">
                 <div className="col-sm-12">
                   <h6>Upload Banners <sup>*</sup></h6>
@@ -1664,7 +1664,7 @@ const NewTournamentForm = () => {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <h6>Bank Information <sup>*</sup></h6>
+                  <h6>Payment intructions <sup>*</sup></h6>
                   <div className={style.form_blk}>
                     <textarea
                       name="bank_information"
