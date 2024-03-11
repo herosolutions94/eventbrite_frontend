@@ -2579,6 +2579,12 @@
         }
       }
     }
+    .image_blk.single_image_blk {
+      display: flex;
+      .image {
+        width: 100%;
+      }
+    }
   }
 
   .data {
