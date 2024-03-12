@@ -207,6 +207,9 @@ const Navigation = (props: any) => {
                 className={`${style.dropdown_menu} ${dropdown && style.active}`}
               >
                 <li>
+                  <Link href="/tournaments">Dashboard</Link>
+                </li>
+                <li>
                   <Link href="/organizer">Profile Settings</Link>
                 </li>
                 <li>
@@ -222,6 +225,9 @@ const Navigation = (props: any) => {
                   >
                     Public Profile
                   </Link>
+                </li>
+                <li>
+                  <Link href="/organizer/buy-credits">Buy Credits</Link>
                 </li>
                 <li>
                   <a onClick={handleLogout}>Sign out</a>
@@ -308,23 +314,32 @@ const Navigation = (props: any) => {
                     <li>
                       <Link href="/organizer">Profile Settings</Link>
                     </li>
+
                     {role === "organizer" ? (
-                      <li>
-                        <Link
-                          href={
-                            "/profile/" +
-                            profileData?.id +
-                            "/" +
-                            toSlugUrl(
-                              profileData?.firstname +
-                                " " +
-                                profileData?.lastname
-                            )
-                          }
-                        >
-                          Public Profile
-                        </Link>
-                      </li>
+                      <>
+                        <li>
+                          <Link href="/tournaments">Dashboard</Link>
+                        </li>
+                        <li>
+                          <Link
+                            href={
+                              "/profile/" +
+                              profileData?.id +
+                              "/" +
+                              toSlugUrl(
+                                profileData?.firstname +
+                                  " " +
+                                  profileData?.lastname
+                              )
+                            }
+                          >
+                            Public Profile
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href="/organizer/buy-credits">Buy Credits</Link>
+                        </li>
+                      </>
                     ) : (
                       ""
                     )}
