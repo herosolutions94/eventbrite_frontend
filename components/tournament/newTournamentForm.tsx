@@ -137,6 +137,7 @@ const NewTournamentForm = () => {
     banners: [] as any,
     documents: [] as any,
     sponsors: "",
+    tournament_logo: ""
   });
   useEffect(() => {
     fetchTournamentData();
@@ -185,9 +186,20 @@ const NewTournamentForm = () => {
   };
 
   const handleUploadMultipleBanners = async (e: any) => {
+    const banners = [];
+    const files = e.target.files;
     for (let i = 0; i < e.target.files.length; i++) {
+      banners.push(files[i]);
       formData.append("banners[]", e.target.files[i]);
     }
+    setTournamentDetails({ ...tournamentDetails, banners: banners });
+  };
+  const handleUploadLogo = async (e: any) => {
+    console.log(e.target.files[0])
+    // for (let i = 0; i < e.target.files.length; i++) {
+    formData.append("tournament_logo", e.target.files[0]);
+    setTournamentDetails({ ...tournamentDetails, tournament_logo: e.target.files[0] });
+    // }
   };
   function logFormDataKeys(fd: FormData) {
     const keys = Array.from(fd.keys());
@@ -304,6 +316,11 @@ const NewTournamentForm = () => {
     tournamentDetails?.documents.forEach((file: File) => {
       formData.append("documents[]", file);
     });
+    tournamentDetails?.banners.forEach((file: File) => {
+      formData.append("banners[]", file);
+
+    });
+    formData.append("tournament_logo", tournamentDetails?.tournament_logo);
     formData.append("staff_arr", JSON.stringify(staffData?.staff));
     logFormDataKeys(formData);
     try {
@@ -320,12 +337,12 @@ const NewTournamentForm = () => {
       setIsLoading(false);
       //   logFormDataKeys(formData);
       console.log(res);
-      //   return;
+      // return;
       if (res.status === 200) {
         // setTournamentId(res.data.tournament_id);
         // submitTournament(res.data.tournament_id);
         toast.success("Record has been inserted successfully.");
-        router.push("/organizer/tournaments");
+        router.push("/organizer/edit-tournament/"+res?.data?.tournament_id);
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -537,57 +554,57 @@ const NewTournamentForm = () => {
         runTimeErrors.equipment_requirements =
           "equipment requirements is required";
       }
-      if (tournamentDetails.schedule_date == "") {
-        runTimeErrors.schedule_date = "schedule date is required";
-      }
-      if (tournamentDetails.schedule_time == "") {
-        runTimeErrors.schedule_time = "schedule time is required";
-      }
+      // if (tournamentDetails.schedule_date == "") {
+      //   runTimeErrors.schedule_date = "schedule date is required";
+      // }
+      // if (tournamentDetails.schedule_time == "") {
+      //   runTimeErrors.schedule_time = "schedule time is required";
+      // }
       // if (tournamentDetails.schedule_breaks == 0) {
       //   runTimeErrors.schedule_breaks = "schedule breaks is required";
       // }
-      if (tournamentDetails.venue_availability == "") {
-        runTimeErrors.venue_availability = "venue availability is required";
-      }
-      if (tournamentDetails.second_match_date == "") {
-        runTimeErrors.second_match_date = "second match date is required";
-      }
-      if (tournamentDetails.second_match_time == "") {
-        runTimeErrors.second_match_time = "second match time is required";
-      }
+      // if (tournamentDetails.venue_availability == "") {
+      //   runTimeErrors.venue_availability = "venue availability is required";
+      // }
+      // if (tournamentDetails.second_match_date == "") {
+      //   runTimeErrors.second_match_date = "second match date is required";
+      // }
+      // if (tournamentDetails.second_match_time == "") {
+      //   runTimeErrors.second_match_time = "second match time is required";
+      // }
       // if (tournamentDetails.second_match_breaks == 0) {
       //   runTimeErrors.second_match_breaks = "second match breaks is required";
       // }
-      if (tournamentDetails.second_venue_availability == "") {
-        runTimeErrors.second_venue_availability =
-          "second venue availability is required";
-      }
-      if (tournamentDetails.third_match_date == "") {
-        runTimeErrors.third_match_date = "third match date is required";
-      }
-      if (tournamentDetails.third_match_time == "") {
-        runTimeErrors.third_match_time = "third match time is required";
-      }
+      // if (tournamentDetails.second_venue_availability == "") {
+      //   runTimeErrors.second_venue_availability =
+      //     "second venue availability is required";
+      // }
+      // if (tournamentDetails.third_match_date == "") {
+      //   runTimeErrors.third_match_date = "third match date is required";
+      // }
+      // if (tournamentDetails.third_match_time == "") {
+      //   runTimeErrors.third_match_time = "third match time is required";
+      // }
       // if (tournamentDetails.third_match_breaks == 0) {
       //   runTimeErrors.third_match_breaks = "third match breaks is required";
       // }
-      if (tournamentDetails.third_venue_availability == "") {
-        runTimeErrors.third_venue_availability =
-          "third venue availability is required";
-      }
-      if (tournamentDetails.fourth_match_date == "") {
-        runTimeErrors.fourth_match_date = "fourth match date is required";
-      }
-      if (tournamentDetails.fourth_match_time == "") {
-        runTimeErrors.fourth_match_time = "fourth match time is required";
-      }
+      // if (tournamentDetails.third_venue_availability == "") {
+      //   runTimeErrors.third_venue_availability =
+      //     "third venue availability is required";
+      // }
+      // if (tournamentDetails.fourth_match_date == "") {
+      //   runTimeErrors.fourth_match_date = "fourth match date is required";
+      // }
+      // if (tournamentDetails.fourth_match_time == "") {
+      //   runTimeErrors.fourth_match_time = "fourth match time is required";
+      // }
       // if(tournamentDetails.fourth_match_breaks == ''){
       // 	runTimeErrors.fourth_match_breaks = 'fourth match breaks is required'
       // }
-      if (tournamentDetails.fourth_venue_availability == "") {
-        runTimeErrors.fourth_venue_availability =
-          "fourth venue availability is required";
-      }
+      // if (tournamentDetails.fourth_venue_availability == "") {
+      //   runTimeErrors.fourth_venue_availability =
+      //     "fourth venue availability is required";
+      // }
       if (
         runTimeErrors.age != "" ||
         runTimeErrors.equipment_requirements != "" ||
@@ -610,46 +627,52 @@ const NewTournamentForm = () => {
         setErrorMessage("Please fill out all the fields");
         setErrors(runTimeErrors);
       } else {
-        const startDate = new Date(tournamentDetails.start_date);
-        const endDate = new Date(tournamentDetails.end_date);
+        if (tournamentDetails.schedule_date != "" && tournamentDetails.second_match_date != "" && tournamentDetails.third_match_date != "" && tournamentDetails.fourth_match_date != "") {
+          const startDate = new Date(tournamentDetails.start_date);
+          const endDate = new Date(tournamentDetails.end_date);
 
-        const schedule_date = new Date(tournamentDetails.schedule_date);
-        const second_match_date = new Date(tournamentDetails.second_match_date);
-        const third_match_date = new Date(tournamentDetails.third_match_date);
-        const fourth_match_date = new Date(tournamentDetails.fourth_match_date);
-        if (schedule_date < startDate) {
-          toast.error(
-            "First Match schedule date must be greater than start date"
-          );
-          return;
-        } else if (schedule_date > endDate) {
-          toast.error("First Match schedule date must be less than end date");
-          return;
-        } else if (second_match_date < startDate) {
-          toast.error(
-            "Second Match schedule date must be greater than start date"
-          );
-          return;
-        } else if (third_match_date > endDate) {
-          toast.error("Third Match schedule date must be less than end date");
-          return;
-        } else if (third_match_date < startDate) {
-          toast.error(
-            "Third Match schedule date must be greater than start date"
-          );
-          return;
-        } else if (third_match_date > endDate) {
-          toast.error("Third Match schedule date must be less than end date");
-          return;
-        } else if (fourth_match_date < startDate) {
-          toast.error(
-            "Fourth Match schedule date must be greater than start date"
-          );
-          return;
-        } else if (fourth_match_date > endDate) {
-          toast.error("Fourth Match schedule date must be less than end date");
-          return;
-        } else {
+          const schedule_date = new Date(tournamentDetails.schedule_date);
+          const second_match_date = new Date(tournamentDetails.second_match_date);
+          const third_match_date = new Date(tournamentDetails.third_match_date);
+          const fourth_match_date = new Date(tournamentDetails.fourth_match_date);
+          if (schedule_date < startDate) {
+            toast.error(
+              "First Match schedule date must be greater than start date"
+            );
+            return;
+          } else if (schedule_date > endDate) {
+            toast.error("First Match schedule date must be less than end date");
+            return;
+          } else if (second_match_date < startDate) {
+            toast.error(
+              "Second Match schedule date must be greater than start date"
+            );
+            return;
+          } else if (third_match_date > endDate) {
+            toast.error("Third Match schedule date must be less than end date");
+            return;
+          } else if (third_match_date < startDate) {
+            toast.error(
+              "Third Match schedule date must be greater than start date"
+            );
+            return;
+          } else if (third_match_date > endDate) {
+            toast.error("Third Match schedule date must be less than end date");
+            return;
+          } else if (fourth_match_date < startDate) {
+            toast.error(
+              "Fourth Match schedule date must be greater than start date"
+            );
+            return;
+          } else if (fourth_match_date > endDate) {
+            toast.error("Fourth Match schedule date must be less than end date");
+            return;
+          } else {
+            setFieldset(fieldSet);
+            setErrorMessage("");
+          }
+        }
+        else {
           setFieldset(fieldSet);
           setErrorMessage("");
         }
@@ -717,7 +740,6 @@ const NewTournamentForm = () => {
     }
     // setFieldset(fieldSet)
   };
-  console.log(isLoading);
   return (
     <>
       <form
@@ -1017,7 +1039,17 @@ const NewTournamentForm = () => {
                     Number of Teams <sup>*</sup>
                   </h6>
                   <div className={style.form_blk}>
-                    <select
+                    <input
+                      autoComplete="off"
+                      type="number"
+                      name="number_of_teams"
+                      id="number_of_teams"
+                      className={style.input}
+                      placeholder="eg: 1,2,3 etc"
+                      onChange={handleChange}
+                      value={tournamentDetails.number_of_teams}
+                    />
+                    {/* <select
                       name="number_of_teams"
                       id=""
                       className={style.input}
@@ -1044,7 +1076,7 @@ const NewTournamentForm = () => {
                             );
                           }
                         )}
-                    </select>
+                    </select> */}
                     <p className="text-danger">{errors?.number_of_teams}</p>
                   </div>
                 </div>
@@ -1277,7 +1309,7 @@ const NewTournamentForm = () => {
               <div className="row">
                 <div className="col-sm-4">
                   <h6>
-                    Date <sup>*</sup>
+                    Date
                   </h6>
                   <div className={style.form_blk}>
                     <input
@@ -1295,7 +1327,7 @@ const NewTournamentForm = () => {
                 </div>
                 <div className="col-sm-4">
                   <h6>
-                    Time <sup>*</sup>
+                    Time
                   </h6>
                   <div className={style.form_blk}>
                     <input
@@ -1313,7 +1345,7 @@ const NewTournamentForm = () => {
                 </div>
                 <div className="col-sm-4">
                   <h6>
-                    Breaks ({tournamentDetails.schedule_breaks}) <sup>*</sup>
+                    Breaks ({tournamentDetails.schedule_breaks})
                   </h6>
                   <div className={style.form_blk}>
                     <input
@@ -1331,7 +1363,7 @@ const NewTournamentForm = () => {
                 </div>
                 <div className="col-sm-12">
                   <h6>
-                    Venue Availability <sup>*</sup>
+                    Venue Availability
                   </h6>
                   <div className={style.form_blk}>
                     <input
@@ -1352,7 +1384,7 @@ const NewTournamentForm = () => {
               <div className="row">
                 <div className="col-sm-4">
                   <h6>
-                    Date <sup>*</sup>
+                    Date
                   </h6>
                   <div className={style.form_blk}>
                     <input
@@ -1370,7 +1402,7 @@ const NewTournamentForm = () => {
                 </div>
                 <div className="col-sm-4">
                   <h6>
-                    Time <sup>*</sup>
+                    Time
                   </h6>
                   <div className={style.form_blk}>
                     <input
@@ -1389,7 +1421,7 @@ const NewTournamentForm = () => {
                 <div className="col-sm-4">
                   <h6>
                     Breaks ({tournamentDetails?.second_match_breaks}){" "}
-                    <sup>*</sup>
+
                   </h6>
                   <div className={style.form_blk}>
                     <input
@@ -1407,7 +1439,7 @@ const NewTournamentForm = () => {
                 </div>
                 <div className="col-sm-12">
                   <h6>
-                    Venue Availability <sup>*</sup>
+                    Venue Availability
                   </h6>
                   <div className={style.form_blk}>
                     <input
@@ -1431,7 +1463,7 @@ const NewTournamentForm = () => {
               <div className="row">
                 <div className="col-sm-4">
                   <h6>
-                    Date <sup>*</sup>
+                    Date
                   </h6>
                   <div className={style.form_blk}>
                     <input
@@ -1449,7 +1481,7 @@ const NewTournamentForm = () => {
                 </div>
                 <div className="col-sm-4">
                   <h6>
-                    Time <sup>*</sup>
+                    Time
                   </h6>
                   <div className={style.form_blk}>
                     <input
@@ -1468,7 +1500,7 @@ const NewTournamentForm = () => {
                 <div className="col-sm-4">
                   <h6>
                     Breaks ({tournamentDetails?.third_match_breaks}){" "}
-                    <sup>*</sup>
+
                   </h6>
                   <div className={style.form_blk}>
                     <input
@@ -1486,7 +1518,7 @@ const NewTournamentForm = () => {
                 </div>
                 <div className="col-sm-12">
                   <h6>
-                    Venue Availability <sup>*</sup>
+                    Venue Availability
                   </h6>
                   <div className={style.form_blk}>
                     <input
@@ -1736,6 +1768,24 @@ const NewTournamentForm = () => {
             <fieldset className={style.blk}>
               <h5 className="mb-5">Banners & Sponsors</h5>
               <div className="row">
+                <div className="col-sm-12">
+                  <h6>Upload Logo</h6>
+                  <div className={style.form_blk}>
+                    {/* <button type="button" name="" id="" className={style.input}>
+											Upload Banners
+										</button> */}
+                    <input
+                      autoComplete="off"
+                      type="file"
+                      name="tournament_logo"
+                      id=""
+                      className={style.input}
+                      multiple
+                      onChange={handleUploadLogo}
+                    />
+                    <p className="text-danger">{errors?.tournament_logo}</p>
+                  </div>
+                </div>
                 <div className="col-sm-12">
                   <h6>Upload Banners</h6>
                   <div className={style.form_blk}>

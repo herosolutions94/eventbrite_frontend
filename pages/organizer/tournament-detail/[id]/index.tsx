@@ -7,6 +7,8 @@ import TournamentContent from "../../tournamentDetail/tournamentContent"
 import { useRouter } from 'next/router';
 import axios from "axios"
 import { PhotoTeam01 } from "@/components/images"
+import OverviewBlock from "@/pages/tournamentDetail/overviewBlock"
+import TournamentTeams from "@/pages/tournamentDetail/tournamentTeams"
 
 const TournamentDetail = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
@@ -58,7 +60,9 @@ const TournamentDetail = () => {
 							is_started={tournamentDetails?.is_started}
 							in_progress_round={tournamentDetails?.in_progress_round}
 							allow_edit={tournamentDetails?.allow_edit}
+							tournament_logo={tournamentDetails?.tournament_logo}
 						/>
+						
 						{tournamentDetails?.teams?.length > 0 ?
 							<TournamentContent
 								teams={teams}
@@ -67,6 +71,15 @@ const TournamentDetail = () => {
 						}
 
 					</div>
+					<div id={style.overview}>
+							<div className={style.contain}>
+
+								<OverviewBlock details={tournamentDetails} />
+								{/* {tournamentDetails?.teams?.length > 0 &&
+										<TournamentTeams teams={tournamentDetails?.teams} />
+									} */}
+							</div>
+						</div>
 				</div>
 			</section>
 

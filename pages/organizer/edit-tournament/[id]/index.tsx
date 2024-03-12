@@ -41,9 +41,6 @@ const EditTournament = () => {
                 router.events.emit("routeChangeError");
                 throw new Error("Abort route change. Please ignore this error.");
             }
-            else {
-                router.push('/organizer/tournaments'); 
-              }
         };
 
         router.events.on("routeChangeStart", handleRouteChange);

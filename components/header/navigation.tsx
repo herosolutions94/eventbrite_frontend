@@ -10,6 +10,7 @@ import GetServerImage from "../getServerImage";
 const Navigation = (props: any) => {
   const email = Cookies.get("email");
   const role = Cookies.get("role");
+
   const { headerType, navActive, profileData } = props;
   const [dropdown, setDropdown] = useState(false);
   const router = useRouter();
@@ -22,6 +23,7 @@ const Navigation = (props: any) => {
     Cookies.remove("email");
     Cookies.remove("role");
     Cookies.remove("token");
+    Cookies.remove("user_id");
     router.push("/login");
   };
   const toSlugUrl = (str: any) => {
@@ -64,7 +66,7 @@ const Navigation = (props: any) => {
                 </Link>
               </li>
             </ul>
-            <ul id={style.icon_btn}>
+            {/* <ul id={style.icon_btn}>
               <li>
                 <Link
                   href="/player/notifications"
@@ -87,7 +89,7 @@ const Navigation = (props: any) => {
                   <Image width={100} height={100} src={IconEnvelope} alt="" />
                 </Link>
               </li>
-            </ul>
+            </ul> */}
             <div id={style.pro_btn} className={style.dropdown}>
               <div
                 className={`${style.ico} ${style.fill} ${style.round}`}
@@ -104,22 +106,20 @@ const Navigation = (props: any) => {
               >
                 <li>
                   <Link
-                    href="/player"
-                    className={
-                      router.pathname === "/player" ? style.active : ""
-                    }
-                  >
+                    href="/player">
                     Profile Settings
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/player/booking"
-                    className={
-                      router.pathname === "/player/booking" ? style.active : ""
-                    }
-                  >
-                    Bookings
+                    href="/player/booking">
+                    Booking
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/player/wishlists">
+                    Wishlists
                   </Link>
                 </li>
                 <li>
@@ -166,7 +166,7 @@ const Navigation = (props: any) => {
                 </Link>
               </li>
             </ul>
-            <ul id={style.icon_btn}>
+            {/* <ul id={style.icon_btn}>
               <li>
                 <Link
                   href="/organizer/notifications"
@@ -191,7 +191,7 @@ const Navigation = (props: any) => {
                   <Image width={100} height={100} src={IconEnvelope} alt="" />
                 </Link>
               </li>
-            </ul>
+            </ul> */}
             <div id={style.pro_btn} className={style.dropdown}>
               <div
                 className={`${style.ico} ${style.fill} ${style.round}`}
@@ -294,63 +294,106 @@ const Navigation = (props: any) => {
               )}
             </ul>
             {email !== undefined && email !== null && email !== "" ? (
-              role !== undefined && role !== null && role !== "" ? (
-                <div id={style.pro_btn} className={style.dropdown}>
-                  <div
-                    className={`${style.ico} ${style.fill} ${style.round}`}
-                    onClick={dropdownHandle}
-                  >
-                    <GetServerImage
-                      src="uploads"
-                      image={profileData?.user_image}
-                      isLoading={false}
-                    />
-                  </div>
-                  <ul
-                    className={`${style.dropdown_menu} ${
-                      dropdown && style.active
+              <div id={style.pro_btn} className={style.dropdown}>
+                <div
+                  className={`${style.ico} ${style.fill} ${style.round}`}
+                  onClick={dropdownHandle}
+                >
+                  <GetServerImage
+                    src="uploads"
+                    image={profileData?.user_image}
+                    isLoading={false}
+                  />
+                </div>
+                <ul
+                  className={`${style.dropdown_menu} ${dropdown && style.active
                     }`}
-                  >
-                    <li>
-                      <Link href="/organizer">Profile Settings</Link>
-                    </li>
+                >
 
-                    {role === "organizer" ? (
+
+                  {
+                    profileData?.role === "player" ?
                       <>
                         <li>
-                          <Link href="/tournaments">Dashboard</Link>
-                        </li>
-                        <li>
                           <Link
-                            href={
-                              "/profile/" +
-                              profileData?.id +
-                              "/" +
-                              toSlugUrl(
-                                profileData?.firstname +
-                                  " " +
-                                  profileData?.lastname
-                              )
-                            }
-                          >
-                            Public Profile
+                            href="/player">
+                            Profile Settings
                           </Link>
                         </li>
                         <li>
-                          <Link href="/organizer/buy-credits">Buy Credits</Link>
+                          <Link
+                            href="/player/booking">
+                            Booking
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            href="/player/wishlists">
+                            Wishlists
+                          </Link>
                         </li>
                       </>
-                    ) : (
-                      ""
-                    )}
-                    <li>
-                      <a onClick={handleLogout}>Sign out</a>
-                    </li>
-                  </ul>
-                </div>
-              ) : (
-                ""
-              )
+                      :
+                      profileData?.role === "organizer" ? (
+                        <>
+                          <li>
+                            <Link
+                              href="/organizer/tournaments"
+                              className={
+                                router.pathname === "/organizer/tournaments"
+                                  ? style.active
+                                  : ""
+                              }
+                            >
+                              Dashboard
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              href="/organizer"
+                              className={
+                                router.pathname === "/organizer" ? style.active : ""
+                              }
+                            >
+                              Profile Settings
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              href={
+                                "/profile/" +
+                                profileData?.id +
+                                "/" +
+                                toSlugUrl(
+                                  profileData?.firstname + " " + profileData?.lastname
+                                )
+                              }
+                            >
+                              Public Profile
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              href="/organizer/buy-credits"
+                              className={
+                                router.pathname === "/organizer/buy-credits"
+                                  ? style.active
+                                  : ""
+                              }
+                            >
+                              Buy Credits
+                            </Link>
+                          </li>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                  <li>
+                    <a onClick={handleLogout}>Sign out</a>
+                  </li>
+                </ul>
+              </div>
+
             ) : (
               ""
             )}

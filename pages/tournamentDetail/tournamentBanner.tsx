@@ -94,15 +94,12 @@ const TournamentBanner = (props: any) => {
           </div>
           <div className={style.data}>
             <div className={style.data_logo}>
-              {details?.images?.length > 0 ? (
-                <Image
-                  width={200}
-                  height={200}
-                  src={process.env.ASSET_URL + details?.images[0].image}
-                  alt="Team Logo"
-                />
-              ) : // <Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
-              null}
+            {
+						details?.tournament_logo !== undefined && details?.tournament_logo !== null && details?.tournament_logo !== '' ?
+							<Image width={200} height={200} src={process.env.ASSET_URL + details?.tournament_logo} alt="" />
+							:
+							<Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
+					}
             </div>
             <div className={style.data_text}>
               <div className={style.tags_blk}>

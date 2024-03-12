@@ -16,6 +16,24 @@ const Header = (props: { pageTitle: string; profileData?: any }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { pageTitle } = props;
   const email = Cookies.get("email");
+  const user_id = Cookies.get("user_id");
+  useEffect(() => {
+    if (email === undefined || email === null || email === '') {
+      Cookies.remove("email");
+      Cookies.remove("role");
+      Cookies.remove("token");
+      Cookies.remove("user_id");
+      Router.push("/login");
+    }
+    if (user_id === undefined || user_id === null || user_id === '') {
+      Cookies.remove("email");
+      Cookies.remove("role");
+      Cookies.remove("token");
+      Cookies.remove("user_id");
+      Router.push("/login");
+    }
+  }, [email, user_id]);
+
   const { profileData, loading, value } = useSelector(
     (state: RootState) => state.user
   );
@@ -44,7 +62,7 @@ const Header = (props: { pageTitle: string; profileData?: any }) => {
 
   useEffect(() => {
     const { pathname } = Router;
-    console.log(Router.query,pathname)
+    // console.log(Router.query,pathname)
     if (
       pathname == "/player" ||
       pathname == "/player/notifications" ||
@@ -53,7 +71,8 @@ const Header = (props: { pageTitle: string; profileData?: any }) => {
       pathname == "/player/tournaments" ||
       pathname == "/player/transactions" ||
       pathname == "/player/wishlists" ||
-      pathname == "/player/messages"
+      pathname == "/player/messages" ||
+      pathname == "/player/tournament-detail/[id]"
     ) {
       setHeader("player");
     } else if (
@@ -67,8 +86,8 @@ const Header = (props: { pageTitle: string; profileData?: any }) => {
       pathname == "/organizer/transactions" ||
       pathname == "/organizer/wishlists" ||
       pathname == "/organizer/messages" ||
-      pathname == "/organizer/tournament-detail/[id]" || 
-      pathname == "/organizer/tournament-match/[id]" || 
+      pathname == "/organizer/tournament-detail/[id]" ||
+      pathname == "/organizer/tournament-match/[id]" ||
       pathname == "/organizer/edit-tournament/[id]"
     ) {
       setHeader("organizer");

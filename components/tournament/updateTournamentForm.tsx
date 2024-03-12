@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef, RefObject } from "react";
 import style from "@/styles/scss/app.module.scss";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -114,6 +114,7 @@ interface FormProps {
     };
 }
 const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent }) => {
+    const logoRef: RefObject<HTMLInputElement> = useRef(null);
     const [staffData, setStaffData] = useState<StaffState>({
         staff: [{ contact: "", responsibility: "" }],
     });
@@ -205,6 +206,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
         banners: [] as any,
         documents: [] as any,
         sponsors: "",
+        tournament_logo: "",
         logos_arr: [] as any,
         documents_arr: [] as any,
         staffArr: [] as any,
@@ -320,9 +322,22 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
     };
 
     const handleUploadMultipleBanners = async (e: any) => {
+        const banners = [];
+        const files = e.target.files;
         for (let i = 0; i < e.target.files.length; i++) {
+            banners.push(files[i]);
             formData.append("banners[]", e.target.files[i]);
         }
+        setTournamentDetails({ ...tournamentDetails, banners: banners });
+    };
+    const handleUploadLogo = async (e: any) => {
+        if (logoRef?.current) {
+            logoRef?.current?.remove()
+        }
+        // for (let i = 0; i < e.target.files.length; i++) {
+        formData.append("tournament_logo", e.target.files[0]);
+        setTournamentDetails({ ...tournamentDetails, tournament_logo: e.target.files[0] });
+        // }
     };
     function logFormDataKeys(fd: FormData) {
         const keys = Array.from(fd.keys());
@@ -452,6 +467,11 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
         tournamentDetails?.documents.forEach((file: File) => {
             formData.append("documents[]", file);
         });
+        tournamentDetails?.banners.forEach((file: File) => {
+            formData.append("banners[]", file);
+
+        });
+        formData.append("tournament_logo", tournamentDetails?.tournament_logo);
         formData.append("staff_arr", JSON.stringify(staffData?.staff));
         formData.append("logos_arr", JSON.stringify(logos_arr));
         formData.append("documents_arr", JSON.stringify(documents_arr));
@@ -477,7 +497,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                 // setTournamentId(res.data.tournament_id);
                 // submitTournament(res.data.tournament_id);
                 toast.success("Record has been updated successfully.");
-                router.push("/organizer/tournaments");
+                router.reload();
             }
         } catch (err) {
             if (axios.isAxiosError(err)) {
@@ -709,57 +729,57 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                 runTimeErrors.equipment_requirements =
                     "equipment requirements is required";
             }
-            if (tournamentDetails.schedule_date == "") {
-                runTimeErrors.schedule_date = "schedule date is required";
-            }
-            if (tournamentDetails.schedule_time == "") {
-                runTimeErrors.schedule_time = "schedule time is required";
-            }
+            // if (tournamentDetails.schedule_date == "") {
+            //     runTimeErrors.schedule_date = "schedule date is required";
+            // }
+            // if (tournamentDetails.schedule_time == "") {
+            //     runTimeErrors.schedule_time = "schedule time is required";
+            // }
             // if (tournamentDetails.schedule_breaks == 0) {
             //     runTimeErrors.schedule_breaks = "schedule breaks is required";
             // }
-            if (tournamentDetails.venue_availability == "") {
-                runTimeErrors.venue_availability = "venue availability is required";
-            }
-            if (tournamentDetails.second_match_date == "") {
-                runTimeErrors.second_match_date = "second match date is required";
-            }
-            if (tournamentDetails.second_match_time == "") {
-                runTimeErrors.second_match_time = "second match time is required";
-            }
+            // if (tournamentDetails.venue_availability == "") {
+            //     runTimeErrors.venue_availability = "venue availability is required";
+            // }
+            // if (tournamentDetails.second_match_date == "") {
+            //     runTimeErrors.second_match_date = "second match date is required";
+            // }
+            // if (tournamentDetails.second_match_time == "") {
+            //     runTimeErrors.second_match_time = "second match time is required";
+            // }
             // if (tournamentDetails.second_match_breaks == 0) {
             //     runTimeErrors.second_match_breaks = "second match breaks is required";
             // }
-            if (tournamentDetails.second_venue_availability == "") {
-                runTimeErrors.second_venue_availability =
-                    "second venue availability is required";
-            }
-            if (tournamentDetails.third_match_date == "") {
-                runTimeErrors.third_match_date = "third match date is required";
-            }
-            if (tournamentDetails.third_match_time == "") {
-                runTimeErrors.third_match_time = "third match time is required";
-            }
+            // if (tournamentDetails.second_venue_availability == "") {
+            //     runTimeErrors.second_venue_availability =
+            //         "second venue availability is required";
+            // }
+            // if (tournamentDetails.third_match_date == "") {
+            //     runTimeErrors.third_match_date = "third match date is required";
+            // }
+            // if (tournamentDetails.third_match_time == "") {
+            //     runTimeErrors.third_match_time = "third match time is required";
+            // }
             // if (tournamentDetails.third_match_breaks == 0) {
             //     runTimeErrors.third_match_breaks = "third match breaks is required";
             // }
-            if (tournamentDetails.third_venue_availability == "") {
-                runTimeErrors.third_venue_availability =
-                    "third venue availability is required";
-            }
-            if (tournamentDetails.fourth_match_date == "") {
-                runTimeErrors.fourth_match_date = "fourth match date is required";
-            }
-            if (tournamentDetails.fourth_match_time == "") {
-                runTimeErrors.fourth_match_time = "fourth match time is required";
-            }
+            // if (tournamentDetails.third_venue_availability == "") {
+            //     runTimeErrors.third_venue_availability =
+            //         "third venue availability is required";
+            // }
+            // if (tournamentDetails.fourth_match_date == "") {
+            //     runTimeErrors.fourth_match_date = "fourth match date is required";
+            // }
+            // if (tournamentDetails.fourth_match_time == "") {
+            //     runTimeErrors.fourth_match_time = "fourth match time is required";
+            // }
             // if(tournamentDetails.fourth_match_breaks == ''){
             // 	runTimeErrors.fourth_match_breaks = 'fourth match breaks is required'
             // }
-            if (tournamentDetails.fourth_venue_availability == "") {
-                runTimeErrors.fourth_venue_availability =
-                    "fourth venue availability is required";
-            }
+            // if (tournamentDetails.fourth_venue_availability == "") {
+            //     runTimeErrors.fourth_venue_availability =
+            //         "fourth venue availability is required";
+            // }
             if (
                 runTimeErrors.age != "" ||
                 runTimeErrors.equipment_requirements != "" ||
@@ -782,52 +802,58 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                 setErrorMessage("Please fill out all the fields");
                 setErrors(runTimeErrors);
             } else {
-                const startDate = new Date(tournamentDetails.start_date);
-                const endDate = new Date(tournamentDetails.end_date);
+                if (tournamentDetails.schedule_date != "" && tournamentDetails.second_match_date != "" && tournamentDetails.third_match_date != "" && tournamentDetails.fourth_match_date != "") {
+                    const startDate = new Date(tournamentDetails.start_date);
+                    const endDate = new Date(tournamentDetails.end_date);
 
-                const schedule_date = new Date(
-                    tournamentDetails.schedule_date
-                );
-                const second_match_date = new Date(
-                    tournamentDetails.second_match_date
-                );
-                const third_match_date = new Date(
-                    tournamentDetails.third_match_date
-                );
-                const fourth_match_date = new Date(
-                    tournamentDetails.fourth_match_date
-                );
-                if (schedule_date < startDate) {
-                    toast.error("First Match schedule date must be greater than start date");
-                    return;
-                }
-                else if (schedule_date > endDate) {
-                    toast.error("First Match schedule date must be less than end date");
-                    return;
-                }
-                else if (second_match_date < startDate) {
-                    toast.error("Second Match schedule date must be greater than start date");
-                    return;
-                }
-                else if (third_match_date > endDate) {
-                    toast.error("Third Match schedule date must be less than end date");
-                    return;
-                }
-                else if (third_match_date < startDate) {
-                    toast.error("Third Match schedule date must be greater than start date");
-                    return;
-                }
-                else if (third_match_date > endDate) {
-                    toast.error("Third Match schedule date must be less than end date");
-                    return;
-                }
-                else if (fourth_match_date < startDate) {
-                    toast.error("Fourth Match schedule date must be greater than start date");
-                    return;
-                }
-                else if (fourth_match_date > endDate) {
-                    toast.error("Fourth Match schedule date must be less than end date");
-                    return;
+                    const schedule_date = new Date(
+                        tournamentDetails.schedule_date
+                    );
+                    const second_match_date = new Date(
+                        tournamentDetails.second_match_date
+                    );
+                    const third_match_date = new Date(
+                        tournamentDetails.third_match_date
+                    );
+                    const fourth_match_date = new Date(
+                        tournamentDetails.fourth_match_date
+                    );
+                    if (schedule_date < startDate) {
+                        toast.error("First Match schedule date must be greater than start date");
+                        return;
+                    }
+                    else if (schedule_date > endDate) {
+                        toast.error("First Match schedule date must be less than end date");
+                        return;
+                    }
+                    else if (second_match_date < startDate) {
+                        toast.error("Second Match schedule date must be greater than start date");
+                        return;
+                    }
+                    else if (third_match_date > endDate) {
+                        toast.error("Third Match schedule date must be less than end date");
+                        return;
+                    }
+                    else if (third_match_date < startDate) {
+                        toast.error("Third Match schedule date must be greater than start date");
+                        return;
+                    }
+                    else if (third_match_date > endDate) {
+                        toast.error("Third Match schedule date must be less than end date");
+                        return;
+                    }
+                    else if (fourth_match_date < startDate) {
+                        toast.error("Fourth Match schedule date must be greater than start date");
+                        return;
+                    }
+                    else if (fourth_match_date > endDate) {
+                        toast.error("Fourth Match schedule date must be less than end date");
+                        return;
+                    }
+                    else {
+                        setFieldset(fieldSet);
+                        setErrorMessage("");
+                    }
                 }
                 else {
                     setFieldset(fieldSet);
@@ -900,6 +926,9 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
     };
     const handleRemoveDocument = (indexToRemove: number) => {
         setDocumentsArr((prevArr: any) => prevArr.filter((_: any, index: any) => index !== indexToRemove));
+    };
+    const handleRemoveBanner = (indexToRemove: number) => {
+        setBannersArr((prevArr: any) => prevArr.filter((_: any, index: any) => index !== indexToRemove));
     };
 
     return (
@@ -1167,7 +1196,17 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                 <div className="col-sm-6">
                                     <h6>Number of Teams <sup>*</sup></h6>
                                     <div className={style.form_blk}>
-                                        <select
+                                        <input
+                                            autoComplete="off"
+                                            type="number"
+                                            name="number_of_teams"
+                                            id="number_of_teams"
+                                            className={style.input}
+                                            placeholder="eg: 1,2,3 etc"
+                                            onChange={handleChange}
+                                            value={tournamentDetails.number_of_teams}
+                                        />
+                                        {/* <select
                                             name="number_of_teams"
                                             id=""
                                             className={style.input}
@@ -1194,7 +1233,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                                         );
                                                     }
                                                 )}
-                                        </select>
+                                        </select> */}
                                         <p className="text-danger">{errors?.number_of_teams}</p>
                                     </div>
                                 </div>
@@ -1427,7 +1466,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                             <h6 className={style.text_prime}>01. Match</h6>
                             <div className="row">
                                 <div className="col-sm-4">
-                                    <h6>Date <sup>*</sup></h6>
+                                    <h6>Date</h6>
                                     <div className={style.form_blk}>
                                         <input autoComplete="off"
                                             type="date"
@@ -1442,7 +1481,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
-                                    <h6>Time <sup>*</sup></h6>
+                                    <h6>Time</h6>
                                     <div className={style.form_blk}>
                                         <input autoComplete="off"
                                             type="time"
@@ -1457,7 +1496,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
-                                    <h6>Breaks ({tournamentDetails.schedule_breaks}) <sup>*</sup></h6>
+                                    <h6>Breaks ({tournamentDetails.schedule_breaks})</h6>
                                     <div className={style.form_blk}>
                                         <input autoComplete="off"
                                             type="number"
@@ -1474,7 +1513,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                     </div>
                                 </div>
                                 <div className="col-sm-12">
-                                    <h6>Venue Availability <sup>*</sup></h6>
+                                    <h6>Venue Availability </h6>
                                     <div className={style.form_blk}>
                                         <input autoComplete="off"
                                             type="text"
@@ -1493,7 +1532,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                             <h6 className={style.text_prime}>02. Match</h6>
                             <div className="row">
                                 <div className="col-sm-4">
-                                    <h6>Date <sup>*</sup></h6>
+                                    <h6>Date </h6>
                                     <div className={style.form_blk}>
                                         <input autoComplete="off"
                                             type="date"
@@ -1508,7 +1547,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
-                                    <h6>Time <sup>*</sup></h6>
+                                    <h6>Time </h6>
                                     <div className={style.form_blk}>
                                         <input autoComplete="off"
                                             type="time"
@@ -1523,7 +1562,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
-                                    <h6>Breaks ({tournamentDetails?.second_match_breaks}) <sup>*</sup></h6>
+                                    <h6>Breaks ({tournamentDetails?.second_match_breaks}) </h6>
                                     <div className={style.form_blk}>
 
                                         <input autoComplete="off"
@@ -1539,7 +1578,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                     </div>
                                 </div>
                                 <div className="col-sm-12">
-                                    <h6>Venue Availability <sup>*</sup></h6>
+                                    <h6>Venue Availability </h6>
                                     <div className={style.form_blk}>
                                         <input autoComplete="off"
                                             type="text"
@@ -1560,7 +1599,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                             <h6 className={style.text_prime}>03. Match</h6>
                             <div className="row">
                                 <div className="col-sm-4">
-                                    <h6>Date <sup>*</sup></h6>
+                                    <h6>Date </h6>
                                     <div className={style.form_blk}>
                                         <input autoComplete="off"
                                             type="date"
@@ -1575,7 +1614,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
-                                    <h6>Time <sup>*</sup></h6>
+                                    <h6>Time </h6>
                                     <div className={style.form_blk}>
                                         <input autoComplete="off"
                                             type="time"
@@ -1590,7 +1629,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                     </div>
                                 </div>
                                 <div className="col-sm-4">
-                                    <h6>Breaks ({tournamentDetails?.third_match_breaks}) <sup>*</sup></h6>
+                                    <h6>Breaks ({tournamentDetails?.third_match_breaks}) </h6>
                                     <div className={style.form_blk}>
                                         <input autoComplete="off"
                                             type="number"
@@ -1605,7 +1644,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                     </div>
                                 </div>
                                 <div className="col-sm-12">
-                                    <h6>Venue Availability <sup>*</sup></h6>
+                                    <h6>Venue Availability </h6>
                                     <div className={style.form_blk}>
                                         <input autoComplete="off"
                                             type="text"
@@ -1825,6 +1864,29 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                             <h5 className="mb-5">Banners & Sponsors</h5>
                             <div className="row">
                                 <div className="col-sm-12">
+                                    <h6>Upload Logo</h6>
+                                    <div className={style.form_blk}>
+                                        {/* <button type="button" name="" id="" className={style.input}>
+											Upload Banners
+										</button> */}
+                                        <div className={style.tournamentList} ref={logoRef}>
+                                            <div>
+                                                <a href={`${process.env.ASSET_URL}/'uploads'/${tournamentDetails?.tournament_logo}`}>Logo</a>
+                                            </div>
+                                        </div>
+                                        <input
+                                            autoComplete="off"
+                                            type="file"
+                                            name="tournament_logo"
+                                            id=""
+                                            className={style.input}
+                                            multiple
+                                            onChange={handleUploadLogo}
+                                        />
+                                        <p className="text-danger">{errors?.tournament_logo}</p>
+                                    </div>
+                                </div>
+                                <div className="col-sm-12">
                                     <h6>Upload Banners <sup>*</sup></h6>
                                     <div className={style.form_blk}>
                                         {/* <button type="button" name="" id="" className={style.input}>
@@ -1837,7 +1899,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
                                                         banner_arr?.map((banner: any, banner_index: any) => (
                                                             <div key={banner?.id}>
                                                                 <a href={`${process.env.ASSET_URL}/'uploads'/${banner?.image}`}>Banner {banner_index + 1}</a>
-                                                                <div className={style.cross_btn}>x</div>
+                                                                <div className={style.cross_btn} onClick={() => handleRemoveBanner(banner_index)}>x</div>
                                                             </div>
                                                         ))
                                                     }

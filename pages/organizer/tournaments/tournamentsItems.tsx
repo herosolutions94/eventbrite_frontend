@@ -38,7 +38,7 @@ const TournamentsItems = () => {
 					Authorization: `Bearer ${Cookies.get("token")}`,
 				},
 			});
-
+			console.log(Cookies.get("user_id"))
 			if (response.status === 200) {
 				setIsLoading(false)
 				setTournaments(response.data.data.data);

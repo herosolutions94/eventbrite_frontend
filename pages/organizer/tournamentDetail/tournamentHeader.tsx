@@ -18,9 +18,10 @@ type TournamentHeaderProps = {
 	tournamentId: number | null
 	is_started: number | null,
 	in_progress_round: any | null,
-	allow_edit: any | null
+	allow_edit: any | null,
+	tournament_logo: any | null
 }
-const TournamentHeader = ({ category, type, title, start_date, end_date, schedule_time, overview, acceptedTeamsCount, tournamentId, is_started, in_progress_round, allow_edit }: TournamentHeaderProps) => {
+const TournamentHeader = ({ category, type, title, start_date, end_date, schedule_time, overview, acceptedTeamsCount, tournamentId, is_started, in_progress_round, allow_edit, tournament_logo }: TournamentHeaderProps) => {
 	const [popupShow, setPopupShow] = useState<{ show: boolean; item: number | null }>({
 		show: false,
 		item: null,
@@ -32,7 +33,12 @@ const TournamentHeader = ({ category, type, title, start_date, end_date, schedul
 		<>
 			<div className={style.data}>
 				<div className={style.data_logo}>
-					<Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
+					{
+						tournament_logo !== undefined && tournament_logo !== null && tournament_logo !== '' ?
+							<Image width={200} height={200} src={process.env.ASSET_URL + tournament_logo} alt="" />
+							:
+							<Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
+					}
 				</div>
 				<div className={style.data_text}>
 					<div className={style.tags_blk}>

@@ -9,6 +9,7 @@ type ReviewsProps = {
 }
 const TournamentTeams = (teams: ReviewsProps ) => {
 	const teamsData = teams?.teams;
+	console.log(teamsData)
 	return (
 		<>
 			<div className={style.blk}>
@@ -17,7 +18,13 @@ const TournamentTeams = (teams: ReviewsProps ) => {
 				{teamsData?.map((team:any, index:number) => (
 				<div className={style.team_block} key={index}>
 					<div className={style.icon}>
-						<Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
+						
+						{
+						team?.logo !== undefined && team?.logo !== null && team?.logo !== '' ?
+							<Image width={200} height={200} src={process.env.ASSET_URL + team?.logo} alt="" />
+							:
+							<Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
+					}
 					</div>
 					<div className={style.text}>
 						<ul className={style.team_list}>
