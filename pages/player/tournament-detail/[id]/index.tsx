@@ -73,6 +73,7 @@ const TournamentDetail = () => {
 			console.log(error);
 		}
 	};
+
 	if (!tournamentDetails) {
 		return 'Loading...';
 	}
