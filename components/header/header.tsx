@@ -17,22 +17,22 @@ const Header = (props: { pageTitle: string; profileData?: any }) => {
   const { pageTitle } = props;
   const email = Cookies.get("email");
   const user_id = Cookies.get("user_id");
-  useEffect(() => {
-    if (email === undefined || email === null || email === '') {
-      Cookies.remove("email");
-      Cookies.remove("role");
-      Cookies.remove("token");
-      Cookies.remove("user_id");
-      Router.push("/login");
-    }
-    if (user_id === undefined || user_id === null || user_id === '') {
-      Cookies.remove("email");
-      Cookies.remove("role");
-      Cookies.remove("token");
-      Cookies.remove("user_id");
-      Router.push("/login");
-    }
-  }, [email, user_id]);
+  // useEffect(() => {
+  //   if (email === undefined || email === null || email === '') {
+  //     Cookies.remove("email");
+  //     Cookies.remove("role");
+  //     Cookies.remove("token");
+  //     Cookies.remove("user_id");
+  //     Router.push("/login");
+  //   }
+  //   if (user_id === undefined || user_id === null || user_id === '') {
+  //     Cookies.remove("email");
+  //     Cookies.remove("role");
+  //     Cookies.remove("token");
+  //     Cookies.remove("user_id");
+  //     Router.push("/login");
+  //   }
+  // }, [email, user_id]);
 
   const { profileData, loading, value } = useSelector(
     (state: RootState) => state.user
