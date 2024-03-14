@@ -139,21 +139,25 @@ const OverviewBlock = (details: any) => {
             </li>
           </ul>
           {details?.details?.matches.map((match: any, d_index: any) => {
+
             return (
-              <ul className={style.staff_ul} key={d_index}>
-                <li>
-                  <div className="">{formatDate(match?.schedule_date)}</div>
-                </li>
-                <li>
-                  <div className="">{formatTime(match?.schedule_time)}</div>
-                </li>
-                <li>
-                  <div className="">{match?.schedule_breaks}</div>
-                </li>
-                <li>
-                  <div className="">{match?.venue_availability}</div>
-                </li>
-              </ul>
+              match?.schedule_date !== null && match?.schedule_date !== undefined && match?.schedule_date !== '' ?
+                <ul className={style.staff_ul} key={d_index}>
+                  <li>
+                    <div className="">{formatDate(match?.schedule_date)}</div>
+                  </li>
+                  <li>
+                    <div className="">{formatTime(match?.schedule_time)}</div>
+                  </li>
+                  <li>
+                    <div className="">{match?.schedule_breaks}</div>
+                  </li>
+                  <li>
+                    <div className="">{match?.venue_availability}</div>
+                  </li>
+                </ul>
+                :
+                ""
             );
           })}
         </div>
