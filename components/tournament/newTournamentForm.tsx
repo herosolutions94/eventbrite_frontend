@@ -384,44 +384,7 @@ const NewTournamentForm = () => {
       "equipment_requirements",
       tournamentDetails.equipment_requirements
     );
-    formData.append("schedule_date", tournamentDetails.schedule_date);
-    formData.append("schedule_time", tournamentDetails.schedule_time);
-    formData.append(
-      "schedule_breaks",
-      tournamentDetails.schedule_breaks.toString()
-    );
-    formData.append("venue_availability", tournamentDetails.venue_availability);
-    formData.append("second_match_date", tournamentDetails.second_match_date);
-    formData.append("second_match_time", tournamentDetails.second_match_time);
-    formData.append(
-      "second_match_breaks",
-      tournamentDetails.second_match_breaks.toString()
-    );
-    formData.append(
-      "second_venue_availability",
-      tournamentDetails.second_venue_availability
-    );
-    formData.append("third_match_date", tournamentDetails.third_match_date);
-    formData.append("third_match_time", tournamentDetails.third_match_time);
-    formData.append(
-      "third_match_breaks",
-      tournamentDetails.third_match_breaks.toString()
-    );
-    formData.append(
-      "third_venue_availability",
-      tournamentDetails.third_venue_availability
-    );
-    formData.append("fourth_match_date", tournamentDetails.fourth_match_date);
-    formData.append("fourth_match_time", tournamentDetails.fourth_match_time);
 
-    formData.append(
-      "fourth_match_breaks",
-      tournamentDetails.fourth_match_breaks.toString()
-    );
-    formData.append(
-      "fourth_venue_availability",
-      tournamentDetails.fourth_venue_availability
-    );
     formData.append(
       "contact_information",
       tournamentDetails.contact_information
@@ -439,6 +402,7 @@ const NewTournamentForm = () => {
     });
     formData.append("tournament_logo", tournamentDetails?.tournament_logo);
     formData.append("staff_arr", JSON.stringify(staffData?.staff));
+    formData.append("matches", JSON.stringify(tournamentDetails?.matches));
     logFormDataKeys(formData);
     try {
       const res = await axios.post(
@@ -630,12 +594,6 @@ const NewTournamentForm = () => {
       if (tournamentDetails.overview == "") {
         runTimeErrors.overview = "overview is required";
       }
-      // if (tournamentDetails.rules == "") {
-      //   runTimeErrors.rules = "rules is required";
-      // }
-      // if (tournamentDetails.code_of_conduct == "") {
-      //   runTimeErrors.code_of_conduct = "code of conduct is required";
-      // }
       if (runTimeErrors.overview != "") {
         setErrorMessage("Please fill out all the fields");
         setErrors(runTimeErrors);
@@ -671,57 +629,6 @@ const NewTournamentForm = () => {
         runTimeErrors.equipment_requirements =
           "equipment requirements is required";
       }
-      // if (tournamentDetails.schedule_date == "") {
-      //   runTimeErrors.schedule_date = "schedule date is required";
-      // }
-      // if (tournamentDetails.schedule_time == "") {
-      //   runTimeErrors.schedule_time = "schedule time is required";
-      // }
-      // if (tournamentDetails.schedule_breaks == 0) {
-      //   runTimeErrors.schedule_breaks = "schedule breaks is required";
-      // }
-      // if (tournamentDetails.venue_availability == "") {
-      //   runTimeErrors.venue_availability = "venue availability is required";
-      // }
-      // if (tournamentDetails.second_match_date == "") {
-      //   runTimeErrors.second_match_date = "second match date is required";
-      // }
-      // if (tournamentDetails.second_match_time == "") {
-      //   runTimeErrors.second_match_time = "second match time is required";
-      // }
-      // if (tournamentDetails.second_match_breaks == 0) {
-      //   runTimeErrors.second_match_breaks = "second match breaks is required";
-      // }
-      // if (tournamentDetails.second_venue_availability == "") {
-      //   runTimeErrors.second_venue_availability =
-      //     "second venue availability is required";
-      // }
-      // if (tournamentDetails.third_match_date == "") {
-      //   runTimeErrors.third_match_date = "third match date is required";
-      // }
-      // if (tournamentDetails.third_match_time == "") {
-      //   runTimeErrors.third_match_time = "third match time is required";
-      // }
-      // if (tournamentDetails.third_match_breaks == 0) {
-      //   runTimeErrors.third_match_breaks = "third match breaks is required";
-      // }
-      // if (tournamentDetails.third_venue_availability == "") {
-      //   runTimeErrors.third_venue_availability =
-      //     "third venue availability is required";
-      // }
-      // if (tournamentDetails.fourth_match_date == "") {
-      //   runTimeErrors.fourth_match_date = "fourth match date is required";
-      // }
-      // if (tournamentDetails.fourth_match_time == "") {
-      //   runTimeErrors.fourth_match_time = "fourth match time is required";
-      // }
-      // if(tournamentDetails.fourth_match_breaks == ''){
-      // 	runTimeErrors.fourth_match_breaks = 'fourth match breaks is required'
-      // }
-      // if (tournamentDetails.fourth_venue_availability == "") {
-      //   runTimeErrors.fourth_venue_availability =
-      //     "fourth venue availability is required";
-      // }
       if (
         runTimeErrors.age != "" ||
         runTimeErrors.equipment_requirements != "" ||
@@ -744,118 +651,31 @@ const NewTournamentForm = () => {
         setErrorMessage("Please fill out all the fields");
         setErrors(runTimeErrors);
       } else {
-        if (tournamentDetails.schedule_date != "" && tournamentDetails.second_match_date != "" && tournamentDetails.third_match_date != "" && tournamentDetails.fourth_match_date != "") {
-          const startDate = new Date(tournamentDetails.start_date);
-          const endDate = new Date(tournamentDetails.end_date);
+        const startDate = new Date(tournamentDetails.start_date);
+        const endDate = new Date(tournamentDetails.end_date);
 
-          const schedule_date = new Date(tournamentDetails.schedule_date);
-          const second_match_date = new Date(tournamentDetails.second_match_date);
-          const third_match_date = new Date(tournamentDetails.third_match_date);
-          const fourth_match_date = new Date(tournamentDetails.fourth_match_date);
-          if (schedule_date < startDate) {
-            toast.error(
-              "First Match schedule date must be greater than start date"
-            );
-            return;
-          } else if (schedule_date > endDate) {
-            toast.error("First Match schedule date must be less than end date");
-            return;
-          } else if (second_match_date < startDate) {
-            toast.error(
-              "Second Match schedule date must be greater than start date"
-            );
-            return;
-          } else if (third_match_date > endDate) {
-            toast.error("Third Match schedule date must be less than end date");
-            return;
-          } else if (third_match_date < startDate) {
-            toast.error(
-              "Third Match schedule date must be greater than start date"
-            );
-            return;
-          } else if (third_match_date > endDate) {
-            toast.error("Third Match schedule date must be less than end date");
-            return;
-          } else if (fourth_match_date < startDate) {
-            toast.error(
-              "Fourth Match schedule date must be greater than start date"
-            );
-            return;
-          } else if (fourth_match_date > endDate) {
-            toast.error("Fourth Match schedule date must be less than end date");
-            return;
-          } else {
-            setFieldset(fieldSet);
-            setErrorMessage("");
+        for (let i = 0; i < tournamentDetails?.matches.length; i++) {
+          const match = tournamentDetails?.matches[i];
+          const matchDateObj = new Date(match.schedule_date);
+          if (matchDateObj !== undefined && matchDateObj !== null) {
+            if (matchDateObj < startDate || matchDateObj > endDate) {
+              toast.error(`Error: Match ${i + 1} date should be between start date and end date`);
+              return;
+            }
           }
+
         }
-        else {
-          setFieldset(fieldSet);
-          setErrorMessage("");
-        }
+        setFieldset(fieldSet);
+        setErrorMessage("");
       }
     } else if (fieldSet == "tournament_sponsorship") {
-      // const runTimeErrors = {
-      //   contact_information: "",
-      //   roles_and_responsibilities: ""
-      // };
-      // if (tournamentDetails.contact_information == "") {
-      //   runTimeErrors.contact_information = "contact information is required";
-      // }
-      // if (tournamentDetails.roles_and_responsibilities == "") {
-      //   runTimeErrors.roles_and_responsibilities =
-      //     "roles and responsibilities is required";
-      // }
-      // if (
-      //   runTimeErrors.contact_information != "" ||
-      //   runTimeErrors.roles_and_responsibilities != ""
-      // ) {
-      //   setErrorMessage("Please fill out all the fields");
-      //   setErrors(runTimeErrors);
-      // } else {
       setFieldset(fieldSet);
       setErrorMessage("");
-      // }
     }
-    // else if(fieldSet == 'tournament_staff'){
-    // 	const runTimeErrors = {
-    // 		schedule_date : '',
-    // 		schedule_time : '',
-    // 		schedule_breaks : '',
-    // 		venue_availability : '',
-    // 	}
-    // 	if(tournamentDetails.schedule_date == ''){
-    // 		runTimeErrors.schedule_date = 'schedule date is required'
-    // 	}
-    // 	if(tournamentDetails.schedule_time == ''){
-    // 		runTimeErrors.schedule_time = 'schedule time is required'
-    // 	}else{
-    // 		// time should be like 16:00
-    // 		const time = tournamentDetails.schedule_time.split(':') as any;
-    // 		if(time[0] > 24 || time[1] > 60){
-    // 			runTimeErrors.schedule_time = 'schedule time is invalid'
-    // 		}
-    // 	}
-    // 	if(tournamentDetails.schedule_breaks == ''){
-    // 		runTimeErrors.schedule_breaks = 'schedule breaks is required'
-    // 	}
-    // 	if(tournamentDetails.venue_availability == ''){
-    // 		runTimeErrors.venue_availability = 'venue availability is required'
-    // 	}
-    // 	if(runTimeErrors.schedule_date != '' || runTimeErrors.schedule_time != '' || runTimeErrors.schedule_breaks != '' || runTimeErrors.venue_availability != ''){
-    // 		setErrorMessage('Please fill out all the fields');
-    // 		setErrors(runTimeErrors)
-    // 	}else{
-    // 		setFieldset(fieldSet)
-    // 		setErrorMessage('')
-    // 	}
-
-    // }
     else {
       setFieldset(fieldSet);
       setErrorMessage("");
     }
-    // setFieldset(fieldSet)
   };
   console.log("number_of_matches", tournamentDetails?.number_of_matches)
   return (
@@ -1425,29 +1245,63 @@ const NewTournamentForm = () => {
               <h5 className="mb-5">Tournament Schedule</h5>
               {
                 tournamentDetails.matches.map((match, index) => (
-                  <div key={index}>
+                  <>
                     <h6>Match {index + 1}</h6>
-                    <input
-                      type="date"
-                      value={match.schedule_date}
-                      onChange={e => handleMatchesChange(index, 'schedule_date', e.target.value)}
-                    />
-                    <input
-                      type="time"
-                      value={match.schedule_time}
-                      onChange={e => handleMatchesChange(index, 'schedule_time', e.target.value)}
-                    />
-                    <input
-                      type="number"
-                      value={match.schedule_breaks}
-                      onChange={e => handleMatchesChange(index, 'schedule_breaks', (e.target.value))}
-                    />
-                    <input
-                      type="text"
-                      value={match.venue_availability}
-                      onChange={e => handleMatchesChange(index, 'venue_availability', e.target.value)}
-                    />
-                  </div>
+                    <div key={index} className="row">
+                      <div className="col-sm-4">
+                        <h6>Date</h6>
+                        <div className={style.form_blk}>
+                          <input
+                            type="date"
+                            value={match.schedule_date}
+                            className={style.input}
+                            placeholder="eg: 04-12-2020"
+                            onChange={e => handleMatchesChange(index, 'schedule_date', e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-sm-4">
+                        <h6>Time</h6>
+                        <div className={style.form_blk}>
+                          <input
+                            type="time"
+                            value={match.schedule_time}
+                            className={style.input}
+                            placeholder="eg: 16:00"
+                            onChange={e => handleMatchesChange(index, 'schedule_time', e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-sm-4">
+                        <h6>Breaks</h6>
+                        <div className={style.form_blk}>
+                          <input
+                            type="number"
+                            value={match.schedule_breaks}
+                            className={style.input}
+                            placeholder="eg: 1,2,3,..."
+                            onChange={e => handleMatchesChange(index, 'schedule_breaks', (e.target.value))}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-sm-12">
+                        <h6>Venue Availability</h6>
+                        <div className={style.form_blk}>
+                          <input
+                            type="text"
+                            value={match.venue_availability}
+                            className={style.input}
+                            placeholder="eg: 123 Main Street, California"
+                            onChange={e => handleMatchesChange(index, 'venue_availability', e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+
+                    </div>
+                    <hr />
+                  </>
                 ))}
 
               <div className={`${style.btn_blk} justify-content-center mt-5`}>
