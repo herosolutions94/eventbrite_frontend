@@ -46,8 +46,90 @@ interface StaffData {
 interface StaffState {
   staff: StaffData[];
 }
+interface MatchDetails {
+  schedule_date: string;
+  schedule_time: string;
+  schedule_breaks: number;
+  venue_availability: string;
+}
+interface TournamentDetails {
+  title: string;
+  category_id: string;
+  type: string;
+  start_date: string;
+  end_date: string;
+  open_date: string;
+  registration_dead_line: string;
+  event_type: string;
+  country_id: string;
+  city: string;
+  postal_code: string;
+  address: string;
+  number_of_teams: string;
+  format: string;
+  entry_fee: string;
+  prize_distribution: string;
+  level: string;
+  overview: string;
+  rules: string;
+  code_of_conduct: string;
+  age: string;
+  equipment_requirements: string;
+  schedule_date: string;
+  schedule_time: string;
+  schedule_breaks: number;
+  venue_availability: string;
+  second_match_date: string;
+  second_match_time: string;
+  second_match_breaks: number;
+  second_venue_availability: string;
+  third_match_date: string;
+  third_match_time: string;
+  third_match_breaks: number;
+  third_venue_availability: string;
+  fourth_match_date: string;
+  fourth_match_time: string;
+  fourth_match_breaks: number;
+  fourth_venue_availability: string;
+  contact_information: string;
+  roles_and_responsibilities: string;
+  sponsor_information: string;
+  bank_information: string;
+  logos: any[];
+  banners: any[];
+  documents: any[];
+  sponsors: string;
+  tournament_logo: string;
+  number_of_matches: number;
+  matches: MatchDetails[];
+}
 
 const NewTournamentForm = () => {
+  const findClosestNumber = (number: number): number => {
+    const series: number[] = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024];
+
+    // Check if the number is in the series
+    if (series.includes(number)) {
+      return Math.floor(number / 2);
+    }
+
+    // Find the closest smaller number in the series
+    let closestSmaller = 1;
+    for (const value of series) {
+      if (value < number) {
+        closestSmaller = value;
+      } else {
+        break;
+      }
+    }
+
+    // Calculate the result
+    const result = number - closestSmaller;
+    if (result > 0) {
+      return Math.floor(result / 2);
+    }
+    return result;
+  };
   const [staffData, setStaffData] = useState<StaffState>({
     staff: [{ contact: "", responsibility: "" }],
   });
@@ -90,7 +172,7 @@ const NewTournamentForm = () => {
   const [cardError, setCardError] = useState("");
   const [tournamentId, setTournamentId] = useState("");
   const [numberOfTeams, setNumberOfTeams] = useState(0);
-  const [tournamentDetails, setTournamentDetails] = useState({
+  const [tournamentDetails, setTournamentDetails] = useState<TournamentDetails>({
     title: "",
     category_id: "",
     type: "",
@@ -137,7 +219,9 @@ const NewTournamentForm = () => {
     banners: [] as any,
     documents: [] as any,
     sponsors: "",
-    tournament_logo: ""
+    tournament_logo: "",
+    number_of_matches: 0,
+    matches: []
   });
   useEffect(() => {
     fetchTournamentData();
@@ -162,7 +246,40 @@ const NewTournamentForm = () => {
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setTournamentDetails({ ...tournamentDetails, [name]: value });
+    if (name === 'number_of_teams') {
+      if (value > 0) {
+        const number_of_matches = findClosestNumber(value);
+        setTournamentDetails({
+          ...tournamentDetails, [name]: value, number_of_matches: number_of_matches, matches: Array.from({ length: number_of_matches }, () => ({
+            schedule_date: "",
+            schedule_time: "00:00",
+            schedule_breaks: 0,
+            venue_availability: ""
+          }))
+        });
+      }
+      else {
+        setTournamentDetails({ ...tournamentDetails, [name]: value });
+      }
+
+    }
+    else {
+      setTournamentDetails({ ...tournamentDetails, [name]: value });
+    }
+
+  };
+  const handleMatchesChange = (matchIndex: number, field: string, value: string) => {
+    setTournamentDetails(prevState => {
+      const updatedMatches = [...prevState.matches];
+      updatedMatches[matchIndex] = {
+        ...updatedMatches[matchIndex],
+        [field]: value
+      };
+      return {
+        ...prevState,
+        matches: updatedMatches
+      };
+    });
   };
   const handleNumericalSliderChange = (value: any, name: any) => {
     setTournamentDetails({ ...tournamentDetails, [name]: value });
@@ -342,7 +459,7 @@ const NewTournamentForm = () => {
         // setTournamentId(res.data.tournament_id);
         // submitTournament(res.data.tournament_id);
         toast.success("Record has been inserted successfully.");
-        router.push("/organizer/edit-tournament/"+res?.data?.tournament_id);
+        router.push("/organizer/edit-tournament/" + res?.data?.tournament_id);
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -740,6 +857,7 @@ const NewTournamentForm = () => {
     }
     // setFieldset(fieldSet)
   };
+  console.log("number_of_matches", tournamentDetails?.number_of_matches)
   return (
     <>
       <form
@@ -1305,305 +1423,33 @@ const NewTournamentForm = () => {
           <>
             <fieldset className={style.blk}>
               <h5 className="mb-5">Tournament Schedule</h5>
-              <h6 className={style.text_prime}>01. Match</h6>
-              <div className="row">
-                <div className="col-sm-4">
-                  <h6>
-                    Date
-                  </h6>
-                  <div className={style.form_blk}>
+              {
+                tournamentDetails.matches.map((match, index) => (
+                  <div key={index}>
+                    <h6>Match {index + 1}</h6>
                     <input
-                      autoComplete="off"
                       type="date"
-                      name="schedule_date"
-                      id=""
-                      className={style.input}
-                      placeholder="eg: 04-12-2020"
-                      onChange={handleChange}
-                      value={tournamentDetails.schedule_date}
+                      value={match.schedule_date}
+                      onChange={e => handleMatchesChange(index, 'schedule_date', e.target.value)}
                     />
-                    <p className="text-danger">{errors?.schedule_date}</p>
-                  </div>
-                </div>
-                <div className="col-sm-4">
-                  <h6>
-                    Time
-                  </h6>
-                  <div className={style.form_blk}>
                     <input
-                      autoComplete="off"
                       type="time"
-                      name="schedule_time"
-                      id=""
-                      className={style.input}
-                      placeholder="eg: 16:00"
-                      onChange={handleChange}
-                      value={tournamentDetails.schedule_time}
+                      value={match.schedule_time}
+                      onChange={e => handleMatchesChange(index, 'schedule_time', e.target.value)}
                     />
-                    <p className="text-danger">{errors?.schedule_time}</p>
-                  </div>
-                </div>
-                <div className="col-sm-4">
-                  <h6>
-                    Breaks ({tournamentDetails.schedule_breaks})
-                  </h6>
-                  <div className={style.form_blk}>
                     <input
-                      autoComplete="off"
                       type="number"
-                      name="schedule_breaks"
-                      id=""
-                      className={style.input}
-                      placeholder=""
-                      onChange={handleChange}
-                      value={tournamentDetails.schedule_breaks}
+                      value={match.schedule_breaks}
+                      onChange={e => handleMatchesChange(index, 'schedule_breaks', (e.target.value))}
                     />
-                    <p className="text-danger">{errors?.schedule_breaks}</p>
-                  </div>
-                </div>
-                <div className="col-sm-12">
-                  <h6>
-                    Venue Availability
-                  </h6>
-                  <div className={style.form_blk}>
                     <input
-                      autoComplete="off"
                       type="text"
-                      name="venue_availability"
-                      id=""
-                      className={style.input}
-                      placeholder="eg: 123 Main Street, California"
-                      onChange={handleChange}
+                      value={match.venue_availability}
+                      onChange={e => handleMatchesChange(index, 'venue_availability', e.target.value)}
                     />
-                    <p className="text-danger">{errors?.venue_availability}</p>
                   </div>
-                </div>
-              </div>
-              <hr />
-              <h6 className={style.text_prime}>02. Match</h6>
-              <div className="row">
-                <div className="col-sm-4">
-                  <h6>
-                    Date
-                  </h6>
-                  <div className={style.form_blk}>
-                    <input
-                      autoComplete="off"
-                      type="date"
-                      name="second_match_date"
-                      id=""
-                      className={style.input}
-                      placeholder="eg: 04-12-2020"
-                      onChange={handleChange}
-                      value={tournamentDetails.second_match_date}
-                    />
-                    <p className="text-danger">{errors?.second_match_date}</p>
-                  </div>
-                </div>
-                <div className="col-sm-4">
-                  <h6>
-                    Time
-                  </h6>
-                  <div className={style.form_blk}>
-                    <input
-                      autoComplete="off"
-                      type="time"
-                      name="second_match_time"
-                      id=""
-                      className={style.input}
-                      placeholder="eg: 16:00"
-                      onChange={handleChange}
-                      value={tournamentDetails.second_match_time}
-                    />
-                    <p className="text-danger">{errors?.second_match_time}</p>
-                  </div>
-                </div>
-                <div className="col-sm-4">
-                  <h6>
-                    Breaks ({tournamentDetails?.second_match_breaks}){" "}
+                ))}
 
-                  </h6>
-                  <div className={style.form_blk}>
-                    <input
-                      autoComplete="off"
-                      type="number"
-                      name="second_match_breaks"
-                      id=""
-                      className={style.input}
-                      placeholder=""
-                      onChange={handleChange}
-                      value={tournamentDetails.second_match_breaks}
-                    />
-                    <p className="text-danger">{errors?.second_match_breaks}</p>
-                  </div>
-                </div>
-                <div className="col-sm-12">
-                  <h6>
-                    Venue Availability
-                  </h6>
-                  <div className={style.form_blk}>
-                    <input
-                      autoComplete="off"
-                      type="text"
-                      name="second_venue_availability"
-                      id=""
-                      className={style.input}
-                      placeholder="eg: 123 Main Street, California"
-                      onChange={handleChange}
-                      value={tournamentDetails.second_venue_availability}
-                    />
-                    <p className="text-danger">
-                      {errors?.second_venue_availability}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <hr />
-              <h6 className={style.text_prime}>03. Match</h6>
-              <div className="row">
-                <div className="col-sm-4">
-                  <h6>
-                    Date
-                  </h6>
-                  <div className={style.form_blk}>
-                    <input
-                      autoComplete="off"
-                      type="date"
-                      name="third_match_date"
-                      id=""
-                      className={style.input}
-                      placeholder="eg: 04-12-2020"
-                      onChange={handleChange}
-                      value={tournamentDetails.third_match_date}
-                    />
-                    <p className="text-danger">{errors?.third_match_date}</p>
-                  </div>
-                </div>
-                <div className="col-sm-4">
-                  <h6>
-                    Time
-                  </h6>
-                  <div className={style.form_blk}>
-                    <input
-                      autoComplete="off"
-                      type="time"
-                      name="third_match_time"
-                      id=""
-                      className={style.input}
-                      placeholder="eg: 16:00"
-                      onChange={handleChange}
-                      value={tournamentDetails.third_match_time}
-                    />
-                    <p className="text-danger">{errors?.third_match_time}</p>
-                  </div>
-                </div>
-                <div className="col-sm-4">
-                  <h6>
-                    Breaks ({tournamentDetails?.third_match_breaks}){" "}
-
-                  </h6>
-                  <div className={style.form_blk}>
-                    <input
-                      autoComplete="off"
-                      type="number"
-                      name="third_match_breaks"
-                      id=""
-                      className={style.input}
-                      placeholder=""
-                      onChange={handleChange}
-                      value={tournamentDetails.third_match_breaks}
-                    />
-                    <p className="text-danger">{errors?.third_match_breaks}</p>
-                  </div>
-                </div>
-                <div className="col-sm-12">
-                  <h6>
-                    Venue Availability
-                  </h6>
-                  <div className={style.form_blk}>
-                    <input
-                      autoComplete="off"
-                      type="text"
-                      name="third_venue_availability"
-                      id=""
-                      className={style.input}
-                      placeholder="eg: 123 Main Street, California"
-                      onChange={handleChange}
-                      value={tournamentDetails.third_venue_availability}
-                    />
-                    <p className="text-danger">
-                      {errors?.third_venue_availability}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <hr />
-              <h6 className={style.text_prime}>04. Match</h6>
-              <div className="row">
-                <div className="col-sm-4">
-                  <h6>Date</h6>
-                  <div className={style.form_blk}>
-                    <input
-                      autoComplete="off"
-                      type="date"
-                      name="fourth_match_date"
-                      id=""
-                      className={style.input}
-                      placeholder="eg: 04-12-2020"
-                      onChange={handleChange}
-                      value={tournamentDetails.fourth_match_date}
-                    />
-                    <p className="text-danger">{errors?.fourth_match_date}</p>
-                  </div>
-                </div>
-                <div className="col-sm-4">
-                  <h6>Time</h6>
-                  <div className={style.form_blk}>
-                    <input
-                      autoComplete="off"
-                      type="time"
-                      name="fourth_match_time"
-                      id=""
-                      className={style.input}
-                      placeholder="eg: 16:00"
-                      onChange={handleChange}
-                      value={tournamentDetails.fourth_match_time}
-                    />
-                    <p className="text-danger">{errors?.fourth_match_time}</p>
-                  </div>
-                </div>
-                <div className="col-sm-4">
-                  <h6>Breaks ({tournamentDetails?.fourth_match_breaks})</h6>
-                  <div className={style.form_blk}>
-                    <input
-                      autoComplete="off"
-                      type="number"
-                      name="fourth_match_breaks"
-                      id=""
-                      className={style.input}
-                      placeholder=""
-                      onChange={handleChange}
-                      value={tournamentDetails.fourth_match_breaks}
-                    />
-                    <p className="text-danger">{errors?.fourth_match_breaks}</p>
-                  </div>
-                </div>
-                <div className="col-sm-12">
-                  <h6>Venue Availability</h6>
-                  <div className={style.form_blk}>
-                    <input
-                      autoComplete="off"
-                      type="text"
-                      name="fourth_venue_availability"
-                      id=""
-                      className={style.input}
-                      placeholder="eg: 123 Main Street, California"
-                      onChange={handleChange}
-                      value={tournamentDetails.fourth_venue_availability}
-                    />
-                  </div>
-                </div>
-              </div>
               <div className={`${style.btn_blk} justify-content-center mt-5`}>
                 <button
                   type="button"
