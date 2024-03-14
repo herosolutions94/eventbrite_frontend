@@ -24,7 +24,7 @@ const TournamentDetail = () => {
 	const addReviewHandle = () => {
 		setAddReview(!addReview);
 	}
-	console.log(id);
+	// console.log(id);
 
 	useEffect(() => {
 		fetchData(id);
@@ -54,7 +54,7 @@ const TournamentDetail = () => {
 			<img src="/images/loading.gif" />
 		</div>;
 	}
-	console.log(tournamentDetails)
+	// console.log(tournamentDetails?.matches)
 	return (
 		<>
 			<Header pageTitle="Tournament Detail" />
@@ -93,12 +93,12 @@ const TournamentDetail = () => {
 						</>
 				}
 			</section>
-			{/* {
+			{
 				tournamentBrack?.length > 0 ?
 					<TournamentMatches matches={tournamentDetails?.single_brackets} />
 					:
 					""
-			} */}
+			}
 			<Footer />
 		</>
 	)

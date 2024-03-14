@@ -5,42 +5,41 @@ import { PhotoTeam01, PhotoTeam02, PhotoUser_01, PhotoUser_02, PhotoUser_03, Pho
 
 
 type ReviewsProps = {
-	teams : any
+	teams: any
 }
-const TournamentTeams = (teams: ReviewsProps ) => {
+const TournamentTeams = (teams: ReviewsProps) => {
 	const teamsData = teams?.teams;
-	console.log(teamsData)
 	return (
 		<>
 			<div className={style.blk}>
 				<h5 className="mb-4">Tournament Teams</h5>
-				
-				{teamsData?.map((team:any, index:number) => (
-				<div className={style.team_block} key={index}>
-					<div className={style.icon}>
-						
-						{
-						team?.logo !== undefined && team?.logo !== null && team?.logo !== '' ?
-							<Image width={200} height={200} src={process.env.ASSET_URL + team?.logo} alt="" />
-							:
-							<Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
-					}
-					</div>
-					<div className={style.text}>
-						<ul className={style.team_list}>
-							<li>
-								<span>Team Name:</span>
-								<strong>{team?.team_name}</strong>
-							</li>
-							<li>
-								<span>Team Captain:</span>
-								<strong>{team?.full_name}</strong>
-							</li>
-							<li>
-								<span>Team Members:</span>
-								<ul className={style.team_list_member}>
-									
-									{/* {team?.team_members?.length > 0 &&
+
+				{teamsData?.map((team: any, index: number) => (
+					<div className={style.team_block} key={index}>
+						<div className={style.icon}>
+
+							{
+								team?.logo !== undefined && team?.logo !== null && team?.logo !== '' ?
+									<Image width={200} height={200} src={process.env.ASSET_URL + team?.logo} alt="" />
+									:
+									<Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
+							}
+						</div>
+						<div className={style.text}>
+							<ul className={style.team_list}>
+								<li>
+									<span>Team Name:</span>
+									<strong>{team?.team_name}</strong>
+								</li>
+								<li>
+									<span>Team Captain:</span>
+									<strong>{team?.full_name}</strong>
+								</li>
+								<li>
+									<span>Team Members:</span>
+									<ul className={style.team_list_member}>
+
+										{/* {team?.team_members?.length > 0 &&
 										team.team_members.map((member:any) => (	
 											member.logo === null ?
 											<>
@@ -60,18 +59,18 @@ const TournamentTeams = (teams: ReviewsProps ) => {
 											</>
 										))
 									} */}
-									<li>
-										<div className={`${style.ico} ${style.fill} ${style.round}`}>
-											<Image width={200} height={200} src={PhotoUser_01} alt="" />
-										</div>
-									</li>
-								</ul>
-							</li>
-						</ul>
+										<li>
+											<div className={`${style.ico} ${style.fill} ${style.round}`}>
+												<Image width={200} height={200} src={PhotoUser_01} alt="" />
+											</div>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+
 					</div>
-					
-				</div>
-				
+
 				))}
 			</div>
 		</>

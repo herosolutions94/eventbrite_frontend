@@ -17,7 +17,12 @@ const TournamentMatches = ({ matches }: TournamentMatchesProps) => {
     <>
       <section id={style.tournament_detail}>
         <div className={style.contain}>
-          <SingleElimination matches={matches} />
+          {
+            matches !== undefined && matches?.length > 0 ?
+              <SingleElimination matches={matches} />
+              :
+              ""
+          }
         </div>
       </section>
     </>
@@ -79,7 +84,7 @@ export const SingleElimination = ({ matches }: SingleEliminationProps) => {
   // const finalHeight = height !== null ? Math.max(height + 3000, 5000) : 5000;
   // const finalWidth = width !== null ? Math.max(width - 50, 500) : 500;
   // const finalHeight = height !== null ? Math.max(height - 0, 500) : 500;
-  console.log(finalWidth, finalHeight)
+  // console.log(finalWidth, finalHeight)
   return (
     <SingleEliminationBracket
       theme={GlootTheme}

@@ -4,6 +4,23 @@ import Image from "next/image";
 
 const OverviewBlock = (details: any) => {
   let d_key = 0;
+  function formatDate(date: Date): string {
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(date).toLocaleDateString('en-US', options);
+  }
+  function formatTime(timeString: string): string {
+    // Split the timeString into hours and minutes
+    const [hours, minutes] = timeString.split(':').map(part => parseInt(part, 10));
+
+    // Use Date object to format the time
+    const time = new Date();
+    time.setHours(hours);
+    time.setMinutes(minutes);
+
+    // Format the time using toLocaleTimeString
+    const options: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: '2-digit' };
+    return time.toLocaleTimeString('en-US', options);
+  }
   return (
     <>
       {details?.details?.address && (
@@ -90,6 +107,51 @@ const OverviewBlock = (details: any) => {
                 </li>
                 <li>
                   <div className="">{staff_row?.responsibility}</div>
+                </li>
+              </ul>
+            );
+          })}
+        </div>
+      )}
+      {details?.details?.matches?.length > 0 && (
+        <div className={style.blk}>
+          <h5>Tournament Initial Schedule</h5>
+          <ul className={`${style.staff_ul} ${style.staff_ul_first}`}>
+            <li>
+              <div className="">
+                <strong>Schedule Date</strong>
+              </div>
+            </li>
+            <li>
+              <div className="">
+                <strong>Schedule Time</strong>
+              </div>
+            </li>
+            <li>
+              <div className="">
+                <strong>Schedule Breaks</strong>
+              </div>
+            </li>
+            <li>
+              <div className="">
+                <strong>Schedule Venue</strong>
+              </div>
+            </li>
+          </ul>
+          {details?.details?.matches.map((match: any, d_index: any) => {
+            return (
+              <ul className={style.staff_ul} key={d_index}>
+                <li>
+                  <div className="">{formatDate(match?.schedule_date)}</div>
+                </li>
+                <li>
+                  <div className="">{formatTime(match?.schedule_time)}</div>
+                </li>
+                <li>
+                  <div className="">{match?.schedule_breaks}</div>
+                </li>
+                <li>
+                  <div className="">{match?.venue_availability}</div>
                 </li>
               </ul>
             );

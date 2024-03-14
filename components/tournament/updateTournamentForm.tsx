@@ -4,21 +4,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-// import CKeditor from "@/components/ckEditor";
-import {
-    CardElement,
-    useStripe,
-    useElements,
-    CardNumberElement,
-    CardExpiryElement,
-    CardCvcElement
-} from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+
 import InputSlider from "react-input-slider";
-const stripePromise = loadStripe(
-    "pk_test_51Moz1CFV8hMVqQzQH96smahOCpKUnMix9OMtfhQe3YjnaL4kpLa6An91ycTRcs26A7hZwgr0HelG4ElEdYBAEwbb00MpdTNJhb"
-);
+
 const useOptions = () => {
     const options = useMemo(
         () => ({
@@ -596,6 +584,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({ tournamentDetailsContent })
         });
         formData.append("tournament_logo", tournamentDetails?.tournament_logo);
         formData.append("staff_arr", JSON.stringify(staffData?.staff));
+        formData.append("matches", JSON.stringify(tournamentDetails?.matches));
         formData.append("logos_arr", JSON.stringify(logos_arr));
         formData.append("documents_arr", JSON.stringify(documents_arr));
         formData.append("banner_arr", JSON.stringify(banner_arr));

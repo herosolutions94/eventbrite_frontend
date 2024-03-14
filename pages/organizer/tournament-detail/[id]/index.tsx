@@ -9,14 +9,18 @@ import axios from "axios"
 import { PhotoTeam01 } from "@/components/images"
 import OverviewBlock from "@/pages/tournamentDetail/overviewBlock"
 import TournamentTeams from "@/pages/tournamentDetail/tournamentTeams"
+import TournamentMatches from "@/components/tournament-matches"
 
 const TournamentDetail = () => {
+	const [tournamentBrack, setTournamentBracket] = useState<[]>([]);
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
 	const [teams, setTeams] = useState<any>([]);
 	const [acceptedTeamsCount, setAcceptedTeamsCount] = useState<any>(0);
 	const router = useRouter();
 	const { id } = router.query;
-
+	useEffect(() => {
+		setTournamentBracket(tournamentDetails?.single_brackets)
+	}, [tournamentDetails?.single_brackets]);
 	useEffect(() => {
 		if (id !== undefined) {
 			fetchData(id);
@@ -62,7 +66,7 @@ const TournamentDetail = () => {
 							allow_edit={tournamentDetails?.allow_edit}
 							tournament_logo={tournamentDetails?.tournament_logo}
 						/>
-						
+
 						{tournamentDetails?.teams?.length > 0 ?
 							<TournamentContent
 								teams={teams}
@@ -72,17 +76,22 @@ const TournamentDetail = () => {
 
 					</div>
 					<div id={style.overview}>
-							<div className={style.contain}>
+						<div className={style.contain}>
 
-								<OverviewBlock details={tournamentDetails} />
-								{/* {tournamentDetails?.teams?.length > 0 &&
+							<OverviewBlock details={tournamentDetails} />
+							{/* {tournamentDetails?.teams?.length > 0 &&
 										<TournamentTeams teams={tournamentDetails?.teams} />
 									} */}
-							</div>
 						</div>
+					</div>
 				</div>
 			</section>
-
+			{
+				tournamentBrack?.length > 0 ?
+					<TournamentMatches matches={tournamentDetails?.single_brackets} />
+					:
+					""
+			}
 			<Footer />
 		</>
 	)
