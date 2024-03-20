@@ -12,6 +12,9 @@ import Cookies from "js-cookie"
 import { useRouter } from 'next/router';
 import ReviewPopup from "../../tournamentDetail/reviewPopup"
 import TournamentMatches from "@/components/tournament-matches"
+import Image from "next/image";
+import { Badge, CaretDown, CheckCircle, PhotoTeam01 } from "@/components/images"
+import CompletedMatch from "@/components/rounds/completedMatch"
 
 const TournamentDetail = () => {
 	const [tournamentDetails, setTournamentDetails] = useState<any>([]);
@@ -54,7 +57,7 @@ const TournamentDetail = () => {
 			<img src="/images/loading.gif" />
 		</div>;
 	}
-	// console.log(tournamentDetails?.matches)
+	// console.log(tournamentDetails)
 	return (
 		<>
 			<Header pageTitle="Tournament Detail" />
@@ -94,7 +97,17 @@ const TournamentDetail = () => {
 				}
 			</section>
 			{
-				tournamentBrack?.length > 0 ?
+				tournamentDetails?.firstRound?.id > 0 ?
+					<section id={`${style.tournament_detail} ${style.bracket_detail}`}>
+						<div className={style.contain}>
+							<CompletedMatch round_row={tournamentDetails?.firstRound} tournamentDetails={tournamentDetails} type="win" round_no_key={1} />
+						</div>
+					</section>
+					:
+					""
+			}
+			{
+				tournamentBrack?.length > 0 && tournamentDetails?.is_bracket_generated === 1 ?
 					<TournamentMatches matches={tournamentDetails?.single_brackets} />
 					:
 					""
