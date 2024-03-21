@@ -11,13 +11,13 @@
   max-width: 8rem;
   height: 6rem;
 
-  >a {
+  > a {
     display: block;
     width: 100%;
     max-width: 100%;
     height: 100%;
 
-    >img {
+    > img {
       height: 100%;
       @include object(contain, left center);
       -webkit-transition: var(--transition);
@@ -78,8 +78,8 @@
         @include gap(0.5rem 1.5rem);
 
         &.social_links {
-          >li {
-            >a {
+          > li {
+            > a {
               @include flex(center, center);
               width: 1.6rem;
               min-width: 1.6rem;
@@ -90,7 +90,7 @@
                 @include filter(none);
               }
 
-              >img {
+              > img {
                 @include object(contain);
               }
             }
@@ -100,8 +100,8 @@
         &.sm_list {
           margin-right: 3rem;
 
-          >li {
-            >a {
+          > li {
+            > a {
               display: block;
               font-size: 1.1rem;
               color: var(--dark_gray);
@@ -154,15 +154,15 @@
     }
   }
 
-  >ul {
+  > ul {
     @include list;
     @include flex;
     margin: 0 -2.4rem;
 
-    >li {
+    > li {
       padding: 0 2.4rem;
 
-      >a {
+      > a {
         position: relative;
         @include flex(center, center);
         color: var(--light);
@@ -208,7 +208,7 @@
       @include flex($flow: column);
       margin: 0;
 
-      >li {
+      > li {
         @include mobile {
           padding: 0;
         }
@@ -223,8 +223,8 @@
     li {
       padding: 0 1rem;
 
-      >a,
-      >button {
+      > a,
+      > button {
         position: relative;
         @include flex;
         width: 2.2rem;
@@ -236,7 +236,7 @@
             content: "";
           }
 
-          >img {
+          > img {
             @include filter(none);
           }
         }
@@ -253,7 +253,7 @@
           z-index: 1;
         }
 
-        >img {
+        > img {
           @include filter(0.7);
           -webkit-transition: inherit;
           transition: inherit;
@@ -410,7 +410,7 @@
         }
       }
 
-      >.site_btn {
+      > .site_btn {
         @include mobile_md {
           width: 100%;
           border-radius: 0;
@@ -444,7 +444,7 @@
   overflow: hidden;
 
   .main_row {
-    >.column1 {
+    > .column1 {
       width: 25%;
 
       @include ipad {
@@ -452,8 +452,8 @@
       }
     }
 
-    >.column2,
-    >.column3 {
+    > .column2,
+    > .column3 {
       width: 20%;
 
       @include ipad {
@@ -461,7 +461,7 @@
       }
     }
 
-    >.column4 {
+    > .column4 {
       width: 30%;
 
       @include ipad {
@@ -492,7 +492,7 @@
   .list {
     @include list;
 
-    >li {
+    > li {
       &:not(:nth-last-child(1)) {
         margin-bottom: 1rem;
       }
@@ -504,13 +504,13 @@
       font-size: 1.2rem;
       line-height: 140%;
 
-      >a {
+      > a {
         text-decoration: underline;
       }
     }
 
     .form_blk {
-      >p {
+      > p {
         position: relative;
         @include flex(center);
 
@@ -551,7 +551,7 @@
         margin: -1rem;
       }
 
-      >li {
+      > li {
         padding: 1rem 2rem;
 
         @include ipad {
@@ -593,7 +593,7 @@
     h1 {
       margin: 0;
 
-      &+* {
+      & + * {
         margin-top: 2rem;
       }
     }
@@ -618,11 +618,11 @@
   }
 
   .flex_row {
-    >.column1 {
+    > .column1 {
       width: 40%;
     }
 
-    >.column2 {
+    > .column2 {
       width: 50%;
     }
   }
@@ -634,7 +634,7 @@
   .list {
     @include list;
 
-    >li {
+    > li {
       @include flex;
       font-size: 1.8rem;
       padding-bottom: 2rem;
@@ -644,7 +644,7 @@
         margin-bottom: 2rem;
       }
 
-      >img {
+      > img {
         @include object(contain);
         width: 1.6rem;
         min-width: 1.6rem;
@@ -719,7 +719,7 @@
   .main_row {
     margin: -1.5rem -4rem;
 
-    >div {
+    > div {
       padding: 1.5rem 4rem;
     }
   }
@@ -727,7 +727,7 @@
   .form_row {
     margin: -1rem;
 
-    >div {
+    > div {
       padding: 1rem;
     }
   }
@@ -796,7 +796,7 @@
   .block_row {
     @include flex;
 
-    >.col {
+    > .col {
       width: 33.3334%;
     }
   }
@@ -827,7 +827,7 @@
 
   &:hover {
     .fig {
-      >img {
+      > img {
         -webkit-transform: scale(1.2);
         -ms-transform: scale(1.2);
         transform: scale(1.2);
@@ -852,14 +852,14 @@
   .fig {
     @include pos;
 
-    >img {
+    > img {
       @include object(cover);
       -webkit-transition: var(--transition);
       transition: var(--transition);
     }
   }
 
-  >button {
+  > button {
     @include flex(center, center);
     position: absolute;
     top: 1rem;
@@ -922,7 +922,7 @@
       color: rgba(var(--light_rgb), 0.5);
       font-size: 1.3rem;
 
-      >img {
+      > img {
         @include object(contain);
         width: 1.6rem;
         min-width: 1.6rem;
@@ -973,7 +973,7 @@
   color: var(--yellow);
   direction: rtl;
 
-  >i {
+  > i {
     width: 1.6rem;
     min-width: 1.6rem;
     height: 1.6rem;
@@ -1018,16 +1018,20 @@
   }
 
   &:hover {
-    background: -webkit-gradient(linear,
-        left top,
-        right top,
-        color-stop(0, rgba(var(--dark_rgb), 0.8)),
-        color-stop(50%, #540e0f),
-        to(rgba(var(--dark_rgb), 0.8)));
-    background: linear-gradient(to right,
-        rgba(var(--dark_rgb), 0.8) 0,
-        #540e0f 50%,
-        rgba(var(--dark_rgb), 0.8) 100%);
+    background: -webkit-gradient(
+      linear,
+      left top,
+      right top,
+      color-stop(0, rgba(var(--dark_rgb), 0.8)),
+      color-stop(50%, #540e0f),
+      to(rgba(var(--dark_rgb), 0.8))
+    );
+    background: linear-gradient(
+      to right,
+      rgba(var(--dark_rgb), 0.8) 0,
+      #540e0f 50%,
+      rgba(var(--dark_rgb), 0.8) 100%
+    );
   }
 
   &:not(:nth-last-child(1)) {
@@ -1039,7 +1043,7 @@
     overflow: hidden;
   }
 
-  >a {
+  > a {
     @include pos($z: 2);
   }
 
@@ -1051,7 +1055,7 @@
       margin: 0 auto 2rem;
     }
 
-    >img {
+    > img {
       @include object(contain);
       width: 5rem;
       min-width: 5rem;
@@ -1068,7 +1072,7 @@
         height: 12rem;
         margin: 0 auto;
 
-        >img {
+        > img {
           @include object(contain);
         }
       }
@@ -1102,8 +1106,8 @@
         margin: 0 auto;
       }
 
-      >li {
-        >span {
+      > li {
+        > span {
           display: inline-block;
           background: var(--prime_color);
           font-size: 1.2rem;
@@ -1124,7 +1128,7 @@
         @include flex(center, center);
       }
 
-      >img {
+      > img {
         @include object(contain);
         width: 1.6rem;
         min-width: 1.6rem;
@@ -1166,7 +1170,7 @@
     padding: 0;
   }
 
-  >* {
+  > * {
     width: 50%;
     padding: 6rem 2rem;
 
@@ -1208,8 +1212,8 @@
         @include gap(1rem 2rem);
         margin-top: 2rem;
 
-        >li {
-          >a {
+        > li {
+          > a {
             color: rgba(var(--light_rgb), 0.7);
 
             &:hover {
@@ -1322,7 +1326,7 @@
           margin-bottom: 1.5rem;
         }
 
-        >img {
+        > img {
           @include object(contain);
           width: 2rem;
           min-width: 2rem;
@@ -1331,7 +1335,7 @@
           filter: brightness(0) invert(1);
         }
 
-        >a {
+        > a {
           color: var(--prime_color);
 
           &:hover {
@@ -1360,7 +1364,7 @@
       @include gap(0.6rem);
       margin-top: 1rem;
 
-      >button {
+      > button {
         @include flex;
         width: 3rem;
         min-width: 3rem;
@@ -1380,7 +1384,7 @@
           background: var(--prime_color);
         }
 
-        >img {
+        > img {
           @include object(contain);
           @include filter(1);
         }
@@ -1414,7 +1418,7 @@
       @include flex($flow: column);
     }
 
-    >.map_blk {
+    > .map_blk {
       position: relative;
       width: 32rem;
       min-width: 32rem;
@@ -1437,14 +1441,14 @@
         }
       }
 
-      >iframe {
+      > iframe {
         @include pos;
         width: 100%;
         height: 100%;
       }
     }
 
-    >.items_blk {
+    > .items_blk {
       width: calc(100% - 32rem);
 
       @include mobile {
@@ -1473,7 +1477,7 @@
   @include flex(center, center);
   margin-top: 4rem;
 
-  >ul {
+  > ul {
     @include list;
     @include flex;
     border-radius: 0.8rem;
@@ -1481,20 +1485,19 @@
     box-shadow: 0 0.5rem 1rem 0 rgba(var(--dark_rgb), 0.35);
     overflow: hidden;
 
-    >li {
+    > li {
       &.active {
-
-        >a,
-        >span,
-        >button {
+        > a,
+        > span,
+        > button {
           background: rgba(var(--light_rgb), 0.4);
           color: var(--light);
         }
       }
 
-      >a,
-      >span,
-      >button {
+      > a,
+      > span,
+      > button {
         @include flex(center, center);
         min-width: 4.4rem;
         height: 4.4rem;
@@ -1534,7 +1537,7 @@
         }
       }
 
-      >span {
+      > span {
         color: var(--prime_color);
       }
     }
@@ -1556,17 +1559,17 @@
   }
 
   .main_row {
-    >.col {
+    > .col {
       -webkit-box-flex: 0;
       -ms-flex: none;
       flex: none;
     }
 
-    >.col1 {
+    > .col1 {
       width: 70%;
     }
 
-    >.col2 {
+    > .col2 {
       width: 30%;
     }
   }
@@ -1577,7 +1580,7 @@
   background: var(--dark);
   padding: 2rem;
 
-  >.x_btn {
+  > .x_btn {
     display: none;
   }
 
@@ -1597,16 +1600,16 @@
     .ctg_lst {
       @include list;
 
-      >li {
+      > li {
         &:not(:nth-last-child(1)) {
           margin-bottom: 1rem;
         }
 
-        >label {
+        > label {
           @include i_flex;
           color: rgba(var(--light_rgb), 0.7);
 
-          >input {
+          > input {
             margin-top: 0.3rem;
             margin-right: 1rem;
           }
@@ -1645,7 +1648,7 @@
   }
 
   .flex_row {
-    >div {
+    > div {
       @include flex;
     }
   }
@@ -1666,7 +1669,7 @@
     }
   }
 
-  &~#in_touch {
+  & ~ #in_touch {
     padding-top: 8rem;
   }
 }
@@ -1700,7 +1703,7 @@
     margin-bottom: 4rem;
   }
 
-  >.faq_blk {
+  > .faq_blk {
     position: relative;
     background: rgba(var(--light_rgb), 0.2);
     padding: 2rem;
@@ -1789,7 +1792,7 @@
         min-width: 100%;
       }
 
-      >img {
+      > img {
         @include filter(1);
       }
 
@@ -1823,7 +1826,7 @@
       max-width: 10rem;
       height: 2.6rem;
 
-      >img {
+      > img {
         @include object(top left);
       }
     }
@@ -1855,7 +1858,7 @@
     margin-top: 1rem;
     text-align: center;
 
-    >li {
+    > li {
       -webkit-box-flex: 1;
       -ms-flex: 1;
       flex: 1;
@@ -1864,8 +1867,8 @@
         border-right: 0.1rem solid rgba(var(--light_rgb), 0.2);
       }
 
-      >a,
-      >button {
+      > a,
+      > button {
         width: 100%;
         @include flex(center, center);
         @include gap(0 1rem);
@@ -1876,7 +1879,7 @@
           color: var(--prime_color);
         }
 
-        >img {
+        > img {
           width: 1.4rem;
           min-width: 1.4rem;
           height: 1.4rem;
@@ -1898,7 +1901,7 @@
       text-align: center;
     }
 
-    >.ico {
+    > .ico {
       width: 7rem;
       min-width: 7rem;
       height: 7rem;
@@ -1913,7 +1916,7 @@
         -webkit-box-shadow: none;
         box-shadow: none;
 
-        >img {
+        > img {
           -o-object-fit: contain;
           object-fit: contain;
         }
@@ -2002,7 +2005,7 @@
         @include flex($flow: column);
       }
 
-      >* {
+      > * {
         margin: 0;
       }
     }
@@ -2013,7 +2016,6 @@
     min-width: 100rem;
 
     tr {
-
       th,
       td {
         padding: 2rem 1rem;
@@ -2044,7 +2046,7 @@
     white-space: nowrap;
 
     .interest {
-      >span {
+      > span {
         @include i_flex(center, center);
         background: rgba(var(--light_rgb), 0.2);
         line-height: 1;
@@ -2071,7 +2073,7 @@
     .list {
       @include list;
 
-      >li {
+      > li {
         @include flex;
 
         @include mobile {
@@ -2082,14 +2084,14 @@
           margin-bottom: 2rem;
         }
 
-        >strong {
+        > strong {
           width: 20rem;
           min-width: 20rem;
           font-weight: 500;
           margin-right: 2rem;
         }
 
-        >span {
+        > span {
           -webkit-box-flex: 1;
           -ms-flex: 1;
           flex: 1;
@@ -2119,14 +2121,14 @@
   .noti_blk {
     @include flex;
 
-    >.ico {
+    > .ico {
       width: 4.6rem;
       min-width: 4.6rem;
       height: 4.6rem;
       margin-right: 2rem;
     }
 
-    >.txt {
+    > .txt {
       p {
         color: rgba(var(--light_rgb), 0.7);
       }
@@ -2145,8 +2147,8 @@
     @include flex;
     @include gap(2rem);
 
-    >.user_blk,
-    >.chat_blk {
+    > .user_blk,
+    > .chat_blk {
       @include flex($flow: column);
       height: calc(100vh - (8.8rem + 2rem));
       min-height: 30rem;
@@ -2155,7 +2157,7 @@
       overflow: hidden;
     }
 
-    >.user_blk {
+    > .user_blk {
       width: 30rem;
       min-width: 30rem;
 
@@ -2165,7 +2167,7 @@
       }
     }
 
-    >.chat_blk {
+    > .chat_blk {
       width: calc(100% - 30rem);
 
       @include mobile {
@@ -2182,7 +2184,7 @@
       padding: 1rem 2rem;
       border-bottom: 0.1rem solid rgba(var(--light_rgb), 0.2);
 
-      >img {
+      > img {
         @include pos($r: null);
         width: 1.6rem;
         min-width: 1.6rem;
@@ -2192,7 +2194,7 @@
         @include filter(0.4);
       }
 
-      >.input {
+      > .input {
         height: 4.2rem;
         padding-left: 4rem;
         border-radius: 5rem;
@@ -2206,7 +2208,7 @@
       overflow-y: auto;
       @include scrollbar;
 
-      >li {
+      > li {
         position: relative;
         @include flex;
         padding: 1.2rem 2rem;
@@ -2275,7 +2277,7 @@
       &.me {
         @include flex($flow: row-reverse);
 
-        >.txt {
+        > .txt {
           @include flex(flex-end, $flow: column);
 
           .name {
@@ -2298,11 +2300,11 @@
             }
           }
 
-          >p {
+          > p {
             @include flex($flow: wrap);
             @include gap(0.7rem);
 
-            >img {
+            > img {
               @include object(cover);
               width: 12rem;
               min-width: 12rem;
@@ -2318,7 +2320,7 @@
       &.you {
         @include flex($flow: row);
 
-        >.txt {
+        > .txt {
           @include flex(flex-start, $flow: column);
 
           .name {
@@ -2347,19 +2349,19 @@
         margin-bottom: 1rem;
       }
 
-      >.ico {
+      > .ico {
         width: 4rem;
         min-width: 4rem;
         height: 4rem;
         border-radius: 75%;
         overflow: hidden;
 
-        >img {
+        > img {
           @include object(cover);
         }
       }
 
-      >.txt {
+      > .txt {
         .name {
           @include flex(baseline);
           @include gap(1rem);
@@ -2368,13 +2370,13 @@
           padding-top: 1rem;
           margin-bottom: 1rem;
 
-          >strong {
+          > strong {
             font-size: 1.2rem;
             font-weight: 500;
             opacity: 0.8;
           }
 
-          >span {
+          > span {
             font-size: 1.1rem;
             opacity: 0.6;
           }
@@ -2439,12 +2441,12 @@
           border-color: var(--prime_color);
         }
 
-        >img {
+        > img {
           @include object(contain);
           @include filter(0.8);
         }
 
-        >input {
+        > input {
           @include pos($z: 1);
           opacity: 0;
           cursor: pointer;
@@ -2470,7 +2472,7 @@
         height: 2rem;
         margin-left: 1rem;
 
-        >img {
+        > img {
           @include object(contain);
         }
       }
@@ -2533,7 +2535,7 @@
   margin: 0;
 }
 
-.credits_blk ul>li {
+.credits_blk ul > li {
   color: #fff;
   font-size: 14px;
   padding: 20px;
@@ -2572,7 +2574,7 @@
           display: none;
         }
 
-        >img {
+        > img {
           @include object($fill: true);
         }
       }
@@ -2634,7 +2636,7 @@
         @include gap(2rem);
         margin-top: 2rem;
 
-        >li {
+        > li {
           opacity: 0.5;
         }
       }
@@ -2661,7 +2663,7 @@
         height: 10rem;
         margin-right: 2rem;
 
-        >img {
+        > img {
           @include object(contain);
         }
       }
@@ -2670,7 +2672,7 @@
     .team_list {
       @include list;
 
-      >li {
+      > li {
         @include flex(center, $flow: wrap);
         @include gap(1rem);
 
@@ -2678,7 +2680,7 @@
           margin-bottom: 1rem;
         }
 
-        >span {
+        > span {
           opacity: 0.5;
         }
       }
@@ -2687,12 +2689,12 @@
         @include list;
         @include flex;
 
-        >li {
+        > li {
           &:not(:nth-child(1)) {
             margin-left: -2rem;
           }
 
-          >.ico {
+          > .ico {
             width: 4rem;
             min-width: 4rem;
             height: 4rem;
@@ -2706,11 +2708,11 @@
   .outer {
     @include flex;
 
-    >.l_side {
+    > .l_side {
       width: calc(100% - 30rem);
     }
 
-    >.r_side {
+    > .r_side {
       width: 30rem;
       min-width: 30rem;
       padding-left: 3rem;
@@ -2723,7 +2725,7 @@
     border-radius: 0.8rem;
     overflow: hidden;
 
-    >iframe {
+    > iframe {
       @include pos;
       width: 100%;
       height: 100%;
@@ -2738,7 +2740,7 @@
       color: var(--prime_color);
     }
 
-    >img {
+    > img {
       width: 2rem;
       min-width: 2rem;
       height: 2rem;
@@ -2860,7 +2862,7 @@
     color: rgba(var(--light_rgb), 0.7);
     font-size: 1.6rem;
 
-    >span {
+    > span {
       color: var(--light);
       font-weight: 600;
     }
@@ -2918,13 +2920,13 @@
   border-radius: 0.8rem;
   overflow: hidden;
 
-  >ul {
+  > ul {
     @include list;
     max-height: inherit;
     overflow: hidden;
     overflow-y: auto;
 
-    >li {
+    > li {
       text-align: left;
       padding: 1rem 1.6rem;
       border-bottom: 0.1rem solid rgba(var(--light_rgb), 0.05);
@@ -2953,7 +2955,7 @@
     -webkit-transition: var(--transition);
     transition: var(--transition);
 
-    >* {
+    > * {
       width: 100%;
     }
   }
@@ -2973,7 +2975,7 @@
     width: 50rem;
     min-width: 50rem;
 
-    &+.round_blk {
+    & + .round_blk {
       margin-left: 3rem;
     }
 
@@ -3007,11 +3009,11 @@
       -ms-flex: 1;
       flex: 1;
 
-      >*:not(:nth-last-child(1)) {
+      > *:not(:nth-last-child(1)) {
         margin-bottom: 1rem;
       }
 
-      &+* {
+      & + * {
         width: 20rem;
         min-width: 20rem;
         -webkit-box-flex: 0;
@@ -3111,7 +3113,7 @@ p.error {
       min-width: 8rem;
       height: 10rem;
 
-      >img {
+      > img {
         @include object(contain);
       }
     }
@@ -3147,7 +3149,7 @@ p.error {
       min-width: 8rem;
       height: 10rem;
 
-      >img {
+      > img {
         @include object(contain);
       }
     }
@@ -3627,7 +3629,7 @@ form.tournament_form h6 sup {
   margin-bottom: 20px;
 }
 
-.tournamentList>div {
+.tournamentList > div {
   width: calc(100% / 3);
   padding: 0.6rem 1.6rem;
   background: rgba(var(--light_rgb), 0.2);
@@ -3636,7 +3638,7 @@ form.tournament_form h6 sup {
   position: relative;
 }
 
-.tournamentList>div .cross_btn {
+.tournamentList > div .cross_btn {
   position: absolute;
   top: -5px;
   right: -10px;
@@ -3652,7 +3654,7 @@ form.tournament_form h6 sup {
   cursor: pointer;
 }
 
-.tournamentList>div>a {
+.tournamentList > div > a {
   color: rgba(var(--light_rgb), 0.8);
   display: block;
 }
@@ -3916,7 +3918,7 @@ form.tournament_form h6 sup {
     min-width: 8rem;
     height: 10rem;
 
-    >img {
+    > img {
       @include object(contain);
     }
   }
@@ -3956,5 +3958,24 @@ form.tournament_form h6 sup {
     .input {
       margin-left: auto;
     }
+  }
+}
+.round1_generate_detail {
+  .blk {
+    padding: 1rem;
+    .team_main {
+      .data_logo {
+        width: 6rem;
+        height: 6rem;
+      }
+      .data_text {
+        h3 {
+          font-size: 1.7rem;
+        }
+      }
+    }
+  }
+  .icon_vs {
+    height: 8rem;
   }
 }
