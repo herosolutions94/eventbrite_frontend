@@ -115,17 +115,19 @@ const TournamentDetail = () => {
       {tournamentDetails?.firstRound?.id > 0 ? (
         <RoundOneCompleted round_row={tournamentDetails?.firstRound} />
       ) : (
-        <div className={style.no_data}>
-          Tournament bracket will be generated after initial cleanup round.
-        </div>
+        ""
       )}
       {tournamentBrack?.length > 0 &&
       tournamentDetails?.is_bracket_generated === 1 ? (
         <TournamentMatches matches={tournamentDetails?.single_brackets} />
       ) : (
-        <div className={style.no_data}>
-          Tournament bracket will be generated after initial cleanup round.
-        </div>
+        <section id={style.tournament_detail}>
+          <div className={style.contain}>
+            <div className={style.no_data}>
+              Tournament bracket will be generated after initial cleanup round.
+            </div>
+          </div>
+        </section>
       )}
       <Footer />
     </>
