@@ -172,57 +172,59 @@ const NewTournamentForm = () => {
   const [cardError, setCardError] = useState("");
   const [tournamentId, setTournamentId] = useState("");
   const [numberOfTeams, setNumberOfTeams] = useState(0);
-  const [tournamentDetails, setTournamentDetails] = useState<TournamentDetails>({
-    title: "",
-    category_id: "",
-    type: "",
-    start_date: "",
-    end_date: "",
-    open_date: "",
-    registration_dead_line: "",
-    event_type: "",
-    country_id: "",
-    city: "",
-    postal_code: "",
-    address: "",
-    number_of_teams: "",
-    format: "",
-    entry_fee: "",
-    prize_distribution: "",
-    level: "",
-    overview: "",
-    rules: "",
-    code_of_conduct: "",
-    age: "",
-    equipment_requirements: "",
-    schedule_date: "",
-    schedule_time: "00:00",
-    schedule_breaks: 0,
-    venue_availability: "",
-    second_match_date: "",
-    second_match_time: "00:00",
-    second_match_breaks: 0,
-    second_venue_availability: "",
-    third_match_date: "",
-    third_match_time: "00:00",
-    third_match_breaks: 0,
-    third_venue_availability: "",
-    fourth_match_date: "",
-    fourth_match_time: "00:00",
-    fourth_match_breaks: 0,
-    fourth_venue_availability: "",
-    contact_information: "",
-    roles_and_responsibilities: "",
-    sponsor_information: "",
-    bank_information: "",
-    logos: [] as any,
-    banners: [] as any,
-    documents: [] as any,
-    sponsors: "",
-    tournament_logo: "",
-    number_of_matches: 0,
-    matches: []
-  });
+  const [tournamentDetails, setTournamentDetails] = useState<TournamentDetails>(
+    {
+      title: "",
+      category_id: "",
+      type: "",
+      start_date: "",
+      end_date: "",
+      open_date: "",
+      registration_dead_line: "",
+      event_type: "",
+      country_id: "",
+      city: "",
+      postal_code: "",
+      address: "",
+      number_of_teams: "",
+      format: "",
+      entry_fee: "",
+      prize_distribution: "",
+      level: "",
+      overview: "",
+      rules: "",
+      code_of_conduct: "",
+      age: "",
+      equipment_requirements: "",
+      schedule_date: "",
+      schedule_time: "00:00",
+      schedule_breaks: 0,
+      venue_availability: "",
+      second_match_date: "",
+      second_match_time: "00:00",
+      second_match_breaks: 0,
+      second_venue_availability: "",
+      third_match_date: "",
+      third_match_time: "00:00",
+      third_match_breaks: 0,
+      third_venue_availability: "",
+      fourth_match_date: "",
+      fourth_match_time: "00:00",
+      fourth_match_breaks: 0,
+      fourth_venue_availability: "",
+      contact_information: "",
+      roles_and_responsibilities: "",
+      sponsor_information: "",
+      bank_information: "",
+      logos: [] as any,
+      banners: [] as any,
+      documents: [] as any,
+      sponsors: "",
+      tournament_logo: "",
+      number_of_matches: 0,
+      matches: [],
+    }
+  );
   useEffect(() => {
     fetchTournamentData();
   }, []);
@@ -246,38 +248,41 @@ const NewTournamentForm = () => {
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    if (name === 'number_of_teams') {
+    if (name === "number_of_teams") {
       if (value > 0) {
         const number_of_matches = findClosestNumber(value);
         setTournamentDetails({
-          ...tournamentDetails, [name]: value, number_of_matches: number_of_matches, matches: Array.from({ length: number_of_matches }, () => ({
+          ...tournamentDetails,
+          [name]: value,
+          number_of_matches: number_of_matches,
+          matches: Array.from({ length: number_of_matches }, () => ({
             schedule_date: "",
             schedule_time: "00:00",
             schedule_breaks: 0,
-            venue_availability: ""
-          }))
+            venue_availability: "",
+          })),
         });
-      }
-      else {
+      } else {
         setTournamentDetails({ ...tournamentDetails, [name]: value });
       }
-
-    }
-    else {
+    } else {
       setTournamentDetails({ ...tournamentDetails, [name]: value });
     }
-
   };
-  const handleMatchesChange = (matchIndex: number, field: string, value: string) => {
-    setTournamentDetails(prevState => {
+  const handleMatchesChange = (
+    matchIndex: number,
+    field: string,
+    value: string
+  ) => {
+    setTournamentDetails((prevState) => {
       const updatedMatches = [...prevState.matches];
       updatedMatches[matchIndex] = {
         ...updatedMatches[matchIndex],
-        [field]: value
+        [field]: value,
       };
       return {
         ...prevState,
-        matches: updatedMatches
+        matches: updatedMatches,
       };
     });
   };
@@ -312,10 +317,13 @@ const NewTournamentForm = () => {
     setTournamentDetails({ ...tournamentDetails, banners: banners });
   };
   const handleUploadLogo = async (e: any) => {
-    console.log(e.target.files[0])
+    console.log(e.target.files[0]);
     // for (let i = 0; i < e.target.files.length; i++) {
     formData.append("tournament_logo", e.target.files[0]);
-    setTournamentDetails({ ...tournamentDetails, tournament_logo: e.target.files[0] });
+    setTournamentDetails({
+      ...tournamentDetails,
+      tournament_logo: e.target.files[0],
+    });
     // }
   };
   function logFormDataKeys(fd: FormData) {
@@ -398,7 +406,6 @@ const NewTournamentForm = () => {
     });
     tournamentDetails?.banners.forEach((file: File) => {
       formData.append("banners[]", file);
-
     });
     formData.append("tournament_logo", tournamentDetails?.tournament_logo);
     formData.append("staff_arr", JSON.stringify(staffData?.staff));
@@ -423,7 +430,7 @@ const NewTournamentForm = () => {
         // setTournamentId(res.data.tournament_id);
         // submitTournament(res.data.tournament_id);
         toast.success("Record has been inserted successfully.");
-        router.push("/organizer/edit-tournament/" + res?.data?.tournament_id);
+        router.push("/tournament-detail/" + res?.data?.tournament_id);
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -659,11 +666,14 @@ const NewTournamentForm = () => {
           const matchDateObj = new Date(match.schedule_date);
           if (matchDateObj !== undefined && matchDateObj !== null) {
             if (matchDateObj < startDate || matchDateObj > endDate) {
-              toast.error(`Error: Match ${i + 1} date should be between start date and end date`);
+              toast.error(
+                `Error: Match ${
+                  i + 1
+                } date should be between start date and end date`
+              );
               return;
             }
           }
-
         }
         setFieldset(fieldSet);
         setErrorMessage("");
@@ -671,13 +681,12 @@ const NewTournamentForm = () => {
     } else if (fieldSet == "tournament_sponsorship") {
       setFieldset(fieldSet);
       setErrorMessage("");
-    }
-    else {
+    } else {
       setFieldset(fieldSet);
       setErrorMessage("");
     }
   };
-  console.log("number_of_matches", tournamentDetails?.number_of_matches)
+  console.log("number_of_matches", tournamentDetails?.number_of_matches);
   return (
     <>
       <form
@@ -1243,66 +1252,87 @@ const NewTournamentForm = () => {
           <>
             <fieldset className={style.blk}>
               <h5 className="mb-5">Tournament Schedule</h5>
-              {
-                tournamentDetails.matches.map((match, index) => (
-                  <>
-                    <h6>Match {index + 1}</h6>
-                    <div key={index} className="row">
-                      <div className="col-sm-4">
-                        <h6>Date</h6>
-                        <div className={style.form_blk}>
-                          <input
-                            type="date"
-                            value={match.schedule_date}
-                            className={style.input}
-                            placeholder="eg: 04-12-2020"
-                            onChange={e => handleMatchesChange(index, 'schedule_date', e.target.value)}
-                          />
-                        </div>
+              {tournamentDetails.matches.map((match, index) => (
+                <>
+                  <h6>Match {index + 1}</h6>
+                  <div key={index} className="row">
+                    <div className="col-sm-4">
+                      <h6>Date</h6>
+                      <div className={style.form_blk}>
+                        <input
+                          type="date"
+                          value={match.schedule_date}
+                          className={style.input}
+                          placeholder="eg: 04-12-2020"
+                          onChange={(e) =>
+                            handleMatchesChange(
+                              index,
+                              "schedule_date",
+                              e.target.value
+                            )
+                          }
+                        />
                       </div>
-
-                      <div className="col-sm-4">
-                        <h6>Time</h6>
-                        <div className={style.form_blk}>
-                          <input
-                            type="time"
-                            value={match.schedule_time}
-                            className={style.input}
-                            placeholder="eg: 16:00"
-                            onChange={e => handleMatchesChange(index, 'schedule_time', e.target.value)}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-sm-4">
-                        <h6>Breaks</h6>
-                        <div className={style.form_blk}>
-                          <input
-                            type="number"
-                            value={match.schedule_breaks}
-                            className={style.input}
-                            placeholder="eg: 1,2,3,..."
-                            onChange={e => handleMatchesChange(index, 'schedule_breaks', (e.target.value))}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-sm-12">
-                        <h6>Venue Availability</h6>
-                        <div className={style.form_blk}>
-                          <input
-                            type="text"
-                            value={match.venue_availability}
-                            className={style.input}
-                            placeholder="eg: 123 Main Street, California"
-                            onChange={e => handleMatchesChange(index, 'venue_availability', e.target.value)}
-                          />
-                        </div>
-                      </div>
-
-
                     </div>
-                    <hr />
-                  </>
-                ))}
+
+                    <div className="col-sm-4">
+                      <h6>Time</h6>
+                      <div className={style.form_blk}>
+                        <input
+                          type="time"
+                          value={match.schedule_time}
+                          className={style.input}
+                          placeholder="eg: 16:00"
+                          onChange={(e) =>
+                            handleMatchesChange(
+                              index,
+                              "schedule_time",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="col-sm-4">
+                      <h6>Breaks</h6>
+                      <div className={style.form_blk}>
+                        <input
+                          type="number"
+                          value={match.schedule_breaks}
+                          className={style.input}
+                          placeholder="eg: 1,2,3,..."
+                          onChange={(e) =>
+                            handleMatchesChange(
+                              index,
+                              "schedule_breaks",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="col-sm-12">
+                      <h6>Venue Availability</h6>
+                      <div className={style.form_blk}>
+                        <input
+                          type="text"
+                          value={match.venue_availability}
+                          className={style.input}
+                          placeholder="eg: 123 Main Street, California"
+                          onChange={(e) =>
+                            handleMatchesChange(
+                              index,
+                              "venue_availability",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                </>
+              ))}
 
               <div className={`${style.btn_blk} justify-content-center mt-5`}>
                 <button
