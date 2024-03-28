@@ -115,7 +115,7 @@ const TournamentDetail = () => {
 					</div>
 				</div>
 			</section>
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	)
 }

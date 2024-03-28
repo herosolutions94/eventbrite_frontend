@@ -3,6 +3,7 @@ import style from "@/styles/scss/app.module.scss"
 import Image from "next/image"
 import { PhotoAboutMe } from "@/components/images"
 import GetServerImage from "@/components/getServerImage"
+import { profile } from "console"
 
 type ProfileBlockProps = {
 	profileData: any
@@ -16,7 +17,7 @@ const ProfileBlock = ({ profileData }: ProfileBlockProps) => {
 				</div>
 				<div className={style.txt}>
 					<h2>
-						<span>Welcome,</span> {profileData?.name}
+						<span>Welcome,</span> {profileData?.firstname + " " + profileData?.lastname}
 					</h2>
 					<p>Nice to see you again.</p>
 				</div>

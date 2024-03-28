@@ -51,7 +51,7 @@ const Messages = () => {
 					</div>
 				</div>
 			</section>
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	)
 }

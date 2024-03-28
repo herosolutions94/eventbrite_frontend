@@ -5,7 +5,7 @@ import Footer from "@/components/footer"
 import TransactionsTable from "./transactions/transactionsTable"
 import PaymentCards from "./transactions/paymentCards"
 import WithdrawBlock from "./transactions/withdrawBlock"
-import { useState,useEffect } from "react"
+import { useState, useEffect } from "react"
 import axios from "axios"
 import Cookies from "js-cookie"
 
@@ -35,8 +35,8 @@ const Transactions = () => {
 					<h5 className="mb-4">Transactions</h5>
 					<PaymentCards />
 					<div className="pt-5"></div>
-					{wallet.length > 0 && 
-						<WithdrawBlock wallet={wallet as any}/>
+					{wallet.length > 0 &&
+						<WithdrawBlock wallet={wallet as any} />
 					}
 					<div className="pt-4"></div>
 					<TransactionsTable
@@ -44,7 +44,7 @@ const Transactions = () => {
 					/>
 				</div>
 			</section>
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	)
 }

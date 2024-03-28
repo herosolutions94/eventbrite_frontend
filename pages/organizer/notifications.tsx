@@ -44,7 +44,7 @@ const Notifications = () => {
 					<NotificationsTable />
 				</div>
 			</section>
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	)
 }

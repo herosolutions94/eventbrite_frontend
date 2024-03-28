@@ -14,7 +14,7 @@ const BookingDetail = () => {
 					<BookingContent />
 				</div>
 			</section>
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	)
 }

@@ -13,8 +13,8 @@ import { useRouter } from "next/router";
 import NewCreditBuyForm from "../../components/new-credit-form";
 // Replace with the actual path
 const stripePromise = loadStripe(
-    "pk_test_51Moz1CFV8hMVqQzQH96smahOCpKUnMix9OMtfhQe3YjnaL4kpLa6An91ycTRcs26A7hZwgr0HelG4ElEdYBAEwbb00MpdTNJhb"
-  );
+  "pk_test_51Moz1CFV8hMVqQzQH96smahOCpKUnMix9OMtfhQe3YjnaL4kpLa6An91ycTRcs26A7hZwgr0HelG4ElEdYBAEwbb00MpdTNJhb"
+);
 
 const BuyCredits = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -41,27 +41,27 @@ const BuyCredits = () => {
       </div>
     );
   }
-  
+
   return (
     <>
       <Header pageTitle="Buy Credits" profileData={profileData} />
       <section className={style.dashboard} id={style.new_tournament}>
         <div className={style.contain}>
-            <div className={`${style.table_top_block} mt-0 align-items-center`}>
-                <h5 className="me-auto">Buy Credits</h5>
-            </div>
-            <div className={style.credits_blk}>
-                <ul className={style.blans}>
-                    <li>Available Credite: <span className={style.price}>{profileData?.total_credits} points</span></li>
-                    {/* <li>Spent Credits: <span>$86</span></li> */}
-                </ul>
-            </div>
-            <Elements stripe={stripePromise}>
-                <NewCreditBuyForm />
+          <div className={`${style.table_top_block} mt-0 align-items-center`}>
+            <h5 className="me-auto">Buy Credits</h5>
+          </div>
+          <div className={style.credits_blk}>
+            <ul className={style.blans}>
+              <li>Available Credite: <span className={style.price}>{profileData?.total_credits} points</span></li>
+              {/* <li>Spent Credits: <span>$86</span></li> */}
+            </ul>
+          </div>
+          <Elements stripe={stripePromise}>
+            <NewCreditBuyForm />
           </Elements>
         </div>
       </section>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

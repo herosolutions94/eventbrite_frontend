@@ -4,7 +4,7 @@ import Footer from "@/components/footer"
 import Header from "@/components/header/header"
 
 const SelectTeam = () => {
-	const matches =[
+	const matches = [
 		[
 			{ name: "Erik Zettersten", id: "erik-zettersten", seed: 1, displaySeed: "D1", score: 47 },
 			{ name: "Andrew Miller", id: "andrew-miller", seed: 2 },
@@ -241,7 +241,7 @@ const SelectTeam = () => {
 					</div>
 				</div>
 			</section>
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	)
 }

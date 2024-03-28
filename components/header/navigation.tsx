@@ -3,11 +3,29 @@ import style from "@/styles/scss/app.module.scss";
 import { useRouter } from "next/router";
 import { IconBell, IconEnvelope, PhotoUser_01 } from "../images";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import GetServerImage from "../getServerImage";
 
 const Navigation = (props: any) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Function to handle clicks outside the dropdown
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdown(false);
+      }
+    };
+
+    // Add event listener when the component mounts
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Clean up event listener when the component unmounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   const email = Cookies.get("email");
   const role = Cookies.get("role");
 
@@ -90,7 +108,7 @@ const Navigation = (props: any) => {
                 </Link>
               </li>
             </ul> */}
-            <div id={style.pro_btn} className={style.dropdown}>
+            <div id={style.pro_btn} className={style.dropdown} ref={dropdownRef}>
               <div
                 className={`${style.ico} ${style.fill} ${style.round}`}
                 onClick={dropdownHandle}
@@ -155,6 +173,20 @@ const Navigation = (props: any) => {
               </li>
               <li>
                 <Link
+                  href={
+                    "/profile/" +
+                    profileData?.id +
+                    "/" +
+                    toSlugUrl(
+                      profileData?.firstname + " " + profileData?.lastname
+                    )
+                  }
+                >
+                  Public Profile
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/organizer/tournaments"
                   className={
                     router.pathname === "/organizer/tournaments"
@@ -192,7 +224,7 @@ const Navigation = (props: any) => {
                 </Link>
               </li>
             </ul> */}
-            <div id={style.pro_btn} className={style.dropdown}>
+            <div id={style.pro_btn} className={style.dropdown} ref={dropdownRef}>
               <div
                 className={`${style.ico} ${style.fill} ${style.round}`}
                 onClick={dropdownHandle}
@@ -294,7 +326,7 @@ const Navigation = (props: any) => {
               )}
             </ul>
             {email !== undefined && email !== null && email !== "" ? (
-              <div id={style.pro_btn} className={style.dropdown}>
+              <div id={style.pro_btn} className={style.dropdown} ref={dropdownRef}>
                 <div
                   className={`${style.ico} ${style.fill} ${style.round}`}
                   onClick={dropdownHandle}

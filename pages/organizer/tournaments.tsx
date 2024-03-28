@@ -58,7 +58,7 @@ const Tournaments = () => {
 					<TournamentsItems />
 				</div>
 			</section>
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	)
 }

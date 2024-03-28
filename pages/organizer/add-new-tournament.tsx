@@ -82,7 +82,7 @@ const AddNewTournament = () => {
           {/* </Elements> */}
         </div>
       </section>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

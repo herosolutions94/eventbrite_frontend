@@ -122,7 +122,7 @@ const Wishlists = () => {
 					/>
 				</div>
 			</section>
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	)
 }

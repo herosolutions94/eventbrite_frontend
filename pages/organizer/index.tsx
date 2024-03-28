@@ -61,7 +61,7 @@ const Dashboard = () => {
 			<Account
 				content={profileData}
 			/>
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	)
 }

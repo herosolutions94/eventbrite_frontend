@@ -17,7 +17,7 @@ const Booking = () => {
 					<TournamentsItems />
 				</div>
 			</section>
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	)
 }
