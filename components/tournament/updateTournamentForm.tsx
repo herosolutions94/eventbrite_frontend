@@ -433,8 +433,8 @@ const UpdateTournamentForm: React.FC<FormProps> = ({
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     if (name === "number_of_teams") {
-      if (value > 0) {
-        const number_of_matches = findClosestNumber(value);
+      if (parseInt(value) > 0) {
+        const number_of_matches = findClosestNumber(parseInt(value));
         setTournamentDetails({
           ...tournamentDetails,
           [name]: value,
@@ -669,10 +669,12 @@ const UpdateTournamentForm: React.FC<FormProps> = ({
       console.log(res);
       // return;
       if (res.status === 200) {
-        // setTournamentId(res.data.tournament_id);
-        // submitTournament(res.data.tournament_id);
-        toast.success("Record has been updated successfully.");
-        router.push("/tournament-detail/" + res?.data?.tournament_id);
+        if (res?.data?.status === 1) {
+          toast.success("Record has been updated successfully.");
+          router.push("/tournament-detail/" + res?.data?.tournament_id);
+        } else {
+          toast.error(res?.data?.message);
+        }
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -801,7 +803,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({
           const registrationDeadline = new Date(
             tournamentDetails.registration_dead_line
           );
-          if (endDate <= startDate) {
+          if (endDate < startDate) {
             toast.error("End date must be greater than start date");
             return;
           }

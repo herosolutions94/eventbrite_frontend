@@ -107,7 +107,6 @@ interface TournamentDetails {
 const NewTournamentForm = () => {
   const findClosestNumber = (number: number): number => {
     const series: number[] = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024];
-
     // Check if the number is in the series
     if (series.includes(number)) {
       return Math.floor(number / 2);
@@ -125,9 +124,9 @@ const NewTournamentForm = () => {
 
     // Calculate the result
     const result = number - closestSmaller;
-    if (result > 0) {
-      return Math.floor(result / 2);
-    }
+    // if (result > 0) {
+    //   return Math.floor(result / 2);
+    // }
     return result;
   };
   const [staffData, setStaffData] = useState<StaffState>({
@@ -249,8 +248,8 @@ const NewTournamentForm = () => {
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     if (name === "number_of_teams") {
-      if (value > 0) {
-        const number_of_matches = findClosestNumber(value);
+      if (parseInt(value) > 0) {
+        const number_of_matches = findClosestNumber(parseInt(value));
         setTournamentDetails({
           ...tournamentDetails,
           [name]: value,
@@ -559,7 +558,7 @@ const NewTournamentForm = () => {
           const registrationDeadline = new Date(
             tournamentDetails.registration_dead_line
           );
-          if (endDate <= startDate) {
+          if (endDate < startDate) {
             toast.error("End date must be greater than start date");
             return;
           }
@@ -686,7 +685,7 @@ const NewTournamentForm = () => {
       setErrorMessage("");
     }
   };
-  console.log("number_of_matches", tournamentDetails?.number_of_matches);
+  // console.log("number_of_matches", tournamentDetails?.number_of_matches);
   return (
     <>
       <form

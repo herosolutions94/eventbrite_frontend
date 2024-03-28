@@ -4,12 +4,17 @@ const nextConfig = {
   env: {
     API_URL: process.env.API_URL,
     ASSET_URL: process.env.ASSET_URL,
-    STRIPE_API_KEY: process.env.STRIPE_API_KEY,
-    STRIPE_API_VERSION: process.env.STRIPE_API_VERSION,
   },
   images: {
-    domains: ['via.placeholder.com','eventbrite.test','playoffz.com','api.playoffz.com','test.banttech.com'],
+    domains: [
+      "via.placeholder.com",
+      "eventbrite.test",
+      "playoffz.com",
+      "api.playoffz.com",
+      "test.banttech.com",
+      "127.0.0.1",
+    ],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
