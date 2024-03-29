@@ -84,7 +84,7 @@ const TopFilters = ({
 								onClick={() => setActiveTab("list")}
 							/>
 						</button>
-						<button type="button" className={activeTab === "map" ? style.active : ""}>
+						{/* <button type="button" className={activeTab === "map" ? style.active : ""}>
 							<Image
 								width={100}
 								height={100}
@@ -92,7 +92,7 @@ const TopFilters = ({
 								alt=""
 								onClick={() => setActiveTab("map")}
 							/>
-						</button>
+						</button> */}
 					</div>
 					<select name="" id="" className={style.input} onChange={handleSorting}>
 						<option value="">Sort by</option>
