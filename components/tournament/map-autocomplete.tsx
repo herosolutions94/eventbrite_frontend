@@ -5,10 +5,10 @@ import style from "@/styles/scss/app.module.scss";
 interface AddressAutocompleteProps {
     onPlaceSelect: (location: { latitude: number; longitude: number }) => void;
     setAddress: (address: string) => void;
-    businessAddress:string
+    businessAddress: string
 }
 
-const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({ onPlaceSelect, setAddress,businessAddress }) => {
+const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({ onPlaceSelect, setAddress, businessAddress }) => {
     const autocompleteRef = useRef<google.maps.places.Autocomplete>();
 
     const handlePlaceSelect = () => {
@@ -35,7 +35,7 @@ const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({ onPlaceSelect
                 }}
                 onPlaceChanged={handlePlaceSelect}
                 options={{
-                    componentRestrictions: { country: 'ng' },
+                    componentRestrictions: { country: 'us' },
                 }}
             >
                 <input
