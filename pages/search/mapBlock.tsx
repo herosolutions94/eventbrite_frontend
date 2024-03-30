@@ -30,7 +30,6 @@ const Map = ({ tournaments }: MapProps) => {
 
   return (
     <div>
-      {/* <LeafletMapComponent markers={markers} /> */}
       <LeafLetMap markers={markers} />
     </div>
   );
