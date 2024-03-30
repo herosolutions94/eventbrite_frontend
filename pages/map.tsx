@@ -1,9 +1,9 @@
 import React from 'react';
-import MapWithMarkers from './map/MapWithMarkers';
+// import MapWithMarkers from './map/MapWithMarkers';
 
 export interface Marker {
-	latitude: number;
-	longitude: number;
+  latitude: number;
+  longitude: number;
 }
 const MyPage: React.FC = () => {
   const markers: Marker[] = [
@@ -15,7 +15,7 @@ const MyPage: React.FC = () => {
   return (
     <div>
       <h1>Map with Markers</h1>
-      <MapWithMarkers markers={markers} center={{latitude: 40.7128, longitude: -74.006}} />
+      {/* <MapWithMarkers markers={markers} center={{latitude: 40.7128, longitude: -74.006}} /> */}
     </div>
   );
 };

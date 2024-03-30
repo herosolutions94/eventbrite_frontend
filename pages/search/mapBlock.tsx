@@ -1,6 +1,4 @@
 import React from 'react';
-import MapWithMarkers from '../map/MapWithMarkers';
-import LeafletMapComponent from '../map/leaflet-map';
 import LeafLetMap from '@/components/map';
 
 export interface Marker {
