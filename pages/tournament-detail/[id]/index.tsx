@@ -21,6 +21,7 @@ import {
 } from "@/components/images";
 import CompletedMatch from "@/components/rounds/completedMatch";
 import RoundOneCompleted from "@/components/rounds/roundOneCompleted";
+import LeafLetMapSingle from "@/components/map-single-marker";
 
 const TournamentDetail = () => {
   const [tournamentDetails, setTournamentDetails] = useState<any>([]);
@@ -67,7 +68,7 @@ const TournamentDetail = () => {
       </div>
     );
   }
-  // console.log(tournamentDetails)
+  console.log(tournamentDetails)
   return (
     <>
       <Header pageTitle="Tournament Detail" />
@@ -106,7 +107,12 @@ const TournamentDetail = () => {
                     ) : null}
                   </>
                 )}
-                <MapBlock />
+                {
+                  parseFloat(tournamentDetails?.lat) > 0 && parseFloat(tournamentDetails?.long) > 0 ?
+                    <LeafLetMapSingle lat={tournamentDetails?.lat} lng={tournamentDetails?.long} />
+                    :
+                    ""
+                }
               </div>
             </div>
           </>
@@ -118,7 +124,7 @@ const TournamentDetail = () => {
         ""
       )}
       {tournamentBrack?.length > 0 &&
-      tournamentDetails?.is_bracket_generated === 1 ? (
+        tournamentDetails?.is_bracket_generated === 1 ? (
         <TournamentMatches matches={tournamentDetails?.single_brackets} />
       ) : (
         <section id={style.tournament_detail}>

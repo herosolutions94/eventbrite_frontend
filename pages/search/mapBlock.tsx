@@ -1,26 +1,39 @@
 import React from 'react';
 import MapWithMarkers from '../map/MapWithMarkers';
 import LeafletMapComponent from '../map/leaflet-map';
+import LeafLetMap from '@/components/map';
 
 export interface Marker {
-  latitude: number;
-  longitude: number;
+  lat: number;
+  lng: number;
+  name: string
 }
 interface MapProps {
   tournaments: any
 }
 const Map = ({ tournaments }: MapProps) => {
-
   const markers: Marker[] = tournaments && tournaments.map((item: any) => {
-    return {
-      latitude: parseFloat(item?.lat),
-      longitude: parseFloat(item?.long),
-    };
+    if (parseFloat(item?.lat) > 0 && parseFloat(item?.long) > 0) {
+      return {
+        lat: parseFloat(item?.lat),
+        lng: parseFloat(item?.long),
+        name: `
+            <div class="tournament_markerr">
+                
+                <h5>Tournament: ${item.title}</h5>
+                <h6>Location: ${item.location}</h6>
+                <a href="/tournament-detail/${item?.id}" style="font-size:16px"></a>
+            </div>
+        `,
+      };
+    }
+
   });
 
   return (
     <div>
       {/* <LeafletMapComponent markers={markers} /> */}
+      <LeafLetMap markers={markers} />
     </div>
   );
 };
