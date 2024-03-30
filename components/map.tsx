@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import customIconUrl from '/images/loser.png';
 interface Marker {
     lat: number;
     lng: number;
@@ -41,9 +40,12 @@ const LeafLetMap: React.FC<MapProps> = ({ markers }) => {
 
             // Add markers to the map
             markers.forEach(marker => {
-                L.marker([marker.lat, marker.lng], { icon: customIcon }) // Pass customIcon to icon option
-                    .addTo(map)
-                    .bindPopup(marker.name);
+                if (marker?.lat > 0 && marker?.lng > 0) {
+                    L.marker([marker?.lat, marker?.lng], { icon: customIcon }) // Pass customIcon to icon option
+                        .addTo(map)
+                        .bindPopup(marker.name);
+                }
+
             });
 
             return () => {

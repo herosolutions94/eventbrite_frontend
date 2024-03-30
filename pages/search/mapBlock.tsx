@@ -28,7 +28,7 @@ const Map = ({ tournaments }: MapProps) => {
     }
 
   });
-
+console.log(markers)
   return (
     <div>
       <LeafLetMap markers={markers} />
