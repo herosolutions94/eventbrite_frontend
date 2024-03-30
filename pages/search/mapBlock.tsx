@@ -9,6 +9,7 @@ export interface Marker {
 interface MapProps {
   tournaments: any
 }
+
 const Map = ({ tournaments }: MapProps) => {
   const markers: Marker[] = tournaments && tournaments.map((item: any) => {
     if (parseFloat(item?.lat) > 0 && parseFloat(item?.long) > 0) {
