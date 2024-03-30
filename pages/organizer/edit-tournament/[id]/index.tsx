@@ -63,8 +63,10 @@ const EditTournament = () => {
     }, [id]);
     const fetchData = async (id: any) => {
         try {
+            console.log(process.env.API_URL + "/tournament-details/" + id)
             const response = await axios.get(process.env.API_URL + "/tournament-details/" + id, {});
             if (response.status === 200) {
+                // console.log(response?.data?.data)
                 setTournamentDetails(response.data.data);
             }
         } catch (error) {

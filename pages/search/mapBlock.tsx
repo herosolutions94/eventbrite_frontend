@@ -1,28 +1,26 @@
 import React from 'react';
 import MapWithMarkers from '../map/MapWithMarkers';
+import LeafletMapComponent from '../map/leaflet-map';
 
 export interface Marker {
-	latitude: number;
-	longitude: number;
+  latitude: number;
+  longitude: number;
 }
 interface MapProps {
-  tournaments : any
+  tournaments: any
 }
-const Map = ({tournaments}: MapProps) => {
+const Map = ({ tournaments }: MapProps) => {
 
   const markers: Marker[] = tournaments && tournaments.map((item: any) => {
     return {
-      latitude: parseInt(item?.latitude),
-      longitude: parseInt(item?.longitude),
+      latitude: parseFloat(item?.lat),
+      longitude: parseFloat(item?.long),
     };
   });
-  
+
   return (
     <div>
-      	<MapWithMarkers 
-          markers={markers} 
-          center={{latitude: 40.7128, longitude: -74.006}} 
-		    />
+      {/* <LeafletMapComponent markers={markers} /> */}
     </div>
   );
 };

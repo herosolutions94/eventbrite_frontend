@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 // import CKeditor from "@/components/ckEditor";
 
 import InputSlider from "react-input-slider";
+import AddressAutocomplete from "./map-autocomplete";
 
 const useOptions = () => {
   const options = useMemo(
@@ -102,6 +103,10 @@ interface TournamentDetails {
   tournament_logo: string;
   number_of_matches: number;
   matches: MatchDetails[];
+  tournament_type: string;
+  location: string;
+  lat: number | 0;
+  long: number | 0;
 }
 
 const NewTournamentForm = () => {
@@ -222,8 +227,31 @@ const NewTournamentForm = () => {
       tournament_logo: "",
       number_of_matches: 0,
       matches: [],
+      tournament_type: "",
+      location: "",
+      lat: 0,
+      long: 0
     }
   );
+  const [gettingLocation, setGettingLocation] = useState<boolean>(false);
+  const [reloadMap, setReloadMap] = useState<boolean>(false);
+  const [businessAddress, setBusinessAddress] = useState<string>("");
+  const handlePlaceSelect = (place: { latitude: number; longitude: number }) => {
+    setReloadMap(false);
+    setGettingLocation(true);
+    setTournamentDetails({
+      ...tournamentDetails, lat: place.latitude, long: place.longitude
+    });
+    // Use reverse geocoding to get the address from coordinates
+
+    if (place.latitude && place.longitude) {
+      // toast.success("Location picked. Continue to next Step");
+    } else {
+      toast.error("Location Not picked");
+    }
+
+    setGettingLocation(false);
+  };
   useEffect(() => {
     fetchTournamentData();
   }, []);
@@ -409,6 +437,10 @@ const NewTournamentForm = () => {
     formData.append("tournament_logo", tournamentDetails?.tournament_logo);
     formData.append("staff_arr", JSON.stringify(staffData?.staff));
     formData.append("matches", JSON.stringify(tournamentDetails?.matches));
+    formData.append("location", businessAddress);
+    formData.append("lat", JSON.stringify(tournamentDetails?.lat));
+    formData.append("long", JSON.stringify(tournamentDetails?.long));
+    formData.append("tournament_type", (tournamentDetails?.tournament_type));
     logFormDataKeys(formData);
     try {
       const res = await axios.post(
@@ -432,6 +464,7 @@ const NewTournamentForm = () => {
         router.push("/tournament-detail/" + res?.data?.tournament_id);
       }
     } catch (err) {
+      console.log(err)
       if (axios.isAxiosError(err)) {
         if (err.response?.status === 422) {
           toast.error("Please fill out all the fields");
@@ -469,9 +502,16 @@ const NewTournamentForm = () => {
         entry_fee: "",
         prize_distribution: "",
         level: "",
+        location: "",
       };
       if (tournamentDetails.title == "") {
         runTimeErrors.title = "title is required";
+      }
+      if (tournamentDetails.lat == null || tournamentDetails.lat == undefined || tournamentDetails.lat == 0) {
+        runTimeErrors.location = "location is required";
+      }
+      if (tournamentDetails.long == null || tournamentDetails.long == undefined || tournamentDetails.long == 0) {
+        runTimeErrors.location = "location is required";
       }
       if (tournamentDetails.category_id == "") {
         runTimeErrors.category_id = "category is required";
@@ -666,8 +706,7 @@ const NewTournamentForm = () => {
           if (matchDateObj !== undefined && matchDateObj !== null) {
             if (matchDateObj < startDate || matchDateObj > endDate) {
               toast.error(
-                `Error: Match ${
-                  i + 1
+                `Error: Match ${i + 1
                 } date should be between start date and end date`
               );
               return;
@@ -714,7 +753,7 @@ const NewTournamentForm = () => {
             <fieldset className={style.blk}>
               <h5 className="mb-5">Tournament Details</h5>
               <div className="row">
-                <div className="col-sm-12">
+                <div className="col-sm-6">
                   <h6>
                     Tournament Name <sup>*</sup>
                   </h6>
@@ -732,6 +771,43 @@ const NewTournamentForm = () => {
                   </div>
                   <p className="text-danger">{errors?.title}</p>
                 </div>
+                <div className="col-sm-6">
+                  <h6>
+                    Tournament Type <sup>*</sup>
+                  </h6>
+                  <div className={style.form_blk}>
+                    <select
+                      name="tournament_type"
+                      id=""
+                      className={style.input}
+                      onChange={handleChange}
+                    >
+                      <option value="">Select Type</option>
+                      <option value="physical">Physical</option>
+                      <option value="online">Online</option>
+
+                    </select>
+                    <p className="text-danger">{errors?.type}</p>
+                  </div>
+                </div>
+                {
+                  tournamentDetails?.tournament_type === 'physical' ?
+                    <div className="col-sm-12">
+                      <h6>
+                        Tournament Location <sup>*</sup>
+                      </h6>
+                      <div className={style.form_blk}>
+                        <AddressAutocomplete
+                          onPlaceSelect={handlePlaceSelect}
+                          setAddress={setBusinessAddress}
+                          businessAddress={businessAddress}
+                        />
+                        <p className="text-danger">{errors?.location}</p>
+                      </div>
+                    </div>
+                    :
+                    ""
+                }
                 <div className="col-sm-6">
                   <h6>
                     Tournament Category <sup>*</sup>
@@ -765,7 +841,7 @@ const NewTournamentForm = () => {
                 </div>
                 <div className="col-sm-6">
                   <h6>
-                    Tournament Type <sup>*</sup>
+                    Tournament Match Type <sup>*</sup>
                   </h6>
                   <div className={style.form_blk}>
                     {tournamentData.tournamentTypes && (
