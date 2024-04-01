@@ -51,7 +51,7 @@ const TournamentDetail = () => {
         process.env.API_URL + "/tournament-details/" + id,
         {}
       );
-      // console.log(response)
+      // console.log(response?.data?.data);
       if (response.status === 200) {
         setTournamentDetails(response.data.data);
         setTeamsCount(response.data.teamsCount);
@@ -68,7 +68,7 @@ const TournamentDetail = () => {
       </div>
     );
   }
-  console.log(tournamentDetails)
+  // console.log(tournamentDetails);
   return (
     <>
       <Header pageTitle="Tournament Detail" />
@@ -107,12 +107,15 @@ const TournamentDetail = () => {
                     ) : null}
                   </>
                 )}
-                {
-                  parseFloat(tournamentDetails?.lat) > 0 && parseFloat(tournamentDetails?.long) > 0 ?
-                    <LeafLetMapSingle lat={tournamentDetails?.lat} lng={tournamentDetails?.long} />
-                    :
-                    ""
-                }
+                {/* {parseFloat(tournamentDetails?.lat) > 0 &&
+                parseFloat(tournamentDetails?.long) > 0 ? ( */}
+                <LeafLetMapSingle
+                  lat={tournamentDetails?.lat}
+                  lng={tournamentDetails?.long}
+                />
+                {/* ) : (
+                  ""
+                )} */}
               </div>
             </div>
           </>
@@ -124,7 +127,7 @@ const TournamentDetail = () => {
         ""
       )}
       {tournamentBrack?.length > 0 &&
-        tournamentDetails?.is_bracket_generated === 1 ? (
+      tournamentDetails?.is_bracket_generated === 1 ? (
         <TournamentMatches matches={tournamentDetails?.single_brackets} />
       ) : (
         <section id={style.tournament_detail}>
