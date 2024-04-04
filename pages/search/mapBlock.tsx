@@ -21,18 +21,17 @@ const Map = ({ tournaments }: MapProps) => {
         lat: parseFloat(item?.lat),
         lng: parseFloat(item?.long),
         name: `
-        <div class=${style.category_card}>
+        <div class=${style.category_card} id=${style.category_card_}>
               <div class=${style.fig}>
-              <img src=${process.env.ASSET_URL + item?.images[0]?.image} alt="" />
+              <img src=${
+                process.env.ASSET_URL + item?.images[0]?.image
+              } alt="" />
             </div>
             <div class=${style.txt}>
               <span class=${style.tag}>${item?.category?.name}</span>
               <h4>
                 <a href=/tournament-detail/${item.id}>${item.title}</a>
               </h4>
-              <div class=${style.date}>
-                <img src=${IconCalendar} alt="" /> ${item.start_date}
-              </div>
             </div>
             </div>
         `,
