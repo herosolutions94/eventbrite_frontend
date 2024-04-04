@@ -107,15 +107,15 @@ const TournamentDetail = () => {
                     ) : null}
                   </>
                 )}
-                {/* {parseFloat(tournamentDetails?.lat) > 0 &&
-                parseFloat(tournamentDetails?.long) > 0 ? ( */}
-                <LeafLetMapSingle
-                  lat={tournamentDetails?.lat}
-                  lng={tournamentDetails?.long}
-                />
-                {/* ) : (
+                {parseFloat(tournamentDetails?.lat) > 0 &&
+                parseFloat(tournamentDetails?.long) > 0 ? (
+                  <LeafLetMapSingle
+                    lat={tournamentDetails?.lat}
+                    lng={tournamentDetails?.long}
+                  />
+                ) : (
                   ""
-                )} */}
+                )}
               </div>
             </div>
           </>
