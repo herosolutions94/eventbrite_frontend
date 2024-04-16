@@ -40,7 +40,7 @@ const RoundOneCompleted = ({ round_row }: RoundOneProps) => {
                               src={
                                 match_row?.team_1?.logo
                                   ? process.env.ASSET_URL +
-                                    match_row?.team_1?.logo
+                                  match_row?.team_1?.logo
                                   : PhotoTeam01
                               }
                               alt={match_row?.team_1?.team_name}
@@ -67,7 +67,7 @@ const RoundOneCompleted = ({ round_row }: RoundOneProps) => {
                               src={
                                 match_row?.team_1?.logo
                                   ? process.env.ASSET_URL +
-                                    match_row?.team_1?.logo
+                                  match_row?.team_1?.logo
                                   : PhotoTeam01
                               }
                               alt={match_row?.team_2?.team_name}
@@ -83,8 +83,8 @@ const RoundOneCompleted = ({ round_row }: RoundOneProps) => {
                     </div>
                   </div>
                   {match_row?.team1 > 0 &&
-                  match_row?.team2 > 0 &&
-                  match_row?.winner_row?.id > 0 ? (
+                    match_row?.team2 > 0 &&
+                    match_row?.winner_row?.id > 0 ? (
                     <div className={style.select_winner}>
                       <div className={style.match_type}>
                         <span>Match {index + 1}</span>

@@ -88,7 +88,8 @@ const Header = (props: { pageTitle: string; profileData?: any }) => {
       pathname == "/organizer/messages" ||
       pathname == "/organizer/tournament-detail/[id]" ||
       pathname == "/organizer/tournament-match/[id]" ||
-      pathname == "/organizer/edit-tournament/[id]"
+      pathname == "/organizer/edit-tournament/[id]" ||
+      pathname == "/profile/[id]/[username]"
     ) {
       setHeader("organizer");
     } else {

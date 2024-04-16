@@ -451,7 +451,6 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 							<h6>State</h6>
 							<div className={style.form_blk}>
 								<select name="state" id="" className={style.input} value={formData.state} onChange={(e) => setFormData({ ...formData, state: e.target.value })}>
-									<option value="">Select</option>
 									{statesData.map((state, index) => (
 										parseInt(formData?.state) === state.id ?
 											<option value={state.id} key={index} selected={true}>{state.name}</option>

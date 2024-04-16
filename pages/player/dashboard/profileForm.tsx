@@ -8,6 +8,7 @@ import countries from "@/pages/api/countries"
 import Cookies from "js-cookie"
 import GetServerImage from "@/components/getServerImage"
 import DatePicker from "react-datepicker";
+import states from "@/pages/api/states"
 
 import "react-datepicker/dist/react-datepicker.css";
 type ProfileFormProps = {
@@ -43,6 +44,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 	const [userThumbnail, setUserThumbnail] = useState<null>(null);
 
 	const [countriesData, setCountriesData] = useState<any[]>([]);
+	const [statesData, setStatesData] = useState<any[]>([]);
 	const [error, setError] = useState<{ name?: string, email?: string, phone_number?: string, password?: string, confirmPassword?: string, gender?: string, dob?: string, postal_code?: string, confirm_password?: string, country?: string, city?: string, address?: string, firstname?: string, lastname?: string, state?: string }>({});
 
 	useEffect(() => {
@@ -161,6 +163,34 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 
 		fetchCountriesData();
 	}, []);
+	useEffect(() => {
+		const fetchStatesData = async () => {
+
+			if (parseInt(formData?.state) > 0) {
+				console.log("formData?.state", formData?.country);
+				try {
+					const data = await states(formData?.country);
+					console.log(data)
+					setStatesData(data);
+				} catch (error) {
+					console.error('Error fetching states data:', error);
+				}
+			}
+
+		};
+
+		fetchStatesData();
+	}, [formData?.state]);
+	const handlerCountryChange = async (country_id: any) => {
+		setFormData({ ...formData, country: country_id })
+		try {
+			const data = await states(country_id);
+			setStatesData(data);
+		} catch (error) {
+			console.error('Error fetching countries data:', error);
+		}
+
+	};
 	const fileInputRef: RefObject<HTMLInputElement> = useRef(null);
 	// const [value, setValue] = useState()
 	const handleChooseDp = () => {
@@ -287,7 +317,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 						<div className="col-lg-4 col-6">
 							<h6>Country</h6>
 							<div className={style.form_blk}>
-								<select name="country" id="" className={style.input} value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })}>
+								<select name="country" id="" className={style.input} value={formData.country} onChange={(e) => handlerCountryChange(e.target.value)}>
 									<option value="">Select</option>
 									{countriesData.map((country, index) => (
 										parseInt(formData?.country) === country.id ?
@@ -303,14 +333,12 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
 							<h6>State</h6>
 							<div className={style.form_blk}>
 								<select name="state" id="" className={style.input} value={formData.state} onChange={(e) => setFormData({ ...formData, state: e.target.value })}>
-									<option value="">Select</option>
-									<option value="Isle of Wight">Isle of Wight</option>
-									<option value="St Helens">St Helens</option>
-									<option value="London Borough of Brent">London Borough of Brent</option>
-									<option value="Walsall">Walsall</option>
-									<option value="Trafford">Trafford</option>
-									<option value="City of Southampton">City of Southampton</option>
-									<option value="Sheffield">Sheffield</option>
+									{statesData.map((state, index) => (
+										parseInt(formData?.state) === state.id ?
+											<option value={state.id} key={index} selected={true}>{state.name}</option>
+											:
+											<option value={state.id} key={index}>{state.name}</option>
+									))}
 								</select>
 								<p className="text-danger">{error?.state}</p>
 							</div>

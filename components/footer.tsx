@@ -97,10 +97,10 @@ const Footer = () => {
 						<div className={style.column4}>
 							<div className={style.title}>Sign up to our news letter to receive updates on our latest tournament events</div>
 							<form action="" method="POST">
-								<div className={style.form_blk + " " + style.input}>
+								{/* <div className={style.form_blk + " " + style.input}>
 									<input type="text" name="" id="" className={style.input} placeholder="Email Address" />
 									<button type="submit" className={style.link_btn}></button>
-								</div>
+								</div> */}
 								<p>
 									This site is protected by reCAPTHCHA and the <Link href="/privacy-policy">Google</Link>, <Link href="/privacy-policy">Privacy Policy</Link> and <Link href="/privacy-policy">Terms of Service</Link> apply.
 								</p>
