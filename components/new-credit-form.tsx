@@ -336,7 +336,7 @@ const NewCreditBuyForm = () => {
             className={style.site_btn}
             disabled={isProcessing}
           >
-            Submit {isProcessing ? <i className="spinner"></i> : ""}
+            Submit {isProcessing ? <i className={style.spinner}></i>: ""}
           </button>
         </div>
       </fieldset>

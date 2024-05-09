@@ -4,31 +4,29 @@ import {
   Match,
   SVGViewer,
   createTheme,
-} from '@g-loot/react-tournament-brackets';
+} from "@g-loot/react-tournament-brackets";
 import { useWindowSize } from "@uidotdev/usehooks";
 
 import axios from "axios";
-import style from "@/styles/scss/app.module.scss"
+import style from "@/styles/scss/app.module.scss";
 type TournamentMatchesProps = {
-  matches: [],
-}
+  matches: [];
+};
 const TournamentMatches = ({ matches }: TournamentMatchesProps) => {
   return (
     <>
       <section id={style.tournament_detail}>
         <div className={style.contain}>
-          {
-            matches !== undefined && matches?.length > 0 ?
-              <SingleElimination matches={matches} />
-              :
-              ""
-          }
+          {matches !== undefined && matches?.length > 0 ? (
+            <SingleElimination matches={matches} />
+          ) : (
+            ""
+          )}
         </div>
       </section>
     </>
-
   );
-}
+};
 
 export default TournamentMatches;
 
@@ -70,15 +68,16 @@ const GlootTheme = createTheme({
   svgBackground: "#0F121C",
 });
 type SingleEliminationProps = {
-  matches: [],
-}
+  matches: [];
+};
 // ...
 
 export const SingleElimination = ({ matches }: SingleEliminationProps) => {
   const { width, height } = useWindowSize();
   // const [width, height]: [number | null, number |] = useWindowSize();
   const finalWidth: number = width !== null ? Math.max(width - 50, 500) : 500;
-  const finalHeight: number = height !== null ? Math.max(height - 100, 500) : 500;
+  const finalHeight: number =
+    height !== null ? Math.max(height - 100, 500) : 500;
   // Check if width and height are not null before using them in calculations
   // const finalWidth = width !== null ? Math.max(width - 50, 500) : 5000;
   // const finalHeight = height !== null ? Math.max(height + 3000, 5000) : 5000;
@@ -90,11 +89,17 @@ export const SingleElimination = ({ matches }: SingleEliminationProps) => {
       theme={GlootTheme}
       matches={matches}
       matchComponent={Match}
-      svgWrapper={({ children, ...props }: { children: React.ReactNode, [key: string]: any }) => (
+      svgWrapper={({
+        children,
+        ...props
+      }: {
+        children: React.ReactNode;
+        [key: string]: any;
+      }) => (
         <SVGViewer
           // Check and adjust the width and height values as needed
-          width={1000}  // Adjust this value based on your layout
-          height={800}  // Adjust this value based on your layout
+          width={1000} // Adjust this value based on your layout
+          height={800} // Adjust this value based on your layout
           background="rgb(11, 13, 19)"
           SVGBackground="rgb(11, 13, 19)"
           {...props}
@@ -105,11 +110,5 @@ export const SingleElimination = ({ matches }: SingleEliminationProps) => {
       onMatchClick={(match: any) => console.log(match)}
       onPartyClick={(match: any) => console.log(match)}
     />
-
   );
 };
-
-
-
-
-

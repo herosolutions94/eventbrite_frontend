@@ -4007,3 +4007,57 @@ form.tournament_form h6 sup {
 .leaflet-popup-content {
   margin: 5px;
 }
+.spinner {
+  @include pos;
+  width: auto;
+  height: auto;
+  background: transparent;
+  -webkit-backdrop-filter: blur(5rem);
+  backdrop-filter: blur(5rem);
+  border-radius: inherit;
+  overflow: hidden;
+  & ~ i {
+    visibility: hidden;
+  }
+  &:before,
+  &:after {
+    content: "";
+    @include pos;
+    width: 2rem;
+    height: 2rem;
+    margin: auto;
+    border: 0.3rem solid;
+    -webkit-animation: spinner 0.5s linear infinite;
+    animation: spinner 0.5s linear infinite;
+    border-radius: 75%;
+  }
+  &:before {
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+  }
+  &:after {
+    border-top-color: transparent;
+    border-left-color: transparent;
+    opacity: 0.5;
+  }
+  @-webkit-keyframes spinner {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(-360deg);
+      transform: rotate(-360deg);
+    }
+  }
+  @keyframes spinner {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(-360deg);
+      transform: rotate(-360deg);
+    }
+  }
+}
