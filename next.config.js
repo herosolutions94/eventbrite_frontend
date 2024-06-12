@@ -13,6 +13,7 @@ const nextConfig = {
       "api.playoffz.com",
       "test.banttech.com",
       "127.0.0.1",
+      "staging.rentaro.com.au"
     ],
   },
 };

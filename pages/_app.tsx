@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import NextNProgress from "nextjs-progressbar";
 
 import "@/styles/css/bootstrap.min.css";
 import "@/styles/css/slick.min.css";
@@ -12,7 +13,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
 // import store from "../states/store";
-import NextNProgress from "nextjs-progressbar";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
