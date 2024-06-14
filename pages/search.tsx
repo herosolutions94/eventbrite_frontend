@@ -58,6 +58,14 @@ const Search = () => {
   const showMapHandle = () => {
     setShowMap(!showMap);
   };
+  function removeUploadsPrefix(str: string): string {
+    const prefix = "uploads/";
+
+    if (str?.startsWith(prefix)) {
+      return process.env.ASSET_URL + str.slice(prefix.length);
+    }
+    return str;
+  }
   return (
     <>
       <Header pageTitle="Search" />
@@ -96,7 +104,7 @@ const Search = () => {
                               : 0
                           }
                           img={
-                            process.env.ASSET_URL + tournament?.images[0]?.image
+                            removeUploadsPrefix(tournament?.images[0]?.image)
                           }
                         />
                       </div>
@@ -108,15 +116,14 @@ const Search = () => {
                   setResponse={setResponse as any}
                   category={params.categories as string}
                   name={params.name as string}
-                  // setCurrentPage={setCurrentPage as any}
+                // setCurrentPage={setCurrentPage as any}
                 />
               </div>
             )}
             {activeTab === "map" && tournaments.length > 0 && (
               <div
-                className={`${style.map_blk} ${
-                  showMap ? style.active : ""
-                } w-100`}
+                className={`${style.map_blk} ${showMap ? style.active : ""
+                  } w-100`}
               >
                 <MapBlock tournaments={tournaments} />
               </div>

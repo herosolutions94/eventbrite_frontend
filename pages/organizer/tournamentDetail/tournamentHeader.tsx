@@ -29,13 +29,21 @@ const TournamentHeader = ({ category, type, title, start_date, end_date, schedul
 	const TogglePoup = () => {
 		setPopupShow({ show: false, item: null });
 	}
+	function removeUploadsPrefix(str: string): string {
+		const prefix = "uploads/";
+
+		if (str.startsWith(prefix)) {
+			return process.env.ASSET_URL + str.slice(prefix.length);
+		}
+		return process.env.ASSET_URL + str;
+	}
 	return (
 		<>
 			<div className={style.data}>
 				<div className={style.data_logo}>
 					{
 						tournament_logo !== undefined && tournament_logo !== null && tournament_logo !== '' ?
-							<Image width={200} height={200} src={process.env.ASSET_URL + tournament_logo} alt="" />
+							<Image width={200} height={200} src={removeUploadsPrefix(tournament_logo)} alt="" />
 							:
 							<Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
 					}

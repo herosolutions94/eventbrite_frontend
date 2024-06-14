@@ -46,7 +46,7 @@ const Home = () => {
 				setTournaments(response.data.tournaments);
 				setCategories(response.data.categories);
 				setTrandingMatches(response.data.trending_tournaments);
-				let contact_content = response.data.contact_us
+				let contact_content = response.data.c
 				contact_content = { ...contact_content, contact_section_title: "Organise a tournament today" }
 				setContactUs(contact_content);
 			}
@@ -67,12 +67,12 @@ const Home = () => {
 				image={process.env.ASSET_URL + homePageData.banner_img}
 				categories={categories}
 			/>
-			<Categories
+			{/* <Categories
 				title={homePageData.gamers_title}
 				subheading={homePageData.gamers_sub_title}
 				content={homePageData.gamers_des}
 				tournaments={tournaments}
-			/>
+			/> */}
 			<Report
 				title={homePageData.resource_title}
 				subheading={homePageData.resource_sub_title}

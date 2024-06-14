@@ -8,7 +8,7 @@ type CategoriesProps = {
 	tournaments: [] | any;
 }
 const Categories = (props: CategoriesProps) => {
-	const { title, subheading, content,tournaments } = props;
+	const { title, subheading, content, tournaments } = props;
 	return (
 		<>
 			<section id={style.op_categories}>
@@ -19,7 +19,7 @@ const Categories = (props: CategoriesProps) => {
 						<p>{content}</p>
 					</div>
 				</div>
-				<CategorySlider 
+				<CategorySlider
 					tournaments={tournaments}
 				/>
 			</section>

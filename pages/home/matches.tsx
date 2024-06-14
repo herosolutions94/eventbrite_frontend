@@ -4,9 +4,19 @@ import MatchCard from "@/components/matchCard"
 import { PhotoTeam01, PhotoTeam02, PhotoTeam03, PhotoTeam04, PhotoTeam05, PhotoTeam06, PhotoTeam07 } from "@/components/images"
 
 type MatchesProps = {
-	trandingMatches : any;
+	trandingMatches: any;
 }
+
 const Matches = (props: MatchesProps) => {
+	function removeUploadsPrefix(str: string): string {
+		const prefix = "uploads/";
+
+		if (str.startsWith(prefix)) {
+			console.log(process.env.ASSET_URL + str.slice(prefix.length))
+			return process.env.ASSET_URL + str.slice(prefix.length);
+		}
+		return str;
+	}
 	const { trandingMatches } = props;
 	return (
 		<>
@@ -18,20 +28,20 @@ const Matches = (props: MatchesProps) => {
 					</div>
 					<div className={style.match_cards}>
 						{trandingMatches && trandingMatches.map((data: any) => {
-							return <MatchCard 
-									title={data.title}
-									team={data.teams?.[0]?.team_name}
-									team_logo={data.teams?.[0]?.logo ? process.env.ASSET_URL + data.teams?.[0]?.logo : PhotoTeam01}
-									date={data.start_date}
-									time={data.schedule_time}
-									stream_link={`/tournament-detail/${data.id}`}
-									tags={data?.category?.name}
-									
-									text={'lorem ipsum'}
-								
-									img={process.env.ASSET_URL + data?.images[0]?.image}
-									key={data.id} 
-								/>
+							return <MatchCard
+								title={data.title}
+								team={data.teams?.[0]?.team_name}
+								team_logo={data.teams?.[0]?.logo ? removeUploadsPrefix(data.teams?.[0]?.logo) : PhotoTeam01}
+								date={data.start_date}
+								time={data.schedule_time}
+								stream_link={`/tournament-detail/${data.id}`}
+								tags={data?.category?.name}
+
+								text={'lorem ipsum'}
+
+								img={removeUploadsPrefix(data?.images[0]?.image)}
+								key={data.id}
+							/>
 						})}
 					</div>
 				</div>

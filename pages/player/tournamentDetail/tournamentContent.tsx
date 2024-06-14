@@ -7,7 +7,7 @@ import ConfirmationPopup from "./ConfirmationPopup"
 import ConfirmDeletionPopup from "../../tournamentDetail/confirmDeletionPopup"
 
 const TournamentContent = (props: any) => {
-	const { teams, handleTeams, is_player = false,allow_withdraw=null } = props
+	const { teams, handleTeams, is_player = false, allow_withdraw = null } = props
 	const [membersPopup, setMembersPopup] = useState(false)
 	const [members, setMembers] = useState([])
 	const membersPopupHandle = () => {
@@ -19,6 +19,14 @@ const TournamentContent = (props: any) => {
 	}
 	const [deletePopup, setDeletePopup] = useState(false)
 	const [deleteId, setDeleteId] = useState<any>(null);
+	function removeUploadsPrefix(str: string): string {
+		const prefix = "uploads/";
+
+		if (str.startsWith(prefix)) {
+			return process.env.ASSET_URL + str.slice(prefix.length);
+		}
+		return process.env.ASSET_URL + str;
+	}
 	return (
 		<>
 			<div id={style.overview}>
@@ -26,7 +34,7 @@ const TournamentContent = (props: any) => {
 					<div className={style.team_block} key={index}>
 						<div className={style.icon}>
 							{team.logo ? (
-								<Image width={200} height={200} src={process.env.ASSET_URL + team.logo} alt="" />
+								<Image width={200} height={200} src={removeUploadsPrefix(team.logo)} alt="" />
 							) : (
 								<Image width={200} height={200} src={PhotoTeam01} alt="" />
 							)}
@@ -69,7 +77,7 @@ const TournamentContent = (props: any) => {
 									Show Members
 								</button>
 								{
-									is_player && team?.status !== 'accepted' && allow_withdraw===1 ?
+									is_player && team?.status !== 'accepted' && allow_withdraw === 1 ?
 										<button
 											type="button"
 											className={`${style.site_btn} ${style.sm}`}
@@ -86,14 +94,14 @@ const TournamentContent = (props: any) => {
 										""
 								}
 								{
-							team?.status === 'accepted' ?
-								<span className={style.accepted_badge}>Accepted</span>
-								:
-								""
-						}
+									team?.status === 'accepted' ?
+										<span className={style.accepted_badge}>Accepted</span>
+										:
+										""
+								}
 							</div>
 						) : null}
-						
+
 
 					</div>
 				))}

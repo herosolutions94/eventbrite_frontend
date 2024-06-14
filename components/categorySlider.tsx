@@ -44,18 +44,26 @@ const CategorySlider = (props: CategorySliderProps) => {
 			},
 		],
 	}
+	function removeUploadsPrefix(str: string): string {
+		const prefix = "uploads/";
+		console.log(str, str.startsWith(prefix))
+		if (str.startsWith(prefix)) {
+			return str.slice(prefix.length);
+		}
+		return str;
+	}
 	return (
 		<Slider {...settings} className={`${style.slick_category} slick-carousel`}>
 			{tournaments?.length > 0 && tournaments.map((data: any, index: number) => {
-			
-				return <CategoryCard 
+
+				return <CategoryCard
 					tournamentId={data.id}
 					title={data.title}
 					link={`/tournament-detail/` + data.id}
 					tag={data?.category?.name}
 					date={data.start_date}
 					text={'lorem ipsum'}
-					img={process.env.ASSET_URL + data?.images[0]?.image}
+					img={process.env.ASSET_URL + removeUploadsPrefix(data?.images[0]?.image)}
 					key={index}
 				/>
 			})}

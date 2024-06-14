@@ -66,40 +66,47 @@ const TournamentBanner = (props: any) => {
     );
     return normalizedDate <= normalizedToday;
   };
+  function removeUploadsPrefix(str: string): string {
+    const prefix = "uploads/";
+
+    if (str.startsWith(prefix)) {
+      return process.env.ASSET_URL + str.slice(prefix.length);
+    }
+    return process.env.ASSET_URL + str;
+  }
   return (
     <>
       <div className={style.banner}>
         <div className={style.contain}>
           <div
-            className={`${style.image_blk} ${
-              details?.images?.length === 1 ? `${style.single_image_blk}` : ""
-            }`}
+            className={`${style.image_blk} ${details?.images?.length === 1 ? `${style.single_image_blk}` : ""
+              }`}
           >
             {details?.images?.length > 0
               ? details?.images.map((image: any, index: any) => {
-                  if (image.caption === "banner") {
-                    return (
-                      <div className={`${style.image}`} key={index}>
-                        <Image
-                          width={1000}
-                          height={1000}
-                          src={process.env.ASSET_URL + image.image}
-                          alt=""
-                        />
-                      </div>
-                    );
-                  }
-                })
+                if (image.caption === "banner") {
+                  return (
+                    <div className={`${style.image}`} key={index}>
+                      <Image
+                        width={1000}
+                        height={1000}
+                        src={removeUploadsPrefix(image.image)}
+                        alt=""
+                      />
+                    </div>
+                  );
+                }
+              })
               : null}
           </div>
           <div className={style.data}>
             <div className={style.data_logo}>
-            {
-						details?.tournament_logo !== undefined && details?.tournament_logo !== null && details?.tournament_logo !== '' ?
-							<Image width={200} height={200} src={process.env.ASSET_URL + details?.tournament_logo} alt="" />
-							:
-							<Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
-					}
+              {
+                details?.tournament_logo !== undefined && details?.tournament_logo !== null && details?.tournament_logo !== '' ?
+                  <Image width={200} height={200} src={removeUploadsPrefix(details?.tournament_logo)} alt="" />
+                  :
+                  <Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
+              }
             </div>
             <div className={style.data_text}>
               <div className={style.tags_blk}>
@@ -118,7 +125,7 @@ const TournamentBanner = (props: any) => {
                 {Cookies.get("role") === "player" ? (
                   <>
                     {teamsCount < parseInt(details?.number_of_teams) &&
-                    isDateInPast() ? (
+                      isDateInPast() ? (
                       <button
                         type="button"
                         className={style.site_btn}

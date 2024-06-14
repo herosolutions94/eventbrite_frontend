@@ -8,6 +8,14 @@ type ReviewsProps = {
 	teams: any
 }
 const TournamentTeams = (teams: ReviewsProps) => {
+	function removeUploadsPrefix(str: string): string {
+		const prefix = "uploads/";
+
+		if (str.startsWith(prefix)) {
+			return process.env.ASSET_URL + str.slice(prefix.length);
+		}
+		return process.env.ASSET_URL + str;
+	}
 	const teamsData = teams?.teams;
 	return (
 		<>
@@ -20,7 +28,7 @@ const TournamentTeams = (teams: ReviewsProps) => {
 
 							{
 								team?.logo !== undefined && team?.logo !== null && team?.logo !== '' ?
-									<Image width={200} height={200} src={process.env.ASSET_URL + team?.logo} alt="" />
+									<Image width={200} height={200} src={removeUploadsPrefix(team?.logo)} alt="" />
 									:
 									<Image width={200} height={200} src={PhotoTeam01} alt="Team Logo" />
 							}

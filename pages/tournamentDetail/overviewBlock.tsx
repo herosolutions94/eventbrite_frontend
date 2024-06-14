@@ -21,6 +21,14 @@ const OverviewBlock = (details: any) => {
     const options: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: '2-digit' };
     return time.toLocaleTimeString('en-US', options);
   }
+  function removeUploadsPrefix(str: string): string {
+    const prefix = "uploads/";
+
+    if (str.startsWith(prefix)) {
+      return process.env.ASSET_URL + str.slice(prefix.length);
+    }
+    return process.env.ASSET_URL + str;
+  }
   return (
     <>
       {details?.details?.address && (
@@ -51,7 +59,7 @@ const OverviewBlock = (details: any) => {
               return (
                 <li key={d_index}>
                   <a
-                    href={process.env.ASSET_URL + document.image}
+                    href={removeUploadsPrefix(document.image)}
                     target="_blank"
                     style={{ color: "#fff" }}
                   >
@@ -75,7 +83,7 @@ const OverviewBlock = (details: any) => {
                 // if (image.caption === "banner") {
                 return (
                   <li key={d_index}>
-                    <img src={process.env.ASSET_URL + logo.image} />
+                    <img src={removeUploadsPrefix(logo.image)} />
                   </li>
                 );
                 // }
