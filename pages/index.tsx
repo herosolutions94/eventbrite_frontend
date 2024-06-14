@@ -46,7 +46,7 @@ const Home = () => {
 				setTournaments(response.data.tournaments);
 				setCategories(response.data.categories);
 				setTrandingMatches(response.data.trending_tournaments);
-				let contact_content = response.data.c
+				let contact_content = response.data.contact_us
 				contact_content = { ...contact_content, contact_section_title: "Organise a tournament today" }
 				setContactUs(contact_content);
 			}
