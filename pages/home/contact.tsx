@@ -6,6 +6,7 @@ import { PhotoStreamBox } from "@/components/images"
 
 const Contact = (props: any) => {
 	const { content } = props;
+	console.log(content)
 	return (
 		<>
 			<section id={style.in_touch}>

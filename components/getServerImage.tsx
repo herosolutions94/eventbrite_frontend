@@ -8,7 +8,7 @@ const GetServerImage = (props: any) => {
     const [thumbnail, setThumbnail] = useState('/images/no-user.svg');
     useEffect(() => {
         if (image !== '' && image !== null && image !== undefined && isLoading === false) {
-            setThumbnail(`${process.env.ASSET_URL}/${src}/${image}`)
+            setThumbnail(`${process.env.ASSET_URL}/${image}`)
         }
         if (isLoading === true) {
             setThumbnail('/images/loading.gif')

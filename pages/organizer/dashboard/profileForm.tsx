@@ -307,7 +307,7 @@ const ProfileForm = ({ profileData }: ProfileFormProps) => {
             className={style.profileSmallBanner}
             style={{
               backgroundImage: userCover
-                ? `url(${process.env.ASSET_URL}/uploads/${userCover})`
+                ? `url(${process.env.ASSET_URL}/${userCover})`
                 : "",
             }}
           >

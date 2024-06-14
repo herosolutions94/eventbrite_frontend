@@ -12,6 +12,7 @@ type BannerProps = {
 }
 
 const Banner = (props: BannerProps) => {
+	console.log(props)
 	const { title, content, image, categories } = props;
 	return (
 		<section id={style.banner} style={{ backgroundImage: `url("${image}")` }}>

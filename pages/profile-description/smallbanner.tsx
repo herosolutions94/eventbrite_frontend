@@ -17,7 +17,7 @@ const Smallbanner: React.FC<SmallbannerProps> = ({ profileDetails }) => {
     <div>
       <section id={style.smalbanner} style={{
         backgroundImage: profileDetails?.user_cover
-          ? `url(${process.env.ASSET_URL}/uploads/${profileDetails?.user_cover})`
+          ? `url(${process.env.ASSET_URL}/${profileDetails?.user_cover})`
           : ""
       }}>
         <div className={style.contain}></div>
