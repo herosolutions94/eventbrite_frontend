@@ -19,11 +19,12 @@ const CategoryCard = (props: any) => {
     img,
     wishlist,
     rating,
+    tournament,
     is_favorite = null,
   } = props;
   const [isFavorite, setIsFavorite] = useState<any | null>([]);
-  const AddToWishlist = async (e:any,tournamentId:any) => {
-	// console.log("tournamentId",tournamentId);return;
+  const AddToWishlist = async (e: any, tournamentId: any) => {
+    // console.log("tournamentId",tournamentId);return;
     try {
       const user_id = Cookies.get("user_id");
       if (!user_id) {
@@ -56,19 +57,18 @@ const CategoryCard = (props: any) => {
       toast.error(error.response.data.message);
     }
   };
-  console.log(is_favorite);
+  console.log(img, tournament);
   return (
     <>
       <div className={style.category_card}>
         {Cookies.get("user_id") && Cookies.get("role") == "player" && (
           <button
             type="button"
-            className={`${style.heart} ${
-              wishlist || is_favorite > 0 || isFavorite === tournamentId
-                ? `${style.fill}`
-                : ""
-            }`}
-            onClick={(e)=>AddToWishlist(e,tournamentId)}
+            className={`${style.heart} ${wishlist || is_favorite > 0 || isFavorite === tournamentId
+              ? `${style.fill}`
+              : ""
+              }`}
+            onClick={(e) => AddToWishlist(e, tournamentId)}
           ></button>
         )}
         <div className={style.fig}>

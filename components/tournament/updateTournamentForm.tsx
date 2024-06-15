@@ -168,6 +168,7 @@ interface FormProps {
     matches: MatchDetails[];
     tournament_type: string | null,
     tournament_type_val: string | null,
+    tournament_logo: string | null,
     location: string,
     lat: number | 0,
     long: number | 0
@@ -310,7 +311,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({
       tournament_type_val: "",
       location: "",
       lat: 0,
-      long: 0
+      long: 0,
     }
   );
   const [gettingLocation, setGettingLocation] = useState<boolean>(false);
@@ -337,6 +338,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({
       setBusinessAddress(tournamentDetailsContent.location)
       setTournamentDetails((prevState) => ({
         ...prevState,
+        tournament_logo: tournamentDetailsContent.tournament_logo || prevState.tournament_logo,
         title: tournamentDetailsContent.title || prevState.title,
         location: tournamentDetailsContent.location || prevState.location,
         lat: tournamentDetailsContent.lat || prevState.lat,
@@ -1141,7 +1143,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({
       prevArr.filter((_: any, index: any) => index !== indexToRemove)
     );
   };
-  // console.log(tournamentDetails)
+  console.log("tournament_logo", tournamentDetails)
   return (
     <>
       <form
@@ -2024,7 +2026,7 @@ const UpdateTournamentForm: React.FC<FormProps> = ({
                     <div className={style.tournamentList} ref={logoRef}>
                       <div>
                         <a
-                          href={`${process.env.ASSET_URL}/'uploads'/${tournamentDetails?.tournament_logo}`}
+                          href={`${process.env.ASSET_URL}${tournamentDetails?.tournament_logo}`}
                         >
                           Logo
                         </a>

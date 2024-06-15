@@ -109,6 +109,14 @@ const TournamentsItems = () => {
       console.log(error);
     }
   };
+  function removeUploadsPrefix(str: string): string {
+    const prefix = "uploads/";
+
+    if (str?.startsWith(prefix)) {
+      return process.env.ASSET_URL + str.slice(prefix.length);
+    }
+    return process.env.ASSET_URL + str;
+  }
   return (
     <>
       {isLoading ? (
@@ -132,7 +140,7 @@ const TournamentsItems = () => {
                     stream_link={`/organizer/tournament-detail/${data.id}`}
                     tags={data?.category?.name}
                     text={"lorem ipsum"}
-                    img={data?.images[0]?.image ? process.env.ASSET_URL + data?.images[0]?.image :  PhotoTeam01}
+                    img={data?.tournament_logo ? removeUploadsPrefix(data?.tournament_logo) : PhotoTeam01}
                     key={data.id}
                   />
                 );

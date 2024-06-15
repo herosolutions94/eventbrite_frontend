@@ -456,7 +456,7 @@ const NewTournamentForm = () => {
       setIsLoading(false);
       //   logFormDataKeys(formData);
       console.log(res);
-      // return;
+      return;
       if (res.status === 200) {
         // setTournamentId(res.data.tournament_id);
         // submitTournament(res.data.tournament_id);

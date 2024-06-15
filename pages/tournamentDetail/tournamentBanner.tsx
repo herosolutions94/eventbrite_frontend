@@ -74,6 +74,7 @@ const TournamentBanner = (props: any) => {
     }
     return process.env.ASSET_URL + str;
   }
+  // console.log(details?.banners)
   return (
     <>
       <div className={style.banner}>
@@ -82,22 +83,39 @@ const TournamentBanner = (props: any) => {
             className={`${style.image_blk} ${details?.images?.length === 1 ? `${style.single_image_blk}` : ""
               }`}
           >
-            {details?.images?.length > 0
-              ? details?.images.map((image: any, index: any) => {
-                if (image.caption === "banner") {
-                  return (
-                    <div className={`${style.image}`} key={index}>
-                      <Image
-                        width={1000}
-                        height={1000}
-                        src={removeUploadsPrefix(image.image)}
-                        alt=""
-                      />
-                    </div>
-                  );
-                }
-              })
-              : null}
+            {
+              details?.banners?.length > 0 ?
+                details?.banners.map((banner: any, index: any) => {
+                  if (banner.caption === "banner") {
+                    return (
+                      <div className={`${style.image}`} key={index}>
+                        <Image
+                          width={1000}
+                          height={1000}
+                          src={removeUploadsPrefix(banner.image)}
+                          alt=""
+                        />
+                      </div>
+                    );
+                  }
+                })
+                :
+                details?.images?.length > 0
+                  ? details?.images.map((image: any, index: any) => {
+                    if (image.caption === "banner") {
+                      return (
+                        <div className={`${style.image}`} key={index}>
+                          <Image
+                            width={1000}
+                            height={1000}
+                            src={removeUploadsPrefix(image.image)}
+                            alt=""
+                          />
+                        </div>
+                      );
+                    }
+                  })
+                  : null}
           </div>
           <div className={style.data}>
             <div className={style.data_logo}>

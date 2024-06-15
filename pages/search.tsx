@@ -64,7 +64,7 @@ const Search = () => {
     if (str?.startsWith(prefix)) {
       return process.env.ASSET_URL + str.slice(prefix.length);
     }
-    return str;
+    return process.env.ASSET_URL + str;
   }
   return (
     <>
@@ -103,8 +103,9 @@ const Search = () => {
                               ? tournament?.is_favorite
                               : 0
                           }
+                          tournament={tournament}
                           img={
-                            removeUploadsPrefix(tournament?.images[0]?.image)
+                            removeUploadsPrefix(tournament?.tournament_logo ? tournament?.tournament_logo : tournament?.banners[0]?.image)
                           }
                         />
                       </div>
@@ -120,14 +121,14 @@ const Search = () => {
                 />
               </div>
             )}
-            {activeTab === "map" && tournaments.length > 0 && (
+            {/* {activeTab === "map" && tournaments.length > 0 && (
               <div
                 className={`${style.map_blk} ${showMap ? style.active : ""
                   } w-100`}
               >
                 <MapBlock tournaments={tournaments} />
               </div>
-            )}
+            )} */}
           </div>
         </div>
         <div className={style.map_btn_blk}>

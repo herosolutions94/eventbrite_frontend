@@ -86,7 +86,7 @@ const EditTournament = () => {
         );
     }
     // console.log(tournamentDetails)
-    // console.log(tournamentDetails)
+    console.log(tournamentDetails, 'tournament_logo')
     return (
         <>
             <Header pageTitle="Edit Tournament" profileData={profileData} />

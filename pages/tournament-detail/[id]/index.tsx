@@ -108,7 +108,7 @@ const TournamentDetail = () => {
                   </>
                 )}
                 {parseFloat(tournamentDetails?.lat) > 0 &&
-                parseFloat(tournamentDetails?.long) > 0 ? (
+                  parseFloat(tournamentDetails?.long) > 0 ? (
                   <LeafLetMapSingle
                     lat={tournamentDetails?.lat}
                     lng={tournamentDetails?.long}
@@ -127,7 +127,7 @@ const TournamentDetail = () => {
         ""
       )}
       {tournamentBrack?.length > 0 &&
-      tournamentDetails?.is_bracket_generated === 1 ? (
+        tournamentDetails?.is_bracket_generated === 1 ? (
         <TournamentMatches matches={tournamentDetails?.single_brackets} />
       ) : (
         <section id={style.tournament_detail}>

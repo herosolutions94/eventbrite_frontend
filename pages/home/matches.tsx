@@ -15,7 +15,7 @@ const Matches = (props: MatchesProps) => {
 			console.log(process.env.ASSET_URL + str.slice(prefix.length))
 			return process.env.ASSET_URL + str.slice(prefix.length);
 		}
-		return str;
+		return process.env.ASSET_URL + str;
 	}
 	const { trandingMatches } = props;
 	return (
@@ -39,7 +39,7 @@ const Matches = (props: MatchesProps) => {
 
 								text={'lorem ipsum'}
 
-								img={removeUploadsPrefix(data?.images[0]?.image)}
+								img={removeUploadsPrefix(data?.tournament_logo ? data?.tournament_logo : data?.images[0]?.image)}
 								key={data.id}
 							/>
 						})}
